@@ -192,6 +192,14 @@ OJ(练习编程): https://oj.kexie.space
 - 避免使用滥用 md 标题和表格
 - 积极使用列表书写文档
 
+## CI/CD 配置
+
+以 Github Action 和 Github Workflow 为基础.
+
+- 使用 release-please 自动发布新版本
+  - 版本号从 0.0.0 开始递增
+- main commit hook 触发自动构建部署 Github Page
+
 ## 技术选型
 
 - vite: 前端构建工具
