@@ -1,16 +1,76 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-// 导航项配置
-const navItems = [
-  { id: 'home', label: '首页', href: '#home' },
-  { id: 'departments', label: '部门', href: '#departments' },
-  { id: 'learning', label: '学习', href: '#learning' },
-  { id: 'recruitment', label: '招新', href: '#recruitment' },
+// 导航菜单配置
+const navMenu = [
+  {
+    id: 'home',
+    label: '首页',
+    href: '#home',
+  },
+  {
+    id: 'departments',
+    label: '部门',
+    href: '#departments',
+    children: [
+      {
+        label: '多媒体部门',
+        href: '#departments',
+        children: [
+          { label: '网站开发', href: '#departments' },
+          { label: 'UI设计', href: '#departments' },
+          { label: '视频剪辑', href: '#departments' },
+          { label: '小程序开发', href: '#departments' },
+        ],
+      },
+      {
+        label: '软件部门',
+        href: '#departments',
+        children: [
+          { label: '深度学习', href: '#departments' },
+          { label: 'APP开发', href: '#departments' },
+          { label: '游戏开发', href: '#departments' },
+        ],
+      },
+      {
+        label: '硬件部门',
+        href: '#departments',
+        children: [{ label: '硬件开发', href: '#departments' }],
+      },
+      {
+        label: '安全部门',
+        href: '#departments',
+        children: [
+          { label: '逆向工程', href: '#departments' },
+          { label: 'Web 安全', href: '#departments' },
+          { label: 'Pwn', href: '#departments' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'learning',
+    label: '学习',
+    href: '#learning',
+    children: [
+      { label: '练习编程', href: '#' },
+      { label: '知识库', href: '#' },
+    ],
+  },
+  {
+    id: 'recruitment',
+    label: '招新',
+    href: '#recruitment',
+    children: [
+      { label: 'QQ 群', href: '#' },
+      { label: 'QQ 频道', href: '#' },
+    ],
+  },
 ]
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
+const activeDropdown = ref<string | null>(null)
 
 // 监听滚动事件
 const handleScroll = () => {
@@ -19,11 +79,24 @@ const handleScroll = () => {
 
 // 平滑滚动到指定区域
 const scrollToSection = (href: string) => {
-  const element = document.querySelector(href)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+  if (href.startsWith('#')) {
+    const element = document.querySelector(href)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
   }
   isMobileMenuOpen.value = false
+  activeDropdown.value = null
+}
+
+// 显示下拉菜单
+const showDropdown = (id: string) => {
+  activeDropdown.value = id
+}
+
+// 隐藏下拉菜单
+const hideDropdown = () => {
+  activeDropdown.value = null
 }
 
 onMounted(() => {
@@ -46,15 +119,80 @@ onUnmounted(() => {
 
       <!-- 桌面端导航链接 -->
       <div class="navbar-links">
-        <a
-          v-for="item in navItems"
+        <div
+          v-for="item in navMenu"
           :key="item.id"
-          :href="item.href"
-          class="navbar-link"
-          @click.prevent="scrollToSection(item.href)"
+          class="navbar-item"
+          @mouseenter="item.children && showDropdown(item.id)"
+          @mouseleave="hideDropdown"
         >
-          {{ item.label }}
-        </a>
+          <a
+            :href="item.href"
+            class="navbar-link"
+            :class="{ 'has-dropdown': item.children }"
+            @click.prevent="scrollToSection(item.href)"
+          >
+            {{ item.label }}
+            <svg
+              v-if="item.children"
+              class="dropdown-arrow"
+              :class="{ 'is-open': activeDropdown === item.id }"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+
+          <!-- 一级下拉菜单 -->
+          <transition name="dropdown">
+            <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
+              <div
+                v-for="(child, index) in item.children"
+                :key="index"
+                class="dropdown-item"
+                :class="{ 'has-children': child.children }"
+              >
+                <a
+                  :href="child.href"
+                  class="dropdown-link"
+                  @click.prevent="scrollToSection(child.href)"
+                >
+                  {{ child.label }}
+                  <svg
+                    v-if="child.children"
+                    class="dropdown-arrow-right"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </a>
+
+                <!-- 二级下拉菜单 -->
+                <div v-if="child.children" class="subdropdown-menu">
+                  <a
+                    v-for="(subChild, subIndex) in child.children"
+                    :key="subIndex"
+                    :href="subChild.href"
+                    class="subdropdown-link"
+                    @click.prevent="scrollToSection(subChild.href)"
+                  >
+                    {{ subChild.label }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
       </div>
 
       <!-- 右侧操作区 -->
@@ -99,15 +237,29 @@ onUnmounted(() => {
     <!-- 移动端菜单 -->
     <transition name="slide-down">
       <div v-if="isMobileMenuOpen" class="navbar-mobile-menu">
-        <a
-          v-for="item in navItems"
-          :key="item.id"
-          :href="item.href"
-          class="navbar-mobile-link"
-          @click.prevent="scrollToSection(item.href)"
-        >
-          {{ item.label }}
-        </a>
+        <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
+          <a :href="item.href" class="mobile-nav-link" @click.prevent="scrollToSection(item.href)">
+            {{ item.label }}
+          </a>
+
+          <!-- 移动端子菜单 -->
+          <div v-if="item.children" class="mobile-submenu">
+            <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
+              <span class="mobile-submenu-title">{{ child.label }}</span>
+              <div v-if="child.children" class="mobile-submenu-items">
+                <a
+                  v-for="(subChild, subIndex) in child.children"
+                  :key="subIndex"
+                  :href="subChild.href"
+                  class="mobile-submenu-link"
+                  @click.prevent="scrollToSection(subChild.href)"
+                >
+                  {{ subChild.label }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
         <a href="#" class="navbar-mobile-cta">加入我们</a>
       </div>
     </transition>
@@ -127,7 +279,7 @@ onUnmounted(() => {
 }
 
 .navbar-scrolled {
-  background: rgba(4, 8, 12, 0.85);
+  background: rgba(4, 8, 12, 0.9);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(130, 212, 242, 0.1);
   padding: 12px 24px;
@@ -175,10 +327,17 @@ onUnmounted(() => {
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+}
+
+.navbar-item {
+  position: relative;
 }
 
 .navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 8px 16px;
   color: var(--color-white);
   text-decoration: none;
@@ -189,24 +348,96 @@ onUnmounted(() => {
   position: relative;
 }
 
-.navbar-link::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-blue), var(--color-cyan));
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+.navbar-link:hover {
+  color: var(--color-blue);
+  background: rgba(130, 212, 242, 0.1);
 }
 
-.navbar-link:hover {
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.is-open {
+  transform: rotate(180deg);
+}
+
+/* 下拉菜单 */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: rgba(4, 8, 12, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(130, 212, 242, 0.2);
+  border-radius: 12px;
+  padding: 8px;
+  margin-top: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-item {
+  position: relative;
+}
+
+.dropdown-item.has-children:hover .subdropdown-menu {
+  display: block;
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background: rgba(130, 212, 242, 0.15);
   color: var(--color-blue);
 }
 
-.navbar-link:hover::after {
-  width: 60%;
+.dropdown-arrow-right {
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+}
+
+/* 二级下拉菜单 */
+.subdropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  min-width: 140px;
+  background: rgba(4, 8, 12, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(130, 212, 242, 0.2);
+  border-radius: 12px;
+  padding: 8px;
+  margin-left: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.subdropdown-link {
+  display: block;
+  padding: 8px 14px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.subdropdown-link:hover {
+  background: rgba(130, 212, 242, 0.15);
+  color: var(--color-blue);
 }
 
 /* 操作区 */
@@ -263,31 +494,77 @@ onUnmounted(() => {
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(4, 8, 12, 0.95);
+  background: rgba(4, 8, 12, 0.98);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(130, 212, 242, 0.1);
   padding: 16px 24px;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
-.navbar-mobile-link {
+.mobile-nav-item {
+  border-bottom: 1px solid rgba(130, 212, 242, 0.1);
+  padding: 8px 0;
+}
+
+.mobile-nav-link {
+  display: block;
   padding: 12px 16px;
   color: var(--color-white);
   text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
 
-.navbar-mobile-link:hover {
+.mobile-nav-link:hover {
   background: rgba(130, 212, 242, 0.1);
   color: var(--color-blue);
 }
 
+.mobile-submenu {
+  padding-left: 16px;
+  margin-top: 8px;
+}
+
+.mobile-submenu-group {
+  margin-bottom: 12px;
+}
+
+.mobile-submenu-title {
+  display: block;
+  padding: 8px 12px;
+  color: var(--color-blue);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mobile-submenu-items {
+  padding-left: 12px;
+}
+
+.mobile-submenu-link {
+  display: block;
+  padding: 6px 12px;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 13px;
+  opacity: 0.8;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.mobile-submenu-link:hover {
+  background: rgba(130, 212, 242, 0.1);
+  color: var(--color-blue);
+  opacity: 1;
+}
+
 .navbar-mobile-cta {
-  padding: 12px 20px;
+  padding: 14px 20px;
   background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
   color: var(--color-black);
   font-size: 16px;
@@ -295,7 +572,7 @@ onUnmounted(() => {
   text-decoration: none;
   border-radius: 8px;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 16px;
   transition: all 0.3s ease;
 }
 
@@ -311,8 +588,19 @@ onUnmounted(() => {
   transform: translateY(-10px);
 }
 
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.2s ease;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
 /* 响应式 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .navbar {
     padding: 12px 16px;
   }
@@ -339,13 +627,6 @@ onUnmounted(() => {
 
   .navbar-mobile-menu {
     display: flex;
-  }
-}
-
-@media (max-width: 1024px) {
-  .navbar-link {
-    padding: 8px 12px;
-    font-size: 14px;
   }
 }
 </style>
