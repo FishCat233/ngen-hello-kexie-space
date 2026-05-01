@@ -14,8 +14,12 @@
     "@types/three": "^0.184.0",
     "lucide-vue-next": "^1.0.0",
     "pinia": "^3.0.4",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-html": "^16.0.1",
     "three": "^0.184.0",
-    "vue": "^3.5.32"
+    "vue": "^3.5.32",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",

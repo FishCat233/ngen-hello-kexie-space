@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import {
   Globe,
   Coffee,
@@ -14,6 +15,8 @@ import {
   Bug,
 } from 'lucide-vue-next'
 
+const router = useRouter()
+
 interface LearningDirection {
   id: string
   name: string
@@ -21,19 +24,23 @@ interface LearningDirection {
 }
 
 const directions: LearningDirection[] = [
-  { id: 'frontend', name: '前端开发', icon: Globe },
+  { id: 'web', name: '前端开发', icon: Globe },
   { id: 'backend', name: '后端开发', icon: Coffee },
   { id: 'game', name: '游戏开发', icon: Gamepad2 },
-  { id: 'app', name: 'APP开发', icon: Smartphone },
+  { id: 'android', name: 'APP开发', icon: Smartphone },
   { id: 'ui', name: 'UI设计', icon: PencilRuler },
-  { id: 'hardware', name: '硬件开发', icon: Cpu },
-  { id: 'deeplearning', name: '深度学习', icon: BrainCircuit },
+  { id: 'embedded', name: '硬件开发', icon: Cpu },
+  { id: 'machinelearning', name: '深度学习', icon: BrainCircuit },
   { id: 'video', name: '视频剪辑', icon: Clapperboard },
   { id: 'reverse', name: '逆向工程', icon: Binary },
   { id: 'crypto', name: '密码学', icon: LockKeyhole },
   { id: 'websecurity', name: 'Web安全', icon: ShieldAlert },
   { id: 'pwn', name: 'PWN', icon: Bug },
 ]
+
+const navigateToDirection = (id: string) => {
+  router.push(`/direction/${id}`)
+}
 </script>
 
 <template>
@@ -42,7 +49,12 @@ const directions: LearningDirection[] = [
       <h2 class="learning-title">学习方向</h2>
 
       <div class="learning-grid">
-        <div v-for="dir in directions" :key="dir.id" class="learning-card">
+        <div
+          v-for="dir in directions"
+          :key="dir.id"
+          class="learning-card"
+          @click="navigateToDirection(dir.id)"
+        >
           <div class="learning-icon">
             <component :is="dir.icon" :size="48" stroke-width="1.5" />
           </div>

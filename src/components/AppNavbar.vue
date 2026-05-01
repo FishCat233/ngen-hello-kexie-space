@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 导航菜单配置
 const navMenu = [
@@ -17,33 +20,33 @@ const navMenu = [
         label: '多媒体部门',
         href: '#departments',
         children: [
-          { label: '网站开发', href: '#departments' },
-          { label: 'UI设计', href: '#departments' },
-          { label: '视频剪辑', href: '#departments' },
-          { label: '小程序开发', href: '#departments' },
+          { label: '网站开发', href: '/direction/web' },
+          { label: 'UI设计', href: '/direction/ui' },
+          { label: '视频剪辑', href: '/direction/video' },
+          { label: '小程序开发', href: '/direction/applet' },
         ],
       },
       {
         label: '软件部门',
         href: '#departments',
         children: [
-          { label: '深度学习', href: '#departments' },
-          { label: 'APP开发', href: '#departments' },
-          { label: '游戏开发', href: '#departments' },
+          { label: '深度学习', href: '/direction/machinelearning' },
+          { label: 'APP开发', href: '/direction/android' },
+          { label: '游戏开发', href: '/direction/game' },
         ],
       },
       {
         label: '硬件部门',
         href: '#departments',
-        children: [{ label: '硬件开发', href: '#departments' }],
+        children: [{ label: '硬件开发', href: '/direction/embedded' }],
       },
       {
         label: '安全部门',
         href: '#departments',
         children: [
-          { label: '逆向工程', href: '#departments' },
-          { label: 'Web 安全', href: '#departments' },
-          { label: 'Pwn', href: '#departments' },
+          { label: '逆向工程', href: '#' },
+          { label: 'Web 安全', href: '#' },
+          { label: 'Pwn', href: '#' },
         ],
       },
     ],
@@ -77,9 +80,13 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
 }
 
-// 平滑滚动到指定区域
-const scrollToSection = (href: string) => {
-  if (href.startsWith('#')) {
+// 导航处理
+const handleNavigation = (href: string) => {
+  if (href.startsWith('/direction/')) {
+    // 方向页面路由跳转
+    router.push(href)
+  } else if (href.startsWith('#')) {
+    // 页面内锚点跳转
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
@@ -112,7 +119,7 @@ onUnmounted(() => {
   <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled }">
     <div class="navbar-container">
       <!-- Logo -->
-      <a href="#home" class="navbar-logo" @click.prevent="scrollToSection('#home')">
+      <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
         <img src="/logo.png" alt="科协LOGO" class="navbar-logo-img" />
         <span class="navbar-logo-text">桂电三院科协</span>
       </a>
@@ -130,7 +137,7 @@ onUnmounted(() => {
             :href="item.href"
             class="navbar-link"
             :class="{ 'has-dropdown': item.children }"
-            @click.prevent="scrollToSection(item.href)"
+            @click.prevent="handleNavigation(item.href)"
           >
             {{ item.label }}
             <svg
@@ -160,7 +167,7 @@ onUnmounted(() => {
                 <a
                   :href="child.href"
                   class="dropdown-link"
-                  @click.prevent="scrollToSection(child.href)"
+                  @click.prevent="handleNavigation(child.href)"
                 >
                   {{ child.label }}
                   <svg
@@ -184,7 +191,7 @@ onUnmounted(() => {
                     :key="subIndex"
                     :href="subChild.href"
                     class="subdropdown-link"
-                    @click.prevent="scrollToSection(subChild.href)"
+                    @click.prevent="handleNavigation(subChild.href)"
                   >
                     {{ subChild.label }}
                   </a>
@@ -238,7 +245,7 @@ onUnmounted(() => {
     <transition name="slide-down">
       <div v-if="isMobileMenuOpen" class="navbar-mobile-menu">
         <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
-          <a :href="item.href" class="mobile-nav-link" @click.prevent="scrollToSection(item.href)">
+          <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
             {{ item.label }}
           </a>
 
@@ -252,7 +259,7 @@ onUnmounted(() => {
                   :key="subIndex"
                   :href="subChild.href"
                   class="mobile-submenu-link"
-                  @click.prevent="scrollToSection(subChild.href)"
+                  @click.prevent="handleNavigation(subChild.href)"
                 >
                   {{ subChild.label }}
                 </a>
