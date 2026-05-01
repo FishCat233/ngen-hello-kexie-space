@@ -35,6 +35,7 @@ const isHomePage = computed(() => route.path === '/')
       </main>
     </template>
     <template v-else>
+      <TracerBullet />
       <AppNavbar />
       <router-view />
     </template>
