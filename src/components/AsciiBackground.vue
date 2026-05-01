@@ -16,10 +16,8 @@ let mouseY = 0
 let targetRotationX = 0
 let targetRotationY = 0
 
-// ASCII 字符集
-const charSets = [' .:-=+*#%@', ' .,;:!>-~+={}^*#%$@', ' 1234567890', ' .oO@', ' .:-=+*#%@█']
-let currentCharSetIndex = 0
-let lastCharSetChange = 0
+// ASCII 字符集 - 使用固定字符
+const fixedCharSet = ' .:-=+*#%@'
 
 const init = () => {
   if (!containerRef.value) return
@@ -41,7 +39,7 @@ const init = () => {
   renderer.setPixelRatio(window.devicePixelRatio)
 
   // ASCII 效果
-  effect = new AsciiEffect(renderer, charSets[0], {
+  effect = new AsciiEffect(renderer, fixedCharSet, {
     invert: true,
     resolution: 0.15,
   })
@@ -157,7 +155,7 @@ const onWindowResize = () => {
   effect.setSize(width, height)
 }
 
-const animate = (time: number) => {
+const animate = () => {
   animationId = requestAnimationFrame(animate)
 
   // 鼠标交互旋转
@@ -172,32 +170,12 @@ const animate = (time: number) => {
     buildingGroup.rotation.y += 0.002
   }
 
-  // 每隔一段时间切换字符集
-  if (time - lastCharSetChange > 3000) {
-    currentCharSetIndex = (currentCharSetIndex + 1) % charSets.length
-    effect = new AsciiEffect(renderer, charSets[currentCharSetIndex], {
-      invert: true,
-      resolution: 0.15,
-    })
-    effect.setSize(window.innerWidth, window.innerHeight)
-    effect.domElement.style.color = '#82d4f2'
-    effect.domElement.style.backgroundColor = '#04080c'
-
-    // 替换 DOM 元素
-    if (containerRef.value && containerRef.value.firstChild) {
-      containerRef.value.removeChild(containerRef.value.firstChild)
-      containerRef.value.appendChild(effect.domElement)
-    }
-
-    lastCharSetChange = time
-  }
-
   effect.render(scene, camera)
 }
 
 onMounted(() => {
   init()
-  animate(0)
+  animate()
 })
 
 onUnmounted(() => {
