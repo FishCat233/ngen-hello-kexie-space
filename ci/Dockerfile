@@ -1,5 +1,5 @@
-# 构建阶段
-FROM node:20-slim AS builder
+# 构建阶段 - 使用 Node 22 LTS (最新长期支持版本)
+FROM node:22-alpine AS builder
 
 # 安装 pnpm
 RUN npm install -g pnpm
@@ -19,8 +19,8 @@ COPY . .
 # 构建项目
 RUN pnpm run build
 
-# 运行阶段
-FROM caddy:2-alpine
+# 运行阶段 - 使用 Caddy 2.8 (最新稳定版本)
+FROM caddy:2.8-alpine
 
 # 复制构建产物
 COPY --from=builder /app/dist /srv
