@@ -1,0 +1,223 @@
+@import 'tailwindcss';
+
+:root {
+  /* 科协主题色 */
+  --color-black: #04080c;
+  --color-blue: #82d4f2;
+  --color-cyan: #6fd0ce;
+  --color-white: #ebfbff;
+
+  /* 衍生色调 */
+  --color-blue-dark: #5cb8d9;
+  --color-cyan-dark: #4db8b6;
+  --color-black-light: #0a1520;
+
+  /* 功能色 */
+  --text: var(--color-white);
+  --text-h: var(--color-white);
+  --bg: var(--color-black);
+  --border: rgba(130, 212, 242, 0.2);
+  --accent: var(--color-blue);
+  --accent-bg: rgba(130, 212, 242, 0.1);
+  --accent-border: rgba(130, 212, 242, 0.5);
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+/* 第一面样式 */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+    padding: 0 24px;
+  }
+}
+
+.hero-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+  }
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+
+  @media (max-width: 1024px) {
+    font-size: 42px;
+  }
+}
+
+.hero-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-blue);
+  box-shadow:
+    0 0 30px rgba(130, 212, 242, 0.3),
+    0 0 60px rgba(111, 208, 206, 0.2);
+
+  @media (max-width: 1024px) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.hero-slogan {
+  font-size: 20px;
+  color: var(--color-white);
+  opacity: 0.9;
+  letter-spacing: 2px;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 320px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+.hero-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  background: rgba(130, 212, 242, 0.1);
+  border: 1px solid rgba(130, 212, 242, 0.3);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(130, 212, 242, 0.2);
+    border-color: var(--color-blue);
+    box-shadow:
+      0 0 20px rgba(130, 212, 242, 0.3),
+      0 0 40px rgba(111, 208, 206, 0.2);
+    transform: translateX(4px);
+  }
+
+  &:active {
+    transform: translateX(2px);
+  }
+}
+
+.hero-button-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--color-blue);
+}
+
+/* ASCII 背景容器 */
+.ascii-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-black);
+}
