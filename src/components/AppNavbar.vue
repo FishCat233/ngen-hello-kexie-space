@@ -378,6 +378,16 @@ onUnmounted(() => {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* 填补导航链接和下拉菜单之间的间隙，防止鼠标移动时闪烁 */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
 .dropdown-item {
   position: relative;
 }
@@ -423,6 +433,16 @@ onUnmounted(() => {
   padding: 8px;
   margin-left: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 填补一级菜单和二级菜单之间的间隙，防止鼠标移动时闪烁 */
+.subdropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  bottom: 0;
 }
 
 .subdropdown-link {
