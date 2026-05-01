@@ -198,7 +198,14 @@ OJ(练习编程): https://oj.kexie.space
 
 - 使用 release-please 自动发布新版本
   - 版本号从 0.0.0 开始递增
+  - 发版的时候触发 Docker 打包，打包的镜像添加到 Release 文件中
 - main commit hook 触发自动构建部署 Github Page
+- Docker 打包配置
+  - 镜像名称: `ngen-hello-kexie-space:${version}`
+  - Dokcerfile: `ci/Dockerfile`
+  - 镜像内容
+    - 使用 Caddy 代理构建好的静态文件
+    - Caddyfile: `ci/Caddyfile`
 
 ## 技术选型
 
