@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeroSection from './components/HeroSection.vue'
+import DepartmentsSection from './components/DepartmentsSection.vue'
 import AsciiBackground from './components/AsciiBackground.vue'
 import TracerBullet from './components/TracerBullet.vue'
 </script>
@@ -8,7 +9,10 @@ import TracerBullet from './components/TracerBullet.vue'
   <div class="app-container">
     <AsciiBackground />
     <TracerBullet />
-    <HeroSection />
+    <main class="main-content">
+      <HeroSection />
+      <DepartmentsSection />
+    </main>
   </div>
 </template>
 
@@ -18,5 +22,10 @@ import TracerBullet from './components/TracerBullet.vue'
   width: 100%;
   min-height: 100vh;
   background: #04080c;
+}
+
+.main-content {
+  position: relative;
+  z-index: 10;
 }
 </style>

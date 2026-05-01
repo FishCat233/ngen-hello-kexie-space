@@ -15,13 +15,13 @@ const buttons = [
   },
   {
     id: 'knowledge',
-    label: '科协知识库',
+    label: '知识库',
     icon: 'server',
     href: '#',
   },
   {
     id: 'qq-channel',
-    label: '科协QQ频道',
+    label: 'QQ频道',
     icon: 'hash',
     href: '#',
   },

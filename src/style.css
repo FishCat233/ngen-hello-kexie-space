@@ -192,8 +192,10 @@ p {
 .hero-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  width: 140px;
+  padding: 12px 16px;
   border-radius: 10px;
   background: rgba(130, 212, 242, 0.1);
   border: 1px solid rgba(130, 212, 242, 0.3);
@@ -204,6 +206,7 @@ p {
   transition: all 0.3s ease;
   text-decoration: none;
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
 
   &:hover {
     background: rgba(130, 212, 242, 0.2);
@@ -219,7 +222,8 @@ p {
   }
 
   @media (max-width: 1024px) {
-    padding: 10px 16px;
+    width: 130px;
+    padding: 10px 12px;
     font-size: 13px;
   }
 }
