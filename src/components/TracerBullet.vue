@@ -10,7 +10,7 @@ let renderer: THREE.WebGLRenderer
 let animationId: number
 
 interface Bullet {
-  mesh: THREE.Mesh
+  mesh: THREE.Sprite
   speed: number
   life: number
   maxLife: number
@@ -171,7 +171,8 @@ const animate = (currentTime: number) => {
     // 移除超出屏幕或生命周期结束的子弹
     if (bullet.mesh.position.y > height / 2 + 100 || bullet.life <= 0) {
       scene.remove(bullet.mesh)
-      bullet.mesh.material.dispose()
+      const material = bullet.mesh.material as THREE.SpriteMaterial
+      material.dispose()
       return false
     }
 
@@ -195,7 +196,8 @@ onUnmounted(() => {
   // 清理资源
   bullets.forEach((bullet) => {
     scene.remove(bullet.mesh)
-    bullet.mesh.material.dispose()
+    const material = bullet.mesh.material as THREE.SpriteMaterial
+    material.dispose()
   })
   bullets = []
 

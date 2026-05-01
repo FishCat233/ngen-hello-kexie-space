@@ -4,8 +4,27 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+// 导航菜单项类型定义
+interface NavSubChild {
+  label: string
+  href: string
+}
+
+interface NavChild {
+  label: string
+  href: string
+  children?: NavSubChild[]
+}
+
+interface NavItem {
+  id: string
+  label: string
+  href: string
+  children?: NavChild[]
+}
+
 // 导航菜单配置
-const navMenu = [
+const navMenu: NavItem[] = [
   {
     id: 'home',
     label: '首页',
