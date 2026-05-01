@@ -1,0 +1,8 @@
+:80 {
+    root * /srv
+    file_server
+    encode gzip
+
+    # SPA 路由支持
+    try_files {path} /index.html
+}
