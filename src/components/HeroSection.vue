@@ -5,25 +5,25 @@ const buttons = [
     id: 'qq-group',
     label: '加入我们',
     icon: 'qq',
-    href: '#',
+    href: 'https://api.kexie.space/recruitment-qq-group',
   },
   {
     id: 'terminal',
     label: '练习编程',
     icon: 'terminal',
-    href: '#',
+    href: 'https://oj.kexie.space',
   },
   {
     id: 'knowledge',
     label: '知识库',
     icon: 'server',
-    href: '#',
+    href: 'https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb',
   },
   {
     id: 'qq-channel',
     label: 'QQ频道',
     icon: 'hash',
-    href: '#',
+    href: 'https://pd.qq.com/s/5pxzsijx0',
   },
 ]
 </script>

@@ -56,8 +56,8 @@ const navMenu = [
     label: '学习',
     href: '#learning',
     children: [
-      { label: '练习编程', href: '#' },
-      { label: '知识库', href: '#' },
+      { label: '练习编程', href: 'https://oj.kexie.space' },
+      { label: '知识库', href: 'https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb' },
     ],
   },
   {
@@ -65,8 +65,8 @@ const navMenu = [
     label: '招新',
     href: '#recruitment',
     children: [
-      { label: 'QQ 群', href: '#' },
-      { label: 'QQ 频道', href: '#' },
+      { label: 'QQ 群', href: 'https://api.kexie.space/recruitment-qq-group' },
+      { label: 'QQ 频道', href: 'https://pd.qq.com/s/5pxzsijx0' },
     ],
   },
 ]
@@ -82,7 +82,10 @@ const handleScroll = () => {
 
 // 导航处理
 const handleNavigation = (href: string) => {
-  if (href.startsWith('/direction/')) {
+  if (href.startsWith('http')) {
+    // 外部链接跳转
+    window.open(href, '_blank')
+  } else if (href.startsWith('/direction/')) {
     // 方向页面路由跳转
     router.push(href)
   } else if (href.startsWith('#')) {
@@ -204,7 +207,12 @@ onUnmounted(() => {
 
       <!-- 右侧操作区 -->
       <div class="navbar-actions">
-        <a href="#" class="navbar-cta">加入我们</a>
+        <a
+          href="https://api.kexie.space/recruitment-qq-group"
+          class="navbar-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+          >加入我们</a
+        >
 
         <!-- 移动端菜单按钮 -->
         <button
@@ -267,7 +275,12 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <a href="#" class="navbar-mobile-cta">加入我们</a>
+        <a
+          href="https://api.kexie.space/recruitment-qq-group"
+          class="navbar-mobile-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+          >加入我们</a
+        >
       </div>
     </transition>
   </nav>
