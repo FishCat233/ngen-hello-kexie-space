@@ -11,7 +11,7 @@ const departments: Department[] = [
     id: 'multimedia',
     name: '多媒体部',
     description: [
-      '科协多媒体部主要方向的网站开发、UI设计、视频剪辑和小程序开发均依托多媒体技术，以极强的浸透力进入学校日常生活的方方面面。',
+      '多媒体部主要方向的网站开发、UI设计、视频剪辑和小程序开发均依托多媒体技术，以极强的浸透力进入学校日常生活的方方面面。',
       '四个方向相互联系紧密，网站与小程序需要界面优美的UI设计，界面优美的UI设计需要网站或小程序去实现，它们也可以通过视频剪辑技术以易展现的形式与周围人分享。',
     ],
     iconType: 'monitor',
@@ -29,7 +29,7 @@ const departments: Department[] = [
     id: 'hardware',
     name: '硬件部',
     description: [
-      '硬件部致力于将传统的嵌入式软硬件设计与互联网资源结合，充分体现"互联网+"精神，真正将我们在计算机专业中学习到的知识应用与生活，设计制作真正服务与生活的嵌入式智能硬件；',
+      '硬件部致力于将传统的嵌入式软硬件设计与互联网资源结合，充分体现"互联网+"精神，真正将我们在计算机专业中学习到的知识应用与生活，设计制作真正服务与生活的嵌入式智能硬件。',
       '引导同学们进行科技研发，从而提高同学们的创新意识，加强同学们的动手能力以及理论与实际相结合的能力，培养创新型人才。',
     ],
     iconType: 'hardware',
@@ -64,236 +64,56 @@ const departments: Department[] = [
         <div v-for="dept in departments" :key="dept.id" class="department-card">
           <div class="department-icon">
             <!-- 显示器图标 - 多媒体部 -->
-            <svg
-              v-if="dept.iconType === 'monitor'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <rect
-                x="8"
-                y="8"
-                width="48"
-                height="36"
-                rx="3"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+            <svg v-if="dept.iconType === 'monitor'" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg">
+              <rect x="8" y="8" width="48" height="36" rx="3" stroke="currentColor" stroke-width="2" />
               <line x1="8" y1="16" x2="56" y2="16" stroke="currentColor" stroke-width="2" />
               <circle cx="12" cy="12" r="1.5" fill="currentColor" />
               <circle cx="17" cy="12" r="1.5" fill="currentColor" />
               <circle cx="22" cy="12" r="1.5" fill="currentColor" />
-              <rect
-                x="24"
-                y="48"
-                width="16"
-                height="4"
-                rx="1"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+              <rect x="24" y="48" width="16" height="4" rx="1" stroke="currentColor" stroke-width="2" />
               <line x1="32" y1="44" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
             </svg>
 
             <!-- 服务器图标 - 软件部 -->
-            <svg
-              v-else-if="dept.iconType === 'server'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <rect
-                x="12"
-                y="6"
-                width="40"
-                height="20"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <rect
-                x="12"
-                y="30"
-                width="40"
-                height="20"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+            <svg v-else-if="dept.iconType === 'server'" viewBox="0 0 64 64" fill="none"
+              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
+              <rect x="12" y="6" width="40" height="20" rx="2" stroke="currentColor" stroke-width="2" />
+              <rect x="12" y="30" width="40" height="20" rx="2" stroke="currentColor" stroke-width="2" />
               <circle cx="18" cy="16" r="2" fill="currentColor" />
               <circle cx="18" cy="40" r="2" fill="currentColor" />
-              <line
-                x1="26"
-                y1="16"
-                x2="44"
-                y2="16"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="26"
-                y1="40"
-                x2="44"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="26" y1="16" x2="44" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="26" y1="40" x2="44" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
 
             <!-- 芯片图标 - 硬件部 -->
-            <svg
-              v-else-if="dept.iconType === 'hardware'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
+            <svg v-else-if="dept.iconType === 'hardware'" viewBox="0 0 64 64" fill="none"
+              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
               <!-- 芯片主体 -->
-              <rect
-                x="16"
-                y="16"
-                width="32"
-                height="32"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+              <rect x="16" y="16" width="32" height="32" rx="2" stroke="currentColor" stroke-width="2" />
               <!-- 芯片内部方块 -->
-              <rect
-                x="22"
-                y="22"
-                width="20"
-                height="20"
-                rx="1"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
+              <rect x="22" y="22" width="20" height="20" rx="1" stroke="currentColor" stroke-width="1.5" />
               <!-- 顶部引脚 -->
-              <line
-                x1="24"
-                y1="16"
-                x2="24"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="32"
-                y1="16"
-                x2="32"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="40"
-                y1="16"
-                x2="40"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="24" y1="16" x2="24" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="32" y1="16" x2="32" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="40" y1="16" x2="40" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               <!-- 底部引脚 -->
-              <line
-                x1="24"
-                y1="48"
-                x2="24"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="32"
-                y1="48"
-                x2="32"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="40"
-                y1="48"
-                x2="40"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="24" y1="48" x2="24" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="32" y1="48" x2="32" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="40" y1="48" x2="40" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               <!-- 左侧引脚 -->
-              <line
-                x1="16"
-                y1="24"
-                x2="10"
-                y2="24"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="16"
-                y1="32"
-                x2="10"
-                y2="32"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="16"
-                y1="40"
-                x2="10"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="16" y1="24" x2="10" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="16" y1="32" x2="10" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="16" y1="40" x2="10" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               <!-- 右侧引脚 -->
-              <line
-                x1="48"
-                y1="24"
-                x2="54"
-                y2="24"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="48"
-                y1="32"
-                x2="54"
-                y2="32"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="48"
-                y1="40"
-                x2="54"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="48" y1="24" x2="54" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="48" y1="32" x2="54" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="48" y1="40" x2="54" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
 
             <!-- 组织管理图标 - 组织部 -->
-            <svg
-              v-else-if="dept.iconType === 'organize'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
+            <svg v-else-if="dept.iconType === 'organize'" viewBox="0 0 64 64" fill="none"
+              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
               <!-- 中心圆环 -->
               <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
               <!-- 下方连接线 -->
@@ -312,47 +132,19 @@ const departments: Department[] = [
             </svg>
 
             <!-- 盾牌与锁图标 - 安全部 -->
-            <svg
-              v-else-if="dept.iconType === 'security'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
+            <svg v-else-if="dept.iconType === 'security'" viewBox="0 0 64 64" fill="none"
+              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
               <!-- 盾牌轮廓 -->
-              <path
-                d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linejoin="round"
-              />
+              <path d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z" stroke="currentColor" stroke-width="2"
+                stroke-linejoin="round" />
               <!-- 锁体 -->
-              <rect
-                x="24"
-                y="30"
-                width="16"
-                height="14"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+              <rect x="24" y="30" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2" />
               <!-- 锁梁 -->
-              <path
-                d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30"
-                stroke="currentColor"
-                stroke-width="2"
-              />
+              <path d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30" stroke="currentColor"
+                stroke-width="2" />
               <!-- 钥匙孔 -->
               <circle cx="32" cy="36" r="2" fill="currentColor" />
-              <line
-                x1="32"
-                y1="38"
-                x2="32"
-                y2="42"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <line x1="32" y1="38" x2="32" y2="42" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
           </div>
 
