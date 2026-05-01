@@ -15,30 +15,24 @@ const isHomePage = computed(() => route.path === '/')
 
 <template>
   <div class="app-container">
-    <template v-if="isHomePage">
-      <AsciiBackground />
-      <TracerBullet />
-      <AppNavbar />
-      <main class="main-content">
-        <section id="home">
-          <HeroSection />
-        </section>
-        <section id="departments">
-          <DepartmentsSection />
-        </section>
-        <section id="learning">
-          <LearningDirectionsSection />
-        </section>
-        <section id="recruitment">
-          <RecruitmentSection />
-        </section>
-      </main>
-    </template>
-    <template v-else>
-      <TracerBullet />
-      <AppNavbar />
-      <router-view />
-    </template>
+    <AsciiBackground :active="isHomePage" />
+    <TracerBullet :active="true" />
+    <AppNavbar />
+    <main v-if="isHomePage" class="main-content">
+      <section id="home">
+        <HeroSection />
+      </section>
+      <section id="departments">
+        <DepartmentsSection />
+      </section>
+      <section id="learning">
+        <LearningDirectionsSection />
+      </section>
+      <section id="recruitment">
+        <RecruitmentSection />
+      </section>
+    </main>
+    <router-view v-else />
   </div>
 </template>
 

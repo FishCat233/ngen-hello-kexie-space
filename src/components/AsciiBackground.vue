@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import * as THREE from 'three'
 import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js'
+
+const props = defineProps<{
+  active: boolean
+}>()
 
 const containerRef = ref<HTMLDivElement | null>(null)
 
@@ -15,9 +19,12 @@ let mouseX = 0
 let mouseY = 0
 let targetRotationX = 0
 let targetRotationY = 0
+let isActive = true
 
-// ASCII 字符集 - 使用固定字符
 const fixedCharSet = ' .:-=+*#%@'
+
+const geometries: THREE.BoxGeometry[] = []
+const materials: THREE.MeshPhongMaterial[] = []
 
 const init = () => {
   if (!containerRef.value) return
@@ -25,20 +32,16 @@ const init = () => {
   const width = window.innerWidth
   const height = window.innerHeight
 
-  // 场景
   scene = new THREE.Scene()
   scene.background = new THREE.Color(0x04080c)
 
-  // 相机
   camera = new THREE.PerspectiveCamera(70, width / height, 1, 1000)
   camera.position.z = 200
 
-  // 渲染器
   renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(width, height)
   renderer.setPixelRatio(window.devicePixelRatio)
 
-  // ASCII 效果
   effect = new AsciiEffect(renderer, fixedCharSet, {
     invert: true,
     resolution: 0.15,
@@ -48,65 +51,70 @@ const init = () => {
   effect.domElement.style.backgroundColor = '#04080c'
   containerRef.value.appendChild(effect.domElement)
 
-  // 创建校园建筑模型
   buildingGroup = new THREE.Group()
 
-  // 主教学楼 - 中央高楼
   const mainBuildingGeometry = new THREE.BoxGeometry(40, 80, 40)
   const mainBuildingMaterial = new THREE.MeshPhongMaterial({
     color: 0x6fd0ce,
     flatShading: true,
   })
+  geometries.push(mainBuildingGeometry)
+  materials.push(mainBuildingMaterial)
   const mainBuilding = new THREE.Mesh(mainBuildingGeometry, mainBuildingMaterial)
   mainBuilding.position.y = 10
   buildingGroup.add(mainBuilding)
 
-  // 左侧配楼
   const leftBuildingGeometry = new THREE.BoxGeometry(30, 50, 30)
   const leftBuildingMaterial = new THREE.MeshPhongMaterial({
     color: 0x82d4f2,
     flatShading: true,
   })
+  geometries.push(leftBuildingGeometry)
+  materials.push(leftBuildingMaterial)
   const leftBuilding = new THREE.Mesh(leftBuildingGeometry, leftBuildingMaterial)
   leftBuilding.position.set(-50, -5, 20)
   buildingGroup.add(leftBuilding)
 
-  // 右侧配楼
   const rightBuildingGeometry = new THREE.BoxGeometry(35, 60, 35)
   const rightBuildingMaterial = new THREE.MeshPhongMaterial({
     color: 0x5cb8d9,
     flatShading: true,
   })
+  geometries.push(rightBuildingGeometry)
+  materials.push(rightBuildingMaterial)
   const rightBuilding = new THREE.Mesh(rightBuildingGeometry, rightBuildingMaterial)
   rightBuilding.position.set(55, 0, -10)
   buildingGroup.add(rightBuilding)
 
-  // 前方低层建筑
   const frontBuildingGeometry = new THREE.BoxGeometry(60, 25, 30)
   const frontBuildingMaterial = new THREE.MeshPhongMaterial({
     color: 0x4db8b6,
     flatShading: true,
   })
+  geometries.push(frontBuildingGeometry)
+  materials.push(frontBuildingMaterial)
   const frontBuilding = new THREE.Mesh(frontBuildingGeometry, frontBuildingMaterial)
   frontBuilding.position.set(0, -27, 50)
   buildingGroup.add(frontBuilding)
 
-  // 后方建筑
   const backBuildingGeometry = new THREE.BoxGeometry(25, 40, 25)
   const backBuildingMaterial = new THREE.MeshPhongMaterial({
     color: 0x6fd0ce,
     flatShading: true,
   })
+  geometries.push(backBuildingGeometry)
+  materials.push(backBuildingMaterial)
   const backBuilding = new THREE.Mesh(backBuildingGeometry, backBuildingMaterial)
   backBuilding.position.set(-30, -10, -40)
   buildingGroup.add(backBuilding)
 
-  // 添加一些装饰性的小方块代表窗户细节
   const windowGeometry = new THREE.BoxGeometry(3, 3, 1)
   const windowMaterial = new THREE.MeshPhongMaterial({
     color: 0xebfbff,
     flatShading: true,
   })
+  geometries.push(windowGeometry)
+  materials.push(windowMaterial)
 
   for (let i = 0; i < 20; i++) {
     const window1 = new THREE.Mesh(windowGeometry, windowMaterial)
@@ -116,7 +124,6 @@ const init = () => {
 
   scene.add(buildingGroup)
 
-  // 灯光
   const ambientLight = new THREE.AmbientLight(0x404040, 2)
   scene.add(ambientLight)
 
@@ -132,10 +139,7 @@ const init = () => {
   pointLight2.position.set(-100, -100, 100)
   scene.add(pointLight2)
 
-  // 鼠标移动事件
   document.addEventListener('mousemove', onDocumentMouseMove)
-
-  // 窗口大小调整
   window.addEventListener('resize', onWindowResize)
 }
 
@@ -156,34 +160,61 @@ const onWindowResize = () => {
 }
 
 const animate = () => {
+  if (!isActive) return
   animationId = requestAnimationFrame(animate)
 
-  // 鼠标交互旋转
   targetRotationY = mouseX * 0.001
   targetRotationX = mouseY * 0.001
 
   if (buildingGroup) {
     buildingGroup.rotation.y += 0.05 * (targetRotationY - buildingGroup.rotation.y)
     buildingGroup.rotation.x += 0.05 * (targetRotationX - buildingGroup.rotation.x)
-
-    // 自动缓慢旋转
     buildingGroup.rotation.y += 0.002
   }
 
   effect.render(scene, camera)
 }
 
+const startAnimation = () => {
+  if (isActive) return
+  isActive = true
+  animate()
+}
+
+const stopAnimation = () => {
+  isActive = false
+  if (animationId) {
+    cancelAnimationFrame(animationId)
+    animationId = 0
+  }
+}
+
+watch(
+  () => props.active,
+  (val) => {
+    if (val) {
+      startAnimation()
+    } else {
+      stopAnimation()
+    }
+  },
+)
+
 onMounted(() => {
   init()
-  animate()
+  isActive = props.active
+  if (isActive) {
+    animate()
+  }
 })
 
 onUnmounted(() => {
-  if (animationId) {
-    cancelAnimationFrame(animationId)
-  }
+  stopAnimation()
   document.removeEventListener('mousemove', onDocumentMouseMove)
   window.removeEventListener('resize', onWindowResize)
+
+  geometries.forEach((g) => g.dispose())
+  materials.forEach((m) => m.dispose())
 
   if (containerRef.value && effect?.domElement) {
     containerRef.value.removeChild(effect.domElement)
@@ -194,5 +225,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="containerRef" class="ascii-background"></div>
+  <div ref="containerRef" class="ascii-background" v-show="active"></div>
 </template>
