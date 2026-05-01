@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
 // 导航菜单项类型定义
 interface NavSubChild {
@@ -109,9 +110,15 @@ const handleNavigation = (href: string) => {
     router.push(href)
   } else if (href.startsWith('#')) {
     // 页面内锚点跳转
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (route.path !== '/') {
+      // 当前不在首页，先返回首页
+      router.push('/')
+    } else {
+      // 已在首页，执行锚点滚动
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
   isMobileMenuOpen.value = false
