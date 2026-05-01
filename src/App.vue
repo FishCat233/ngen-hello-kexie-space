@@ -2,6 +2,7 @@
 import HeroSection from './components/HeroSection.vue'
 import DepartmentsSection from './components/DepartmentsSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
+import RecruitmentSection from './components/RecruitmentSection.vue'
 import AsciiBackground from './components/AsciiBackground.vue'
 import TracerBullet from './components/TracerBullet.vue'
 </script>
@@ -14,6 +15,7 @@ import TracerBullet from './components/TracerBullet.vue'
       <HeroSection />
       <DepartmentsSection />
       <LearningDirectionsSection />
+      <RecruitmentSection />
     </main>
   </div>
 </template>

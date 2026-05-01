@@ -64,56 +64,236 @@ const departments: Department[] = [
         <div v-for="dept in departments" :key="dept.id" class="department-card">
           <div class="department-icon">
             <!-- 显示器图标 - 多媒体部 -->
-            <svg v-if="dept.iconType === 'monitor'" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg">
-              <rect x="8" y="8" width="48" height="36" rx="3" stroke="currentColor" stroke-width="2" />
+            <svg
+              v-if="dept.iconType === 'monitor'"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg"
+            >
+              <rect
+                x="8"
+                y="8"
+                width="48"
+                height="36"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <line x1="8" y1="16" x2="56" y2="16" stroke="currentColor" stroke-width="2" />
               <circle cx="12" cy="12" r="1.5" fill="currentColor" />
               <circle cx="17" cy="12" r="1.5" fill="currentColor" />
               <circle cx="22" cy="12" r="1.5" fill="currentColor" />
-              <rect x="24" y="48" width="16" height="4" rx="1" stroke="currentColor" stroke-width="2" />
+              <rect
+                x="24"
+                y="48"
+                width="16"
+                height="4"
+                rx="1"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <line x1="32" y1="44" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
             </svg>
 
             <!-- 服务器图标 - 软件部 -->
-            <svg v-else-if="dept.iconType === 'server'" viewBox="0 0 64 64" fill="none"
-              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
-              <rect x="12" y="6" width="40" height="20" rx="2" stroke="currentColor" stroke-width="2" />
-              <rect x="12" y="30" width="40" height="20" rx="2" stroke="currentColor" stroke-width="2" />
+            <svg
+              v-else-if="dept.iconType === 'server'"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg"
+            >
+              <rect
+                x="12"
+                y="6"
+                width="40"
+                height="20"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <rect
+                x="12"
+                y="30"
+                width="40"
+                height="20"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <circle cx="18" cy="16" r="2" fill="currentColor" />
               <circle cx="18" cy="40" r="2" fill="currentColor" />
-              <line x1="26" y1="16" x2="44" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="26" y1="40" x2="44" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="26"
+                y1="16"
+                x2="44"
+                y2="16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="26"
+                y1="40"
+                x2="44"
+                y2="40"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
 
             <!-- 芯片图标 - 硬件部 -->
-            <svg v-else-if="dept.iconType === 'hardware'" viewBox="0 0 64 64" fill="none"
-              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
+            <svg
+              v-else-if="dept.iconType === 'hardware'"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg"
+            >
               <!-- 芯片主体 -->
-              <rect x="16" y="16" width="32" height="32" rx="2" stroke="currentColor" stroke-width="2" />
+              <rect
+                x="16"
+                y="16"
+                width="32"
+                height="32"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 芯片内部方块 -->
-              <rect x="22" y="22" width="20" height="20" rx="1" stroke="currentColor" stroke-width="1.5" />
+              <rect
+                x="22"
+                y="22"
+                width="20"
+                height="20"
+                rx="1"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
               <!-- 顶部引脚 -->
-              <line x1="24" y1="16" x2="24" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="32" y1="16" x2="32" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="40" y1="16" x2="40" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="24"
+                y1="16"
+                x2="24"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="16"
+                x2="32"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="40"
+                y1="16"
+                x2="40"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
               <!-- 底部引脚 -->
-              <line x1="24" y1="48" x2="24" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="32" y1="48" x2="32" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="40" y1="48" x2="40" y2="54" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="24"
+                y1="48"
+                x2="24"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="48"
+                x2="32"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="40"
+                y1="48"
+                x2="40"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
               <!-- 左侧引脚 -->
-              <line x1="16" y1="24" x2="10" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="16" y1="32" x2="10" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="16" y1="40" x2="10" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="16"
+                y1="24"
+                x2="10"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="16"
+                y1="32"
+                x2="10"
+                y2="32"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="16"
+                y1="40"
+                x2="10"
+                y2="40"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
               <!-- 右侧引脚 -->
-              <line x1="48" y1="24" x2="54" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="48" y1="32" x2="54" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <line x1="48" y1="40" x2="54" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="48"
+                y1="24"
+                x2="54"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="48"
+                y1="32"
+                x2="54"
+                y2="32"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="48"
+                y1="40"
+                x2="54"
+                y2="40"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
 
             <!-- 组织管理图标 - 组织部 -->
-            <svg v-else-if="dept.iconType === 'organize'" viewBox="0 0 64 64" fill="none"
-              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
+            <svg
+              v-else-if="dept.iconType === 'organize'"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg"
+            >
               <!-- 中心圆环 -->
               <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
               <!-- 下方连接线 -->
@@ -132,19 +312,47 @@ const departments: Department[] = [
             </svg>
 
             <!-- 盾牌与锁图标 - 安全部 -->
-            <svg v-else-if="dept.iconType === 'security'" viewBox="0 0 64 64" fill="none"
-              xmlns="http://www.w3.org/2000/svg" class="icon-svg">
+            <svg
+              v-else-if="dept.iconType === 'security'"
+              viewBox="0 0 64 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon-svg"
+            >
               <!-- 盾牌轮廓 -->
-              <path d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z" stroke="currentColor" stroke-width="2"
-                stroke-linejoin="round" />
+              <path
+                d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
               <!-- 锁体 -->
-              <rect x="24" y="30" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+              <rect
+                x="24"
+                y="30"
+                width="16"
+                height="14"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 锁梁 -->
-              <path d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30" stroke="currentColor"
-                stroke-width="2" />
+              <path
+                d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 钥匙孔 -->
               <circle cx="32" cy="36" r="2" fill="currentColor" />
-              <line x1="32" y1="38" x2="32" y2="42" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="32"
+                y1="38"
+                x2="32"
+                y2="42"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
           </div>
 
