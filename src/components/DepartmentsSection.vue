@@ -144,7 +144,7 @@ const departments: Department[] = [
               />
             </svg>
 
-            <!-- PCB/硬件图标 - 硬件部 -->
+            <!-- 芯片图标 - 硬件部 -->
             <svg
               v-else-if="dept.iconType === 'hardware'"
               viewBox="0 0 64 64"
@@ -152,24 +152,138 @@ const departments: Department[] = [
               xmlns="http://www.w3.org/2000/svg"
               class="icon-svg"
             >
+              <!-- 芯片主体 -->
               <rect
-                x="8"
-                y="12"
-                width="48"
-                height="40"
+                x="16"
+                y="16"
+                width="32"
+                height="32"
                 rx="2"
                 stroke="currentColor"
                 stroke-width="2"
               />
-              <circle cx="20" cy="24" r="3" stroke="currentColor" stroke-width="1.5" />
-              <circle cx="44" cy="24" r="3" stroke="currentColor" stroke-width="1.5" />
-              <circle cx="20" cy="40" r="3" stroke="currentColor" stroke-width="1.5" />
-              <circle cx="44" cy="40" r="3" stroke="currentColor" stroke-width="1.5" />
-              <circle cx="32" cy="32" r="4" stroke="currentColor" stroke-width="1.5" />
-              <line x1="23" y1="24" x2="41" y2="24" stroke="currentColor" stroke-width="1.5" />
-              <line x1="23" y1="40" x2="41" y2="40" stroke="currentColor" stroke-width="1.5" />
-              <line x1="20" y1="27" x2="20" y2="37" stroke="currentColor" stroke-width="1.5" />
-              <line x1="44" y1="27" x2="44" y2="37" stroke="currentColor" stroke-width="1.5" />
+              <!-- 芯片内部方块 -->
+              <rect
+                x="22"
+                y="22"
+                width="20"
+                height="20"
+                rx="1"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <!-- 顶部引脚 -->
+              <line
+                x1="24"
+                y1="16"
+                x2="24"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="16"
+                x2="32"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="40"
+                y1="16"
+                x2="40"
+                y2="10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- 底部引脚 -->
+              <line
+                x1="24"
+                y1="48"
+                x2="24"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="48"
+                x2="32"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="40"
+                y1="48"
+                x2="40"
+                y2="54"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- 左侧引脚 -->
+              <line
+                x1="16"
+                y1="24"
+                x2="10"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="16"
+                y1="32"
+                x2="10"
+                y2="32"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="16"
+                y1="40"
+                x2="10"
+                y2="40"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- 右侧引脚 -->
+              <line
+                x1="48"
+                y1="24"
+                x2="54"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="48"
+                y1="32"
+                x2="54"
+                y2="32"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="48"
+                y1="40"
+                x2="54"
+                y2="40"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
 
             <!-- 组织管理图标 - 组织部 -->
