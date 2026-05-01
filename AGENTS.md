@@ -153,6 +153,26 @@
   - 标题: 近年参赛获奖
   - 备注: 很多还在整理当中，下面展示是2022、2021、2020年国家级、省部级获奖的一部分......
 
+
+### 方向页面
+
+原理大概是通过 md 渲染方向介绍
+
+- 内容模板
+  - 标题: 方向标题
+  - 内容: markdown 渲染
+
+数据
+- 网站开发: `public/docs/Web.md`
+- 小程序开发: `public/docs/Applet.md`
+- UI设计: `public/docs/UI.md`
+- 视频剪辑: `public/docs/Video.md`
+- APP开发: `public/docs/Android.md`
+- 游戏开发: `public/docs/Game.md`
+- 嵌入式开发: `public/docs/Embedded.md`
+- 深度学习: `public/docs/MachineLearning.md`
+
+
 ## AGENT 约束
 
 每次完成任务后
@@ -176,6 +196,8 @@
 - Eslint: 前端代码规范
 - Prettier: 前端代码格式化
 - Three.js: 前端3D渲染
+- remark: 前端Markdown渲染
+  - remark-gfm: 支持GFM Markdown扩展语法
 
 ## 组件清单
 
