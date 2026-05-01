@@ -11,7 +11,7 @@ import {
   Binary,
   LockKeyhole,
   ShieldAlert,
-  Swords,
+  Bug,
 } from 'lucide-vue-next'
 
 interface LearningDirection {
@@ -32,7 +32,7 @@ const directions: LearningDirection[] = [
   { id: 'reverse', name: '逆向工程', icon: Binary },
   { id: 'crypto', name: '密码学', icon: LockKeyhole },
   { id: 'websecurity', name: 'Web安全', icon: ShieldAlert },
-  { id: 'pwn', name: 'PWN', icon: Swords },
+  { id: 'pwn', name: 'PWN', icon: Bug },
 ]
 </script>
 
