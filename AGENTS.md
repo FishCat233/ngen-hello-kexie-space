@@ -4,6 +4,13 @@
 
 ## 页面设计
 
+全局数据
+
+QQ 群: https://api.kexie.space/recruitment-qq-group
+QQ 频道: https://pd.qq.com/s/5pxzsijx0
+OJ(练习编程): https://oj.kexie.space
+知识库: https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb
+
 导航栏
 
 - 位置: 固定顶部，z-index 1000
