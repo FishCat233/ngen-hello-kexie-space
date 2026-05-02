@@ -49,7 +49,7 @@ const navMenu: NavItem[] = [
           { label: 'UI设计', href: '/direction/ui' },
           { label: '视频剪辑', href: '/direction/video' },
           { label: '小程序开发', href: '/direction/applet' },
-          { label: '编辑方向', href: '/direction/editing' },
+          { label: '编辑', href: '/direction/editing' },
         ],
       },
       {
