@@ -94,7 +94,7 @@ const navMenu: NavItem[] = [
     label: '更多',
     href: '#',
     children: [
-      { label: '近年获奖情况', href: '#' },
+      { label: '近年获奖情况', href: '/awards' },
       { label: '项目活动', href: '/projects' },
     ],
   },
@@ -114,7 +114,7 @@ const handleNavigation = (href: string) => {
   if (href.startsWith('http')) {
     // 外部链接跳转
     window.open(href, '_blank')
-  } else if (href.startsWith('/direction/') || href.startsWith('/projects')) {
+  } else if (href.startsWith('/')) {
     // 内部页面路由跳转
     router.push(href)
   } else if (href.startsWith('#')) {

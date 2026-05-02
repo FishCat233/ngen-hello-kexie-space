@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DirectionView from '../views/DirectionView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
+import AwardsView from '../views/AwardsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +16,11 @@ const router = createRouter({
       path: '/projects',
       name: 'Projects',
       component: ProjectsView,
+    },
+    {
+      path: '/awards',
+      name: 'Awards',
+      component: AwardsView,
     },
   ],
   scrollBehavior() {
