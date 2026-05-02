@@ -31,26 +31,16 @@ const handleAvatarError = (index: number) => {
 
       <div class="projects-header">
         <h1 class="projects-title">科协优秀项目</h1>
-        <p class="projects-subtitle">科协成员开发的优秀开源项目</p>
+        <p class="projects-subtitle">科协成员开发的优秀项目</p>
       </div>
 
       <div class="projects-grid">
-        <div
-          v-for="(project, index) in projects"
-          :key="project.name"
-          class="project-card"
-          @click="openProject(project.url)"
-        >
+        <div v-for="(project, index) in projects" :key="project.name" class="project-card"
+          @click="openProject(project.url)">
           <div class="project-author">
             <div class="author-avatar-wrapper">
-              <img
-                v-if="!avatarErrors[index]"
-                ref="avatarRefs"
-                :src="project.authorAvatar"
-                :alt="project.author"
-                class="author-avatar"
-                @error="handleAvatarError(index)"
-              />
+              <img v-if="!avatarErrors[index]" ref="avatarRefs" :src="project.authorAvatar" :alt="project.author"
+                class="author-avatar" @error="handleAvatarError(index)" />
               <div v-else class="author-avatar-placeholder">
                 <User :size="20" />
               </div>
@@ -69,10 +59,7 @@ const handleAvatarError = (index: number) => {
 
             <div class="project-meta">
               <div class="project-language">
-                <span
-                  class="language-dot"
-                  :style="{ backgroundColor: project.languageColor }"
-                ></span>
+                <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
                 <span class="language-name">{{ project.language }}</span>
               </div>
             </div>
