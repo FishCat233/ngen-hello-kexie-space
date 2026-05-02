@@ -45,12 +45,21 @@ const handleDemoAvatarError = (index: number) => {
         </div>
 
         <div class="projects-grid">
-          <div v-for="(project, index) in projects" :key="project.name" class="project-card"
-            @click="openProject(project.url)">
+          <div
+            v-for="(project, index) in projects"
+            :key="project.name"
+            class="project-card"
+            @click="openProject(project.url)"
+          >
             <div class="project-author">
               <div class="author-avatar-wrapper">
-                <img v-if="!avatarErrors[index]" :src="project.authorAvatar" :alt="project.author" class="author-avatar"
-                  @error="handleAvatarError(index)" />
+                <img
+                  v-if="!avatarErrors[index]"
+                  :src="project.authorAvatar"
+                  :alt="project.author"
+                  class="author-avatar"
+                  @error="handleAvatarError(index)"
+                />
                 <div v-else class="author-avatar-placeholder">
                   <User :size="20" />
                 </div>
@@ -64,12 +73,17 @@ const handleDemoAvatarError = (index: number) => {
                   {{ project.name }}
                   <ExternalLink :size="16" class="project-link-icon" />
                 </h3>
-                <p class="project-description" :title="project.description">{{ project.description }}</p>
+                <p class="project-description" :title="project.description">
+                  {{ project.description }}
+                </p>
               </div>
 
               <div class="project-meta">
                 <div class="project-language">
-                  <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                  <span
+                    class="language-dot"
+                    :style="{ backgroundColor: project.languageColor }"
+                  ></span>
                   <span class="language-name">{{ project.language }}</span>
                 </div>
               </div>
@@ -85,12 +99,21 @@ const handleDemoAvatarError = (index: number) => {
         </div>
 
         <div class="projects-grid">
-          <div v-for="(project, index) in demoProjects" :key="project.name" class="project-card"
-            @click="openProject(project.url)">
+          <div
+            v-for="(project, index) in demoProjects"
+            :key="project.name"
+            class="project-card"
+            @click="openProject(project.url)"
+          >
             <div class="project-author">
               <div class="author-avatar-wrapper">
-                <img v-if="!demoAvatarErrors[index]" :src="project.authorAvatar" :alt="project.author"
-                  class="author-avatar" @error="handleDemoAvatarError(index)" />
+                <img
+                  v-if="!demoAvatarErrors[index]"
+                  :src="project.authorAvatar"
+                  :alt="project.author"
+                  class="author-avatar"
+                  @error="handleDemoAvatarError(index)"
+                />
                 <div v-else class="author-avatar-placeholder">
                   <User :size="20" />
                 </div>
@@ -104,12 +127,17 @@ const handleDemoAvatarError = (index: number) => {
                   {{ project.name }}
                   <ExternalLink :size="16" class="project-link-icon" />
                 </h3>
-                <p class="project-description" :title="project.description">{{ project.description }}</p>
+                <p class="project-description" :title="project.description">
+                  {{ project.description }}
+                </p>
               </div>
 
               <div class="project-meta">
                 <div class="project-language">
-                  <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                  <span
+                    class="language-dot"
+                    :style="{ backgroundColor: project.languageColor }"
+                  ></span>
                   <span class="language-name">{{ project.language }}</span>
                 </div>
               </div>

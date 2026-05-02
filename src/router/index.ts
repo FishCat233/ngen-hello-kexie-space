@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DirectionView from '../views/DirectionView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
 import AwardsView from '../views/AwardsView.vue'
+import CommentsView from '../views/CommentsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/awards',
       name: 'Awards',
       component: AwardsView,
+    },
+    {
+      path: '/comments',
+      name: 'Comments',
+      component: CommentsView,
     },
   ],
   scrollBehavior() {

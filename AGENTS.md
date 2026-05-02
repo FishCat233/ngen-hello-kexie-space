@@ -54,6 +54,7 @@ OJ(练习编程): https://oj.kexie.space
 - 更多
   - 近年获奖情况
   - 项目活动
+  - 畅心所言
 
 ### 主页面
 
@@ -216,7 +217,7 @@ OJ(练习编程): https://oj.kexie.space
         - 姓名
           - ...
 
-### 项目活动
+### 项目活动页面
 
 同样数据和渲染分离. 方便后面把数据抽出去成为 Serverless 函数方便更新.
 
@@ -266,6 +267,23 @@ OJ(练习编程): https://oj.kexie.space
     - 描述: 近年科协成员在学习中开发的部分演示项目
     - 模板: 同上
 
+
+### 畅心所言页面
+
+基于 Github Issue 实现评论功能.
+
+数据来源: https://github.com/sanyuankexie/hello.kexie.space/issues/6
+
+注意防止注入攻击.
+
+- 内容
+  - 标题: 畅心所言
+  - 描述: 在此留下您的心声吧~
+  - 列表
+    - 评论模板:
+      - 评论作者 Github 头像
+      - 评论时间
+      - 评论内容
 
 ## AGENT 约束
 
