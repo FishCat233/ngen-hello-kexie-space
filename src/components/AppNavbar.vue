@@ -30,6 +30,11 @@ const navMenu: NavItem[] = [
     id: 'home',
     label: '首页',
     href: '#home',
+    children: [
+      { label: '部门介绍', href: '#departments' },
+      { label: '学习方向', href: '#learning' },
+      { label: '加入我们', href: '#recruitment' },
+    ],
   },
   {
     id: 'departments',
