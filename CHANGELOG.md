@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.1.0...v1.2.0) (2026-05-02)
+
+
+### Features
+
+* 添加编辑方向 ([0807e86](https://github.com/FishCat233/ngen-hello-kexie-space/commit/0807e863b810f4f9a8050e90c72c78531ce6d225))
+
+
+### Bug Fixes
+
+* 导航栏「编辑方向」改成「编辑」 ([2c8dbc8](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2c8dbc893746163facebe981b838c85a43cc7e36))
+
 ## [1.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.0.1...v1.1.0) (2026-05-02)
 
 
