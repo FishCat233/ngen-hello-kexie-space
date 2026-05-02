@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ExternalLink, User } from 'lucide-vue-next'
 import { projects } from '../data/projects'
 
 const router = useRouter()
-const avatarRefs = useTemplateRef<HTMLImageElement[]>('avatarRefs')
 const avatarErrors = ref<Record<number, boolean>>({})
 
 const goBack = () => {
@@ -35,22 +34,12 @@ const handleAvatarError = (index: number) => {
       </div>
 
       <div class="projects-grid">
-        <div
-          v-for="(project, index) in projects"
-          :key="project.name"
-          class="project-card"
-          @click="openProject(project.url)"
-        >
+        <div v-for="(project, index) in projects" :key="project.name" class="project-card"
+          @click="openProject(project.url)">
           <div class="project-author">
             <div class="author-avatar-wrapper">
-              <img
-                v-if="!avatarErrors[index]"
-                ref="avatarRefs"
-                :src="project.authorAvatar"
-                :alt="project.author"
-                class="author-avatar"
-                @error="handleAvatarError(index)"
-              />
+              <img v-if="!avatarErrors[index]" :src="project.authorAvatar" :alt="project.author" class="author-avatar"
+                @error="handleAvatarError(index)" />
               <div v-else class="author-avatar-placeholder">
                 <User :size="20" />
               </div>
@@ -69,10 +58,7 @@ const handleAvatarError = (index: number) => {
 
             <div class="project-meta">
               <div class="project-language">
-                <span
-                  class="language-dot"
-                  :style="{ backgroundColor: project.languageColor }"
-                ></span>
+                <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
                 <span class="language-name">{{ project.language }}</span>
               </div>
             </div>
