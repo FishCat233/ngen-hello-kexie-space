@@ -34,8 +34,8 @@ const handleDemoAvatarError = (index: number) => {
       </button>
 
       <div class="projects-header">
-        <h1 class="projects-title">科协优秀项目</h1>
-        <p class="projects-subtitle">科协成员开发的优秀项目</p>
+        <h1 class="projects-title">科协项目活动</h1>
+        <p class="projects-subtitle">科协成员的部分项目活动</p>
       </div>
 
       <div class="projects-section">
@@ -81,7 +81,7 @@ const handleDemoAvatarError = (index: number) => {
       <div class="projects-section">
         <div class="section-header">
           <h2 class="section-title">学习演示项目</h2>
-          <p class="section-subtitle">近年科协成员在学习中开发的演示项目</p>
+          <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
         </div>
 
         <div class="projects-grid">

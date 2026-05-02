@@ -12,7 +12,7 @@ const languageColors: Record<string, string> = {
   Dart: '#00B4AB',
   Flutter: '#00B4AB',
   Kotlin: '#7F52FF',
-  Java: '#007396',
+  Java: '#E76F00',
   Python: '#3776AB',
   TypeScript: '#3178C6',
   JavaScript: '#F7DF1E',
@@ -104,6 +104,36 @@ export const projects: Project[] = [
     language: 'Python',
     languageColor: languageColors.Python,
     url: 'https://github.com/FishCat233/VideoSlim',
+  },
+]
+
+export const demoProjects: Project[] = [
+  {
+    author: 'FishCat233',
+    authorAvatar: 'https://github.com/fishcat233.png',
+    name: 'dcgan-mnist',
+    description: '一种DCGAN的实现，以MNIST的手写数字生成为例.',
+    language: 'Python',
+    languageColor: languageColors.Python,
+    url: 'https://github.com/FishCat233/dcgan-mnist',
+  },
+  {
+    author: 'FishCat233',
+    authorAvatar: 'https://github.com/fishcat233.png',
+    name: 'hyper-big-ball',
+    description: 'Trae On Campus 比赛作品，网页游戏合个🥚',
+    language: 'React',
+    languageColor: languageColors.React,
+    url: 'https://github.com/FishCat233/hyper-big-ball',
+  },
+  {
+    author: 'FishCat233',
+    authorAvatar: 'https://github.com/fishcat233.png',
+    name: 'FishONU',
+    description: '一个基于 Unity 的多人在线 UNO 卡牌游戏.',
+    language: 'C#(Unity)',
+    languageColor: languageColors['C#'],
+    url: 'https://github.com/FishCat233/FishONU',
   },
 ]
 
