@@ -13,6 +13,7 @@ import {
   LockKeyhole,
   ShieldAlert,
   Bug,
+  BookOpen,
 } from 'lucide-vue-next'
 
 const router = useRouter()
@@ -36,6 +37,7 @@ const directions: LearningDirection[] = [
   { id: 'crypto', name: '密码学', icon: LockKeyhole },
   { id: 'websecurity', name: 'Web安全', icon: ShieldAlert },
   { id: 'pwn', name: 'PWN', icon: Bug },
+  { id: 'editing', name: '编辑', icon: BookOpen },
 ]
 
 const navigateToDirection = (id: string) => {
