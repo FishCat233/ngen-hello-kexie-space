@@ -201,7 +201,7 @@ onMounted(() => {
 .comments-container {
   position: relative;
   z-index: 10;
-  max-width: 800px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -328,9 +328,10 @@ onMounted(() => {
 }
 
 .comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+  align-items: start;
 }
 
 .comment-card {
@@ -343,6 +344,7 @@ onMounted(() => {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   overflow: hidden;
+  break-inside: avoid;
 }
 
 .comment-glow {
@@ -594,6 +596,19 @@ onMounted(() => {
 .github-link-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(130, 212, 242, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .comments-list {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .comments-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
