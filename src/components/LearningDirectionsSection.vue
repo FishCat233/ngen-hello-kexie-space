@@ -75,7 +75,7 @@ const navigateToDirection = (id: string) => {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  background: linear-gradient(180deg, #04080c 0%, #0a1520 50%, #04080c 100%);
+  background: transparent;
 }
 
 .learning-container {

@@ -240,7 +240,7 @@ onUnmounted(() => {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 15;
+  z-index: 5;
   overflow: hidden;
 }
 

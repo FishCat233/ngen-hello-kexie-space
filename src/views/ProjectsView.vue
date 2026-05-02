@@ -28,7 +28,12 @@ const openProject = (url: string) => {
       </div>
 
       <div class="projects-grid">
-        <div v-for="project in projects" :key="project.name" class="project-card" @click="openProject(project.url)">
+        <div
+          v-for="project in projects"
+          :key="project.name"
+          class="project-card"
+          @click="openProject(project.url)"
+        >
           <div class="project-author">
             <img :src="project.authorAvatar" :alt="project.author" class="author-avatar" />
             <span class="author-name">{{ project.author }}</span>
@@ -45,7 +50,10 @@ const openProject = (url: string) => {
 
             <div class="project-meta">
               <div class="project-language">
-                <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                <span
+                  class="language-dot"
+                  :style="{ backgroundColor: project.languageColor }"
+                ></span>
                 <span class="language-name">{{ project.language }}</span>
               </div>
             </div>
