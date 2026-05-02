@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ref, useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { ArrowLeft, ExternalLink } from 'lucide-vue-next'
+import { ArrowLeft, ExternalLink, User } from 'lucide-vue-next'
 import { projects } from '../data/projects'
 
 const router = useRouter()
+const avatarRefs = useTemplateRef<HTMLImageElement[]>('avatarRefs')
+const avatarErrors = ref<Record<number, boolean>>({})
 
 const goBack = () => {
   router.push('/')
@@ -11,6 +14,10 @@ const goBack = () => {
 
 const openProject = (url: string) => {
   window.open(url, '_blank')
+}
+
+const handleAvatarError = (index: number) => {
+  avatarErrors.value[index] = true
 }
 </script>
 
@@ -29,13 +36,25 @@ const openProject = (url: string) => {
 
       <div class="projects-grid">
         <div
-          v-for="project in projects"
+          v-for="(project, index) in projects"
           :key="project.name"
           class="project-card"
           @click="openProject(project.url)"
         >
           <div class="project-author">
-            <img :src="project.authorAvatar" :alt="project.author" class="author-avatar" />
+            <div class="author-avatar-wrapper">
+              <img
+                v-if="!avatarErrors[index]"
+                ref="avatarRefs"
+                :src="project.authorAvatar"
+                :alt="project.author"
+                class="author-avatar"
+                @error="handleAvatarError(index)"
+              />
+              <div v-else class="author-avatar-placeholder">
+                <User :size="20" />
+              </div>
+            </div>
             <span class="author-name">{{ project.author }}</span>
           </div>
 
@@ -150,12 +169,32 @@ const openProject = (url: string) => {
   margin-bottom: 16px;
 }
 
-.author-avatar {
+.author-avatar-wrapper {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.author-avatar {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border: 2px solid rgba(130, 212, 242, 0.3);
+  border-radius: 50%;
+}
+
+.author-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(130, 212, 242, 0.1);
+  border: 2px solid rgba(130, 212, 242, 0.3);
+  border-radius: 50%;
+  color: var(--color-blue);
 }
 
 .author-name {
