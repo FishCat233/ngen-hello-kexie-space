@@ -101,8 +101,9 @@ const navigateToDirection = (id: string) => {
 }
 
 .learning-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
   width: 100%;
 }
@@ -118,6 +119,8 @@ const navigateToDirection = (id: string) => {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   cursor: pointer;
+  flex: 0 1 calc(25% - 18px);
+  max-width: 280px;
 }
 
 .learning-card:hover {
@@ -157,12 +160,13 @@ const navigateToDirection = (id: string) => {
   }
 
   .learning-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
 
   .learning-card {
     padding: 24px 16px;
+    flex: 0 1 calc(33.333% - 11px);
+    max-width: 240px;
   }
 
   .learning-icon {
@@ -182,7 +186,12 @@ const navigateToDirection = (id: string) => {
 
 @media (max-width: 768px) {
   .learning-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .learning-card {
+    flex: 0 1 calc(50% - 6px);
+    padding: 20px 12px;
   }
 }
 
@@ -191,8 +200,12 @@ const navigateToDirection = (id: string) => {
     font-size: 28px;
   }
 
+  .learning-grid {
+    gap: 8px;
+  }
+
   .learning-card {
-    padding: 20px 12px;
+    padding: 16px 8px;
   }
 
   .learning-icon {
@@ -204,6 +217,10 @@ const navigateToDirection = (id: string) => {
   .learning-icon > * {
     width: 36px !important;
     height: 36px !important;
+  }
+
+  .learning-name {
+    font-size: 13px;
   }
 }
 </style>
