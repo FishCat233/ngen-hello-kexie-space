@@ -231,13 +231,19 @@ OJ(练习编程): https://oj.kexie.space
       title: "GUET 校园圈",
       description: "可以查看课表等教务信息，支持安卓和IOS",
     },
+  ],
+  "demoProjects": [
+    ...
   ]
 }
 ```
 
 - 内容
+  - 标题: 科协项目活动
+  - 备注: 科协成员的部分项目活动
   - 内容组
     - 标题: 科协优秀项目
+    - 科协成员开发的优秀项目
     - 模板
       - 作者 Github 头像
       - 标题: 项目名称
@@ -255,6 +261,10 @@ OJ(练习编程): https://oj.kexie.space
           - 🚀基于Litho的Android高性能动态业务容器。
           - Kotlin
           - https://github.com/sanyuankexie/Flexml
+  - 内容组
+    - 标题: 学习演示项目
+    - 描述: 近年科协成员在学习中开发的部分演示项目
+    - 模板: 同上
 
 
 ## AGENT 约束
