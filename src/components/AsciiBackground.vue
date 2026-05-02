@@ -163,12 +163,12 @@ const animate = () => {
   if (!isActive) return
   animationId = requestAnimationFrame(animate)
 
-  targetRotationY = mouseX * 0.001
-  targetRotationX = mouseY * 0.001
+  targetRotationY = mouseX * 0.002
+  targetRotationX = mouseY * 0.002
 
   if (buildingGroup) {
-    buildingGroup.rotation.y += 0.05 * (targetRotationY - buildingGroup.rotation.y)
-    buildingGroup.rotation.x += 0.05 * (targetRotationX - buildingGroup.rotation.x)
+    buildingGroup.rotation.y += 0.1 * (targetRotationY - buildingGroup.rotation.y)
+    buildingGroup.rotation.x += 0.1 * (targetRotationX - buildingGroup.rotation.x)
     buildingGroup.rotation.y += 0.002
   }
 
