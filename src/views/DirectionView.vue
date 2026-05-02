@@ -102,8 +102,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 
 <style scoped>
 .direction-page {
+  position: relative;
+  z-index: 10;
   min-height: 100vh;
-  background: #04080c;
+  background: transparent;
   padding: 80px 20px 40px;
 }
 
@@ -179,10 +181,12 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-content {
+  position: relative;
   background: rgba(130, 212, 242, 0.03);
   border: 1px solid rgba(130, 212, 242, 0.1);
   border-radius: 16px;
   padding: 40px;
+  backdrop-filter: blur(10px);
 }
 
 .direction-title {

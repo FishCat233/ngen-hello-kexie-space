@@ -20,9 +20,7 @@ const goBack = () => {
 
       <div class="awards-header">
         <h1 class="awards-title">近年获奖情况</h1>
-        <p class="awards-subtitle">
-          很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分
-        </p>
+        <p class="awards-subtitle">很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分</p>
       </div>
 
       <div class="awards-grid">
@@ -36,8 +34,12 @@ const goBack = () => {
 
           <div class="award-content">
             <div class="award-levels">
-              <div v-for="(count, level) in award.award" :key="level" class="award-level"
-                :style="{ borderColor: getAwardLevelColor(level) }">
+              <div
+                v-for="(count, level) in award.award"
+                :key="level"
+                class="award-level"
+                :style="{ borderColor: getAwardLevelColor(level) }"
+              >
                 <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
                   {{ count }}人
                 </span>
@@ -65,8 +67,10 @@ const goBack = () => {
 
 <style scoped>
 .awards-page {
+  position: relative;
+  z-index: 10;
   min-height: 100vh;
-  background: #04080c;
+  background: transparent;
   padding: 80px 20px 40px;
 }
 
@@ -127,11 +131,13 @@ const goBack = () => {
 }
 
 .award-card {
+  position: relative;
   background: rgba(130, 212, 242, 0.03);
   border: 1px solid rgba(130, 212, 242, 0.1);
   border-radius: 16px;
   padding: 24px;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .award-card:hover {

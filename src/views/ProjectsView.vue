@@ -35,12 +35,22 @@ const handleAvatarError = (index: number) => {
       </div>
 
       <div class="projects-grid">
-        <div v-for="(project, index) in projects" :key="project.name" class="project-card"
-          @click="openProject(project.url)">
+        <div
+          v-for="(project, index) in projects"
+          :key="project.name"
+          class="project-card"
+          @click="openProject(project.url)"
+        >
           <div class="project-author">
             <div class="author-avatar-wrapper">
-              <img v-if="!avatarErrors[index]" ref="avatarRefs" :src="project.authorAvatar" :alt="project.author"
-                class="author-avatar" @error="handleAvatarError(index)" />
+              <img
+                v-if="!avatarErrors[index]"
+                ref="avatarRefs"
+                :src="project.authorAvatar"
+                :alt="project.author"
+                class="author-avatar"
+                @error="handleAvatarError(index)"
+              />
               <div v-else class="author-avatar-placeholder">
                 <User :size="20" />
               </div>
@@ -59,7 +69,10 @@ const handleAvatarError = (index: number) => {
 
             <div class="project-meta">
               <div class="project-language">
-                <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                <span
+                  class="language-dot"
+                  :style="{ backgroundColor: project.languageColor }"
+                ></span>
                 <span class="language-name">{{ project.language }}</span>
               </div>
             </div>
@@ -72,8 +85,10 @@ const handleAvatarError = (index: number) => {
 
 <style scoped>
 .projects-page {
+  position: relative;
+  z-index: 10;
   min-height: 100vh;
-  background: #04080c;
+  background: transparent;
   padding: 80px 20px 40px;
 }
 
@@ -134,12 +149,14 @@ const handleAvatarError = (index: number) => {
 }
 
 .project-card {
+  position: relative;
   background: rgba(130, 212, 242, 0.03);
   border: 1px solid rgba(130, 212, 242, 0.1);
   border-radius: 16px;
   padding: 24px;
   cursor: pointer;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .project-card:hover {
