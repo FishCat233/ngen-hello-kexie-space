@@ -21,6 +21,8 @@ export async function fetchComments(): Promise<CommentsResponse> {
     }
 
     const comments: Comment[] = await response.json()
+    // 按时间倒序排序，最新的评论在前
+    comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     return { comments, error: null }
   } catch (err) {
     return {
