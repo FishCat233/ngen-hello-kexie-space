@@ -53,7 +53,7 @@ const handleAvatarError = (index: number) => {
                 {{ project.name }}
                 <ExternalLink :size="16" class="project-link-icon" />
               </h3>
-              <p class="project-description">{{ project.description }}</p>
+              <p class="project-description" :title="project.description">{{ project.description }}</p>
             </div>
 
             <div class="project-meta">
