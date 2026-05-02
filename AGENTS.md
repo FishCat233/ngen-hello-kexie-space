@@ -51,6 +51,9 @@ OJ(练习编程): https://oj.kexie.space
 - 招新
   - QQ 群
   - QQ 频道
+- 更多
+  - 近年获奖情况
+  - 项目活动
 
 ### 主页面
 
@@ -178,6 +181,50 @@ OJ(练习编程): https://oj.kexie.space
 - 游戏开发: `public/docs/Game.md`
 - 嵌入式开发: `public/docs/Embedded.md`
 - 深度学习: `public/docs/MachineLearning.md`
+
+### 近年获奖情况
+
+TODO
+
+### 项目活动
+
+同样数据和渲染分离. 方便后面把数据抽出去成为 Serverless 函数方便更新.
+
+示例数据
+```json
+{
+  "projects": [
+    {
+      name: "wilinz",
+      url: "https://www.guethub.net/",
+      language: "Dart(Flutter)",
+      title: "GUET 校园圈",
+      description: "可以查看课表等教务信息，支持安卓和IOS",
+    },
+  ]
+}
+```
+
+- 内容
+  - 内容组
+    - 标题: 科协优秀项目
+    - 模板
+      - 作者 Github 头像
+      - 标题: 项目名称
+        - 可点击跳转项目页面
+      - 简介: 项目介绍
+      - 右侧: 项目语言
+        - 语言 LOGO, 颜色是语言代表色
+    - 数据
+        - wilinz
+          - GUET 校园圈
+          - 可以查看课表等教务信息，支持安卓和IOS
+          - Dart(Flutter)
+        - LukeXeon
+          - Flexml
+          - 🚀基于Litho的Android高性能动态业务容器。
+          - Kotlin
+          - https://github.com/sanyuankexie/Flexml
 
 
 ## AGENT 约束
