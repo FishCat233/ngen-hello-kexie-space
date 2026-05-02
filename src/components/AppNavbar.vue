@@ -295,7 +295,13 @@ onUnmounted(() => {
           <!-- 移动端子菜单 -->
           <div v-if="item.children" class="mobile-submenu">
             <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
-              <span class="mobile-submenu-title">{{ child.label }}</span>
+              <a
+                :href="child.href"
+                class="mobile-submenu-title mobile-submenu-title-link"
+                @click.prevent="handleNavigation(child.href)"
+              >
+                {{ child.label }}
+              </a>
               <div v-if="child.children" class="mobile-submenu-items">
                 <a
                   v-for="(subChild, subIndex) in child.children"
@@ -615,6 +621,17 @@ onUnmounted(() => {
   color: var(--color-blue);
   font-size: 14px;
   font-weight: 600;
+}
+
+.mobile-submenu-title-link {
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.mobile-submenu-title-link:hover {
+  background: rgba(130, 212, 242, 0.1);
 }
 
 .mobile-submenu-items {
