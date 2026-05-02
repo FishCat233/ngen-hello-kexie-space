@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.0.0...v1.0.1) (2026-05-02)
+
+
+### Bug Fixes
+
+* **nav:** 修复非首页锚点跳转问题 ([c941ea9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c941ea99c43a56739d6dadecf98a2ab08eaba158))
+
 ## 1.0.0 (2026-05-01)
 
 
