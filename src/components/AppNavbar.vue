@@ -164,7 +164,10 @@ onUnmounted(() => {
     <div class="navbar-container">
       <!-- Logo -->
       <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
-        <img src="/logo.png" alt="科协LOGO" class="navbar-logo-img" />
+        <picture>
+          <source srcset="/logo.webp" type="image/webp" />
+          <img src="/logo.png" alt="科协LOGO" class="navbar-logo-img" />
+        </picture>
         <span class="navbar-logo-text">桂电三院科协</span>
       </a>
 

@@ -36,7 +36,10 @@ const buttons = [
 
       <!-- 中间：LOGO -->
       <div class="hero-logo-container">
-        <img src="/logo.png" alt="科协LOGO" class="hero-logo" />
+        <picture>
+          <source srcset="/logo.webp" type="image/webp" />
+          <img src="/logo.png" alt="科协LOGO" class="hero-logo" />
+        </picture>
         <!-- 向下延伸的树干线条 -->
         <div class="tree-trunk"></div>
       </div>
