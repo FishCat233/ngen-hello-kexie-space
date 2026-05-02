@@ -2,10 +2,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ExternalLink, User } from 'lucide-vue-next'
-import { projects } from '../data/projects'
+import { projects, demoProjects } from '../data/projects'
 
 const router = useRouter()
 const avatarErrors = ref<Record<number, boolean>>({})
+const demoAvatarErrors = ref<Record<number, boolean>>({})
 
 const goBack = () => {
   router.push('/')
@@ -17,6 +18,10 @@ const openProject = (url: string) => {
 
 const handleAvatarError = (index: number) => {
   avatarErrors.value[index] = true
+}
+
+const handleDemoAvatarError = (index: number) => {
+  demoAvatarErrors.value[index] = true
 }
 </script>
 
@@ -33,33 +38,80 @@ const handleAvatarError = (index: number) => {
         <p class="projects-subtitle">科协成员开发的优秀项目</p>
       </div>
 
-      <div class="projects-grid">
-        <div v-for="(project, index) in projects" :key="project.name" class="project-card"
-          @click="openProject(project.url)">
-          <div class="project-author">
-            <div class="author-avatar-wrapper">
-              <img v-if="!avatarErrors[index]" :src="project.authorAvatar" :alt="project.author" class="author-avatar"
-                @error="handleAvatarError(index)" />
-              <div v-else class="author-avatar-placeholder">
-                <User :size="20" />
+      <div class="projects-section">
+        <div class="section-header">
+          <h2 class="section-title">科协优秀项目</h2>
+          <p class="section-subtitle">科协成员开发的优秀项目</p>
+        </div>
+
+        <div class="projects-grid">
+          <div v-for="(project, index) in projects" :key="project.name" class="project-card"
+            @click="openProject(project.url)">
+            <div class="project-author">
+              <div class="author-avatar-wrapper">
+                <img v-if="!avatarErrors[index]" :src="project.authorAvatar" :alt="project.author" class="author-avatar"
+                  @error="handleAvatarError(index)" />
+                <div v-else class="author-avatar-placeholder">
+                  <User :size="20" />
+                </div>
+              </div>
+              <span class="author-name">{{ project.author }}</span>
+            </div>
+
+            <div class="project-content">
+              <div class="project-main">
+                <h3 class="project-name">
+                  {{ project.name }}
+                  <ExternalLink :size="16" class="project-link-icon" />
+                </h3>
+                <p class="project-description" :title="project.description">{{ project.description }}</p>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-language">
+                  <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                  <span class="language-name">{{ project.language }}</span>
+                </div>
               </div>
             </div>
-            <span class="author-name">{{ project.author }}</span>
           </div>
+        </div>
+      </div>
 
-          <div class="project-content">
-            <div class="project-main">
-              <h3 class="project-name">
-                {{ project.name }}
-                <ExternalLink :size="16" class="project-link-icon" />
-              </h3>
-              <p class="project-description" :title="project.description">{{ project.description }}</p>
+      <div class="projects-section">
+        <div class="section-header">
+          <h2 class="section-title">学习演示项目</h2>
+          <p class="section-subtitle">近年科协成员在学习中开发的演示项目</p>
+        </div>
+
+        <div class="projects-grid">
+          <div v-for="(project, index) in demoProjects" :key="project.name" class="project-card"
+            @click="openProject(project.url)">
+            <div class="project-author">
+              <div class="author-avatar-wrapper">
+                <img v-if="!demoAvatarErrors[index]" :src="project.authorAvatar" :alt="project.author"
+                  class="author-avatar" @error="handleDemoAvatarError(index)" />
+                <div v-else class="author-avatar-placeholder">
+                  <User :size="20" />
+                </div>
+              </div>
+              <span class="author-name">{{ project.author }}</span>
             </div>
 
-            <div class="project-meta">
-              <div class="project-language">
-                <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
-                <span class="language-name">{{ project.language }}</span>
+            <div class="project-content">
+              <div class="project-main">
+                <h3 class="project-name">
+                  {{ project.name }}
+                  <ExternalLink :size="16" class="project-link-icon" />
+                </h3>
+                <p class="project-description" :title="project.description">{{ project.description }}</p>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-language">
+                  <span class="language-dot" :style="{ backgroundColor: project.languageColor }"></span>
+                  <span class="language-name">{{ project.language }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -125,6 +177,32 @@ const handleAvatarError = (index: number) => {
   font-size: 16px;
   color: var(--color-white);
   opacity: 0.7;
+  margin: 0;
+}
+
+.projects-section {
+  margin-bottom: 60px;
+}
+
+.projects-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-header {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-white);
+  margin: 0 0 8px 0;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--color-white);
+  opacity: 0.6;
   margin: 0;
 }
 
