@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.0.1...v1.1.0) (2026-05-02)
+
+
+### Features
+
+* **award:** 添加视觉特效并优化奖项卡片样式 ([5d7718c](https://github.com/FishCat233/ngen-hello-kexie-space/commit/5d7718cdea425d522501c154ab990ea395a695a3))
+* **comment:** 对大屏幕采用 grid 多行多列展示评论 ([58399c7](https://github.com/FishCat233/ngen-hello-kexie-space/commit/58399c7a58909acada6eb83017588a62856fc9ba))
+* **comment:** 按时间倒序排序评论 ([b153cf9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/b153cf99d5412a5e5b12a3e5ab0a22500febbf18))
+* **comment:** 评论页面初版 ([47ca774](https://github.com/FishCat233/ngen-hello-kexie-space/commit/47ca774023c788cd544dbc20e45a1291d989047b))
+* **nav:** 在首页导航菜单中添加子菜单项 ([4cdf6e3](https://github.com/FishCat233/ngen-hello-kexie-space/commit/4cdf6e3ff21aa97e59faeb12066f6190aec46bbb))
+* **projects:** 增加 ([e0235a6](https://github.com/FishCat233/ngen-hello-kexie-space/commit/e0235a6b8757c7a92207b1c1fba37c436ae22af0))
+* **projects:** 更新项目页面标题并添加演示项目数据 ([d83fdb9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/d83fdb9a2dd120be7bfa2e726a03cc68ca6297bc))
+* **projects:** 添加头像加载错误处理及占位显示 ([42ee4f5](https://github.com/FishCat233/ngen-hello-kexie-space/commit/42ee4f5f80445ee30366b85e3238d72cac7fe79c))
+* **projects:** 添加学习演示项目栏目 ([b123d18](https://github.com/FishCat233/ngen-hello-kexie-space/commit/b123d18cbd81c45522b7781c4fb2048d3b912920))
+* **projects:** 添加项目展示页面和导航入口 ([36fba2d](https://github.com/FishCat233/ngen-hello-kexie-space/commit/36fba2dfd29a387098f8a4930ab62f7439c87bce))
+* **projects:** 电脑端增加鼠标悬停展示title ([0661654](https://github.com/FishCat233/ngen-hello-kexie-space/commit/0661654d06070aca4b1d7e42e63b93c1d678d905))
+* 添加获奖情况页面及路由配置 ([12ab131](https://github.com/FishCat233/ngen-hello-kexie-space/commit/12ab13137b2ded5842e19dd9e25abd61f734402c))
+
+
+### Bug Fixes
+
+* **comment:** 评论按钮改成 fix 位置 ([df0367b](https://github.com/FishCat233/ngen-hello-kexie-space/commit/df0367bdcc72a0f639cdbedb9914bbcc1b3dc72d))
+* **nav:** 修复移动端二级分类标题不能点的问题 ([cc5ec8a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/cc5ec8a3030f9e2e998af778e889751146832575))
+* 修复主页面以外的曳光弹深度问题 ([483a44f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/483a44fc691309d3879a3326a2335a74cde7f244))
+* 修复曳光弹的层级问题 ([0684844](https://github.com/FishCat233/ngen-hello-kexie-space/commit/068484441bfe878d2ac582acd41e926fe8a04790))
+* 移除未使用的useTemplateRef ([a749896](https://github.com/FishCat233/ngen-hello-kexie-space/commit/a74989677c10926db17e45079cc57a87b92898e4))
+
 ## [1.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.0.0...v1.0.1) (2026-05-02)
 
 
