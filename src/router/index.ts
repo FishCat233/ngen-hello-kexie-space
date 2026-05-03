@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DirectionView from '../views/DirectionView.vue'
-import ProjectsView from '../views/ProjectsView.vue'
-import AwardsView from '../views/AwardsView.vue'
-import CommentsView from '../views/CommentsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -10,23 +6,23 @@ const router = createRouter({
     {
       path: '/direction/:id',
       name: 'Direction',
-      component: DirectionView,
+      component: () => import('../views/DirectionView.vue'),
       props: true,
     },
     {
       path: '/projects',
       name: 'Projects',
-      component: ProjectsView,
+      component: () => import('../views/ProjectsView.vue'),
     },
     {
       path: '/awards',
       name: 'Awards',
-      component: AwardsView,
+      component: () => import('../views/AwardsView.vue'),
     },
     {
       path: '/comments',
       name: 'Comments',
-      component: CommentsView,
+      component: () => import('../views/CommentsView.vue'),
     },
   ],
   scrollBehavior() {
