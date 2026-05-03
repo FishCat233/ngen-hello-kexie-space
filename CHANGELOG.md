@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.0...v1.3.1) (2026-05-03)
+
+
+### Bug Fixes
+
+* navbar方向分错菜单了 ([6779175](https://github.com/FishCat233/ngen-hello-kexie-space/commit/6779175fe0b438b4da85e0956ed8304b85587721))
+
 ## [1.3.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.2.0...v1.3.0) (2026-05-03)
 
 
