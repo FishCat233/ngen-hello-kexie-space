@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Github, Users, MessageCircle, Radio, Video } from 'lucide-vue-next'
+import { Github, Users, MessageCircle, Radio, Video, ExternalLink } from 'lucide-vue-next'
 import { version } from '../../package.json'
 
 interface ContactLink {
@@ -89,6 +89,14 @@ onUnmounted(() => {
             <div class="footer-info-item">
               <span class="footer-info-label">版本：</span>
               <span class="footer-info-value">v{{ version }}</span>
+            </div>
+            <div
+              class="footer-info-item footer-info-link"
+              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')"
+            >
+              <span class="footer-info-label">Github 仓库：</span>
+              <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
+              <ExternalLink class="footer-info-icon" />
             </div>
             <div class="footer-info-item">
               <span class="footer-info-label">时间：</span>
@@ -232,6 +240,33 @@ onUnmounted(() => {
   color: var(--color-white);
   font-family: var(--mono);
   opacity: 0.6;
+}
+
+.footer-info-link {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer-info-link:hover {
+  background: rgba(130, 212, 242, 0.08);
+  border-color: rgba(130, 212, 242, 0.15);
+}
+
+.footer-info-link:hover .footer-info-label {
+  opacity: 0.9;
+}
+
+.footer-info-link:hover .footer-info-icon {
+  color: var(--color-blue);
+  transform: translate(2px, -2px);
+}
+
+.footer-info-icon {
+  width: 12px;
+  height: 12px;
+  color: var(--color-blue);
+  opacity: 0.6;
+  transition: all 0.3s ease;
 }
 
 .footer-bottom {
