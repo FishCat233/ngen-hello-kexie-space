@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import AppNavbar from './components/AppNavbar.vue'
 import AppFooter from './components/AppFooter.vue'
@@ -7,8 +7,9 @@ import HeroSection from './components/HeroSection.vue'
 import DepartmentsSection from './components/DepartmentsSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
 import RecruitmentSection from './components/RecruitmentSection.vue'
-import AsciiBackground from './components/AsciiBackground.vue'
-import TracerBullet from './components/TracerBullet.vue'
+
+const AsciiBackground = defineAsyncComponent(() => import('./components/AsciiBackground.vue'))
+const TracerBullet = defineAsyncComponent(() => import('./components/TracerBullet.vue'))
 
 const route = useRoute()
 const isHomePage = computed(() => route.path === '/')

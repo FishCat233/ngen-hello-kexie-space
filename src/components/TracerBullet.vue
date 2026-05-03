@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import * as THREE from 'three'
+import {
+  Scene,
+  OrthographicCamera,
+  WebGLRenderer,
+  CanvasTexture,
+  Color,
+  SpriteMaterial,
+  Sprite,
+  AdditiveBlending,
+} from 'three'
 
 const props = defineProps<{
   active: boolean
@@ -8,14 +17,14 @@ const props = defineProps<{
 
 const containerRef = ref<HTMLDivElement | null>(null)
 
-let scene: THREE.Scene
-let camera: THREE.OrthographicCamera
-let renderer: THREE.WebGLRenderer
+let scene: Scene
+let camera: OrthographicCamera
+let renderer: WebGLRenderer
 let animationId: number
 let isActive = true
 
 interface Bullet {
-  mesh: THREE.Sprite
+  mesh: Sprite
   speed: number
   life: number
   maxLife: number
@@ -23,17 +32,17 @@ interface Bullet {
 
 let bullets: Bullet[] = []
 let lastSpawnTime = 0
-let bulletTexture: THREE.CanvasTexture | null = null
+let bulletTexture: CanvasTexture | null = null
 
 const colors = [
-  new THREE.Color('#2e86c1'),
-  new THREE.Color('#3498db'),
-  new THREE.Color('#5dade2'),
-  new THREE.Color('#1abc9c'),
-  new THREE.Color('#48c9b0'),
-  new THREE.Color('#76d7c4'),
-  new THREE.Color('#82d4f2'),
-  new THREE.Color('#6fd0ce'),
+  new Color('#2e86c1'),
+  new Color('#3498db'),
+  new Color('#5dade2'),
+  new Color('#1abc9c'),
+  new Color('#48c9b0'),
+  new Color('#76d7c4'),
+  new Color('#82d4f2'),
+  new Color('#6fd0ce'),
 ]
 
 const init = () => {
@@ -42,12 +51,12 @@ const init = () => {
   const width = window.innerWidth
   const height = window.innerHeight
 
-  scene = new THREE.Scene()
+  scene = new Scene()
 
-  camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000)
+  camera = new OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000)
   camera.position.z = 100
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+  renderer = new WebGLRenderer({ antialias: true, alpha: true })
   renderer.setSize(width, height)
   renderer.setPixelRatio(window.devicePixelRatio)
   containerRef.value.appendChild(renderer.domElement)
@@ -89,7 +98,7 @@ const createBulletTexture = () => {
   ctx.ellipse(64, 480, 10, 20, 0, 0, Math.PI * 2)
   ctx.fill()
 
-  return new THREE.CanvasTexture(canvas)
+  return new CanvasTexture(canvas)
 }
 
 const spawnBullet = () => {
@@ -102,16 +111,16 @@ const spawnBullet = () => {
   const bulletLength = 80 + Math.random() * 100
   const bulletWidth = 3 + Math.random() * 3
 
-  const material = new THREE.SpriteMaterial({
+  const material = new SpriteMaterial({
     map: bulletTexture,
     color: color,
     transparent: true,
     opacity: 0.8 + Math.random() * 0.2,
-    blending: THREE.AdditiveBlending,
+    blending: AdditiveBlending,
     depthWrite: false,
   })
 
-  const sprite = new THREE.Sprite(material)
+  const sprite = new Sprite(material)
   sprite.scale.set(bulletWidth, bulletLength, 1)
   sprite.position.set((Math.random() - 0.5) * width, -height / 2 - bulletLength / 2, 0)
 
@@ -157,13 +166,13 @@ const animate = (currentTime: number) => {
     const topThreshold = height / 2 - 100
     if (bullet.mesh.position.y > topThreshold) {
       bullet.life -= 0.015
-      const material = bullet.mesh.material as THREE.SpriteMaterial
+      const material = bullet.mesh.material as SpriteMaterial
       material.opacity = bullet.life * (0.8 + Math.random() * 0.2)
     }
 
     if (bullet.mesh.position.y > height / 2 + 100 || bullet.life <= 0) {
       scene.remove(bullet.mesh)
-      const material = bullet.mesh.material as THREE.SpriteMaterial
+      const material = bullet.mesh.material as SpriteMaterial
       material.dispose()
       return false
     }
@@ -214,7 +223,7 @@ onUnmounted(() => {
 
   bullets.forEach((bullet) => {
     scene.remove(bullet.mesh)
-    const material = bullet.mesh.material as THREE.SpriteMaterial
+    const material = bullet.mesh.material as SpriteMaterial
     material.dispose()
   })
   bullets = []
