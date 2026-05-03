@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.3.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.2.0...v1.3.0) (2026-05-03)
+
+
+### Features
+
+* **footer:** 添加 GitHub 仓库链接及交互样式 ([7961f8c](https://github.com/FishCat233/ngen-hello-kexie-space/commit/7961f8cf21d3df58bf15ca4d8ac73e3a8eff606c))
+* **footer:** 页脚初版 ([499136c](https://github.com/FishCat233/ngen-hello-kexie-space/commit/499136c22690b3c4cdf25aa91a488cadcac0929d))
+
+
+### Bug Fixes
+
+* **footer:** 修复ascii阻挡页脚鼠标事件，改成了透传 ([f522214](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f52221415d3bdca8c7ec3a1a3e3af045bb60d14f))
+
+
+### Performance Improvements
+
+* **build:** 优化构建输出配置以提升加载性能 ([2b14c0a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2b14c0a228fe109e4e8a0aced203278cfd42852f))
+* 路由改成懒加载，减轻首页加载压力 ([1f49b36](https://github.com/FishCat233/ngen-hello-kexie-space/commit/1f49b36138c15256b5d529456a060a0e2fdfeecb))
+
 ## [1.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.1.0...v1.2.0) (2026-05-02)
 
 
