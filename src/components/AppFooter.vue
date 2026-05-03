@@ -13,7 +13,7 @@ const contactLinks: ContactLink[] = [
   { name: 'Github', url: 'https://github.com/sanyuankexie', icon: 'github' },
   { name: 'QQ 群', url: 'https://api.kexie.space/recruitment-qq-group', icon: 'users' },
   { name: 'QQ 频道', url: 'https://pd.qq.com/s/5pxzsijx0', icon: 'message-circle' },
-  { name: '微信公众号', url: '#', icon: 'radio' },
+  { name: '微信公众号', url: 'https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg', icon: 'radio' },
   { name: 'Bilibili 账号', url: 'https://space.bilibili.com/673693349', icon: 'video' },
 ]
 
@@ -71,8 +71,12 @@ onUnmounted(() => {
         <div class="footer-section">
           <h3 class="footer-title">联系我们</h3>
           <div class="footer-links">
-            <div v-for="link in contactLinks" :key="link.name" class="footer-link-item"
-              @click="handleLinkClick(link.url)">
+            <div
+              v-for="link in contactLinks"
+              :key="link.name"
+              class="footer-link-item"
+              @click="handleLinkClick(link.url)"
+            >
               <component :is="getIconComponent(link.icon)" class="footer-link-icon" />
               <span class="footer-link-text">{{ link.name }}</span>
             </div>
