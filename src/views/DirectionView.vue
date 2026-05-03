@@ -17,25 +17,35 @@ const loading = ref(true)
 const error = ref('')
 
 const directionNames: Record<string, string> = {
-  web: '网站开发',
-  applet: '小程序开发',
-  ui: 'UI设计',
-  video: '视频剪辑',
-  android: 'APP开发',
+  web: '前端开发',
+  backend: '后端开发',
   game: '游戏开发',
-  embedded: '嵌入式开发',
+  android: 'APP开发',
+  ui: 'UI设计',
+  embedded: '硬件开发',
   machinelearning: '深度学习',
+  video: '视频剪辑',
+  reverse: '逆向工程',
+  crypto: '密码学',
+  websecurity: 'Web安全',
+  pwn: 'PWN',
+  editing: '编辑',
 }
 
 const fileNames: Record<string, string> = {
-  web: 'Web.md',
-  applet: 'Applet.md',
-  ui: 'UI.md',
-  video: 'Video.md',
-  android: 'Android.md',
-  game: 'Game.md',
-  embedded: 'Embedded.md',
-  machinelearning: 'MachineLearning.md',
+  web: 'frontend.md',
+  backend: 'backend.md',
+  game: 'game.md',
+  android: 'app.md',
+  ui: 'ui.md',
+  embedded: 'hardware.md',
+  machinelearning: 'deep-learning.md',
+  video: 'media-editing.md',
+  reverse: 'reverse.md',
+  crypto: 'crypt.md',
+  websecurity: 'web-security.md',
+  pwn: 'pwn.md',
+  editing: 'editing.md',
 }
 
 const directionName = computed(() => directionNames[props.id] || '未知方向')

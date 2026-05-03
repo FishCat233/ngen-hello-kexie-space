@@ -45,10 +45,9 @@ const navMenu: NavItem[] = [
         label: '多媒体部门',
         href: '#departments',
         children: [
-          { label: '网站开发', href: '/direction/web' },
+          { label: '前端开发', href: '/direction/web' },
           { label: 'UI设计', href: '/direction/ui' },
           { label: '视频剪辑', href: '/direction/video' },
-          { label: '小程序开发', href: '/direction/applet' },
           { label: '编辑', href: '/direction/editing' },
         ],
       },
@@ -59,6 +58,7 @@ const navMenu: NavItem[] = [
           { label: '深度学习', href: '/direction/machinelearning' },
           { label: 'APP开发', href: '/direction/android' },
           { label: '游戏开发', href: '/direction/game' },
+          { label: '后端开发', href: '/direction/backend' },
         ],
       },
       {
@@ -70,9 +70,10 @@ const navMenu: NavItem[] = [
         label: '安全部门',
         href: '#departments',
         children: [
-          { label: '逆向工程', href: '#' },
-          { label: 'Web 安全', href: '#' },
-          { label: 'Pwn', href: '#' },
+          { label: '逆向工程', href: '/direction/reverse' },
+          { label: 'Web 安全', href: '/direction/websecurity' },
+          { label: 'Pwn', href: '/direction/pwn' },
+          { label: '密码学', href: '/direction/crypto' },
         ],
       },
     ],
