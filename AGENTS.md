@@ -309,6 +309,7 @@ OJ(练习编程): https://oj.kexie.space
     - Bilibili 账号
   - 分类: 站点信息
     - 版本: `package.json` 中的版本号
+    - Github 仓库: [FishCat233/ngen-hello-kexie-space](https://github.com/FishCat233/ngen-hello-kexie-space)
     - 时间: 当前时间 `YYYY-MM-DD HH:mm:ss`
 
 ## AGENT 约束
