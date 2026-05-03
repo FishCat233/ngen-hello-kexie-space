@@ -180,15 +180,21 @@ OJ(练习编程): https://oj.kexie.space
   - 内容: markdown 渲染
 
 数据
-- 网站开发: `public/docs/Web.md`
-- 小程序开发: `public/docs/Applet.md`
-- UI设计: `public/docs/UI.md`
-- 视频剪辑: `public/docs/Video.md`
-- 编辑: `public/docs/Editing.md`
-- APP开发: `public/docs/Android.md`
-- 游戏开发: `public/docs/Game.md`
-- 嵌入式开发: `public/docs/Embedded.md`
-- 深度学习: `public/docs/MachineLearning.md`
+- 前端开发: `public/docs/frontend.md`
+- 后端开发: `public/docs/backend.md`
+<!-- - 小程序开发: `public/docs/Applet.md` -->
+- UI设计: `public/docs/ui.md`
+- 视频剪辑: `public/docs/media-editing.md`
+- 编辑: `public/docs/editing.md`
+- APP开发: `public/docs/app.md`
+- 游戏开发: `public/docs/game.md`
+- 嵌入式开发: `public/docs/hardware.md`
+- 深度学习: `public/docs/deep-learning.md`
+- 逆向工程: `public/docs/reverse.md`
+- 密码学: `public/docs/crypt.md`
+- Web安全: `public/docs/web-security.md`
+- PWN: `public/docs/pwn.md`
+
 
 ### 近年获奖情况页面
 
@@ -291,6 +297,19 @@ OJ(练习编程): https://oj.kexie.space
       - 评论作者 Github 头像
       - 评论时间
       - 评论内容
+
+### 页脚设计
+
+- 内容
+  - 分类: 联系我们
+    - Github
+    - QQ 群
+    - QQ 频道
+    - 微信公众号
+    - Bilibili 账号
+  - 分类: 站点信息
+    - 版本: `package.json` 中的版本号
+    - 时间: 当前时间 `YYYY-MM-DD HH:mm:ss`
 
 ## AGENT 约束
 
