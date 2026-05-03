@@ -174,14 +174,31 @@ onUnmounted(() => {
 
       <!-- 桌面端导航链接 -->
       <div class="navbar-links">
-        <div v-for="item in navMenu" :key="item.id" class="navbar-item"
-          @mouseenter="item.children && showDropdown(item.id)" @mouseleave="hideDropdown">
-          <a :href="item.href" class="navbar-link" :class="{ 'has-dropdown': item.children }"
-            @click.prevent="handleNavigation(item.href)">
+        <div
+          v-for="item in navMenu"
+          :key="item.id"
+          class="navbar-item"
+          @mouseenter="item.children && showDropdown(item.id)"
+          @mouseleave="hideDropdown"
+        >
+          <a
+            :href="item.href"
+            class="navbar-link"
+            :class="{ 'has-dropdown': item.children }"
+            @click.prevent="handleNavigation(item.href)"
+          >
             {{ item.label }}
-            <svg v-if="item.children" class="dropdown-arrow" :class="{ 'is-open': activeDropdown === item.id }"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
+            <svg
+              v-if="item.children"
+              class="dropdown-arrow"
+              :class="{ 'is-open': activeDropdown === item.id }"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </a>
@@ -189,20 +206,41 @@ onUnmounted(() => {
           <!-- 一级下拉菜单 -->
           <transition name="dropdown">
             <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-              <div v-for="(child, index) in item.children" :key="index" class="dropdown-item"
-                :class="{ 'has-children': child.children }">
-                <a :href="child.href" class="dropdown-link" @click.prevent="handleNavigation(child.href)">
+              <div
+                v-for="(child, index) in item.children"
+                :key="index"
+                class="dropdown-item"
+                :class="{ 'has-children': child.children }"
+              >
+                <a
+                  :href="child.href"
+                  class="dropdown-link"
+                  @click.prevent="handleNavigation(child.href)"
+                >
                   {{ child.label }}
-                  <svg v-if="child.children" class="dropdown-arrow-right" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg
+                    v-if="child.children"
+                    class="dropdown-arrow-right"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </a>
 
                 <!-- 二级下拉菜单 -->
                 <div v-if="child.children" class="subdropdown-menu">
-                  <a v-for="(subChild, subIndex) in child.children" :key="subIndex" :href="subChild.href"
-                    class="subdropdown-link" @click.prevent="handleNavigation(subChild.href)">
+                  <a
+                    v-for="(subChild, subIndex) in child.children"
+                    :key="subIndex"
+                    :href="subChild.href"
+                    class="subdropdown-link"
+                    @click.prevent="handleNavigation(subChild.href)"
+                  >
                     {{ subChild.label }}
                   </a>
                 </div>
@@ -214,19 +252,41 @@ onUnmounted(() => {
 
       <!-- 右侧操作区 -->
       <div class="navbar-actions">
-        <a href="https://api.kexie.space/recruitment-qq-group" class="navbar-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')">加入我们</a>
+        <a
+          href="https://api.kexie.space/recruitment-qq-group"
+          class="navbar-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+          >加入我们</a
+        >
 
         <!-- 移动端菜单按钮 -->
-        <button class="navbar-menu-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="切换菜单">
-          <svg v-if="!isMobileMenuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
+        <button
+          class="navbar-menu-btn"
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          aria-label="切换菜单"
+        >
+          <svg
+            v-if="!isMobileMenuOpen"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
-          <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
+          <svg
+            v-else
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -245,21 +305,33 @@ onUnmounted(() => {
           <!-- 移动端子菜单 -->
           <div v-if="item.children" class="mobile-submenu">
             <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
-              <a :href="child.href" class="mobile-submenu-title mobile-submenu-title-link"
-                @click.prevent="handleNavigation(child.href)">
+              <a
+                :href="child.href"
+                class="mobile-submenu-title mobile-submenu-title-link"
+                @click.prevent="handleNavigation(child.href)"
+              >
                 {{ child.label }}
               </a>
               <div v-if="child.children" class="mobile-submenu-items">
-                <a v-for="(subChild, subIndex) in child.children" :key="subIndex" :href="subChild.href"
-                  class="mobile-submenu-link" @click.prevent="handleNavigation(subChild.href)">
+                <a
+                  v-for="(subChild, subIndex) in child.children"
+                  :key="subIndex"
+                  :href="subChild.href"
+                  class="mobile-submenu-link"
+                  @click.prevent="handleNavigation(subChild.href)"
+                >
                   {{ subChild.label }}
                 </a>
               </div>
             </div>
           </div>
         </div>
-        <a href="https://api.kexie.space/recruitment-qq-group" class="navbar-mobile-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')">加入我们</a>
+        <a
+          href="https://api.kexie.space/recruitment-qq-group"
+          class="navbar-mobile-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+          >加入我们</a
+        >
       </div>
     </transition>
   </nav>

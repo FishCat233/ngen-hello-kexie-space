@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import AppNavbar from './components/AppNavbar.vue'
+import AppFooter from './components/AppFooter.vue'
 import HeroSection from './components/HeroSection.vue'
 import DepartmentsSection from './components/DepartmentsSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
@@ -33,6 +34,7 @@ const isHomePage = computed(() => route.path === '/')
       </section>
     </main>
     <router-view v-else />
+    <AppFooter />
   </div>
 </template>
 
