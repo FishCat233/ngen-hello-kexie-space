@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useDevice } from '@/composables/useDevice'
 
 const router = useRouter()
 const route = useRoute()
+const { isMobile } = useDevice()
 
 // 导航菜单项类型定义
 interface NavSubChild {
@@ -162,7 +164,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled }">
+  <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled, 'is-mobile': isMobile }">
     <div class="navbar-container">
       <!-- Logo -->
       <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
@@ -174,7 +176,7 @@ onUnmounted(() => {
       </a>
 
       <!-- 桌面端导航链接 -->
-      <div class="navbar-links">
+      <div v-if="!isMobile" class="navbar-links">
         <div v-for="item in navMenu" :key="item.id" class="navbar-item"
           @mouseenter="item.children && showDropdown(item.id)" @mouseleave="hideDropdown">
           <a :href="item.href" class="navbar-link" :class="{ 'has-dropdown': item.children }"
@@ -215,11 +217,11 @@ onUnmounted(() => {
 
       <!-- 右侧操作区 -->
       <div class="navbar-actions">
-        <a href="https://api.kexie.space/recruitment-qq-group" class="navbar-cta"
+        <a v-if="!isMobile" href="https://api.kexie.space/recruitment-qq-group" class="navbar-cta"
           @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')">加入我们</a>
 
         <!-- 移动端菜单按钮 -->
-        <button class="navbar-menu-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="切换菜单">
+        <button v-if="isMobile" class="navbar-menu-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="切换菜单">
           <svg v-if="!isMobileMenuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -237,7 +239,7 @@ onUnmounted(() => {
 
     <!-- 移动端菜单 -->
     <transition name="slide-down">
-      <div v-if="isMobileMenuOpen" class="navbar-mobile-menu">
+      <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
         <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
           <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
             {{ item.label }}
@@ -485,7 +487,6 @@ onUnmounted(() => {
 
 /* 移动端菜单按钮 */
 .navbar-menu-btn {
-  display: none;
   width: 40px;
   height: 40px;
   padding: 8px;
@@ -495,6 +496,11 @@ onUnmounted(() => {
   color: var(--color-white);
   cursor: pointer;
   transition: all 0.3s ease;
+  display: none;
+}
+
+.is-mobile .navbar-menu-btn {
+  display: block;
 }
 
 .navbar-menu-btn:hover {
@@ -522,6 +528,10 @@ onUnmounted(() => {
   gap: 4px;
   max-height: calc(100vh - 80px);
   overflow-y: auto;
+}
+
+.is-mobile .navbar-mobile-menu {
+  display: flex;
 }
 
 .mobile-nav-item {
@@ -631,6 +641,26 @@ onUnmounted(() => {
 }
 
 /* 响应式 */
+.is-mobile .navbar {
+  padding: 12px 16px;
+}
+
+.is-mobile .navbar-scrolled {
+  padding: 10px 16px;
+}
+
+.is-mobile .navbar-logo-text {
+  font-size: 16px;
+}
+
+.is-mobile .navbar-links {
+  display: none;
+}
+
+.is-mobile .navbar-cta {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .navbar {
     padding: 12px 16px;
