@@ -8,6 +8,7 @@ import {
   Video,
   ExternalLink,
 } from "lucide-vue-next";
+import { siteConfig } from "../config";
 import { version } from "../../package.json";
 
 interface ContactLink {
@@ -17,27 +18,11 @@ interface ContactLink {
 }
 
 const contactLinks: ContactLink[] = [
-  { name: "Github", url: "https://github.com/sanyuankexie", icon: "github" },
-  {
-    name: "QQ 群",
-    url: "https://api.kexie.space/recruitment-qq-group",
-    icon: "users",
-  },
-  {
-    name: "QQ 频道",
-    url: "https://pd.qq.com/s/5pxzsijx0",
-    icon: "message-circle",
-  },
-  {
-    name: "微信公众号",
-    url: "https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg",
-    icon: "radio",
-  },
-  {
-    name: "Bilibili 账号",
-    url: "https://space.bilibili.com/673693349",
-    icon: "video",
-  },
+  { name: "Github", url: siteConfig.contact.github, icon: "github" },
+  { name: "QQ 群", url: siteConfig.contact.qqGroup, icon: "users" },
+  { name: "QQ 频道", url: siteConfig.contact.qqChannel, icon: "message-circle" },
+  { name: "微信公众号", url: siteConfig.contact.wechat || "#", icon: "radio" },
+  { name: "Bilibili 账号", url: siteConfig.contact.bilibili || "#", icon: "video" },
 ];
 
 const currentTime = ref("");
@@ -74,17 +59,6 @@ const getIconComponent = (iconName: string) => {
   };
   return iconMap[iconName] || Github;
 };
-
-onMounted(() => {
-  updateTime();
-  timeInterval = window.setInterval(updateTime, 1000);
-});
-
-onUnmounted(() => {
-  if (timeInterval) {
-    clearInterval(timeInterval);
-  }
-});
 </script>
 
 <template>
@@ -109,11 +83,7 @@ onUnmounted(() => {
               <span class="footer-info-label">版本：</span>
               <span class="footer-info-value">v{{ version }}</span>
             </div>
-            <div class="footer-info-item footer-info-link" @click="
-              handleLinkClick(
-                'https://github.com/FishCat233/ngen-hello-kexie-space',
-              )
-              ">
+            <div class="footer-info-item footer-info-link" @click="handleLinkClick(siteConfig.social.github)">
               <span class="footer-info-label">Github 仓库：</span>
               <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
               <ExternalLink class="footer-info-icon" />
@@ -128,7 +98,7 @@ onUnmounted(() => {
 
       <div class="footer-bottom">
         <p class="footer-copyright">
-          桂电三院科协 © {{ new Date().getFullYear() }}. All rights reserved.
+          {{ siteConfig.name }} © {{ new Date().getFullYear() }}. All rights reserved.
         </p>
       </div>
     </div>

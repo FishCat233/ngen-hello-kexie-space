@@ -4,6 +4,7 @@ import AppNavbar from "../components/AppNavbar.vue";
 import AppFooter from "../components/AppFooter.vue";
 import TracerBullet from "../components/TracerBullet.vue";
 import CommentsSection from "../components/CommentsSection.vue";
+import { siteConfig } from "../config";
 ---
 
 <Layout title="畅心所言 - 桂电三院科协">
@@ -53,7 +54,7 @@ import CommentsSection from "../components/CommentsSection.vue";
 
       <div class="comments-footer-fixed">
         <a
-          href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
+          href={siteConfig.social.comments}
           target="_blank"
           rel="noopener noreferrer"
           class="github-link-button"

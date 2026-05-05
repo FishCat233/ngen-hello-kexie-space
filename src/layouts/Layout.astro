@@ -1,15 +1,13 @@
 ---
 import "../styles/global.css";
+import { siteConfig } from "../config";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const {
-  title,
-  description = "桂林电子科技大学计算机与信息安全学院大学生科技协会网站",
-} = Astro.props;
+const { title, description = siteConfig.description } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,10 +21,7 @@ const {
       content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
     />
     <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="桂林电子科技大学,桂电,计算机与信息安全学院,大学生,科技协会,科协,三院,计算机,计院,三院科协"
-    />
+    <meta name="keywords" content={siteConfig.meta.keywords.join(",")} />
     <title>{title}</title>
   </head>
   <body>

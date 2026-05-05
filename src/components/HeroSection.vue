@@ -1,28 +1,30 @@
 <script setup lang="ts">
+import { siteConfig } from "../config";
+
 const buttons = [
   {
     id: "qq-group",
     label: "加入我们",
     icon: "qq",
-    href: "https://api.kexie.space/recruitment-qq-group",
+    href: siteConfig.contact.qqGroup,
   },
   {
     id: "terminal",
     label: "练习编程",
     icon: "terminal",
-    href: "https://oj.kexie.space",
+    href: siteConfig.resources.oj,
   },
   {
     id: "knowledge",
     label: "知识库",
     icon: "server",
-    href: "https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb",
+    href: siteConfig.resources.knowledge,
   },
   {
     id: "qq-channel",
     label: "QQ频道",
     icon: "hash",
-    href: "https://pd.qq.com/s/5pxzsijx0",
+    href: siteConfig.contact.qqChannel,
   },
 ];
 </script>
@@ -30,7 +32,7 @@ const buttons = [
 <template>
   <section class="hero-section">
     <div class="hero-content">
-      <h1 class="hero-title">桂电三院科协</h1>
+      <h1 class="hero-title">{{ siteConfig.name }}</h1>
 
       <div class="hero-logo-container">
         <picture>

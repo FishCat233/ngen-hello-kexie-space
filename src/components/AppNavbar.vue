@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { useDevice } from "@/composables/useDevice";
+import { siteConfig } from "../config";
 
 const { isMobile } = useDevice();
 
@@ -80,11 +81,8 @@ const navMenu: NavItem[] = [
     label: "学习",
     href: "#learning",
     children: [
-      { label: "练习编程", href: "https://oj.kexie.space" },
-      {
-        label: "知识库",
-        href: "https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb",
-      },
+      { label: "练习编程", href: siteConfig.resources.oj },
+      { label: "知识库", href: siteConfig.resources.knowledge },
     ],
   },
   {
@@ -92,8 +90,8 @@ const navMenu: NavItem[] = [
     label: "招新",
     href: "#recruitment",
     children: [
-      { label: "QQ 群", href: "https://api.kexie.space/recruitment-qq-group" },
-      { label: "QQ 频道", href: "https://pd.qq.com/s/5pxzsijx0" },
+      { label: "QQ 群", href: siteConfig.contact.qqGroup },
+      { label: "QQ 频道", href: siteConfig.contact.qqChannel },
     ],
   },
   {
