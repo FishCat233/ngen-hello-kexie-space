@@ -80,7 +80,7 @@ const closeIframeModal = () => {
   document.body.style.overflow = ''
 }
 
-const handleItemClick = (item: GalleryItem, index: number) => {
+const handleItemClick = (item: GalleryItem) => {
   if (item.type === 'image') {
     const imageIndex = imageItems.value.findIndex((img) => img.id === item.id)
     openLightbox(imageIndex >= 0 ? imageIndex : 0)
@@ -156,11 +156,11 @@ onUnmounted(() => {
 
       <div class="gallery-grid">
         <div
-          v-for="(item, index) in filteredItems"
+          v-for="item in filteredItems"
           :key="item.id"
           class="gallery-card"
           :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
-          @click="handleItemClick(item, index)"
+          @click="handleItemClick(item)"
         >
           <div class="image-wrapper">
             <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
