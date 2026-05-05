@@ -1,2 +1,3 @@
 // 科协成立日期配置
-export const KEXIE_FOUNDING_DATE = '1993-01-01T00:00:00'
+// export const KEXIE_FOUNDING_DATE = '1993-01-01T00:00:00'
+export const KEXIE_FOUNDING_DATE = '2013-12-01T00:00:00+08:00'

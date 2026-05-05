@@ -117,7 +117,7 @@ onUnmounted(() => {
               <span class="footer-info-value">{{ currentTime }}</span>
             </div>
             <div class="footer-info-item kexie-duration">
-              <span class="footer-info-label">科协已砥砺前行：</span>
+              <span class="footer-info-label">科协已砥砺前行(至少)：</span>
               <span class="footer-info-value">{{ kexieDuration }}</span>
             </div>
           </div>
