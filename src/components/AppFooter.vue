@@ -108,7 +108,7 @@ onUnmounted(() => {
 
       <div class="footer-bottom">
         <p class="footer-copyright">
-          © {{ new Date().getFullYear() }} 桂电三院科协. All rights reserved.
+          桂电三院科协 © {{ new Date().getFullYear() }} :: Site Powered by ❤️.
         </p>
       </div>
     </div>
