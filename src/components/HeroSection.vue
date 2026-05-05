@@ -119,19 +119,24 @@ const buttons = [
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 24px;
 }
 
 .hero-logo {
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid var(--color-blue);
+  border: 3px solid var(--color-blue);
   box-shadow:
-    0 0 40px rgba(130, 212, 242, 0.3),
-    0 0 80px rgba(111, 208, 206, 0.2);
-  animation: logo-glow 3s ease-in-out infinite alternate;
+    0 0 40px rgba(130, 212, 242, 0.4),
+    0 0 80px rgba(111, 208, 206, 0.3);
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 1024px) {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 @keyframes logo-glow {
