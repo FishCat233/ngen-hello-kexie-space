@@ -14,7 +14,7 @@ export default defineConfig({
         {
           name: 'three',
           var: 'THREE',
-          path: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/three.js/0.180.0/three.module.js',
+          path: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/three.js/0.180.0/three.tsl.js',
         },
       ],
     }),
