@@ -12,8 +12,9 @@ import {
   AmbientLight,
   DirectionalLight,
   PointLight,
+  Fog,
 } from 'three'
-import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js'
+import { ColorAsciiEffect } from '@/utils/ColorAsciiEffect'
 
 const props = defineProps<{
   active: boolean
@@ -24,7 +25,7 @@ const containerRef = ref<HTMLDivElement | null>(null)
 let scene: Scene
 let camera: PerspectiveCamera
 let renderer: WebGLRenderer
-let effect: AsciiEffect
+let effect: ColorAsciiEffect
 let buildingGroup: Group
 let animationId: number
 let mouseX = 0
@@ -46,6 +47,7 @@ const init = () => {
 
   scene = new Scene()
   scene.background = new Color(0x04080c)
+  scene.fog = new Fog(0x04080c, 150, 400)
 
   camera = new PerspectiveCamera(70, width / height, 1, 1000)
   camera.position.z = 200
@@ -54,13 +56,12 @@ const init = () => {
   renderer.setSize(width, height)
   renderer.setPixelRatio(window.devicePixelRatio)
 
-  effect = new AsciiEffect(renderer, fixedCharSet, {
-    invert: true,
-    resolution: 0.15,
+  effect = new ColorAsciiEffect(renderer, fixedCharSet, {
+    resolution: 0.35,
+    backgroundColor: '#04080c',
+    fontSize: 12,
   })
   effect.setSize(width, height)
-  effect.domElement.style.color = '#82d4f2'
-  effect.domElement.style.backgroundColor = '#04080c'
   containerRef.value.appendChild(effect.domElement)
 
   buildingGroup = new Group()
@@ -128,7 +129,7 @@ const init = () => {
   geometries.push(windowGeometry)
   materials.push(windowMaterial)
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 25; i++) {
     const window1 = new Mesh(windowGeometry, windowMaterial)
     window1.position.set(-15 + (i % 5) * 8, -20 + Math.floor(i / 5) * 15, 21)
     buildingGroup.add(window1)
@@ -136,18 +137,18 @@ const init = () => {
 
   scene.add(buildingGroup)
 
-  const ambientLight = new AmbientLight(0x404040, 2)
+  const ambientLight = new AmbientLight(0xffffff, 3)
   scene.add(ambientLight)
 
-  const directionalLight = new DirectionalLight(0xffffff, 2)
+  const directionalLight = new DirectionalLight(0xffffff, 4)
   directionalLight.position.set(1, 1, 1).normalize()
   scene.add(directionalLight)
 
-  const pointLight = new PointLight(0x82d4f2, 1, 500)
+  const pointLight = new PointLight(0x82d4f2, 3, 500)
   pointLight.position.set(100, 100, 100)
   scene.add(pointLight)
 
-  const pointLight2 = new PointLight(0x6fd0ce, 1, 500)
+  const pointLight2 = new PointLight(0x6fd0ce, 3, 500)
   pointLight2.position.set(-100, -100, 100)
   scene.add(pointLight2)
 
@@ -227,6 +228,7 @@ onUnmounted(() => {
 
   geometries.forEach((g) => g.dispose())
   materials.forEach((m) => m.dispose())
+  effect?.dispose()
 
   if (containerRef.value && effect?.domElement) {
     containerRef.value.removeChild(effect.domElement)

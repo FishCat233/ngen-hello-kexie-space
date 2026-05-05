@@ -85,8 +85,10 @@ OJ(练习编程): https://oj.kexie.space
     - 备注: 科协主题色是亮蓝和亮青，白色作为高光，黑色作为低光和背景
     - 可以通过上述颜色调和得到新颜色
   - Threejs 渲染
-    - 亮蓝色和亮青色 ASCII 字符作为明暗构成的栋楼校园模型
+    - 彩色 ASCII 字符构成的校园建筑模型
+    - 不同建筑使用不同颜色（亮蓝、亮青等主题色）
     - 鼠标移动会旋转模型
+    - 雾效增强立体感：近处明亮，远处渐暗
   - 曳光弹效果
     - 深蓝和深青色粒子从底部向上发射
     - Threejs Sprite 粒子系统，加法混合发光
@@ -356,9 +358,18 @@ OJ(练习编程): https://oj.kexie.space
 ## 组件清单
 
 - AppNavbar: 顶部固定导航栏
-- AsciiBackground: Threejs ASCII 校园模型背景
+- AsciiBackground: Threejs 彩色 ASCII 校园模型背景
+  - 使用自定义 ColorAsciiEffect 实现彩色字符渲染
+  - 支持雾效增强立体感
 - TracerBullet: Threejs 曳光弹粒子效果
 - HeroSection: 第一面主内容
 - DepartmentsSection: 第二面部门介绍
 - LearningDirectionsSection: 第三面学习方向
 - RecruitmentSection: 第四面招新时间线
+
+## 工具类
+
+- ColorAsciiEffect: 自定义彩色 ASCII 渲染效果
+  - 将 Threejs 场景渲染为彩色 ASCII 字符
+  - 支持自定义字符集、分辨率、字体大小
+  - 保留原始颜色信息，每个字符独立着色
