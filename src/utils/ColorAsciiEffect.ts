@@ -10,7 +10,7 @@ export interface ColorAsciiEffectOptions {
 export class ColorAsciiEffect {
   private renderer: WebGLRenderer
   private renderTarget: WebGLRenderTarget
-  private domElement: HTMLPreElement
+  readonly domElement: HTMLPreElement
   private resolution: number
   private charset: string
   private backgroundColor: string
