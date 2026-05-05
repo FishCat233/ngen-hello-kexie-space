@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Github, Users, MessageCircle, Radio, Video, ExternalLink } from 'lucide-vue-next'
 import { version } from '../../package.json'
+import { KEXIE_FOUNDING_DATE } from '../data/kexie'
 
 interface ContactLink {
   name: string
@@ -18,6 +19,7 @@ const contactLinks: ContactLink[] = [
 ]
 
 const currentTime = ref('')
+const kexieDuration = ref('')
 let timeInterval: number | null = null
 
 const formatDateTime = (date: Date): string => {
@@ -30,8 +32,26 @@ const formatDateTime = (date: Date): string => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
+const formatDuration = (ms: number): string => {
+  const seconds = Math.floor(ms / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+
+  const remainingHours = hours % 24
+  const remainingMinutes = minutes % 60
+  const remainingSeconds = seconds % 60
+
+  return `${days}天${remainingHours}小时${remainingMinutes}分${remainingSeconds}秒`
+}
+
 const updateTime = () => {
   currentTime.value = formatDateTime(new Date())
+
+  const kexieStartDate = new Date(KEXIE_FOUNDING_DATE)
+  const now = new Date()
+  const duration = now.getTime() - kexieStartDate.getTime()
+  kexieDuration.value = formatDuration(duration)
 }
 
 const handleLinkClick = (url: string) => {
@@ -71,12 +91,8 @@ onUnmounted(() => {
         <div class="footer-section">
           <h3 class="footer-title">联系我们</h3>
           <div class="footer-links">
-            <div
-              v-for="link in contactLinks"
-              :key="link.name"
-              class="footer-link-item"
-              @click="handleLinkClick(link.url)"
-            >
+            <div v-for="link in contactLinks" :key="link.name" class="footer-link-item"
+              @click="handleLinkClick(link.url)">
               <component :is="getIconComponent(link.icon)" class="footer-link-icon" />
               <span class="footer-link-text">{{ link.name }}</span>
             </div>
@@ -90,10 +106,8 @@ onUnmounted(() => {
               <span class="footer-info-label">版本：</span>
               <span class="footer-info-value">v{{ version }}</span>
             </div>
-            <div
-              class="footer-info-item footer-info-link"
-              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')"
-            >
+            <div class="footer-info-item footer-info-link"
+              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')">
               <span class="footer-info-label">Github 仓库：</span>
               <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
               <ExternalLink class="footer-info-icon" />
@@ -101,6 +115,10 @@ onUnmounted(() => {
             <div class="footer-info-item">
               <span class="footer-info-label">时间：</span>
               <span class="footer-info-value">{{ currentTime }}</span>
+            </div>
+            <div class="footer-info-item kexie-duration">
+              <span class="footer-info-label">科协已砥砺前行：</span>
+              <span class="footer-info-value">{{ kexieDuration }}</span>
             </div>
           </div>
         </div>
@@ -267,6 +285,16 @@ onUnmounted(() => {
   color: var(--color-blue);
   opacity: 0.6;
   transition: all 0.3s ease;
+}
+
+.kexie-duration {
+  background: rgba(130, 212, 242, 0.03);
+  border-color: rgba(130, 212, 242, 0.06);
+}
+
+.kexie-duration .footer-info-value {
+  color: var(--color-blue);
+  opacity: 0.7;
 }
 
 .footer-bottom {
