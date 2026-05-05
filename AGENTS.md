@@ -28,7 +28,6 @@ OJ(练习编程): https://oj.kexie.space
 - 组件: `AppNavbar.vue`
 
 导航菜单
-
 - 首页
   - 部门介绍
   - 学习方向
