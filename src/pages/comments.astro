@@ -1,0 +1,235 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AppNavbar from "../components/AppNavbar.vue";
+import AppFooter from "../components/AppFooter.vue";
+import TracerBullet from "../components/TracerBullet.vue";
+import CommentsSection from "../components/CommentsSection.vue";
+---
+
+<Layout title="畅心所言 - 桂电三院科协">
+  <div class="comments-page">
+    <TracerBullet client:load active={true} class="comments-tracer" />
+    <AppNavbar client:visible />
+    <div class="comments-container">
+      <a href="/" class="back-button">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>返回首页</span>
+      </a>
+
+      <div class="comments-header">
+        <div class="header-icon">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+        </div>
+        <h1 class="comments-title">畅心所言</h1>
+        <p class="comments-subtitle">在此留下您的心声吧~</p>
+      </div>
+
+      <CommentsSection client:load />
+
+      <div class="comments-footer-fixed">
+        <a
+          href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link-button"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+          <span>在 GitHub 上发表评论</span>
+        </a>
+      </div>
+    </div>
+    <AppFooter client:visible />
+  </div>
+</Layout>
+
+<style>
+  .comments-page {
+    position: relative;
+    min-height: 100vh;
+    background: #04080c;
+    padding: 80px 20px 100px;
+    overflow-x: hidden;
+  }
+
+  .comments-tracer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .comments-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(130, 212, 242, 0.1);
+    border: 1px solid rgba(130, 212, 242, 0.3);
+    border-radius: 8px;
+    color: var(--color-blue);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 32px;
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .back-button:hover {
+    background: rgba(130, 212, 242, 0.2);
+    border-color: var(--color-blue);
+    transform: translateX(-4px);
+  }
+
+  .comments-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      135deg,
+      rgba(130, 212, 242, 0.2) 0%,
+      rgba(111, 208, 206, 0.2) 100%
+    );
+    border-radius: 16px;
+    color: var(--color-blue);
+    margin: 0 auto 20px;
+  }
+
+  .comments-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.3;
+    background: linear-gradient(
+      135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 12px 0;
+    padding: 4px 0;
+  }
+
+  .comments-subtitle {
+    font-size: 16px;
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  .comments-footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 20px;
+    background: linear-gradient(
+      to top,
+      rgba(4, 8, 12, 1) 0%,
+      rgba(4, 8, 12, 0.95) 60%,
+      transparent 100%
+    );
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .comments-footer-fixed .github-link-button {
+    pointer-events: auto;
+  }
+
+  .github-link-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(
+      135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%
+    );
+    color: var(--color-black);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(130, 212, 242, 0.3);
+  }
+
+  .github-link-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(130, 212, 242, 0.5);
+  }
+
+  @media (max-width: 640px) {
+    .comments-page {
+      padding: 72px 16px 100px;
+    }
+
+    .comments-title {
+      font-size: 28px;
+    }
+  }
+</style>

@@ -1,0 +1,401 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AppNavbar from "../components/AppNavbar.vue";
+import AppFooter from "../components/AppFooter.vue";
+import { projects, demoProjects } from "../data/projects";
+---
+
+<Layout title="科协项目活动 - 桂电三院科协">
+  <div class="projects-page">
+    <AppNavbar client:visible />
+    <div class="projects-container">
+      <a href="/" class="back-button">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>返回首页</span>
+      </a>
+
+      <div class="projects-header">
+        <h1 class="projects-title">科协项目活动</h1>
+        <p class="projects-subtitle">科协成员的部分项目活动</p>
+      </div>
+
+      <div class="projects-section">
+        <div class="section-header">
+          <h2 class="section-title">科协优秀项目</h2>
+          <p class="section-subtitle">科协成员开发的优秀项目</p>
+        </div>
+
+        <div class="projects-grid">
+          {
+            projects.map((project) => (
+              <a href={project.url} target="_blank" class="project-card">
+                <div class="project-author">
+                  <div class="author-avatar-wrapper">
+                    <img
+                      src={project.authorAvatar}
+                      alt={project.author}
+                      class="author-avatar"
+                    />
+                  </div>
+                  <span class="author-name">{project.author}</span>
+                </div>
+
+                <div class="project-content">
+                  <div class="project-main">
+                    <h3 class="project-name">
+                      {project.name}
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="project-link-icon"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                    </h3>
+                    <p class="project-description" title={project.description}>
+                      {project.description}
+                    </p>
+                  </div>
+
+                  <div class="project-meta">
+                    <div class="project-language">
+                      <span
+                        class="language-dot"
+                        style={`background-color: ${project.languageColor}`}
+                      />
+                      <span class="language-name">{project.language}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="projects-section">
+        <div class="section-header">
+          <h2 class="section-title">学习演示项目</h2>
+          <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
+        </div>
+
+        <div class="projects-grid">
+          {
+            demoProjects.map((project) => (
+              <a href={project.url} target="_blank" class="project-card">
+                <div class="project-author">
+                  <div class="author-avatar-wrapper">
+                    <img
+                      src={project.authorAvatar}
+                      alt={project.author}
+                      class="author-avatar"
+                    />
+                  </div>
+                  <span class="author-name">{project.author}</span>
+                </div>
+
+                <div class="project-content">
+                  <div class="project-main">
+                    <h3 class="project-name">
+                      {project.name}
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="project-link-icon"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                    </h3>
+                    <p class="project-description" title={project.description}>
+                      {project.description}
+                    </p>
+                  </div>
+
+                  <div class="project-meta">
+                    <div class="project-language">
+                      <span
+                        class="language-dot"
+                        style={`background-color: ${project.languageColor}`}
+                      />
+                      <span class="language-name">{project.language}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <AppFooter client:visible />
+  </div>
+</Layout>
+
+<style>
+  .projects-page {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    background: transparent;
+    padding: 80px 20px 40px;
+  }
+
+  .projects-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(130, 212, 242, 0.1);
+    border: 1px solid rgba(130, 212, 242, 0.3);
+    border-radius: 8px;
+    color: var(--color-blue);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 32px;
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .back-button:hover {
+    background: rgba(130, 212, 242, 0.2);
+    border-color: var(--color-blue);
+    transform: translateX(-4px);
+  }
+
+  .projects-header {
+    margin-bottom: 40px;
+  }
+
+  .projects-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.3;
+    background: linear-gradient(
+      135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 12px 0;
+    padding: 4px 0;
+  }
+
+  .projects-subtitle {
+    font-size: 16px;
+    color: var(--color-white);
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  .projects-section {
+    margin-bottom: 60px;
+  }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-white);
+    margin: 0 0 8px 0;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--color-white);
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+  }
+
+  .project-card {
+    position: relative;
+    background: rgba(130, 212, 242, 0.03);
+    border: 1px solid rgba(130, 212, 242, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    display: block;
+  }
+
+  .project-card:hover {
+    background: rgba(130, 212, 242, 0.06);
+    border-color: rgba(130, 212, 242, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(130, 212, 242, 0.1);
+  }
+
+  .project-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .author-avatar-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .author-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid rgba(130, 212, 242, 0.3);
+    border-radius: 50%;
+  }
+
+  .author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .project-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .project-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .project-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-blue);
+    margin: 0 0 8px 0;
+    transition: color 0.3s ease;
+  }
+
+  .project-card:hover .project-name {
+    color: var(--color-cyan);
+  }
+
+  .project-link-icon {
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .project-description {
+    font-size: 14px;
+    color: var(--color-white);
+    opacity: 0.8;
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-meta {
+    flex-shrink: 0;
+  }
+
+  .project-language {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(130, 212, 242, 0.08);
+    border-radius: 20px;
+  }
+
+  .language-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .language-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-white);
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .projects-page {
+      padding: 72px 16px 24px;
+    }
+
+    .projects-title {
+      font-size: 28px;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card {
+      padding: 20px;
+    }
+
+    .project-content {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-meta {
+      align-self: flex-start;
+    }
+  }
+</style>

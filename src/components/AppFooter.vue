@@ -1,67 +1,90 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Github, Users, MessageCircle, Radio, Video, ExternalLink } from 'lucide-vue-next'
-import { version } from '../../package.json'
+import { ref, onMounted, onUnmounted } from "vue";
+import {
+  Github,
+  Users,
+  MessageCircle,
+  Radio,
+  Video,
+  ExternalLink,
+} from "lucide-vue-next";
+import { version } from "../../package.json";
 
 interface ContactLink {
-  name: string
-  url: string
-  icon: string
+  name: string;
+  url: string;
+  icon: string;
 }
 
 const contactLinks: ContactLink[] = [
-  { name: 'Github', url: 'https://github.com/sanyuankexie', icon: 'github' },
-  { name: 'QQ 群', url: 'https://api.kexie.space/recruitment-qq-group', icon: 'users' },
-  { name: 'QQ 频道', url: 'https://pd.qq.com/s/5pxzsijx0', icon: 'message-circle' },
-  { name: '微信公众号', url: 'https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg', icon: 'radio' },
-  { name: 'Bilibili 账号', url: 'https://space.bilibili.com/673693349', icon: 'video' },
-]
+  { name: "Github", url: "https://github.com/sanyuankexie", icon: "github" },
+  {
+    name: "QQ 群",
+    url: "https://api.kexie.space/recruitment-qq-group",
+    icon: "users",
+  },
+  {
+    name: "QQ 频道",
+    url: "https://pd.qq.com/s/5pxzsijx0",
+    icon: "message-circle",
+  },
+  {
+    name: "微信公众号",
+    url: "https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg",
+    icon: "radio",
+  },
+  {
+    name: "Bilibili 账号",
+    url: "https://space.bilibili.com/673693349",
+    icon: "video",
+  },
+];
 
-const currentTime = ref('')
-let timeInterval: number | null = null
+const currentTime = ref("");
+let timeInterval: number | null = null;
 
 const formatDateTime = (date: Date): string => {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  const seconds = String(date.getSeconds()).padStart(2, '0')
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-}
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
 
 const updateTime = () => {
-  currentTime.value = formatDateTime(new Date())
-}
+  currentTime.value = formatDateTime(new Date());
+};
 
 const handleLinkClick = (url: string) => {
-  if (url === '#') {
-    return
+  if (url === "#") {
+    return;
   }
-  window.open(url, '_blank')
-}
+  window.open(url, "_blank");
+};
 
 const getIconComponent = (iconName: string) => {
   const iconMap: Record<string, typeof Github> = {
     github: Github,
     users: Users,
-    'message-circle': MessageCircle,
+    "message-circle": MessageCircle,
     radio: Radio,
     video: Video,
-  }
-  return iconMap[iconName] || Github
-}
+  };
+  return iconMap[iconName] || Github;
+};
 
 onMounted(() => {
-  updateTime()
-  timeInterval = window.setInterval(updateTime, 1000)
-})
+  updateTime();
+  timeInterval = window.setInterval(updateTime, 1000);
+});
 
 onUnmounted(() => {
   if (timeInterval) {
-    clearInterval(timeInterval)
+    clearInterval(timeInterval);
   }
-})
+});
 </script>
 
 <template>
@@ -71,12 +94,8 @@ onUnmounted(() => {
         <div class="footer-section">
           <h3 class="footer-title">联系我们</h3>
           <div class="footer-links">
-            <div
-              v-for="link in contactLinks"
-              :key="link.name"
-              class="footer-link-item"
-              @click="handleLinkClick(link.url)"
-            >
+            <div v-for="link in contactLinks" :key="link.name" class="footer-link-item"
+              @click="handleLinkClick(link.url)">
               <component :is="getIconComponent(link.icon)" class="footer-link-icon" />
               <span class="footer-link-text">{{ link.name }}</span>
             </div>
@@ -90,10 +109,11 @@ onUnmounted(() => {
               <span class="footer-info-label">版本：</span>
               <span class="footer-info-value">v{{ version }}</span>
             </div>
-            <div
-              class="footer-info-item footer-info-link"
-              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')"
-            >
+            <div class="footer-info-item footer-info-link" @click="
+              handleLinkClick(
+                'https://github.com/FishCat233/ngen-hello-kexie-space',
+              )
+              ">
               <span class="footer-info-label">Github 仓库：</span>
               <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
               <ExternalLink class="footer-info-icon" />
@@ -108,7 +128,7 @@ onUnmounted(() => {
 
       <div class="footer-bottom">
         <p class="footer-copyright">
-          © {{ new Date().getFullYear() }} 桂电三院科协. All rights reserved.
+          桂电三院科协 © {{ new Date().getFullYear() }}. All rights reserved.
         </p>
       </div>
     </div>
@@ -147,7 +167,9 @@ onUnmounted(() => {
 .footer-title {
   font-size: 14px;
   font-weight: 500;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -198,13 +220,15 @@ onUnmounted(() => {
 }
 
 .footer-link-text::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -1px;
   left: 0;
   width: 0;
   height: 1px;
-  background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(90deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   transition: width 0.3s ease;
 }
 

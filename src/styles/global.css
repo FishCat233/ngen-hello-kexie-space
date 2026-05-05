@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --color-black: #04080c;
+  --color-blue: #82d4f2;
+  --color-cyan: #6fd0ce;
+  --color-white: #ebfbff;
+  --color-blue-dark: #5cb8d9;
+  --color-cyan-dark: #4db8b6;
+  --color-black-light: #0a1520;
+  --text: var(--color-white);
+  --text-h: var(--color-white);
+  --bg: var(--color-black);
+  --border: rgba(130, 212, 242, 0.2);
+  --accent: var(--color-blue);
+  --accent-bg: rgba(130, 212, 242, 0.1);
+  --accent-border: rgba(130, 212, 242, 0.5);
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(130, 212, 242, 0.3);
+  color: var(--color-white);
+}
+
+::-moz-selection {
+  background: rgba(130, 212, 242, 0.3);
+  color: var(--color-white);
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 1024px) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+p {
+  margin: 0;
+}

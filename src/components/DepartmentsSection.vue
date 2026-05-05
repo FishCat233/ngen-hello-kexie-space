@@ -1,58 +1,58 @@
 <script setup lang="ts">
 interface Department {
-  id: string
-  name: string
-  description: string[]
-  iconType: 'monitor' | 'server' | 'hardware' | 'organize' | 'security'
+  id: string;
+  name: string;
+  description: string[];
+  iconType: "monitor" | "server" | "hardware" | "organize" | "security";
 }
 
 const departments: Department[] = [
   {
-    id: 'multimedia',
-    name: '多媒体部',
+    id: "multimedia",
+    name: "多媒体部",
     description: [
-      '多媒体部主要方向的网站开发、UI设计、视频剪辑、小程序开发和编辑方向均依托多媒体技术，以极强的浸透力进入学校日常生活的方方面面。',
-      '五个方向相互联系紧密，网站与小程序需要界面优美的UI设计，界面优美的UI设计需要网站或小程序去实现，它们也可以通过视频剪辑技术以易展现的形式与周围人分享，编辑方向则负责内容创作与文案策划，为技术展示提供优质的文字支撑。',
+      "多媒体部主要方向的网站开发、UI设计、视频剪辑、小程序开发和编辑方向均依托多媒体技术，以极强的浸透力进入学校日常生活的方方面面。",
+      "五个方向相互联系紧密，网站与小程序需要界面优美的UI设计，界面优美的UI设计需要网站或小程序去实现，它们也可以通过视频剪辑技术以易展现的形式与周围人分享，编辑方向则负责内容创作与文案策划，为技术展示提供优质的文字支撑。",
     ],
-    iconType: 'monitor',
+    iconType: "monitor",
   },
   {
-    id: 'software',
-    name: '软件部',
+    id: "software",
+    name: "软件部",
     description: [
-      '软件部是科协专攻软件开发的部门其主要方向包括深度学习、APP开发和游戏开发。',
-      '软件部注重培养成员在遵循软件工程开发体系的要求，去设计并开发一款或多款具备创新、实用等特点的软件的实践能力，旨在让成员能够承接校内信息化项目的同时，也能够参加校外高水平的竞赛。',
+      "软件部是科协专攻软件开发的部门其主要方向包括深度学习、APP开发和游戏开发。",
+      "软件部注重培养成员在遵循软件工程开发体系的要求，去设计并开发一款或多款具备创新、实用等特点的软件的实践能力，旨在让成员能够承接校内信息化项目的同时，也能够参加校外高水平的竞赛。",
     ],
-    iconType: 'server',
+    iconType: "server",
   },
   {
-    id: 'hardware',
-    name: '硬件部',
+    id: "hardware",
+    name: "硬件部",
     description: [
       '硬件部致力于将传统的嵌入式软硬件设计与互联网资源结合，充分体现"互联网+"精神，真正将我们在计算机专业中学习到的知识应用与生活，设计制作真正服务与生活的嵌入式智能硬件。',
-      '引导同学们进行科技研发，从而提高同学们的创新意识，加强同学们的动手能力以及理论与实际相结合的能力，培养创新型人才。',
+      "引导同学们进行科技研发，从而提高同学们的创新意识，加强同学们的动手能力以及理论与实际相结合的能力，培养创新型人才。",
     ],
-    iconType: 'hardware',
+    iconType: "hardware",
   },
   {
-    id: 'organize',
-    name: '组织部',
+    id: "organize",
+    name: "组织部",
     description: [
-      '组织部是一个协调科协主席团和其他三大技术部门的综合性管理兼学术部门，主管组织、人事工作、素质拓展和团队建设。',
-      '负责协调科协的组织建设，管理科协的日常事务，策划和组织科协的各类活动，管理科协成员和内部的各种设施，同时，协调和处理学校、学院领导的指示要求，代表三院科协与学校、学院的各个社团进行沟通交流。',
+      "组织部是一个协调科协主席团和其他三大技术部门的综合性管理兼学术部门，主管组织、人事工作、素质拓展和团队建设。",
+      "负责协调科协的组织建设，管理科协的日常事务，策划和组织科协的各类活动，管理科协成员和内部的各种设施，同时，协调和处理学校、学院领导的指示要求，代表三院科协与学校、学院的各个社团进行沟通交流。",
     ],
-    iconType: 'organize',
+    iconType: "organize",
   },
   {
-    id: 'security',
-    name: '安全部',
+    id: "security",
+    name: "安全部",
     description: [
-      '安全部聚焦网络安全技术，以 CTF 竞赛为实践入口，将竞赛里的解题思路、攻防技巧，转化为真实场景中漏洞挖掘的能力。',
+      "安全部聚焦网络安全技术，以 CTF 竞赛为实践入口，将竞赛里的解题思路、攻防技巧，转化为真实场景中漏洞挖掘的能力。",
       '从代码逻辑排查到程序底层分析，覆盖 WEB（代码审计、漏洞攻防 ）与二进制（漏洞利用、逆向分析 ）方向，通过 "以赛促战"，让成员掌握从发现风险到实战防御的全流程技能，筑牢安全防线。',
     ],
-    iconType: 'security',
+    iconType: "security",
   },
-]
+];
 </script>
 
 <template>
@@ -80,7 +80,14 @@ const departments: Department[] = [
                 stroke="currentColor"
                 stroke-width="2"
               />
-              <line x1="8" y1="16" x2="56" y2="16" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="8"
+                y1="16"
+                x2="56"
+                y2="16"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <circle cx="12" cy="12" r="1.5" fill="currentColor" />
               <circle cx="17" cy="12" r="1.5" fill="currentColor" />
               <circle cx="22" cy="12" r="1.5" fill="currentColor" />
@@ -93,7 +100,14 @@ const departments: Department[] = [
                 stroke="currentColor"
                 stroke-width="2"
               />
-              <line x1="32" y1="44" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="32"
+                y1="44"
+                x2="32"
+                y2="48"
+                stroke="currentColor"
+                stroke-width="2"
+              />
             </svg>
 
             <!-- 服务器图标 - 软件部 -->
@@ -295,20 +309,79 @@ const departments: Department[] = [
               class="icon-svg"
             >
               <!-- 中心圆环 -->
-              <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
+              <circle
+                cx="32"
+                cy="20"
+                r="8"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 下方连接线 -->
-              <line x1="32" y1="28" x2="32" y2="36" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="32"
+                y1="28"
+                x2="32"
+                y2="36"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 水平连接线 -->
-              <line x1="20" y1="36" x2="44" y2="36" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="20"
+                y1="36"
+                x2="44"
+                y2="36"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 左侧分支 -->
-              <line x1="20" y1="36" x2="20" y2="44" stroke="currentColor" stroke-width="2" />
-              <circle cx="20" cy="48" r="4" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="20"
+                y1="36"
+                x2="20"
+                y2="44"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                cx="20"
+                cy="48"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 中间分支 -->
-              <line x1="32" y1="36" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
-              <circle cx="32" cy="52" r="4" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="32"
+                y1="36"
+                x2="32"
+                y2="48"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                cx="32"
+                cy="52"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
               <!-- 右侧分支 -->
-              <line x1="44" y1="36" x2="44" y2="44" stroke="currentColor" stroke-width="2" />
-              <circle cx="44" cy="48" r="4" stroke="currentColor" stroke-width="2" />
+              <line
+                x1="44"
+                y1="36"
+                x2="44"
+                y2="44"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                cx="44"
+                cy="48"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
             </svg>
 
             <!-- 盾牌与锁图标 - 安全部 -->
@@ -359,7 +432,11 @@ const departments: Department[] = [
           <h3 class="department-name">{{ dept.name }}</h3>
 
           <div class="department-content">
-            <p v-for="(para, index) in dept.description" :key="index" class="department-paragraph">
+            <p
+              v-for="(para, index) in dept.description"
+              :key="index"
+              class="department-paragraph"
+            >
               {{ para }}
             </p>
           </div>
@@ -393,7 +470,11 @@ const departments: Department[] = [
 .departments-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-blue) 0%,
+    var(--color-cyan) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

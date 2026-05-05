@@ -1,51 +1,57 @@
 <script setup lang="ts">
-import { ClipboardList, BookOpen, Mic2, FileCheck, Trophy } from 'lucide-vue-next'
+import {
+  ClipboardList,
+  BookOpen,
+  Mic2,
+  FileCheck,
+  Trophy,
+} from "lucide-vue-next";
 
 interface TimelineItem {
-  id: string
-  title: string
-  description: string
-  icon: typeof ClipboardList
+  id: string;
+  title: string;
+  description: string;
+  icon: typeof ClipboardList;
 }
 
 const timelineItems: TimelineItem[] = [
   {
-    id: 'register',
-    title: '报名阶段',
-    description: '报名时间截止到笔试前',
+    id: "register",
+    title: "报名阶段",
+    description: "报名时间截止到笔试前",
     icon: ClipboardList,
   },
   {
-    id: 'learning',
-    title: '入门学习',
-    description: '学会使用 Online Judge 实现问题求解',
+    id: "learning",
+    title: "入门学习",
+    description: "学会使用 Online Judge 实现问题求解",
     icon: BookOpen,
   },
   {
-    id: 'presentation',
-    title: '招新宣讲',
-    description: '三院科协招新宣讲会',
+    id: "presentation",
+    title: "招新宣讲",
+    description: "三院科协招新宣讲会",
     icon: Mic2,
   },
   {
-    id: 'exam',
-    title: '笔试和面试',
-    description: '期待脱颖而出的你！',
+    id: "exam",
+    title: "笔试和面试",
+    description: "期待脱颖而出的你！",
     icon: FileCheck,
   },
   {
-    id: 'competition',
-    title: '绘蓝杯科技竞赛',
-    description: '绽放你们的光芒！',
+    id: "competition",
+    title: "绘蓝杯科技竞赛",
+    description: "绽放你们的光芒！",
     icon: Trophy,
   },
-]
+];
 
 const introParagraphs = [
-  '三院科协是依托于计算机与信息安全学院，面向全校的校级技术社团。我们的活动包括技术学习，承办和策划各类科技赛事和颁奖仪式，组织创新创业训练等。科协设有软件部、硬件部、多媒体部、组织部共四个部门，致力于对成员技术能力及创新能力的培养。',
-  '在科协，你不仅能提高自身的技术，结交志同道合的伙伴，还能收获前辈的悉心指导，共享优质的资源服务。',
-  '科协的大门将为你们敞开，我们期待你们的到来，欢迎与我们一起畅游在技术的海洋！',
-]
+  "三院科协是依托于计算机与信息安全学院，面向全校的校级技术社团。我们的活动包括技术学习，承办和策划各类科技赛事和颁奖仪式，组织创新创业训练等。科协设有软件部、硬件部、多媒体部、组织部共四个部门，致力于对成员技术能力及创新能力的培养。",
+  "在科协，你不仅能提高自身的技术，结交志同道合的伙伴，还能收获前辈的悉心指导，共享优质的资源服务。",
+  "科协的大门将为你们敞开，我们期待你们的到来，欢迎与我们一起畅游在技术的海洋！",
+];
 </script>
 
 <template>
@@ -58,12 +64,19 @@ const introParagraphs = [
         <div class="timeline-wrapper">
           <h3 class="timeline-section-title">招新时间线</h3>
           <div class="timeline">
-            <div v-for="(item, index) in timelineItems" :key="item.id" class="timeline-item">
+            <div
+              v-for="(item, index) in timelineItems"
+              :key="item.id"
+              class="timeline-item"
+            >
               <div class="timeline-marker">
                 <div class="timeline-icon">
                   <component :is="item.icon" :size="20" stroke-width="2" />
                 </div>
-                <div v-if="index < timelineItems.length - 1" class="timeline-line"></div>
+                <div
+                  v-if="index < timelineItems.length - 1"
+                  class="timeline-line"
+                ></div>
               </div>
               <div class="timeline-content">
                 <h3 class="timeline-title">{{ item.title }}</h3>
@@ -76,7 +89,11 @@ const introParagraphs = [
         <!-- 右侧：科协介绍 -->
         <div class="intro-wrapper">
           <div class="intro-card">
-            <p v-for="(paragraph, index) in introParagraphs" :key="index" class="intro-paragraph">
+            <p
+              v-for="(paragraph, index) in introParagraphs"
+              :key="index"
+              class="intro-paragraph"
+            >
               {{ paragraph }}
             </p>
           </div>
@@ -110,7 +127,11 @@ const introParagraphs = [
 .recruitment-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-blue) 0%,
+    var(--color-cyan) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import {
   Globe,
   Coffee,
@@ -14,35 +13,29 @@ import {
   ShieldAlert,
   Bug,
   BookOpen,
-} from 'lucide-vue-next'
-
-const router = useRouter()
+} from "lucide-vue-next";
 
 interface LearningDirection {
-  id: string
-  name: string
-  icon: typeof Globe
+  id: string;
+  name: string;
+  icon: typeof Globe;
 }
 
 const directions: LearningDirection[] = [
-  { id: 'web', name: '前端开发', icon: Globe },
-  { id: 'backend', name: '后端开发', icon: Coffee },
-  { id: 'game', name: '游戏开发', icon: Gamepad2 },
-  { id: 'android', name: 'APP开发', icon: Smartphone },
-  { id: 'ui', name: 'UI设计', icon: PencilRuler },
-  { id: 'embedded', name: '硬件开发', icon: Cpu },
-  { id: 'machinelearning', name: '深度学习', icon: BrainCircuit },
-  { id: 'video', name: '视频剪辑', icon: Clapperboard },
-  { id: 'reverse', name: '逆向工程', icon: Binary },
-  { id: 'crypto', name: '密码学', icon: LockKeyhole },
-  { id: 'websecurity', name: 'Web安全', icon: ShieldAlert },
-  { id: 'pwn', name: 'PWN', icon: Bug },
-  { id: 'editing', name: '编辑', icon: BookOpen },
-]
-
-const navigateToDirection = (id: string) => {
-  router.push(`/direction/${id}`)
-}
+  { id: "web", name: "前端开发", icon: Globe },
+  { id: "backend", name: "后端开发", icon: Coffee },
+  { id: "game", name: "游戏开发", icon: Gamepad2 },
+  { id: "android", name: "APP开发", icon: Smartphone },
+  { id: "ui", name: "UI设计", icon: PencilRuler },
+  { id: "embedded", name: "硬件开发", icon: Cpu },
+  { id: "machinelearning", name: "深度学习", icon: BrainCircuit },
+  { id: "video", name: "视频剪辑", icon: Clapperboard },
+  { id: "reverse", name: "逆向工程", icon: Binary },
+  { id: "crypto", name: "密码学", icon: LockKeyhole },
+  { id: "websecurity", name: "Web安全", icon: ShieldAlert },
+  { id: "pwn", name: "PWN", icon: Bug },
+  { id: "editing", name: "编辑", icon: BookOpen },
+];
 </script>
 
 <template>
@@ -51,18 +44,18 @@ const navigateToDirection = (id: string) => {
       <h2 class="learning-title">学习方向</h2>
 
       <div class="learning-grid">
-        <div
+        <a
           v-for="dir in directions"
           :key="dir.id"
+          :href="`/direction/${dir.id}`"
           class="learning-card"
-          @click="navigateToDirection(dir.id)"
         >
           <div class="learning-icon">
             <component :is="dir.icon" :size="48" stroke-width="1.5" />
           </div>
 
           <h3 class="learning-name">{{ dir.name }}</h3>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -92,7 +85,11 @@ const navigateToDirection = (id: string) => {
 .learning-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-blue) 0%,
+    var(--color-cyan) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -121,6 +118,7 @@ const navigateToDirection = (id: string) => {
   cursor: pointer;
   flex: 0 1 calc(25% - 18px);
   max-width: 280px;
+  text-decoration: none;
 }
 
 .learning-card:hover {

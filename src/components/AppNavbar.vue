@@ -1,173 +1,161 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useDevice } from '@/composables/useDevice'
+import { ref, onMounted, onUnmounted } from "vue";
+import { useDevice } from "@/composables/useDevice";
 
-const router = useRouter()
-const route = useRoute()
-const { isMobile } = useDevice()
+const { isMobile } = useDevice();
 
-// 导航菜单项类型定义
 interface NavSubChild {
-  label: string
-  href: string
+  label: string;
+  href: string;
 }
 
 interface NavChild {
-  label: string
-  href: string
-  children?: NavSubChild[]
+  label: string;
+  href: string;
+  children?: NavSubChild[];
 }
 
 interface NavItem {
-  id: string
-  label: string
-  href: string
-  children?: NavChild[]
+  id: string;
+  label: string;
+  href: string;
+  children?: NavChild[];
 }
 
-// 导航菜单配置
 const navMenu: NavItem[] = [
   {
-    id: 'home',
-    label: '首页',
-    href: '#home',
+    id: "home",
+    label: "首页",
+    href: "#home",
     children: [
-      { label: '部门介绍', href: '#departments' },
-      { label: '学习方向', href: '#learning' },
-      { label: '加入我们', href: '#recruitment' },
+      { label: "部门介绍", href: "#departments" },
+      { label: "学习方向", href: "#learning" },
+      { label: "加入我们", href: "#recruitment" },
     ],
   },
   {
-    id: 'departments',
-    label: '部门',
-    href: '#departments',
+    id: "departments",
+    label: "部门",
+    href: "#departments",
     children: [
       {
-        label: '多媒体部门',
-        href: '#departments',
+        label: "多媒体部门",
+        href: "#departments",
         children: [
-          { label: '前端开发', href: '/direction/web' },
-          { label: '后端开发', href: '/direction/backend' },
-          { label: 'UI设计', href: '/direction/ui' },
-          { label: '视频剪辑', href: '/direction/video' },
-          { label: '编辑', href: '/direction/editing' },
+          { label: "前端开发", href: "/direction/web" },
+          { label: "后端开发", href: "/direction/backend" },
+          { label: "UI设计", href: "/direction/ui" },
+          { label: "视频剪辑", href: "/direction/video" },
+          { label: "编辑", href: "/direction/editing" },
         ],
       },
       {
-        label: '软件部门',
-        href: '#departments',
+        label: "软件部门",
+        href: "#departments",
         children: [
-          { label: '深度学习', href: '/direction/machinelearning' },
-          { label: 'APP开发', href: '/direction/android' },
-          { label: '游戏开发', href: '/direction/game' },
+          { label: "深度学习", href: "/direction/machinelearning" },
+          { label: "APP开发", href: "/direction/android" },
+          { label: "游戏开发", href: "/direction/game" },
         ],
       },
       {
-        label: '硬件部门',
-        href: '#departments',
-        children: [{ label: '硬件开发', href: '/direction/embedded' }],
+        label: "硬件部门",
+        href: "#departments",
+        children: [{ label: "硬件开发", href: "/direction/embedded" }],
       },
       {
-        label: '安全部门',
-        href: '#departments',
+        label: "安全部门",
+        href: "#departments",
         children: [
-          { label: '逆向工程', href: '/direction/reverse' },
-          { label: 'Web 安全', href: '/direction/websecurity' },
-          { label: 'Pwn', href: '/direction/pwn' },
-          { label: '密码学', href: '/direction/crypto' },
+          { label: "逆向工程", href: "/direction/reverse" },
+          { label: "Web 安全", href: "/direction/websecurity" },
+          { label: "Pwn", href: "/direction/pwn" },
+          { label: "密码学", href: "/direction/crypto" },
         ],
       },
     ],
   },
   {
-    id: 'learning',
-    label: '学习',
-    href: '#learning',
+    id: "learning",
+    label: "学习",
+    href: "#learning",
     children: [
-      { label: '练习编程', href: 'https://oj.kexie.space' },
-      { label: '知识库', href: 'https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb' },
+      { label: "练习编程", href: "https://oj.kexie.space" },
+      {
+        label: "知识库",
+        href: "https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb",
+      },
     ],
   },
   {
-    id: 'recruitment',
-    label: '招新',
-    href: '#recruitment',
+    id: "recruitment",
+    label: "招新",
+    href: "#recruitment",
     children: [
-      { label: 'QQ 群', href: 'https://api.kexie.space/recruitment-qq-group' },
-      { label: 'QQ 频道', href: 'https://pd.qq.com/s/5pxzsijx0' },
+      { label: "QQ 群", href: "https://api.kexie.space/recruitment-qq-group" },
+      { label: "QQ 频道", href: "https://pd.qq.com/s/5pxzsijx0" },
     ],
   },
   {
-    id: 'more',
-    label: '更多',
-    href: '#',
+    id: "more",
+    label: "更多",
+    href: "#",
     children: [
-      { label: '近年获奖情况', href: '/awards' },
-      { label: '项目活动', href: '/projects' },
-      { label: '畅心所言', href: '/comments' },
+      { label: "近年获奖情况", href: "/awards" },
+      { label: "项目活动", href: "/projects" },
+      { label: "畅心所言", href: "/comments" },
     ],
   },
-]
+];
 
-const isScrolled = ref(false)
-const isMobileMenuOpen = ref(false)
-const activeDropdown = ref<string | null>(null)
+const isScrolled = ref(false);
+const isMobileMenuOpen = ref(false);
+const activeDropdown = ref<string | null>(null);
 
-// 监听滚动事件
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-}
+  isScrolled.value = window.scrollY > 50;
+};
 
-// 导航处理
-const handleNavigation = (href: string) => {
-  if (href.startsWith('http')) {
-    // 外部链接跳转
-    window.open(href, '_blank')
-  } else if (href.startsWith('/')) {
-    // 内部页面路由跳转
-    router.push(href)
-  } else if (href.startsWith('#')) {
-    // 页面内锚点跳转
-    if (route.path !== '/') {
-      // 当前不在首页，先返回首页
-      router.push('/')
+const handleNavigation = (href: string, event: Event) => {
+  if (href.startsWith("http")) {
+    event.preventDefault();
+    window.open(href, "_blank");
+  } else if (href.startsWith("/")) {
+    return;
+  } else if (href.startsWith("#")) {
+    event.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     } else {
-      // 已在首页，执行锚点滚动
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
+      window.location.href = "/" + href;
     }
   }
-  isMobileMenuOpen.value = false
-  activeDropdown.value = null
-}
+  isMobileMenuOpen.value = false;
+  activeDropdown.value = null;
+};
 
-// 显示下拉菜单
 const showDropdown = (id: string) => {
-  activeDropdown.value = id
-}
+  activeDropdown.value = id;
+};
 
-// 隐藏下拉菜单
 const hideDropdown = () => {
-  activeDropdown.value = null
-}
+  activeDropdown.value = null;
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
+  window.addEventListener("scroll", handleScroll);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
   <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled, 'is-mobile': isMobile }">
     <div class="navbar-container">
-      <!-- Logo -->
-      <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
+      <a href="/" class="navbar-logo">
         <picture>
           <source srcset="/logo.webp" type="image/webp" />
           <img src="/logo.png" alt="科协LOGO" class="navbar-logo-img" />
@@ -175,75 +163,34 @@ onUnmounted(() => {
         <span class="navbar-logo-text">桂电三院科协</span>
       </a>
 
-      <!-- 桌面端导航链接 -->
       <div v-if="!isMobile" class="navbar-links">
-        <div
-          v-for="item in navMenu"
-          :key="item.id"
-          class="navbar-item"
-          @mouseenter="item.children && showDropdown(item.id)"
-          @mouseleave="hideDropdown"
-        >
-          <a
-            :href="item.href"
-            class="navbar-link"
-            :class="{ 'has-dropdown': item.children }"
-            @click.prevent="handleNavigation(item.href)"
-          >
+        <div v-for="item in navMenu" :key="item.id" class="navbar-item"
+          @mouseenter="item.children && showDropdown(item.id)" @mouseleave="hideDropdown">
+          <a :href="item.href" class="navbar-link" :class="{ 'has-dropdown': item.children }"
+            @click="handleNavigation(item.href, $event)">
             {{ item.label }}
-            <svg
-              v-if="item.children"
-              class="dropdown-arrow"
-              :class="{ 'is-open': activeDropdown === item.id }"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg v-if="item.children" class="dropdown-arrow" :class="{ 'is-open': activeDropdown === item.id }"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </a>
 
-          <!-- 一级下拉菜单 -->
           <transition name="dropdown">
             <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-              <div
-                v-for="(child, index) in item.children"
-                :key="index"
-                class="dropdown-item"
-                :class="{ 'has-children': child.children }"
-              >
-                <a
-                  :href="child.href"
-                  class="dropdown-link"
-                  @click.prevent="handleNavigation(child.href)"
-                >
+              <div v-for="(child, index) in item.children" :key="index" class="dropdown-item"
+                :class="{ 'has-children': child.children }">
+                <a :href="child.href" class="dropdown-link" @click="handleNavigation(child.href, $event)">
                   {{ child.label }}
-                  <svg
-                    v-if="child.children"
-                    class="dropdown-arrow-right"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
+                  <svg v-if="child.children" class="dropdown-arrow-right" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </a>
 
-                <!-- 二级下拉菜单 -->
                 <div v-if="child.children" class="subdropdown-menu">
-                  <a
-                    v-for="(subChild, subIndex) in child.children"
-                    :key="subIndex"
-                    :href="subChild.href"
-                    class="subdropdown-link"
-                    @click.prevent="handleNavigation(subChild.href)"
-                  >
+                  <a v-for="(subChild, subIndex) in child.children" :key="subIndex" :href="subChild.href"
+                    class="subdropdown-link" @click="handleNavigation(subChild.href, $event)">
                     {{ subChild.label }}
                   </a>
                 </div>
@@ -253,45 +200,19 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <!-- 右侧操作区 -->
       <div class="navbar-actions">
-        <a
-          v-if="!isMobile"
-          href="https://api.kexie.space/recruitment-qq-group"
-          class="navbar-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-          >加入我们</a
-        >
+        <a v-if="!isMobile" href="https://api.kexie.space/recruitment-qq-group" class="navbar-cta"
+          target="_blank">加入我们</a>
 
-        <!-- 移动端菜单按钮 -->
-        <button
-          v-if="isMobile"
-          class="navbar-menu-btn"
-          @click="isMobileMenuOpen = !isMobileMenuOpen"
-          aria-label="切换菜单"
-        >
-          <svg
-            v-if="!isMobileMenuOpen"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+        <button v-if="isMobile" class="navbar-menu-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="切换菜单">
+          <svg v-if="!isMobileMenuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
-          <svg
-            v-else
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+          <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -299,44 +220,29 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- 移动端菜单 -->
     <transition name="slide-down">
       <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
         <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
-          <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
+          <a :href="item.href" class="mobile-nav-link" @click="handleNavigation(item.href, $event)">
             {{ item.label }}
           </a>
 
-          <!-- 移动端子菜单 -->
           <div v-if="item.children" class="mobile-submenu">
             <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
-              <a
-                :href="child.href"
-                class="mobile-submenu-title mobile-submenu-title-link"
-                @click.prevent="handleNavigation(child.href)"
-              >
+              <a :href="child.href" class="mobile-submenu-title mobile-submenu-title-link"
+                @click="handleNavigation(child.href, $event)">
                 {{ child.label }}
               </a>
               <div v-if="child.children" class="mobile-submenu-items">
-                <a
-                  v-for="(subChild, subIndex) in child.children"
-                  :key="subIndex"
-                  :href="subChild.href"
-                  class="mobile-submenu-link"
-                  @click.prevent="handleNavigation(subChild.href)"
-                >
+                <a v-for="(subChild, subIndex) in child.children" :key="subIndex" :href="subChild.href"
+                  class="mobile-submenu-link" @click="handleNavigation(subChild.href, $event)">
                   {{ subChild.label }}
                 </a>
               </div>
             </div>
           </div>
         </div>
-        <a
-          href="https://api.kexie.space/recruitment-qq-group"
-          class="navbar-mobile-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-          >加入我们</a
-        >
+        <a href="https://api.kexie.space/recruitment-qq-group" class="navbar-mobile-cta" target="_blank">加入我们</a>
       </div>
     </transition>
   </nav>
@@ -369,7 +275,6 @@ onUnmounted(() => {
   justify-content: space-between;
 }
 
-/* Logo */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -393,13 +298,14 @@ onUnmounted(() => {
 .navbar-logo-text {
   font-size: 18px;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* 导航链接 */
 .navbar-links {
   display: flex;
   align-items: center;
@@ -439,7 +345,6 @@ onUnmounted(() => {
   transform: rotate(180deg);
 }
 
-/* 下拉菜单 */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -454,9 +359,8 @@ onUnmounted(() => {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* 填补导航链接和下拉菜单之间的间隙，防止鼠标移动时闪烁 */
 .dropdown-menu::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -8px;
   left: 0;
@@ -495,7 +399,6 @@ onUnmounted(() => {
   margin-left: 8px;
 }
 
-/* 二级下拉菜单 */
 .subdropdown-menu {
   display: none;
   position: absolute;
@@ -511,9 +414,8 @@ onUnmounted(() => {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* 填补一级菜单和二级菜单之间的间隙，防止鼠标移动时闪烁 */
 .subdropdown-menu::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -8px;
@@ -536,7 +438,6 @@ onUnmounted(() => {
   color: var(--color-blue);
 }
 
-/* 操作区 */
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -545,7 +446,9 @@ onUnmounted(() => {
 
 .navbar-cta {
   padding: 10px 20px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   color: var(--color-black);
   font-size: 14px;
   font-weight: 600;
@@ -559,7 +462,6 @@ onUnmounted(() => {
   box-shadow: 0 4px 20px rgba(130, 212, 242, 0.4);
 }
 
-/* 移动端菜单按钮 */
 .navbar-menu-btn {
   width: 40px;
   height: 40px;
@@ -587,7 +489,6 @@ onUnmounted(() => {
   height: 100%;
 }
 
-/* 移动端菜单 */
 .navbar-mobile-menu {
   display: none;
   position: absolute;
@@ -680,7 +581,9 @@ onUnmounted(() => {
 
 .navbar-mobile-cta {
   padding: 14px 20px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: linear-gradient(135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   color: var(--color-black);
   font-size: 16px;
   font-weight: 600;
@@ -691,7 +594,6 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
-/* 动画 */
 .slide-down-enter-active,
 .slide-down-leave-active {
   transition: all 0.3s ease;
@@ -714,7 +616,6 @@ onUnmounted(() => {
   transform: translateY(-8px);
 }
 
-/* 响应式 */
 .is-mobile .navbar {
   padding: 12px 16px;
 }

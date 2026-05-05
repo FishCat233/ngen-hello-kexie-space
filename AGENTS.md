@@ -342,6 +342,7 @@ OJ(练习编程): https://oj.kexie.space
 ## 技术选型
 
 - vite: 前端构建工具
+- Astro: 前端框架
 - Vue3: 前端框架
 - Tailwind CSS: 前端样式框架
 - Pinia: 前端状态管理
