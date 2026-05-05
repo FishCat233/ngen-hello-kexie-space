@@ -2,23 +2,10 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
-import importToCDN from 'vite-plugin-cdn-import'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    tailwindcss(),
-    importToCDN({
-      modules: [
-        {
-          name: 'three',
-          var: 'THREE',
-          path: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/three.js/0.180.0/three.tsl.js',
-        },
-      ],
-    }),
-  ],
+  plugins: [vue(), tailwindcss()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -26,11 +13,9 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      external: ['three'],
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/three')) {
-            return 'three'
-          }
           if (
             id.includes('node_modules/vue') ||
             id.includes('node_modules/vue-router') ||
