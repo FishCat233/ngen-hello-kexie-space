@@ -3,6 +3,8 @@ import { useRouter } from 'vue-router'
 import { ArrowLeft, Trophy, Users } from 'lucide-vue-next'
 import { awards, getAwardLevelColor } from '../data/awards'
 import TracerBullet from '../components/TracerBullet.vue'
+import FadeInSection from '../components/transitions/FadeInSection.vue'
+import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const router = useRouter()
 
@@ -16,56 +18,66 @@ const goBack = () => {
     <TracerBullet :active="true" class="awards-tracer" />
 
     <div class="awards-container">
-      <button class="back-button" @click="goBack">
-        <ArrowLeft :size="20" />
-        <span>返回首页</span>
-      </button>
+      <FadeInSection :delay="0" :duration="250">
+        <button class="back-button" @click="goBack">
+          <ArrowLeft :size="20" />
+          <span>返回首页</span>
+        </button>
+      </FadeInSection>
 
-      <div class="awards-header">
-        <h1 class="awards-title">近年获奖情况</h1>
-        <p class="awards-subtitle">很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分</p>
-      </div>
+      <FadeInSection :delay="50" :duration="400">
+        <div class="awards-header">
+          <h1 class="awards-title">近年获奖情况</h1>
+          <p class="awards-subtitle">
+            很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分
+          </p>
+        </div>
+      </FadeInSection>
 
       <div class="awards-grid">
-        <div v-for="award in awards" :key="award.name" class="award-card">
-          <div class="award-glow"></div>
-          <div class="award-content-wrapper">
-            <div class="award-header">
-              <div class="award-icon">
-                <Trophy :size="20" />
-              </div>
-              <h3 class="award-name">{{ award.name }}</h3>
-            </div>
+        <StaggeredList :items="awards" :stagger-delay="40" :duration="350">
+          <template #default="{ item: award }">
+            <div class="award-card">
+              <div class="award-glow"></div>
+              <div class="award-content-wrapper">
+                <div class="award-header">
+                  <div class="award-icon">
+                    <Trophy :size="20" />
+                  </div>
+                  <h3 class="award-name">{{ award.name }}</h3>
+                </div>
 
-            <div class="award-content">
-              <div class="award-levels">
-                <div
-                  v-for="(count, level) in award.award"
-                  :key="level"
-                  class="award-level"
-                  :style="{ borderColor: getAwardLevelColor(level) }"
-                >
-                  <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
-                    {{ count }}人
-                  </span>
-                  <span class="level-name">{{ level }}</span>
-                </div>
-              </div>
+                <div class="award-content">
+                  <div class="award-levels">
+                    <div
+                      v-for="(count, level) in award.award"
+                      :key="level"
+                      class="award-level"
+                      :style="{ borderColor: getAwardLevelColor(level) }"
+                    >
+                      <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
+                        {{ count }}人
+                      </span>
+                      <span class="level-name">{{ level }}</span>
+                    </div>
+                  </div>
 
-              <div class="award-people">
-                <div class="people-header">
-                  <Users :size="14" />
-                  <span>获奖成员</span>
-                </div>
-                <div class="people-list">
-                  <span v-for="person in award.people" :key="person" class="person-tag">
-                    {{ person }}
-                  </span>
+                  <div class="award-people">
+                    <div class="people-header">
+                      <Users :size="14" />
+                      <span>获奖成员</span>
+                    </div>
+                    <div class="people-list">
+                      <span v-for="person in award.people" :key="person" class="person-tag">
+                        {{ person }}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </StaggeredList>
       </div>
     </div>
   </div>
@@ -110,15 +122,43 @@ const goBack = () => {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin-bottom: 32px;
   backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(130, 212, 242, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  pointer-events: none;
 }
 
 .back-button:hover {
   background: rgba(130, 212, 242, 0.2);
   border-color: var(--color-blue);
   transform: translateX(-4px);
+  box-shadow:
+    0 0 20px rgba(130, 212, 242, 0.3),
+    0 0 40px rgba(130, 212, 242, 0.1);
+}
+
+.back-button:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.back-button:active {
+  transform: translateX(-2px) scale(0.98);
 }
 
 .awards-header {

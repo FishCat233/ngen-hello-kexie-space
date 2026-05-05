@@ -20,6 +20,8 @@ import {
   type GalleryItem,
 } from '../data/gallery'
 import TracerBullet from '../components/TracerBullet.vue'
+import FadeInSection from '../components/transitions/FadeInSection.vue'
+import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const router = useRouter()
 const currentCategory = ref<GalleryCategory>('all')
@@ -132,73 +134,85 @@ onUnmounted(() => {
     <TracerBullet :active="true" class="gallery-tracer" />
 
     <div class="gallery-container">
-      <button class="back-button" @click="goBack">
-        <ArrowLeft :size="20" />
-        <span>返回首页</span>
-      </button>
-
-      <div class="gallery-header">
-        <h1 class="gallery-title">项目展廊</h1>
-        <p class="gallery-subtitle">展示科协成员的项目、博客和精彩瞬间</p>
-      </div>
-
-      <div class="category-filter">
-        <button
-          v-for="category in categories"
-          :key="category.id"
-          class="category-btn"
-          :class="{ active: currentCategory === category.id }"
-          @click="setCategory(category.id)"
-        >
-          {{ category.label }}
+      <FadeInSection :delay="0" :duration="250">
+        <button class="back-button" @click="goBack">
+          <ArrowLeft :size="20" />
+          <span>返回首页</span>
         </button>
-      </div>
+      </FadeInSection>
+
+      <FadeInSection :delay="50" :duration="400">
+        <div class="gallery-header">
+          <h1 class="gallery-title">项目展廊</h1>
+          <p class="gallery-subtitle">展示科协成员的项目、博客和精彩瞬间</p>
+        </div>
+      </FadeInSection>
+
+      <FadeInSection :delay="100" :duration="400">
+        <div class="category-filter">
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            class="category-btn"
+            :class="{ active: currentCategory === category.id }"
+            @click="setCategory(category.id)"
+          >
+            {{ category.label }}
+          </button>
+        </div>
+      </FadeInSection>
 
       <div class="gallery-grid">
-        <div
-          v-for="item in filteredItems"
-          :key="item.id"
-          class="gallery-card"
-          :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
-          @click="handleItemClick(item)"
-        >
-          <div class="image-wrapper">
-            <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
-            <div class="image-overlay">
-              <ImageIcon v-if="item.type === 'image'" :size="24" />
-              <Monitor v-else-if="item.type === 'iframe'" :size="24" />
-              <ExternalLink v-else :size="24" />
+        <StaggeredList :items="filteredItems" :stagger-delay="80" :duration="500">
+          <template #default="{ item }">
+            <div
+              class="gallery-card"
+              :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
+              @click="handleItemClick(item)"
+            >
+              <div class="image-wrapper">
+                <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
+                <div class="image-overlay">
+                  <ImageIcon v-if="item.type === 'image'" :size="24" />
+                  <Monitor v-else-if="item.type === 'iframe'" :size="24" />
+                  <ExternalLink v-else :size="24" />
+                </div>
+                <div v-if="item.type === 'link'" class="link-badge">
+                  <Link2 :size="12" />
+                  <span>外部链接</span>
+                </div>
+                <div v-else-if="item.type === 'iframe'" class="iframe-badge">
+                  <Monitor :size="12" />
+                  <span>可预览</span>
+                </div>
+              </div>
+              <div class="gallery-card-content">
+                <h3 class="gallery-card-title">
+                  <span class="category-tag" :class="'category-tag-' + item.category">
+                    {{
+                      item.category === 'image'
+                        ? '图片'
+                        : item.category === 'project'
+                          ? '项目'
+                          : item.category === 'blog'
+                            ? '博客'
+                            : '其他'
+                    }}
+                  </span>
+                  {{ item.title }}
+                  <ExternalLink v-if="item.type === 'link'" :size="14" class="title-link-icon" />
+                  <Monitor
+                    v-else-if="item.type === 'iframe'"
+                    :size="14"
+                    class="title-iframe-icon"
+                  />
+                </h3>
+                <p class="gallery-card-description">{{ item.description }}</p>
+                <span class="gallery-card-date">{{ item.date }}</span>
+              </div>
             </div>
-            <div v-if="item.type === 'link'" class="link-badge">
-              <Link2 :size="12" />
-              <span>外部链接</span>
-            </div>
-            <div v-else-if="item.type === 'iframe'" class="iframe-badge">
-              <Monitor :size="12" />
-              <span>可预览</span>
-            </div>
-          </div>
-          <div class="gallery-card-content">
-            <h3 class="gallery-card-title">
-              <span class="category-tag" :class="'category-tag-' + item.category">
-                {{
-                  item.category === 'image'
-                    ? '图片'
-                    : item.category === 'project'
-                      ? '项目'
-                      : item.category === 'blog'
-                        ? '博客'
-                        : '其他'
-                }}
-              </span>
-              {{ item.title }}
-              <ExternalLink v-if="item.type === 'link'" :size="14" class="title-link-icon" />
-              <Monitor v-else-if="item.type === 'iframe'" :size="14" class="title-iframe-icon" />
-            </h3>
-            <p class="gallery-card-description">{{ item.description }}</p>
-            <span class="gallery-card-date">{{ item.date }}</span>
-          </div>
-        </div>
+          </template>
+        </StaggeredList>
       </div>
 
       <div v-if="filteredItems.length === 0" class="empty-state">
@@ -333,15 +347,43 @@ onUnmounted(() => {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin-bottom: 32px;
   backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(130, 212, 242, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  pointer-events: none;
 }
 
 .back-button:hover {
   background: rgba(130, 212, 242, 0.2);
   border-color: var(--color-blue);
   transform: translateX(-4px);
+  box-shadow:
+    0 0 20px rgba(130, 212, 242, 0.3),
+    0 0 40px rgba(130, 212, 242, 0.1);
+}
+
+.back-button:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.back-button:active {
+  transform: translateX(-2px) scale(0.98);
 }
 
 .gallery-header {

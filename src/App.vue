@@ -34,7 +34,11 @@ const isHomePage = computed(() => route.path === '/')
         <RecruitmentSection />
       </section>
     </main>
-    <router-view v-else />
+    <RouterView v-else v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
     <AppFooter />
   </div>
 </template>
@@ -54,5 +58,42 @@ const isHomePage = computed(() => route.path === '/')
 
 section {
   scroll-margin-top: 80px;
+}
+
+/* Page transition animations */
+.page-enter-active,
+.page-leave-active {
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.page-enter-to,
+.page-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
+  }
+
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 1;
+    transform: none;
+  }
 }
 </style>

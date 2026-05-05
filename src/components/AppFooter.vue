@@ -91,8 +91,12 @@ onUnmounted(() => {
         <div class="footer-section">
           <h3 class="footer-title">联系我们</h3>
           <div class="footer-links">
-            <div v-for="link in contactLinks" :key="link.name" class="footer-link-item"
-              @click="handleLinkClick(link.url)">
+            <div
+              v-for="link in contactLinks"
+              :key="link.name"
+              class="footer-link-item"
+              @click="handleLinkClick(link.url)"
+            >
               <component :is="getIconComponent(link.icon)" class="footer-link-icon" />
               <span class="footer-link-text">{{ link.name }}</span>
             </div>
@@ -106,8 +110,10 @@ onUnmounted(() => {
               <span class="footer-info-label">版本：</span>
               <span class="footer-info-value">v{{ version }}</span>
             </div>
-            <div class="footer-info-item footer-info-link"
-              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')">
+            <div
+              class="footer-info-item footer-info-link"
+              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')"
+            >
               <span class="footer-info-label">Github 仓库：</span>
               <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
               <ExternalLink class="footer-info-icon" />

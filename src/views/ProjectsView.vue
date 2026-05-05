@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ExternalLink, User } from 'lucide-vue-next'
 import { projects, demoProjects } from '../data/projects'
+import FadeInSection from '../components/transitions/FadeInSection.vue'
+import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const router = useRouter()
 const avatarErrors = ref<Record<number, boolean>>({})
@@ -28,121 +30,127 @@ const handleDemoAvatarError = (index: number) => {
 <template>
   <div class="projects-page">
     <div class="projects-container">
-      <button class="back-button" @click="goBack">
-        <ArrowLeft :size="20" />
-        <span>返回首页</span>
-      </button>
+      <FadeInSection :delay="0" :duration="250">
+        <button class="back-button" @click="goBack">
+          <ArrowLeft :size="20" />
+          <span>返回首页</span>
+        </button>
+      </FadeInSection>
 
-      <div class="projects-header">
-        <h1 class="projects-title">科协项目活动</h1>
-        <p class="projects-subtitle">科协成员的部分项目活动</p>
+      <FadeInSection :delay="50" :duration="400">
+        <div class="projects-header">
+          <h1 class="projects-title">科协项目活动</h1>
+          <p class="projects-subtitle">科协成员的部分项目活动</p>
+        </div>
+      </FadeInSection>
+
+      <div class="projects-section">
+        <FadeInSection :delay="100" :duration="400">
+          <div class="section-header">
+            <h2 class="section-title">科协优秀项目</h2>
+            <p class="section-subtitle">科协成员开发的优秀项目</p>
+          </div>
+        </FadeInSection>
+
+        <div class="projects-grid">
+          <StaggeredList :items="projects" :stagger-delay="80" :duration="500">
+            <template #default="{ item: project, index }">
+              <div class="project-card" @click="openProject(project.url)">
+                <div class="project-author">
+                  <div class="author-avatar-wrapper">
+                    <img
+                      v-if="!avatarErrors[index]"
+                      :src="project.authorAvatar"
+                      :alt="project.author"
+                      class="author-avatar"
+                      @error="handleAvatarError(index)"
+                    />
+                    <div v-else class="author-avatar-placeholder">
+                      <User :size="20" />
+                    </div>
+                  </div>
+                  <span class="author-name">{{ project.author }}</span>
+                </div>
+
+                <div class="project-content">
+                  <div class="project-main">
+                    <h3 class="project-name">
+                      {{ project.name }}
+                      <ExternalLink :size="16" class="project-link-icon" />
+                    </h3>
+                    <p class="project-description" :title="project.description">
+                      {{ project.description }}
+                    </p>
+                  </div>
+
+                  <div class="project-meta">
+                    <div class="project-language">
+                      <span
+                        class="language-dot"
+                        :style="{ backgroundColor: project.languageColor }"
+                      ></span>
+                      <span class="language-name">{{ project.language }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </StaggeredList>
+        </div>
       </div>
 
       <div class="projects-section">
-        <div class="section-header">
-          <h2 class="section-title">科协优秀项目</h2>
-          <p class="section-subtitle">科协成员开发的优秀项目</p>
-        </div>
+        <FadeInSection :delay="100" :duration="400">
+          <div class="section-header">
+            <h2 class="section-title">学习演示项目</h2>
+            <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
+          </div>
+        </FadeInSection>
 
         <div class="projects-grid">
-          <div
-            v-for="(project, index) in projects"
-            :key="project.name"
-            class="project-card"
-            @click="openProject(project.url)"
-          >
-            <div class="project-author">
-              <div class="author-avatar-wrapper">
-                <img
-                  v-if="!avatarErrors[index]"
-                  :src="project.authorAvatar"
-                  :alt="project.author"
-                  class="author-avatar"
-                  @error="handleAvatarError(index)"
-                />
-                <div v-else class="author-avatar-placeholder">
-                  <User :size="20" />
+          <StaggeredList :items="demoProjects" :stagger-delay="80" :duration="500">
+            <template #default="{ item: project, index }">
+              <div class="project-card" @click="openProject(project.url)">
+                <div class="project-author">
+                  <div class="author-avatar-wrapper">
+                    <img
+                      v-if="!demoAvatarErrors[index]"
+                      :src="project.authorAvatar"
+                      :alt="project.author"
+                      class="author-avatar"
+                      @error="handleDemoAvatarError(index)"
+                    />
+                    <div v-else class="author-avatar-placeholder">
+                      <User :size="20" />
+                    </div>
+                  </div>
+                  <span class="author-name">{{ project.author }}</span>
+                </div>
+
+                <div class="project-content">
+                  <div class="project-main">
+                    <h3 class="project-name">
+                      {{ project.name }}
+                      <ExternalLink :size="16" class="project-link-icon" />
+                    </h3>
+                    <p class="project-description" :title="project.description">
+                      {{ project.description }}
+                    </p>
+                  </div>
+
+                  <div class="project-meta">
+                    <div class="project-language">
+                      <span
+                        class="language-dot"
+                        :style="{ backgroundColor: project.languageColor }"
+                      ></span>
+                      <span class="language-name">{{ project.language }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <span class="author-name">{{ project.author }}</span>
-            </div>
-
-            <div class="project-content">
-              <div class="project-main">
-                <h3 class="project-name">
-                  {{ project.name }}
-                  <ExternalLink :size="16" class="project-link-icon" />
-                </h3>
-                <p class="project-description" :title="project.description">
-                  {{ project.description }}
-                </p>
-              </div>
-
-              <div class="project-meta">
-                <div class="project-language">
-                  <span
-                    class="language-dot"
-                    :style="{ backgroundColor: project.languageColor }"
-                  ></span>
-                  <span class="language-name">{{ project.language }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="projects-section">
-        <div class="section-header">
-          <h2 class="section-title">学习演示项目</h2>
-          <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
-        </div>
-
-        <div class="projects-grid">
-          <div
-            v-for="(project, index) in demoProjects"
-            :key="project.name"
-            class="project-card"
-            @click="openProject(project.url)"
-          >
-            <div class="project-author">
-              <div class="author-avatar-wrapper">
-                <img
-                  v-if="!demoAvatarErrors[index]"
-                  :src="project.authorAvatar"
-                  :alt="project.author"
-                  class="author-avatar"
-                  @error="handleDemoAvatarError(index)"
-                />
-                <div v-else class="author-avatar-placeholder">
-                  <User :size="20" />
-                </div>
-              </div>
-              <span class="author-name">{{ project.author }}</span>
-            </div>
-
-            <div class="project-content">
-              <div class="project-main">
-                <h3 class="project-name">
-                  {{ project.name }}
-                  <ExternalLink :size="16" class="project-link-icon" />
-                </h3>
-                <p class="project-description" :title="project.description">
-                  {{ project.description }}
-                </p>
-              </div>
-
-              <div class="project-meta">
-                <div class="project-language">
-                  <span
-                    class="language-dot"
-                    :style="{ backgroundColor: project.languageColor }"
-                  ></span>
-                  <span class="language-name">{{ project.language }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            </template>
+          </StaggeredList>
         </div>
       </div>
     </div>
@@ -175,14 +183,42 @@ const handleDemoAvatarError = (index: number) => {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(130, 212, 242, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  pointer-events: none;
 }
 
 .back-button:hover {
   background: rgba(130, 212, 242, 0.2);
   border-color: var(--color-blue);
   transform: translateX(-4px);
+  box-shadow:
+    0 0 20px rgba(130, 212, 242, 0.3),
+    0 0 40px rgba(130, 212, 242, 0.1);
+}
+
+.back-button:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.back-button:active {
+  transform: translateX(-2px) scale(0.98);
 }
 
 .projects-header {

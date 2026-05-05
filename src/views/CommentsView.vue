@@ -9,6 +9,8 @@ import DOMPurify from 'dompurify'
 import { fetchComments, formatDate } from '../data/comments'
 import type { Comment } from '../types/comment'
 import TracerBullet from '../components/TracerBullet.vue'
+import FadeInSection from '../components/transitions/FadeInSection.vue'
+import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const router = useRouter()
 const comments = ref<Comment[]>([])
@@ -91,18 +93,22 @@ onMounted(() => {
     <TracerBullet :active="true" class="comments-tracer" />
 
     <div class="comments-container">
-      <button class="back-button" @click="goBack">
-        <ArrowLeft :size="20" />
-        <span>返回首页</span>
-      </button>
+      <FadeInSection :delay="0" :duration="250">
+        <button class="back-button" @click="goBack">
+          <ArrowLeft :size="20" />
+          <span>返回首页</span>
+        </button>
+      </FadeInSection>
 
-      <div class="comments-header">
-        <div class="header-icon">
-          <MessageCircle :size="32" />
+      <FadeInSection :delay="50" :duration="400">
+        <div class="comments-header">
+          <div class="header-icon">
+            <MessageCircle :size="32" />
+          </div>
+          <h1 class="comments-title">畅心所言</h1>
+          <p class="comments-subtitle">在此留下您的心声吧~</p>
         </div>
-        <h1 class="comments-title">畅心所言</h1>
-        <p class="comments-subtitle">在此留下您的心声吧~</p>
-      </div>
+      </FadeInSection>
 
       <div v-if="loading" class="loading-state">
         <div class="loading-spinner"></div>
@@ -129,38 +135,40 @@ onMounted(() => {
       </div>
 
       <div v-else class="comments-list">
-        <div
-          v-for="(comment, index) in comments"
-          :key="comment.id"
-          class="comment-card"
-          @click="openComment(comment.html_url)"
-        >
-          <div class="comment-glow"></div>
-          <div class="comment-content-wrapper">
-            <div class="comment-header">
-              <div class="comment-author" @click.stop="openGitHubProfile(comment.user.html_url)">
-                <div class="author-avatar-wrapper">
-                  <img
-                    v-if="!avatarErrors[index]"
-                    :src="comment.user.avatar_url"
-                    :alt="comment.user.login"
-                    class="author-avatar"
-                    @error="handleAvatarError(index)"
-                  />
-                  <div v-else class="author-avatar-placeholder">
-                    <User :size="20" />
+        <StaggeredList :items="comments" :stagger-delay="40" :duration="350">
+          <template #default="{ item: comment, index }">
+            <div class="comment-card" @click="openComment(comment.html_url)">
+              <div class="comment-glow"></div>
+              <div class="comment-content-wrapper">
+                <div class="comment-header">
+                  <div
+                    class="comment-author"
+                    @click.stop="openGitHubProfile(comment.user.html_url)"
+                  >
+                    <div class="author-avatar-wrapper">
+                      <img
+                        v-if="!avatarErrors[index]"
+                        :src="comment.user.avatar_url"
+                        :alt="comment.user.login"
+                        class="author-avatar"
+                        @error="handleAvatarError(index)"
+                      />
+                      <div v-else class="author-avatar-placeholder">
+                        <User :size="20" />
+                      </div>
+                    </div>
+                    <div class="author-info">
+                      <span class="author-name">{{ comment.user.login }}</span>
+                      <span class="comment-time">{{ formatDate(comment.created_at) }}</span>
+                    </div>
                   </div>
                 </div>
-                <div class="author-info">
-                  <span class="author-name">{{ comment.user.login }}</span>
-                  <span class="comment-time">{{ formatDate(comment.created_at) }}</span>
-                </div>
+
+                <div class="comment-body" v-html="renderedComments[comment.id]"></div>
               </div>
             </div>
-
-            <div class="comment-body" v-html="renderedComments[comment.id]"></div>
-          </div>
-        </div>
+          </template>
+        </StaggeredList>
       </div>
 
       <div class="comments-footer-fixed">
@@ -217,15 +225,43 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin-bottom: 32px;
   backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(130, 212, 242, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease;
+  pointer-events: none;
 }
 
 .back-button:hover {
   background: rgba(130, 212, 242, 0.2);
   border-color: var(--color-blue);
   transform: translateX(-4px);
+  box-shadow:
+    0 0 20px rgba(130, 212, 242, 0.3),
+    0 0 40px rgba(130, 212, 242, 0.1);
+}
+
+.back-button:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.back-button:active {
+  transform: translateX(-2px) scale(0.98);
 }
 
 .comments-header {
