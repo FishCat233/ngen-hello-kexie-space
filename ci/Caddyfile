@@ -3,6 +3,43 @@
     file_server
     encode gzip
 
+    # HTML 文件不缓存，确保用户始终获取最新版本
+    @html {
+        path *.html
+        path /
+    }
+    header @html Cache-Control "no-cache, no-store, must-revalidate"
+    header @html Pragma "no-cache"
+    header @html Expires "0"
+
+    # 带 hash 的静态资源（JS/CSS）缓存 1 年
+    @hashedAssets {
+        path *.js
+        path *.css
+        not path /index.html
+    }
+    header @hashedAssets Cache-Control "public, max-age=31536000, immutable"
+
+    # 图片、字体等静态资源缓存 1 年
+    @staticAssets {
+        path *.png
+        path *.jpg
+        path *.jpeg
+        path *.gif
+        path *.svg
+        path *.webp
+        path *.ico
+        path *.woff
+        path *.woff2
+        path *.ttf
+        path *.eot
+        path *.otf
+    }
+    header @staticAssets Cache-Control "public, max-age=31536000, immutable"
+
+    # 其他资源缓存 1 天
+    header Cache-Control "public, max-age=86400"
+
     # SPA 路由支持
     try_files {path} /index.html
 }

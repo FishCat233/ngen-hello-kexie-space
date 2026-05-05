@@ -42,7 +42,13 @@ export default defineConfig({
             return 'markdown'
           }
         },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
+    chunkSizeWarningLimit: 1000,
+    reportCompressedSize: true,
+    sourcemap: false,
   },
 })
