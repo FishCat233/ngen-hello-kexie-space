@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.1...v1.3.2) (2026-05-05)
+
+
+### Bug Fixes
+
+* 我也不知道有没有效果的 webview 兼容 ([6af1380](https://github.com/FishCat233/ngen-hello-kexie-space/commit/6af1380a9838477956f8be9a7cb1bd0324b88455))
+
 ## [1.3.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.0...v1.3.1) (2026-05-03)
 
 
