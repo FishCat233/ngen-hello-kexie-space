@@ -7,6 +7,7 @@ import HeroSection from './components/HeroSection.vue'
 import DepartmentsSection from './components/DepartmentsSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
 import RecruitmentSection from './components/RecruitmentSection.vue'
+import ScrollFadeIn from './components/transitions/ScrollFadeIn.vue'
 
 const AsciiBackground = defineAsyncComponent(() => import('./components/AsciiBackground.vue'))
 const TracerBullet = defineAsyncComponent(() => import('./components/TracerBullet.vue'))
@@ -26,13 +27,19 @@ const isHomePage = computed(() => route.path === '/')
           <HeroSection />
         </section>
         <section id="departments">
-          <DepartmentsSection />
+          <ScrollFadeIn :duration="400" :distance="20">
+            <DepartmentsSection />
+          </ScrollFadeIn>
         </section>
         <section id="learning">
-          <LearningDirectionsSection />
+          <ScrollFadeIn :duration="400" :distance="20">
+            <LearningDirectionsSection />
+          </ScrollFadeIn>
         </section>
         <section id="recruitment">
-          <RecruitmentSection />
+          <ScrollFadeIn :duration="400" :distance="20">
+            <RecruitmentSection />
+          </ScrollFadeIn>
         </section>
       </main>
       <div v-else key="router" class="router-wrapper">
@@ -118,7 +125,6 @@ section {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .home-enter-active,
   .home-leave-active,
   .page-enter-active,
