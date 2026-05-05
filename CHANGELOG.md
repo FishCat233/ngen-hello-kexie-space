@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.4.0...v1.5.0) (2026-05-05)
+
+
+### Features
+
+* 添加vite-plugin-cdn-import以支持CDN引入three.js ([ce9904f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/ce9904fc5f2f4844a7299834bc911215e9d68644))
+
 ## [1.4.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.3...v1.4.0) (2026-05-05)
 
 
