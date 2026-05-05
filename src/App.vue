@@ -20,25 +20,29 @@ const isHomePage = computed(() => route.path === '/')
     <AsciiBackground :active="isHomePage" />
     <TracerBullet :active="true" />
     <AppNavbar />
-    <main v-if="isHomePage" class="main-content">
-      <section id="home">
-        <HeroSection />
-      </section>
-      <section id="departments">
-        <DepartmentsSection />
-      </section>
-      <section id="learning">
-        <LearningDirectionsSection />
-      </section>
-      <section id="recruitment">
-        <RecruitmentSection />
-      </section>
-    </main>
-    <RouterView v-else v-slot="{ Component }">
-      <Transition name="page" mode="out-in">
-        <component :is="Component" />
-      </Transition>
-    </RouterView>
+    <Transition name="home" mode="out-in">
+      <main v-if="isHomePage" key="home" class="main-content">
+        <section id="home">
+          <HeroSection />
+        </section>
+        <section id="departments">
+          <DepartmentsSection />
+        </section>
+        <section id="learning">
+          <LearningDirectionsSection />
+        </section>
+        <section id="recruitment">
+          <RecruitmentSection />
+        </section>
+      </main>
+      <div v-else key="router" class="router-wrapper">
+        <RouterView v-slot="{ Component }">
+          <Transition name="page" mode="out-in">
+            <component :is="Component" />
+          </Transition>
+        </RouterView>
+      </div>
+    </Transition>
     <AppFooter />
   </div>
 </template>
@@ -56,8 +60,37 @@ const isHomePage = computed(() => route.path === '/')
   z-index: 10;
 }
 
+.router-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
 section {
   scroll-margin-top: 80px;
+}
+
+/* Home page transition animations */
+.home-enter-active,
+.home-leave-active {
+  transition:
+    opacity 190ms ease-out,
+    transform 190ms ease-out;
+}
+
+.home-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.home-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.home-enter-to,
+.home-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Page transition animations */
@@ -85,11 +118,16 @@ section {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  .home-enter-active,
+  .home-leave-active,
   .page-enter-active,
   .page-leave-active {
     transition: none;
   }
 
+  .home-enter-from,
+  .home-leave-to,
   .page-enter-from,
   .page-leave-to {
     opacity: 1;
