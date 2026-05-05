@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.2...v1.3.3) (2026-05-05)
+
+
+### Bug Fixes
+
+* **impot:** 经典 @ 路径修复 ([907854d](https://github.com/FishCat233/ngen-hello-kexie-space/commit/907854d5b8ea471d76ba83d6494f2e52a3866a58))
+
 ## [1.3.2](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.1...v1.3.2) (2026-05-05)
 
 
