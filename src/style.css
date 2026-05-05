@@ -179,6 +179,10 @@ p {
   opacity: 0.9;
   letter-spacing: 2px;
   margin-top: -60px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  -webkit-text-stroke: 5px rgba(79, 184, 182, 0.6);
+  paint-order: stroke fill;
 
   @media (max-width: 1024px) {
     font-size: 16px;

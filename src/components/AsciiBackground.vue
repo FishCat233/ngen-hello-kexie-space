@@ -137,18 +137,18 @@ const init = () => {
 
   scene.add(buildingGroup)
 
-  const ambientLight = new AmbientLight(0xffffff, 3)
+  const ambientLight = new AmbientLight(0xffffff, 2)
   scene.add(ambientLight)
 
-  const directionalLight = new DirectionalLight(0xffffff, 4)
+  const directionalLight = new DirectionalLight(0xffffff, 2.5)
   directionalLight.position.set(1, 1, 1).normalize()
   scene.add(directionalLight)
 
-  const pointLight = new PointLight(0x82d4f2, 3, 500)
+  const pointLight = new PointLight(0x82d4f2, 2, 500)
   pointLight.position.set(100, 100, 100)
   scene.add(pointLight)
 
-  const pointLight2 = new PointLight(0x6fd0ce, 3, 500)
+  const pointLight2 = new PointLight(0x6fd0ce, 2, 500)
   pointLight2.position.set(-100, -100, 100)
   scene.add(pointLight2)
 
