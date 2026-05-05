@@ -17,7 +17,6 @@ const props = withDefaults(
 )
 
 const isVisible = ref(false)
-const sectionRef = ref<HTMLElement | null>(null)
 
 onMounted(() => {
   const timer = setTimeout(() => {
@@ -45,16 +44,11 @@ const getTransform = () => {
 
 <template>
   <Transition name="fade-section">
-    <div
-      v-show="isVisible"
-      ref="sectionRef"
-      class="fade-section"
-      :style="{
-        '--fade-delay': `${delay}ms`,
-        '--fade-duration': `${duration}ms`,
-        '--fade-transform': getTransform(),
-      }"
-    >
+    <div v-show="isVisible" class="fade-section" :style="{
+      '--fade-delay': `${delay}ms`,
+      '--fade-duration': `${duration}ms`,
+      '--fade-transform': getTransform(),
+    }">
       <slot />
     </div>
   </Transition>
@@ -68,8 +62,7 @@ const getTransform = () => {
 .fade-section-enter-active {
   transition:
     opacity var(--fade-duration, 400ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--fade-delay, 0ms),
-    transform var(--fade-duration, 400ms) cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      var(--fade-delay, 0ms);
+    transform var(--fade-duration, 400ms) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--fade-delay, 0ms);
 }
 
 .fade-section-enter-from {
