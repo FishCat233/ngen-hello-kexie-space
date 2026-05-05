@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'Comments',
       component: () => import('../views/CommentsView.vue'),
     },
+    {
+      path: '/gallery',
+      name: 'Gallery',
+      component: () => import('../views/GalleryView.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 }

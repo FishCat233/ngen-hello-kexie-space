@@ -105,6 +105,7 @@ const navMenu: NavItem[] = [
     children: [
       { label: '近年获奖情况', href: '/awards' },
       { label: '项目活动', href: '/projects' },
+      { label: '项目展廊', href: '/gallery' },
       { label: '畅心所言', href: '/comments' },
     ],
   },

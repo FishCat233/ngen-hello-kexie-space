@@ -28,6 +28,7 @@ OJ(练习编程): https://oj.kexie.space
 - 组件: `AppNavbar.vue`
 
 导航菜单
+
 - 首页
   - 部门介绍
   - 学习方向
@@ -58,6 +59,7 @@ OJ(练习编程): https://oj.kexie.space
 - 更多
   - 近年获奖情况
   - 项目活动
+  - 项目展廊
   - 畅心所言
 
 ### 主页面
@@ -148,9 +150,7 @@ OJ(练习编程): https://oj.kexie.space
     - PWN, 图标是 ghost
     - 编辑, 图标是书与笔
 
-
 第四面
-
 - 内容
   - 标题: 加入我们
   - 左侧: 时间线
@@ -168,10 +168,9 @@ OJ(练习编程): https://oj.kexie.space
 
 第五面
 - 内容
-  - 标题: 
+  - 标题:
   - 标题: 近年参赛获奖
   - 备注: 很多还在整理当中，下面展示是2022、2021、2020年国家级、省部级获奖的一部分......
-
 
 ### 方向页面
 
@@ -196,7 +195,6 @@ OJ(练习编程): https://oj.kexie.space
 - 密码学: `public/docs/crypt.md`
 - Web安全: `public/docs/web-security.md`
 - PWN: `public/docs/pwn.md`
-
 
 ### 近年获奖情况页面
 
@@ -268,20 +266,19 @@ OJ(练习编程): https://oj.kexie.space
       - 右侧: 项目语言
         - 语言 LOGO, 颜色是语言代表色
     - 数据
-        - wilinz
-          - GUET 校园圈
-          - 可以查看课表等教务信息，支持安卓和IOS
-          - Dart(Flutter)
-        - LukeXeon
-          - Flexml
-          - 🚀基于Litho的Android高性能动态业务容器。
-          - Kotlin
-          - https://github.com/sanyuankexie/Flexml
+      - wilinz
+        - GUET 校园圈
+        - 可以查看课表等教务信息，支持安卓和IOS
+        - Dart(Flutter)
+      - LukeXeon
+        - Flexml
+        - 🚀基于Litho的Android高性能动态业务容器。
+        - Kotlin
+        - https://github.com/sanyuankexie/Flexml
   - 内容组
     - 标题: 学习演示项目
     - 描述: 近年科协成员在学习中开发的部分演示项目
     - 模板: 同上
-
 
 ### 畅心所言页面
 
@@ -299,6 +296,32 @@ OJ(练习编程): https://oj.kexie.space
       - 评论作者 Github 头像
       - 评论时间
       - 评论内容
+
+### 项目展廊页面
+
+数据和渲染分离，方便后续扩展。支持展示图片、web 项目、博客等多种内容形式。
+
+- 数据文件: `src/data/gallery.ts`
+  - `GalleryItem` 接口定义数据结构，支持图片和链接两种类型
+  - `GalleryCategory` 类型定义分类：全部、图片、Web 项目、博客、其他
+  - `galleryItems` 数组存储展廊数据
+
+- 内容
+  - 标题: 项目展廊
+  - 描述: 展示科协成员的项目、博客和精彩瞬间
+  - 分类筛选标签: 全部、图片、Web 项目、博客、其他
+  - 展廊网格展示
+    - 桌面端3列、平板2列、手机1列
+    - 卡片悬浮效果
+    - 图片类型：点击放大查看
+    - 链接类型：点击跳转外部页面
+  - 灯箱查看功能（仅图片类型）
+    - 点击放大查看原图
+    - 左右切换图片
+    - 键盘导航支持（方向键切换、ESC关闭）
+    - 图片计数显示
+
+- 组件: `GalleryView.vue`
 
 ### 页脚设计
 
@@ -366,6 +389,11 @@ OJ(练习编程): https://oj.kexie.space
 - DepartmentsSection: 第二面部门介绍
 - LearningDirectionsSection: 第三面学习方向
 - RecruitmentSection: 第四面招新时间线
+- GalleryView: 项目展廊页面
+  - 展廊网格展示，支持图片和链接类型
+  - 分类筛选功能
+  - 灯箱查看大图（图片类型）
+  - 外部链接跳转（链接类型）
 
 ## 工具类
 
