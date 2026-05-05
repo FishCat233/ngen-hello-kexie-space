@@ -1,84 +1,25 @@
 ---
+import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import AppNavbar from "../../components/AppNavbar.vue";
 import AppFooter from "../../components/AppFooter.vue";
+import TracerBullet from "../../components/TracerBullet.vue";
 
-export function getStaticPaths() {
-  const ids = [
-    "web",
-    "backend",
-    "game",
-    "android",
-    "ui",
-    "embedded",
-    "machinelearning",
-    "video",
-    "reverse",
-    "crypto",
-    "websecurity",
-    "pwn",
-    "editing",
-  ];
-  return ids.map((id) => ({
-    params: { id },
+export async function getStaticPaths() {
+  const directions = await getCollection("directions");
+  return directions.map((direction) => ({
+    params: { id: direction.data.id },
+    props: { direction },
   }));
 }
 
-const { id } = Astro.params;
-
-const directionNames: Record<string, string> = {
-  web: "前端开发",
-  backend: "后端开发",
-  game: "游戏开发",
-  android: "APP开发",
-  ui: "UI设计",
-  embedded: "硬件开发",
-  machinelearning: "深度学习",
-  video: "视频剪辑",
-  reverse: "逆向工程",
-  crypto: "密码学",
-  websecurity: "Web安全",
-  pwn: "PWN",
-  editing: "编辑",
-};
-
-const fileNames: Record<string, string> = {
-  web: "frontend.md",
-  backend: "backend.md",
-  game: "game.md",
-  android: "app.md",
-  ui: "ui.md",
-  embedded: "hardware.md",
-  machinelearning: "deep-learning.md",
-  video: "media-editing.md",
-  reverse: "reverse.md",
-  crypto: "crypt.md",
-  websecurity: "web-security.md",
-  pwn: "pwn.md",
-  editing: "editing.md",
-};
-
-const directionName = directionNames[id as string] || "未知方向";
-const fileName = fileNames[id as string];
-
-let markdownContent = "";
-
-if (fileName) {
-  try {
-    const response = await fetch(
-      new URL(`/docs/introduction/${fileName}`, Astro.site),
-    );
-    if (response.ok) {
-      markdownContent = await response.text();
-    }
-  } catch (e) {
-    console.error("Failed to load markdown:", e);
-  }
-}
+const { direction } = Astro.props;
+const { Content } = await render(direction);
 ---
 
-<Layout title={`${directionName} - 桂电三院科协`}>
+<Layout title={`${direction.data.title} - 桂电三院科协`}>
   <div class="direction-page">
+    <TracerBullet client:load active={true} />
     <AppNavbar client:visible />
     <div class="direction-container">
       <a href="/" class="back-button">
@@ -98,18 +39,12 @@ if (fileName) {
         <span>返回首页</span>
       </a>
 
-      {
-        markdownContent ? (
-          <article class="markdown-content">
-            <h1 class="direction-title">{directionName}</h1>
-            <div class="markdown-body" set:html={markdownContent} />
-          </article>
-        ) : (
-          <div class="error-state">
-            <p>未找到对应的方向内容</p>
-          </div>
-        )
-      }
+      <article class="markdown-content">
+        <h1 class="direction-title">{direction.data.title}</h1>
+        <div class="markdown-body">
+          <Content />
+        </div>
+      </article>
     </div>
     <AppFooter client:visible />
   </div>
@@ -125,8 +60,10 @@ if (fileName) {
   }
 
   .direction-container {
+    position: relative;
+    z-index: 10;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
   }
 
   .back-button {
@@ -152,15 +89,6 @@ if (fileName) {
     background: rgba(130, 212, 242, 0.2);
     border-color: var(--color-blue);
     transform: translateX(-4px);
-  }
-
-  .error-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px;
-    color: var(--color-white);
   }
 
   .markdown-content {
@@ -196,10 +124,6 @@ if (fileName) {
     font-size: 16px;
   }
 
-  .markdown-body :global(h1) {
-    display: none;
-  }
-
   .markdown-body :global(h2) {
     font-size: 24px;
     font-weight: 600;
@@ -220,94 +144,13 @@ if (fileName) {
     margin: 16px 0;
   }
 
-  .markdown-body :global(a) {
-    color: var(--color-blue);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .markdown-body :global(a:hover) {
-    color: var(--color-cyan);
-    text-decoration: underline;
-  }
-
-  .markdown-body :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 16px 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  }
-
-  .markdown-body :global(ul),
-  .markdown-body :global(ol) {
+  .markdown-body :global(ul) {
     margin: 16px 0;
     padding-left: 24px;
   }
 
   .markdown-body :global(li) {
     margin: 8px 0;
-  }
-
-  .markdown-body :global(code) {
-    background: rgba(130, 212, 242, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: "Consolas", "Monaco", monospace;
-    font-size: 14px;
-    color: var(--color-cyan);
-  }
-
-  .markdown-body :global(pre) {
-    background: rgba(4, 8, 12, 0.8);
-    border: 1px solid rgba(130, 212, 242, 0.2);
-    border-radius: 8px;
-    padding: 16px;
-    overflow-x: auto;
-    margin: 16px 0;
-  }
-
-  .markdown-body :global(pre code) {
-    background: none;
-    padding: 0;
-    color: var(--color-white);
-  }
-
-  .markdown-body :global(blockquote) {
-    border-left: 4px solid var(--color-blue);
-    margin: 16px 0;
-    padding: 8px 16px;
-    background: rgba(130, 212, 242, 0.05);
-    border-radius: 0 8px 8px 0;
-  }
-
-  .markdown-body :global(hr) {
-    border: none;
-    border-top: 1px solid rgba(130, 212, 242, 0.2);
-    margin: 32px 0;
-  }
-
-  .markdown-body :global(table) {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0;
-  }
-
-  .markdown-body :global(th),
-  .markdown-body :global(td) {
-    padding: 12px 16px;
-    border: 1px solid rgba(130, 212, 242, 0.2);
-    text-align: left;
-  }
-
-  .markdown-body :global(th) {
-    background: rgba(130, 212, 242, 0.1);
-    font-weight: 600;
-    color: var(--color-blue);
-  }
-
-  .markdown-body :global(tr:nth-child(even)) {
-    background: rgba(130, 212, 242, 0.03);
   }
 
   @media (max-width: 768px) {

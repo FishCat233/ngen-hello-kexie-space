@@ -44,12 +44,7 @@ const directions: LearningDirection[] = [
       <h2 class="learning-title">学习方向</h2>
 
       <div class="learning-grid">
-        <a
-          v-for="dir in directions"
-          :key="dir.id"
-          :href="`/direction/${dir.id}`"
-          class="learning-card"
-        >
+        <a v-for="dir in directions" :key="dir.id" :href="`/direction/${dir.id}`" class="learning-card">
           <div class="learning-icon">
             <component :is="dir.icon" :size="48" stroke-width="1.5" />
           </div>
@@ -85,11 +80,9 @@ const directions: LearningDirection[] = [
 .learning-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    var(--color-blue) 0%,
-    var(--color-cyan) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-blue) 0%,
+      var(--color-cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -172,7 +165,7 @@ const directions: LearningDirection[] = [
     height: 48px;
   }
 
-  .learning-icon > * {
+  .learning-icon>* {
     width: 40px !important;
     height: 40px !important;
   }
@@ -212,7 +205,7 @@ const directions: LearningDirection[] = [
     margin-bottom: 12px;
   }
 
-  .learning-icon > * {
+  .learning-icon>* {
     width: 36px !important;
     height: 36px !important;
   }
