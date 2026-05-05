@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.6.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.5.0...v1.6.0) (2026-05-05)
+
+
+### Features
+
+* **footer:** 添加科协成立时长显示功能 ([661edbc](https://github.com/FishCat233/ngen-hello-kexie-space/commit/661edbcf31f5580d749c4ee1840e4d269f5ade94))
+* **gallery:** 展廊功能初版 ([79f73a2](https://github.com/FishCat233/ngen-hello-kexie-space/commit/79f73a246878097b7f6711d1aedfb77277727bea))
+* **gallery:** 添加iframe预览功能并优化画廊样式 ([b457256](https://github.com/FishCat233/ngen-hello-kexie-space/commit/b4572567161a770c37d7b4b26ebed078db4e63fb))
+* 添加各个页面的过渡动画 ([6da2684](https://github.com/FishCat233/ngen-hello-kexie-space/commit/6da2684ec8c91c9516d3ec532214b0ad8d264534))
+* 首页添加滚动淡入过渡效果组件 ([80ded36](https://github.com/FishCat233/ngen-hello-kexie-space/commit/80ded36b0fd188aaed8dcba0319dd7d896a5a976))
+
+
+### Bug Fixes
+
+* 更新更晚更正式一点的建立时间 ([9f9a43a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9f9a43a765f987e0bce6aa1fa7e4c7f6939213f9))
+* 添加其他页面跳转主页的过渡动画 ([cd4481a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/cd4481a8774bb16e211e3600183a5fbda7e86a96))
+
+
+### Performance Improvements
+
+* **build:** 优化构建输出和静态资源缓存策略 ([b8cf4b0](https://github.com/FishCat233/ngen-hello-kexie-space/commit/b8cf4b0e2e348a18c6557f1cbf7bc83380679a27))
+
 ## [1.5.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.4.0...v1.5.0) (2026-05-05)
 
 
