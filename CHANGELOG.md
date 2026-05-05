@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.3...v1.4.0) (2026-05-05)
+
+
+### Features
+
+* **AsciiBackground:** 实现彩色字符渲染并添加雾效增强立体感 ([69358ba](https://github.com/FishCat233/ngen-hello-kexie-space/commit/69358bab5d5e82e284c7003465c22dfd440a8e82))
+
+
+### Bug Fixes
+
+* **ColorAsciiEffect:** 将domElement改为只读属性 ([31f213f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/31f213f1e8dcdef536ee144e1f4feb0cc268c364))
+
 ## [1.3.3](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.3.2...v1.3.3) (2026-05-05)
 
 
