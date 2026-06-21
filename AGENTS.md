@@ -1,418 +1,74 @@
 # NGEN-HELLO-KEXIE-SPACE
 
-计算机学院大学生科技协会新版本主页
-
-## 页面设计
-
-全局数据
-
-QQ 群: https://api.kexie.space/recruitment-qq-group
-QQ 频道: https://pd.qq.com/s/5pxzsijx0
-OJ(练习编程): https://oj.kexie.space
-知识库: https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb
-
-导航栏
-
-- 位置: 固定顶部，z-index 1000
-- 布局
-  - 左侧: Logo + 科协名称，点击回到首页
-  - 中间: 导航链接 - 首页、部门、学习、招新
-  - 右侧: CTA按钮"加入我们" + 移动端汉堡菜单
-- 交互
-  - 滚动超过50px后显示毛玻璃背景
-  - 点击导航项平滑滚动到对应板块
-  - 链接悬停显示下划线动画
-- 响应式
-  - 桌面端: 完整显示所有导航链接
-  - 移动端: 导航链接收起，显示汉堡菜单展开
-- 组件: `AppNavbar.vue`
-
-导航菜单
-
-- 首页
-  - 部门介绍
-  - 学习方向
-  - 加入我们
-- 部门
-  - 多媒体部门
-    - 网站开发
-    - UI设计
-    - 视频剪辑
-    - 小程序开发
-    - 编辑
-  - 软件部门
-    - 深度学习
-    - APP开发
-    - 游戏开发
-  - 硬件部门
-    - 硬件开发
-  - 安全部门
-    - 逆向工程
-    - Web 安全
-    - Pwn
-- 学习
-  - 练习编程
-  - 知识库
-- 招新
-  - QQ 群
-  - QQ 频道
-- 更多
-  - 近年获奖情况
-  - 项目活动
-  - 项目展廊
-  - 畅心所言
-
-### 主页面
-
-主页面由上下滚动交互构成，每一面占满屏幕高度
-
-第一面
-
-- 内容
-  - 标题: 桂电三院科协
-  - LOGO: 圆形 `public/logo.png`，居中显示
-  - 树干: 从 LOGO 向下延伸的渐变线条，连接后续内容
-  - 标语: 科技融入梦想，创新点缀人生
-  - 按钮组
-    - `QQ群图标` 加入我们
-    - `终端图标` 练习编程
-    - `服务器图标` 知识库
-    - `#图标` QQ频道
-- 背景
-  - 色调
-    - 黑色: 04080C
-    - 亮蓝: 82D4F2
-    - 亮青: 6FD0CE
-    - 白色: EBFBFF
-    - 备注: 科协主题色是亮蓝和亮青，白色作为高光，黑色作为低光和背景
-    - 可以通过上述颜色调和得到新颜色
-  - Threejs 渲染
-    - 彩色 ASCII 字符构成的校园建筑模型
-    - 不同建筑使用不同颜色（亮蓝、亮青等主题色）
-    - 鼠标移动会旋转模型
-    - 雾效增强立体感：近处明亮，远处渐暗
-  - 曳光弹效果
-    - 深蓝和深青色粒子从底部向上发射
-    - Threejs Sprite 粒子系统，加法混合发光
-    - 象征冉冉升起的新星
-
-第二面
-
-- 内容
-  - 标题: 部门介绍
-  - 内容组
-    - 标题: 多媒体部
-    - 内容
-      - 科协多媒体部主要方向的网站开发、UI设计、视频剪辑、小程序开发和编辑方向均依托多媒体技术，以极强的浸透力进入学校日常生活的方方面面。
-      - 五个方向相互联系紧密，网站与小程序需要界面优美的UI设计，界面优美的UI设计需要网站或小程序去实现，它们也可以通过视频剪辑技术以易展现的形式与周围人分享，编辑方向则负责内容创作与文案策划，为技术展示提供优质的文字支撑。
-  - 内容组
-    - 标题: 软件部
-    - 内容
-      - 软件部是科协专攻软件开发的部门其主要方向包括深度学习、APP开发和游戏开发。
-      - 软件部注重培养成员在遵循软件工程开发体系的要求，去设计并开发一款或多款具备创新、实用等特点的软件的实践能力，旨在让成员能够承接校内信息化项目的同时，也能够参加校外高水平的竞赛。
-  - 内容组
-    - 标题: 硬件部
-    - 内容
-      - 硬件部致力于将传统的嵌入式软硬件设计与互联网资源结合，充分体现“互联网+”精神，真正将我们在计算机专业中学习到的知识应用与生活，设计制作真正服务与生活的嵌入式智能硬件；引导同学们进行科技研发，从而提高同学们的创新意识，加强同学们的动手能力以及理论与实际相结合的能力，培养创新型人才。
-  - 内容组
-    - 标题: 组织部
-    - 内容
-      - 组织部是一个协调科协主席团和其他三大技术部门的综合性管理兼学术部门，主管组织、人事工作、素质拓展和团队建设。负责协调科协的组织建设，管理科协的日常事务，策划和组织科协的各类活动，管理科协成员和内部的各种设施，同时，协调和处理学校、学院领导的指示要求，代表三院科协与学校、学院的各个社团进行沟通交流。
-  - 内容组
-    - 标题: 安全部
-    - 内容
-      - 安全部聚焦网络安全技术，以 CTF 竞赛为实践入口，将竞赛里的解题思路、攻防技巧，转化为真实场景中漏洞挖掘的能力。从代码逻辑排查到程序底层分析，覆盖覆盖 WEB（代码审计、漏洞攻防 ）与二进制（漏洞利用、逆向分析 ）方向，通过 “以赛促战”，让成员掌握从发现风险到实战防御的全流程技能，筑牢安全防线。
-- 装饰
-  - 3D 模型
-    - 多媒体部: 显示器
-    - 软件部: 服务器
-    - 硬件部: 芯片
-    - 组织部: 书与笔
-    - 安全部: 锁与钥匙
-
-第三面
-
-- 内容
-  - 标题: 学习方向
-  - 内容组
-    - LOGO 和 标题组成的物品
-    - 前端开发, 图标是 Web大地球
-    - 后端开发, 图标是 Java
-    - 游戏开发, 图标是手柄
-    - APP开发, 图标是手机
-    - UI设计, 图标是尺子和三角器
-    - 硬件开发, 图标是芯片
-    - 深度学习, 图标是 Python
-    - 视频剪辑, 图标是 导演Cut板
-    - 逆向工程, 图标是 dbgx64
-    - 密码学, 图标是 锁与钥匙
-    - Web安全, 图标是 bug
-    - PWN, 图标是 ghost
-    - 编辑, 图标是书与笔
-
-第四面
-
-- 内容
-  - 标题: 加入我们
-  - 左侧: 时间线
-    - 标题: 招新时间线
-    - 标题: 内容
-    - 报名阶段: 报名时间截止到笔试前
-    - 入门学习: 学会使用 Online Judge 实现问题求解
-    - 招新宣讲: 三院科协招新宣讲会
-    - 笔试和面试: 期待脱颖而出的你！
-    - 绘蓝杯科技竞赛: 绽放你们的光芒！
-  - 右侧: 科协介绍
-    - 三院科协是依托于计算机与信息安全学院，面向全校的校级技术社团。我们的活动包括技术学习，承办和策划各类科技赛事和颁奖仪式，组织创新创业训练等。科协设有软件部、硬件部、多媒体部、组织部共四个部门，致力于对成员技术能力及创新能力的培养。
-    - 在科协，你不仅能提高自身的技术，结交志同道合的伙伴，还能收获前辈的悉心指导，共享优质的资源服务。
-    - 科协的大门将为你们敞开，我们期待你们的到来，欢迎与我们一起畅游在技术的海洋！
-
-第五面
-
-- 内容
-  - 标题:
-  - 标题: 近年参赛获奖
-  - 备注: 很多还在整理当中，下面展示是2022、2021、2020年国家级、省部级获奖的一部分......
-
-### 方向页面
-
-原理大概是通过 md 渲染方向介绍
-
-- 内容模板
-  - 标题: 方向标题
-  - 内容: markdown 渲染
-
-数据
-
-- 前端开发: `public/docs/frontend.md`
-- 后端开发: `public/docs/backend.md`
-<!-- - 小程序开发: `public/docs/Applet.md` -->
-- UI设计: `public/docs/ui.md`
-- 视频剪辑: `public/docs/media-editing.md`
-- 编辑: `public/docs/editing.md`
-- APP开发: `public/docs/app.md`
-- 游戏开发: `public/docs/game.md`
-- 嵌入式开发: `public/docs/hardware.md`
-- 深度学习: `public/docs/deep-learning.md`
-- 逆向工程: `public/docs/reverse.md`
-- 密码学: `public/docs/crypt.md`
-- Web安全: `public/docs/web-security.md`
-- PWN: `public/docs/pwn.md`
-
-### 近年获奖情况页面
-
-数据和渲染分离. 方便后面把数据抽出去成为 Serverless 函数方便更新.
-
-示例数据
-{
-  "awards": [
-    {
-      name: "中国大学生服务外包创新创业大赛",
-      award: {
-        "国二": 1,
-        "国三": 2,
-        "省三": 6,
-      },
-      people: ["Alice", "Bob", "Charlie"]
-    }
-  ]
-}
-
-- 内容
-  - 内容组
-    - 标题: 近年获奖情况
-    - 很多，还在整理当中，下面展示是近几年国家级、省部级获奖的一部分.
-    - 列表
-      - 模板
-        - 标题: 比赛名称
-        - 内容: 比赛获奖情况
-        - 奖项级别
-          - [x人]国一
-          - [y人]国二
-          - [z人]省三
-        - 姓名
-          - ...
-
-### 项目活动页面
-
-同样数据和渲染分离. 方便后面把数据抽出去成为 Serverless 函数方便更新.
-
-示例数据
-
-```json
-{
-  "projects": [
-    {
-      name: "wilinz",
-      url: "https://www.guethub.net/",
-      language: "Dart(Flutter)",
-      title: "GUET 校园圈",
-      description: "可以查看课表等教务信息，支持安卓和IOS",
-    },
-  ],
-  "demoProjects": [
-    ...
-  ]
-}
-```
-
-- 内容
-  - 标题: 科协项目活动
-  - 备注: 科协成员的部分项目活动
-  - 内容组
-    - 标题: 科协优秀项目
-    - 科协成员开发的优秀项目
-    - 模板
-      - 作者 Github 头像
-      - 标题: 项目名称
-        - 可点击跳转项目页面
-      - 简介: 项目介绍
-      - 右侧: 项目语言
-        - 语言 LOGO, 颜色是语言代表色
-    - 数据
-      - wilinz
-        - GUET 校园圈
-        - 可以查看课表等教务信息，支持安卓和IOS
-        - Dart(Flutter)
-      - LukeXeon
-        - Flexml
-        - 🚀基于Litho的Android高性能动态业务容器。
-        - Kotlin
-        - https://github.com/sanyuankexie/Flexml
-  - 内容组
-    - 标题: 学习演示项目
-    - 描述: 近年科协成员在学习中开发的部分演示项目
-    - 模板: 同上
-
-### 畅心所言页面
-
-基于 Github Issue 实现评论功能.
-
-数据来源: https://github.com/sanyuankexie/hello.kexie.space/issues/6
-
-注意防止注入攻击.
-
-- 内容
-  - 标题: 畅心所言
-  - 描述: 在此留下您的心声吧~
-  - 列表
-    - 评论模板:
-      - 评论作者 Github 头像
-      - 评论时间
-      - 评论内容
-
-### 项目展廊页面
-
-数据和渲染分离，方便后续扩展。支持展示图片、iframe 内嵌网页、外部链接等多种内容形式。
-
-- 数据文件: `src/data/gallery.ts`
-  - `GalleryItem` 接口定义数据结构
-    - `type`: 内容类型 - `image` 图片 / `iframe` 内嵌网页 / `link` 外部链接
-    - `src`: 图片/截图路径
-    - `url`: 链接地址（iframe 和 link 类型使用）
-    - `category`: 分类 - image / project / blog / other
-  - `GalleryCategory` 类型定义分类：全部、图片、项目、博客、其他
-  - `galleryItems` 数组存储展廊数据
-
-- 内容
-  - 标题: 项目展廊
-  - 描述: 展示科协成员的项目、博客和精彩瞬间
-  - 分类筛选标签: 全部、图片、项目、博客、其他
-  - 展廊网格展示
-    - 桌面端3列、平板2列、手机1列
-    - 卡片悬浮效果
-    - 标题左侧显示分类标签（图片/项目/博客/其他）
-    - 图片类型：点击打开灯箱查看大图
-    - iframe 类型：点击打开弹窗内嵌预览
-    - 链接类型：点击跳转外部页面
-  - 灯箱查看功能（图片类型）
-    - 点击放大查看原图
-    - 左右切换图片
-    - 键盘导航支持（方向键切换、ESC关闭）
-    - 图片计数显示
-  - iframe 预览弹窗
-    - 大尺寸预览窗口（95% 屏幕宽高）
-    - 直接内嵌网页
-    - 访问网站按钮
-    - ESC 关闭
-
-- 组件: `GalleryView.vue`
-
-### 页脚设计
-
-- 内容
-  - 分类: 联系我们
-    - Github
-    - QQ 群
-    - QQ 频道
-    - 微信公众号
-    - Bilibili 账号
-  - 分类: 站点信息
-    - 版本: `package.json` 中的版本号
-    - Github 仓库: [FishCat233/ngen-hello-kexie-space](https://github.com/FishCat233/ngen-hello-kexie-space)
-    - 时间: 当前时间 `YYYY-MM-DD HH:mm:ss`
-
-## AGENT 约束
-
-每次完成任务后
-
-- 使用 prettier 格式化代码
-- 使用 eslint 校验代码规范
-
-更新 AGENT.md 需要遵循
-
-- 避免使用滥用 md 标题和表格
-- 积极使用列表书写文档
-
-## CI/CD 配置
-
-以 Github Action 和 Github Workflow 为基础.
-
-- 使用 release-please 自动发布新版本
-  - 版本号从 0.0.0 开始递增
-  - 发版的时候触发 Docker 打包，打包的镜像添加到 Release 文件中
-- main commit hook 触发自动构建部署 Github Page
-- Docker 打包配置
-  - 镜像名称: `ngen-hello-kexie-space:${version}`
-  - Dokcerfile: `ci/Dockerfile`
-  - 镜像内容
-    - 使用 Caddy 代理构建好的静态文件
-    - Caddyfile: `ci/Caddyfile`
+桂电三院科协新版本主页。Vue3 + Tailwind CSS + Three.js 单页应用，部署在 Github Pages。
 
 ## 技术选型
 
-- vite: 前端构建工具
-- Vue3: 前端框架
-- Tailwind CSS: 前端样式框架
-- Pinia: 前端状态管理
-- pnpm: 前端包管理
-- TypeScript: 前端类型检查
-- Eslint: 前端代码规范
-- Prettier: 前端代码格式化
-- Three.js: 前端3D渲染
-- remark: 前端Markdown渲染
-  - remark-gfm: 支持GFM Markdown扩展语法
+- Vue3 + TypeScript + Vite
+- Tailwind CSS
+- Pinia (状态管理)
+- pnpm
+- Three.js (3D 背景渲染)
+- remark + remark-gfm (Markdown 渲染)
+- lucide-vue-next (图标)
+- ESLint + Prettier
+
+## 工作哲学
+
+### 前置分解
+
+面对任何任务，先分解再执行。将全局问题拆解为自包含的子任务。判断标准：如果你不确定 AI 能否大概率独立完成该子任务，就继续拆。
+
+### 子任务描述
+
+子任务描述像一份 GitHub Issue：自包含、边界清晰、上下文最小化。
+
+- 每个子任务有明确的输入和输出格式
+- 不引入与当前任务无关的文件或历史信息
+- 子任务之间通过约定的接口通信——下游不需要知道上游的内部执行过程
+
+### 跨 Session 执行
+
+不期望在单个 Session 内完成超长任务链。
+
+新 Session 启动流程:
+1. 读取本文件确定角色、约束、工作流
+2. 读取 [CONTEXT.md](./CONTEXT.md) 对齐术语
+3. 读取 [docs/spec.md](./docs/spec.md) 定位当前子任务
+4. 只加载当前子任务所需的局部上下文
+
+### 验收与纠偏
+
+- 测试独立于实现——AI 单独编写测试，向 TDD 靠拢
+- 当 AI 输出不合格时，不修补生成结果——回到分解层重新确认理解是否正确、粒度是否足够细
+
+## 质量门禁
+
+每次完成代码修改后:
+
+```bash
+pnpm run format
+pnpm run lint
+```
+
+## 参考文档
+
+- [CONTEXT.md](./CONTEXT.md) — 领域术语表，写代码和讨论时必须对齐
+- [docs/spec.md](./docs/spec.md) — 完整页面设计规格
 
 ## 组件清单
 
-- AppNavbar: 顶部固定导航栏
-- AsciiBackground: Threejs 彩色 ASCII 校园模型背景
-  - 使用自定义 ColorAsciiEffect 实现彩色字符渲染
-  - 支持雾效增强立体感
-- TracerBullet: Threejs 曳光弹粒子效果
-- HeroSection: 第一面主内容
-- DepartmentsSection: 第二面部门介绍
-- LearningDirectionsSection: 第三面学习方向
-- RecruitmentSection: 第四面招新时间线
-- GalleryView: 项目展廊页面
-  - 展廊网格展示，支持图片和链接类型
-  - 分类筛选功能
-  - 灯箱查看大图（图片类型）
-  - 外部链接跳转（链接类型）
+- `AppNavbar.vue` — 顶部固定导航栏
+- `AsciiBackground` — Threejs 彩色 ASCII 校园模型背景，使用 ColorAsciiEffect
+- `TracerBullet` — Threejs 曳光弹粒子效果
+- `HeroSection` — 第一面主视觉
+- `DepartmentsSection` — 第二面部门介绍
+- `LearningDirectionsSection` — 第三面学习方向
+- `RecruitmentSection` — 第四面招新时间线
+- `GalleryView` — 项目展廊(分类筛选、灯箱、iframe 预览)
 
-## 工具类
+## CI/CD
 
-- ColorAsciiEffect: 自定义彩色 ASCII 渲染效果
-  - 将 Threejs 场景渲染为彩色 ASCII 字符
-  - 支持自定义字符集、分辨率、字体大小
-  - 保留原始颜色信息，每个字符独立着色
+- release-please: 自动发版，版本号从 0.0.0 递增，发版触发 Docker 打包
+- main commit hook: 自动构建部署 Github Pages
+- Docker 镜像: `ngen-hello-kexie-space:${version}`，使用 Caddy 代理静态文件

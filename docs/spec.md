@@ -1,0 +1,147 @@
+# 页面设计规格
+
+## 全局数据
+
+- QQ 群: `https://api.kexie.space/recruitment-qq-group`
+- QQ 频道: `https://pd.qq.com/s/5pxzsijx0`
+- OJ(练习编程): `https://oj.kexie.space`
+- 知识库: `https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb`
+
+## 色调
+
+- 黑色: `#04080C`
+- 亮蓝(主题色): `#82D4F2`
+- 亮青(主题色): `#6FD0CE`
+- 白色(高光): `#EBFBFF`
+- 可通过上述颜色调和得到新颜色
+
+## 导航栏 (`AppNavbar.vue`)
+
+- 位置: 固定顶部，z-index 1000
+- 布局: 左侧 Logo + 科协名称 | 中间导航链接 | 右侧 CTA 按钮 + 汉堡菜单
+- 交互: 滚动 >50px 显示毛玻璃背景，导航项平滑滚动，悬停下划线动画
+- 响应式: 桌面完整显示，移动端汉堡菜单收起
+
+导航菜单结构:
+
+- 首页: 部门介绍 / 学习方向 / 加入我们
+- 部门: 多媒体部(网站开发、UI设计、视频剪辑、小程序开发、编辑) / 软件部(深度学习、APP开发、游戏开发) / 硬件部(硬件开发) / 安全部(逆向工程、Web安全、Pwn)
+- 学习: 练习编程 / 知识库
+- 招新: QQ群 / QQ频道
+- 更多: 近年获奖情况 / 项目活动 / 项目展廊 / 畅心所言
+
+## 主页面 - 五面滚动结构
+
+### 第一面: 主视觉
+
+- 标题: 桂电三院科协
+- LOGO: 圆形 `public/logo.png` 居中
+- 树干: 从 LOGO 向下延伸的渐变线条
+- 标语: 科技融入梦想，创新点缀人生
+- 按钮组: QQ群(加入我们) / 终端(练习编程) / 服务器(知识库) / #(QQ频道)
+- 背景: Threejs 彩色 ASCII 校园建筑模型(AsciiBackground) + 曳光弹粒子(TracerBullet)
+
+### 第二面: 部门介绍
+
+- 标题: 部门介绍
+- 包含五个内容组: 多媒体部、软件部、硬件部、组织部、安全部
+- 每个内容组含标题和介绍文字
+- 装饰: 3D 模型(显示器、服务器、芯片、书与笔、锁与钥匙)
+
+### 第三面: 学习方向
+
+- 标题: 学习方向
+- 图标+标题组合展示各方向: 前端开发(Web地球)、后端开发(Java)、游戏开发(手柄)、APP开发(手机)、UI设计(尺子三角器)、硬件开发(芯片)、深度学习(Python)、视频剪辑(导演Cut板)、逆向工程(dbgx64)、密码学(锁与钥匙)、Web安全(bug)、PWN(ghost)、编辑(书与笔)
+
+### 第四面: 加入我们
+
+- 标题: 加入我们
+- 左侧: 招新时间线(报名阶段 → 入门学习 → 招新宣讲 → 笔试面试 → 绘蓝杯)
+- 右侧: 科协介绍文字
+
+### 第五面: 近年参赛获奖
+
+- 标题: 近年参赛获奖
+- 备注: 2022、2021、2020 年国家级、省部级获奖的一部分
+
+## 方向页面
+
+通过 remark + remark-gfm 渲染 Markdown 介绍各学习方向。
+
+数据文件:
+- 前端开发: `public/docs/frontend.md`
+- 后端开发: `public/docs/backend.md`
+- UI设计: `public/docs/ui.md`
+- 视频剪辑: `public/docs/media-editing.md`
+- 编辑: `public/docs/editing.md`
+- APP开发: `public/docs/app.md`
+- 游戏开发: `public/docs/game.md`
+- 嵌入式开发: `public/docs/hardware.md`
+- 深度学习: `public/docs/deep-learning.md`
+- 逆向工程: `public/docs/reverse.md`
+- 密码学: `public/docs/crypt.md`
+- Web安全: `public/docs/web-security.md`
+- PWN: `public/docs/pwn.md`
+
+## 近年获奖情况页面
+
+数据与渲染分离。数据结构:
+
+```json
+{
+  "awards": [
+    {
+      "name": "比赛名称",
+      "award": { "国一": 1, "国二": 2, "省三": 6 },
+      "people": ["Alice", "Bob", "Charlie"]
+    }
+  ]
+}
+```
+
+## 项目活动页面
+
+数据与渲染分离。数据结构:
+
+```json
+{
+  "projects": [
+    {
+      "name": "wilinz",
+      "url": "https://www.guethub.net/",
+      "language": "Dart(Flutter)",
+      "title": "GUET 校园圈",
+      "description": "可以查看课表等教务信息，支持安卓和IOS"
+    }
+  ],
+  "demoProjects": []
+}
+```
+
+模板: 作者头像 / 项目名称(可点击) / 简介 / 语言(带 LOGO 和代表色)
+
+## 畅心所言页面
+
+基于 Github Issue 实现评论。数据源: `https://github.com/sanyuankexie/hello.kexie.space/issues/6`。注意防注入。
+
+模板: 评论者头像 / 时间 / 内容(Markdown)
+
+## 项目展廊页面 (`GalleryView.vue`)
+
+数据文件: `src/data/gallery.ts`
+
+类型定义:
+- `GalleryItem.type`: `image` | `iframe` | `link`
+- `GalleryItem.category`: `image` | `project` | `blog` | `other`
+
+功能:
+- 分类筛选标签(全部/图片/项目/博客/其他)
+- 网格展示(桌面3列/平板2列/手机1列)，卡片悬浮效果
+- 图片类型: 灯箱查看(方向键切换、ESC关闭、计数显示)
+- iframe 类型: 弹窗预览(95%屏幕、ESC关闭、访问网站按钮)
+- 链接类型: 直接跳转
+
+## 页脚
+
+- 联系我们: Github / QQ群 / QQ频道 / 微信公众号 / Bilibili
+- 站点信息: 版本号(`package.json`) / 仓库链接 / 当前时间
