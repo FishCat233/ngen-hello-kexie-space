@@ -4,6 +4,10 @@ interface Department {
   name: string
   description: string[]
   iconType: 'monitor' | 'server' | 'hardware' | 'organize' | 'security'
+  website?: {
+    url: string
+    label: string
+  }
 }
 
 const departments: Department[] = [
@@ -51,6 +55,10 @@ const departments: Department[] = [
       '从代码逻辑排查到程序底层分析，覆盖 WEB（代码审计、漏洞攻防 ）与二进制（漏洞利用、逆向分析 ）方向，通过 "以赛促战"，让成员掌握从发现风险到实战防御的全流程技能，筑牢安全防线。',
     ],
     iconType: 'security',
+    website: {
+      url: 'https://hjsec.github.io',
+      label: '安全部技术博客',
+    },
   },
 ]
 </script>
@@ -363,6 +371,15 @@ const departments: Department[] = [
               {{ para }}
             </p>
           </div>
+          <a
+            v-if="dept.website"
+            :href="dept.website.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="department-link"
+          >
+            → {{ dept.website.label }}
+          </a>
         </div>
       </div>
     </div>
@@ -470,6 +487,24 @@ const departments: Department[] = [
   color: rgba(235, 251, 255, 0.8);
   margin: 0;
   text-align: justify;
+}
+
+.department-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.department-link:hover {
+  color: #04080c;
+  background: var(--color-blue);
 }
 
 @media (max-width: 1024px) {
