@@ -17,10 +17,21 @@ const route = useRoute()
 const isHomePage = computed(() => route.path === '/')
 const scrollStore = useScrollStore()
 
-watch(isHomePage, async (val) => {
+// 标记已访问首页（scrollBehavior 依赖此标记）
+watch(isHomePage, (val) => {
   if (val) {
     scrollStore.hasVisitedHome = true
-    await nextTick()
+  }
+})
+
+// 主页进入 DOM 并完成过渡动画后，恢复滚动位置
+function onHomeEntered() {
+  // 只在进入主页时恢复，router-wrapper 进入时跳过
+  if (!isHomePage.value) return
+  nextTick(() => {
+    if (scrollStore.savedScrollY > 0) {
+      window.scrollTo(0, scrollStore.savedScrollY)
+    }
     if (scrollStore.pendingAnchor) {
       const el = document.querySelector(scrollStore.pendingAnchor)
       if (el) {
@@ -28,8 +39,8 @@ watch(isHomePage, async (val) => {
       }
       scrollStore.pendingAnchor = null
     }
-  }
-})
+  })
+}
 </script>
 
 <template>
@@ -37,7 +48,7 @@ watch(isHomePage, async (val) => {
     <AsciiBackground :active="isHomePage" />
     <TracerBullet :active="true" />
     <AppNavbar />
-    <Transition name="home" mode="out-in">
+    <Transition name="home" mode="out-in" @after-enter="onHomeEntered">
       <main v-if="isHomePage" key="home" class="main-content">
         <section id="home">
           <HeroSection />

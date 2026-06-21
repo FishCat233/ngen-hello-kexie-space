@@ -35,9 +35,9 @@ const router = createRouter({
     if (to.path === '/') {
       const store = useScrollStore()
       if (store.hasVisitedHome) {
-        return { top: store.savedScrollY }
+        // 交给 App.vue 在 DOM 渲染后恢复，这里不做滚动
+        return false
       }
-      return { top: 0 }
     }
     return { top: 0 }
   },
