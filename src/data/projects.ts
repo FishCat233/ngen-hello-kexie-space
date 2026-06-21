@@ -39,7 +39,7 @@ export const projects: Project[] = [
     description: '可以查看课表等教务信息，支持安卓和IOS',
     language: 'Dart(flutter)',
     languageColor: languageColors.Dart,
-    url: 'https://github.com/wilinz/guet_campus_circle',
+    url: 'https://www.guethub.net/',
   },
   {
     author: 'LukeXeon',
