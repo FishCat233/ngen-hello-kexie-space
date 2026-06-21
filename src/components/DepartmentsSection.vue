@@ -57,7 +57,7 @@ const departments: Department[] = [
     iconType: 'security',
     website: {
       url: 'https://hjsec.github.io',
-      label: '安全部技术博客',
+      label: '安全部主页',
     },
   },
 ]
