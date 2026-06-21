@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDevice } from '@/composables/useDevice'
 
@@ -155,12 +155,22 @@ const hideDropdown = () => {
   activeDropdown.value = null
 }
 
+// 移动菜单打开时锁定 body 滚动，防止背景穿透
+watch(isMobileMenuOpen, (open) => {
+  if (open) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  document.body.style.overflow = ''
 })
 </script>
 
@@ -599,9 +609,11 @@ onUnmounted(() => {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(130, 212, 242, 0.1);
   padding: 16px 24px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
   flex-direction: column;
   gap: 4px;
   max-height: calc(100vh - 80px);
+  max-height: calc(100dvh - 80px);
   overflow-y: auto;
 }
 
