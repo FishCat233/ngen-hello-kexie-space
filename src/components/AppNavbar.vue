@@ -2,8 +2,10 @@
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDevice } from '@/composables/useDevice'
+import { useScrollStore } from '@/stores/scroll'
 
 const router = useRouter()
+const scrollStore = useScrollStore()
 const route = useRoute()
 const { isMobile } = useDevice()
 
@@ -131,8 +133,10 @@ const handleNavigation = (href: string) => {
   } else if (href.startsWith('#')) {
     // 页面内锚点跳转
     if (route.path !== '/') {
-      // 当前不在首页，先返回首页
+      // 当前不在首页，设置锚点标记后返回首页
+      scrollStore.pendingAnchor = href
       router.push('/')
+      return
     } else {
       // 已在首页，执行锚点滚动
       const element = document.querySelector(href)

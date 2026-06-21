@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
+import { useScrollStore } from './stores/scroll'
 import AppNavbar from './components/AppNavbar.vue'
 import AppFooter from './components/AppFooter.vue'
 import HeroSection from './components/HeroSection.vue'
@@ -14,6 +15,21 @@ const TracerBullet = defineAsyncComponent(() => import('./components/TracerBulle
 
 const route = useRoute()
 const isHomePage = computed(() => route.path === '/')
+const scrollStore = useScrollStore()
+
+watch(isHomePage, async (val) => {
+  if (val) {
+    scrollStore.hasVisitedHome = true
+    await nextTick()
+    if (scrollStore.pendingAnchor) {
+      const el = document.querySelector(scrollStore.pendingAnchor)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+      scrollStore.pendingAnchor = null
+    }
+  }
+})
 </script>
 
 <template>

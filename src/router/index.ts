@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useScrollStore } from '../stores/scroll'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,9 +31,23 @@ const router = createRouter({
       component: () => import('../views/GalleryView.vue'),
     },
   ],
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.path === '/') {
+      const store = useScrollStore()
+      if (store.hasVisitedHome) {
+        return { top: store.savedScrollY }
+      }
+      return { top: 0 }
+    }
     return { top: 0 }
   },
+})
+
+router.beforeEach((_to, from) => {
+  if (from.path === '/') {
+    const store = useScrollStore()
+    store.savedScrollY = window.scrollY
+  }
 })
 
 export default router
