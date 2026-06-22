@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.7.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.6.0...v1.7.0) (2026-06-22)
+
+
+### Features
+
+* **DepartmentsSection:** add clickable link to security dept blog ([7ff1cb4](https://github.com/FishCat233/ngen-hello-kexie-space/commit/7ff1cb477af2d6ea396d2b820fb35659317756d3)), closes [#13](https://github.com/FishCat233/ngen-hello-kexie-space/issues/13)
+
+
+### Bug Fixes
+
+* **AppNavbar:** 修复移动端汉堡菜单被浏览器操作条遮挡以及菜单拖动穿透问题 ([8d0531f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/8d0531f54472cb64a77353e2d5c9f298884fdfeb)), closes [#15](https://github.com/FishCat233/ngen-hello-kexie-space/issues/15)
+* **DepartmentsSection:** 修改文本 ([eb6fa73](https://github.com/FishCat233/ngen-hello-kexie-space/commit/eb6fa7322a5798e72aeda1cbe3a54895437bc463))
+* **home:** 修复「修复从子页面返回首页后滚动位置丢失」没有完全修复的问题 ([7f88006](https://github.com/FishCat233/ngen-hello-kexie-space/commit/7f88006d945a692d003ce1d6ac553442a079d263)), closes [#16](https://github.com/FishCat233/ngen-hello-kexie-space/issues/16)
+* **home:** 修复从子页面返回首页后滚动位置丢失 ([ff3f51c](https://github.com/FishCat233/ngen-hello-kexie-space/commit/ff3f51c9d3c1aea348043c9e42ad9ab19514e712)), closes [#16](https://github.com/FishCat233/ngen-hello-kexie-space/issues/16)
+* **projects:** 修复校园圈网站URL错误 ([e18d0b8](https://github.com/FishCat233/ngen-hello-kexie-space/commit/e18d0b8e61f09f1e32fb8cc42aeebf4874567bd4)), closes [#12](https://github.com/FishCat233/ngen-hello-kexie-space/issues/12)
+
 ## [1.6.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.5.0...v1.6.0) (2026-05-05)
 
 
