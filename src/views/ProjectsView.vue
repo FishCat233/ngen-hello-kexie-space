@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ArrowLeft, ExternalLink, User } from 'lucide-vue-next'
+import { ExternalLink, User } from 'lucide-vue-next'
 import { projects, demoProjects } from '../data/projects'
+import BackButton from '../components/BackButton.vue'
 import FadeInSection from '../components/transitions/FadeInSection.vue'
 import StaggeredList from '../components/transitions/StaggeredList.vue'
 
-const router = useRouter()
 const avatarErrors = ref<Record<number, boolean>>({})
 const demoAvatarErrors = ref<Record<number, boolean>>({})
-
-const goBack = () => {
-  router.push('/')
-}
 
 const openProject = (url: string) => {
   window.open(url, '_blank')
@@ -31,10 +26,7 @@ const handleDemoAvatarError = (index: number) => {
   <div class="projects-page">
     <div class="projects-container">
       <FadeInSection :delay="0" :duration="250">
-        <button class="back-button" @click="goBack">
-          <ArrowLeft :size="20" />
-          <span>返回首页</span>
-        </button>
+        <BackButton />
       </FadeInSection>
 
       <FadeInSection :delay="50" :duration="400">
@@ -169,56 +161,6 @@ const handleDemoAvatarError = (index: number) => {
 .projects-container {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 8px;
-  color: var(--color-blue);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  margin-bottom: 32px;
-  position: relative;
-  overflow: hidden;
-}
-
-.back-button::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(130, 212, 242, 0.3) 0%, transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.5s ease;
-  pointer-events: none;
-}
-
-.back-button:hover {
-  background: rgba(130, 212, 242, 0.2);
-  border-color: var(--color-blue);
-  transform: translateX(-4px);
-  box-shadow:
-    0 0 20px rgba(130, 212, 242, 0.3),
-    0 0 40px rgba(130, 212, 242, 0.1);
-}
-
-.back-button:hover::before {
-  width: 200%;
-  height: 200%;
-}
-
-.back-button:active {
-  transform: translateX(-2px) scale(0.98);
 }
 
 .projects-header {
