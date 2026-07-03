@@ -227,6 +227,20 @@ const handleDemoAvatarError = (index: number) => {
   color: var(--color-white);
 }
 
+.project-card:hover .author-avatar-wrapper {
+  background: var(--color-cyan);
+  border-color: var(--color-white);
+}
+
+.project-card:hover .author-avatar-placeholder {
+  color: var(--color-white);
+}
+
+.project-card:hover .project-language {
+  background: var(--color-cyan);
+  border-color: var(--color-white);
+}
+
 .project-author {
   display: flex;
   align-items: center;
@@ -240,6 +254,9 @@ const handleDemoAvatarError = (index: number) => {
   overflow: hidden;
   flex-shrink: 0;
   border: 1px solid var(--color-cyan);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .author-avatar {
@@ -256,6 +273,7 @@ const handleDemoAvatarError = (index: number) => {
   justify-content: center;
   background: transparent;
   color: var(--color-cyan);
+  transition: color 0.2s ease;
 }
 
 .author-name {
@@ -312,6 +330,9 @@ const handleDemoAvatarError = (index: number) => {
   padding: 6px 12px;
   background: transparent;
   border: 1px solid var(--color-cyan);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .language-dot {

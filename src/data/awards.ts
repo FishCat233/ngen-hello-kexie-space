@@ -127,12 +127,12 @@ export const awards: Award[] = [
 ]
 
 export const awardLevelColors: Record<string, string> = {
-  国一: '#FFD700',
-  国二: '#C0C0C0',
-  国三: '#CD7F32',
-  省一: '#82D4F2',
-  省二: '#6FD0CE',
-  省三: '#4FB8B6',
+  国一: '#C4A435',
+  国二: '#8899AA',
+  国三: '#B87333',
+  省一: '#5E9EC9',
+  省二: '#4A8B9E',
+  省三: '#3D7A8C',
 }
 
 export function getAwardLevelColor(level: string): string {

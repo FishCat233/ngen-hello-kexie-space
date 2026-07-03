@@ -364,6 +364,18 @@ onUnmounted(() => {
   border-color: var(--color-cyan);
 }
 
+.gallery-card:hover .gallery-card-title,
+.gallery-card:hover .gallery-card-description,
+.gallery-card:hover .gallery-card-date {
+  color: var(--color-white);
+}
+
+.gallery-card:hover .category-tag-image {
+  background: var(--color-cyan);
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
 .image-wrapper {
   position: relative;
   width: 100%;
@@ -456,6 +468,10 @@ onUnmounted(() => {
   background: transparent;
   color: var(--color-cyan);
   border: 1px solid var(--color-cyan);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .category-tag-project {

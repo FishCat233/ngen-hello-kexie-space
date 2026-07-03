@@ -30,7 +30,10 @@ import BackButton from '../components/BackButton.vue'
                   v-for="(count, level) in award.award"
                   :key="level"
                   class="award-level"
-                  :style="{ borderColor: getAwardLevelColor(level) }"
+                  :style="{
+                    '--level-color': getAwardLevelColor(level),
+                    borderColor: getAwardLevelColor(level),
+                  }"
                 >
                   <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
                     {{ count }}人
@@ -123,6 +126,25 @@ import BackButton from '../components/BackButton.vue'
   color: var(--color-white) !important;
 }
 
+.award-card:hover .award-icon {
+  background: var(--color-cyan);
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.award-card:hover .award-level {
+  background: var(--level-color);
+}
+
+.award-card:hover .award-people {
+  border-top-color: var(--color-white);
+}
+
+.award-card:hover .person-tag {
+  background: var(--color-cyan);
+  border-color: var(--color-white);
+}
+
 .award-content-wrapper {
   position: relative;
   z-index: 1;
@@ -145,6 +167,10 @@ import BackButton from '../components/BackButton.vue'
   border: 1px solid var(--color-cyan);
   color: var(--color-cyan);
   flex-shrink: 0;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .award-name {
@@ -179,6 +205,7 @@ import BackButton from '../components/BackButton.vue'
   background: transparent;
   border: 1px solid;
   min-width: 48px;
+  transition: background-color 0.2s ease;
 }
 
 .level-count {
@@ -218,6 +245,10 @@ import BackButton from '../components/BackButton.vue'
   border: 1px solid var(--color-cyan);
   font-size: 12px;
   color: var(--color-text);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 @media (max-width: 1024px) {
