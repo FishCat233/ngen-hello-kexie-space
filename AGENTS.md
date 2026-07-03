@@ -1,6 +1,6 @@
 # NGEN-HELLO-KEXIE-SPACE
 
-桂电三院科协新版本主页。Vue3 + Tailwind CSS + Three.js 单页应用，部署在 Github Pages。
+桂电三院科协新版本主页。Vue3 + Tailwind CSS 单页应用，部署在 Github Pages。排版驱动极简设计，纯色块语言。
 
 ## 技术选型
 
@@ -8,7 +8,7 @@
 - Tailwind CSS
 - Pinia (状态管理)
 - pnpm
-- Three.js (3D 背景渲染)
+
 - remark + remark-gfm (Markdown 渲染)
 - lucide-vue-next (图标)
 - ESLint + Prettier
@@ -54,13 +54,13 @@ pnpm run lint
 ## 参考文档
 
 - [CONTEXT.md](./CONTEXT.md) — 领域术语表，写代码和讨论时必须对齐
+- [DESIGN.md](./DESIGN.md) — 设计系统与视觉规范
 - [docs/spec.md](./docs/spec.md) — 完整页面设计规格
 
 ## 组件清单
 
-- `AppNavbar.vue` — 顶部固定导航栏
-- `AsciiBackground` — Threejs 彩色 ASCII 校园模型背景，使用 ColorAsciiEffect
-- `TracerBullet` — Threejs 曳光弹粒子效果
+- `AppNavbar.vue` — 深底纯色块导航栏，随页面滚动
+- `AppFooter.vue` — 深底纯色块页脚
 - `HeroSection` — 第一面主视觉
 - `DepartmentsSection` — 第二面部门介绍
 - `LearningDirectionsSection` — 第三面学习方向

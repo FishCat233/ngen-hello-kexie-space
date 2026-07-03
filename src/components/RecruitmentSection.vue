@@ -9,36 +9,16 @@ interface TimelineItem {
 }
 
 const timelineItems: TimelineItem[] = [
-  {
-    id: 'register',
-    title: '报名阶段',
-    description: '报名时间截止到笔试前',
-    icon: ClipboardList,
-  },
+  { id: 'register', title: '报名阶段', description: '报名时间截止到笔试前', icon: ClipboardList },
   {
     id: 'learning',
     title: '入门学习',
     description: '学会使用 Online Judge 实现问题求解',
     icon: BookOpen,
   },
-  {
-    id: 'presentation',
-    title: '招新宣讲',
-    description: '三院科协招新宣讲会',
-    icon: Mic2,
-  },
-  {
-    id: 'exam',
-    title: '笔试和面试',
-    description: '期待脱颖而出的你！',
-    icon: FileCheck,
-  },
-  {
-    id: 'competition',
-    title: '绘蓝杯科技竞赛',
-    description: '绽放你们的光芒！',
-    icon: Trophy,
-  },
+  { id: 'presentation', title: '招新宣讲', description: '三院科协招新宣讲会', icon: Mic2 },
+  { id: 'exam', title: '笔试和面试', description: '期待脱颖而出的你！', icon: FileCheck },
+  { id: 'competition', title: '绘蓝杯科技竞赛', description: '绽放你们的光芒！', icon: Trophy },
 ]
 
 const introParagraphs = [
@@ -51,7 +31,7 @@ const introParagraphs = [
 <template>
   <section class="recruitment-section">
     <div class="recruitment-container">
-      <h2 class="recruitment-title">加入我们</h2>
+      <h2 class="recruitment-title"><span class="title-accent">#</span> 加入我们</h2>
 
       <div class="recruitment-content">
         <!-- 左侧：时间线 -->
@@ -88,14 +68,13 @@ const introParagraphs = [
 
 <style scoped>
 .recruitment-section {
-  position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  background: transparent;
+  padding: 10vh 20px;
+  background: var(--color-gray);
 }
 
 .recruitment-container {
@@ -110,12 +89,13 @@ const introParagraphs = [
 .recruitment-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0;
   text-align: center;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .recruitment-content {
@@ -137,7 +117,7 @@ const introParagraphs = [
 .timeline-section-title {
   font-size: 24px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0;
   text-align: center;
 }
@@ -164,25 +144,19 @@ const introParagraphs = [
 .timeline-icon {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: rgba(130, 212, 242, 0.1);
-  border: 2px solid var(--color-blue);
+  background: transparent;
+  border: 2px solid var(--color-cyan);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-blue);
-  box-shadow: 0 0 20px rgba(130, 212, 242, 0.2);
+  color: var(--color-cyan);
 }
 
 .timeline-line {
   width: 2px;
   flex: 1;
   min-height: 40px;
-  background: linear-gradient(
-    to bottom,
-    rgba(130, 212, 242, 0.6) 0%,
-    rgba(111, 208, 206, 0.3) 100%
-  );
+  background: var(--color-cyan);
   margin-top: 8px;
 }
 
@@ -196,13 +170,13 @@ const introParagraphs = [
 .timeline-title {
   font-size: 20px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0;
 }
 
 .timeline-description {
   font-size: 15px;
-  color: rgba(235, 251, 255, 0.75);
+  color: var(--color-text);
   margin: 0;
   line-height: 1.5;
 }
@@ -218,23 +192,26 @@ const introParagraphs = [
   flex-direction: column;
   gap: 20px;
   padding: 32px;
-  background: rgba(130, 212, 242, 0.05);
-  border: 1px solid rgba(130, 212, 242, 0.15);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .intro-card:hover {
-  background: rgba(130, 212, 242, 0.08);
-  border-color: rgba(130, 212, 242, 0.3);
-  box-shadow: 0 8px 32px rgba(130, 212, 242, 0.1);
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
+}
+
+.intro-card:hover .intro-paragraph {
+  color: var(--color-white);
 }
 
 .intro-paragraph {
   font-size: 15px;
   line-height: 1.8;
-  color: rgba(235, 251, 255, 0.85);
+  color: var(--color-text);
   margin: 0;
   text-align: justify;
 }
@@ -242,7 +219,7 @@ const introParagraphs = [
 /* 响应式处理 */
 @media (max-width: 1024px) {
   .recruitment-section {
-    padding: 40px 16px;
+    padding: 10vh 16px;
   }
 
   .recruitment-title {

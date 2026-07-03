@@ -2,73 +2,57 @@
 import { Trophy, Users } from 'lucide-vue-next'
 import { awards, getAwardLevelColor } from '../data/awards'
 import BackButton from '../components/BackButton.vue'
-import TracerBullet from '../components/TracerBullet.vue'
-import FadeInSection from '../components/transitions/FadeInSection.vue'
-import StaggeredList from '../components/transitions/StaggeredList.vue'
 </script>
 
 <template>
   <div class="awards-page">
-    <TracerBullet :active="true" class="awards-tracer" />
-
     <div class="awards-container">
-      <FadeInSection :delay="0" :duration="250">
-        <BackButton />
-      </FadeInSection>
+      <BackButton />
 
-      <FadeInSection :delay="50" :duration="400">
-        <div class="awards-header">
-          <h1 class="awards-title">近年获奖情况</h1>
-          <p class="awards-subtitle">
-            很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分
-          </p>
-        </div>
-      </FadeInSection>
+      <div class="awards-header">
+        <h1 class="awards-title"><span class="title-accent">#</span> 近年获奖情况</h1>
+        <p class="awards-subtitle">很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分</p>
+      </div>
 
       <div class="awards-grid">
-        <StaggeredList :items="awards" :stagger-delay="40" :duration="350">
-          <template #default="{ item: award }">
-            <div class="award-card">
-              <div class="award-glow"></div>
-              <div class="award-content-wrapper">
-                <div class="award-header">
-                  <div class="award-icon">
-                    <Trophy :size="20" />
-                  </div>
-                  <h3 class="award-name">{{ award.name }}</h3>
+        <div v-for="award in awards" :key="award.name" class="award-card">
+          <div class="award-content-wrapper">
+            <div class="award-header">
+              <div class="award-icon">
+                <Trophy :size="20" />
+              </div>
+              <h3 class="award-name">{{ award.name }}</h3>
+            </div>
+
+            <div class="award-content">
+              <div class="award-levels">
+                <div
+                  v-for="(count, level) in award.award"
+                  :key="level"
+                  class="award-level"
+                  :style="{ borderColor: getAwardLevelColor(level) }"
+                >
+                  <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
+                    {{ count }}人
+                  </span>
+                  <span class="level-name">{{ level }}</span>
                 </div>
+              </div>
 
-                <div class="award-content">
-                  <div class="award-levels">
-                    <div
-                      v-for="(count, level) in award.award"
-                      :key="level"
-                      class="award-level"
-                      :style="{ borderColor: getAwardLevelColor(level) }"
-                    >
-                      <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
-                        {{ count }}人
-                      </span>
-                      <span class="level-name">{{ level }}</span>
-                    </div>
-                  </div>
-
-                  <div class="award-people">
-                    <div class="people-header">
-                      <Users :size="14" />
-                      <span>获奖成员</span>
-                    </div>
-                    <div class="people-list">
-                      <span v-for="person in award.people" :key="person" class="person-tag">
-                        {{ person }}
-                      </span>
-                    </div>
-                  </div>
+              <div class="award-people">
+                <div class="people-header">
+                  <Users :size="14" />
+                  <span>获奖成员</span>
+                </div>
+                <div class="people-list">
+                  <span v-for="person in award.people" :key="person" class="person-tag">
+                    {{ person }}
+                  </span>
                 </div>
               </div>
             </div>
-          </template>
-        </StaggeredList>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -76,27 +60,12 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 <style scoped>
 .awards-page {
-  position: relative;
   min-height: 100vh;
-  background: #04080c;
+  background: var(--color-gray);
   padding: 80px 20px 40px;
-  overflow-x: hidden;
-}
-
-.awards-tracer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.6;
 }
 
 .awards-container {
-  position: relative;
-  z-index: 10;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -108,19 +77,17 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
 .awards-title {
   font-size: 36px;
   font-weight: 700;
-  line-height: 1.3;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0 0 12px 0;
-  padding: 4px 0;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .awards-subtitle {
   font-size: 16px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -132,49 +99,28 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 .award-card {
   position: relative;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 12px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   padding: 16px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-}
-
-.award-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at center, rgba(130, 212, 242, 0.15) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .award-card:hover {
-  background: rgba(130, 212, 242, 0.06);
-  border-color: rgba(130, 212, 242, 0.3);
-  transform: translateY(-4px);
-  box-shadow:
-    0 8px 32px rgba(130, 212, 242, 0.15),
-    0 0 20px rgba(130, 212, 242, 0.1);
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
 }
 
-.award-card:hover .award-glow {
-  opacity: 1;
-  animation: glowRotate 3s linear infinite;
+.award-card:hover .award-name,
+.award-card:hover .level-name,
+.award-card:hover .people-header,
+.award-card:hover .person-tag {
+  color: var(--color-white);
 }
 
-@keyframes glowRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+.award-card:hover .level-count {
+  color: var(--color-white) !important;
 }
 
 .award-content-wrapper {
@@ -195,16 +141,16 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(130, 212, 242, 0.2) 0%, rgba(111, 208, 206, 0.2) 100%);
-  border-radius: 10px;
-  color: var(--color-blue);
+  background: transparent;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
   flex-shrink: 0;
 }
 
 .award-name {
   font-size: 15px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0;
   line-height: 1.4;
   display: -webkit-box;
@@ -230,9 +176,8 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
   flex-direction: column;
   align-items: center;
   padding: 6px 10px;
-  background: rgba(130, 212, 242, 0.05);
+  background: transparent;
   border: 1px solid;
-  border-radius: 8px;
   min-width: 48px;
 }
 
@@ -244,12 +189,11 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 .level-name {
   font-size: 11px;
-  color: var(--color-white);
-  opacity: 0.8;
+  color: var(--color-text);
 }
 
 .award-people {
-  border-top: 1px solid rgba(130, 212, 242, 0.1);
+  border-top: 1px solid var(--color-cyan);
   padding-top: 12px;
 }
 
@@ -258,8 +202,7 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
   align-items: center;
   gap: 5px;
   font-size: 12px;
-  color: var(--color-white);
-  opacity: 0.6;
+  color: var(--color-text);
   margin-bottom: 8px;
 }
 
@@ -271,11 +214,10 @@ import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 .person-tag {
   padding: 3px 8px;
-  background: rgba(130, 212, 242, 0.1);
-  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
   font-size: 12px;
-  color: var(--color-white);
-  opacity: 0.9;
+  color: var(--color-text);
 }
 
 @media (max-width: 1024px) {

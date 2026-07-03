@@ -37,17 +37,14 @@ const formatDuration = (ms: number): string => {
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
-
   const remainingHours = hours % 24
   const remainingMinutes = minutes % 60
   const remainingSeconds = seconds % 60
-
   return `${days}天${remainingHours}小时${remainingMinutes}分${remainingSeconds}秒`
 }
 
 const updateTime = () => {
   currentTime.value = formatDateTime(new Date())
-
   const kexieStartDate = new Date(KEXIE_FOUNDING_DATE)
   const now = new Date()
   const duration = now.getTime() - kexieStartDate.getTime()
@@ -55,9 +52,7 @@ const updateTime = () => {
 }
 
 const handleLinkClick = (url: string) => {
-  if (url === '#') {
-    return
-  }
+  if (url === '#') return
   window.open(url, '_blank')
 }
 
@@ -78,9 +73,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (timeInterval) {
-    clearInterval(timeInterval)
-  }
+  if (timeInterval) clearInterval(timeInterval)
 })
 </script>
 
@@ -141,11 +134,9 @@ onUnmounted(() => {
 
 <style scoped>
 .footer {
-  position: relative;
   width: 100%;
-  background: rgba(4, 8, 12, 0.6);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(130, 212, 242, 0.08);
+  background: var(--color-black);
+  border-top: 1px solid var(--color-cyan);
   margin-top: auto;
 }
 
@@ -171,12 +162,8 @@ onUnmounted(() => {
 .footer-title {
   font-size: 14px;
   font-weight: 500;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-blue);
   margin: 0;
-  opacity: 0.7;
 }
 
 .footer-links {
@@ -190,50 +177,32 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
-  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
   color: var(--color-white);
   text-decoration: none;
-  opacity: 0.6;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .footer-link-item:hover {
-  background: rgba(130, 212, 242, 0.08);
-  color: var(--color-blue);
-  opacity: 0.9;
+  background: var(--color-blue);
+  color: var(--color-black);
+}
+
+.footer-link-item:hover .footer-link-icon {
+  color: var(--color-black);
 }
 
 .footer-link-icon {
   width: 14px;
   height: 14px;
-  color: var(--color-blue);
-  transition: transform 0.3s ease;
-}
-
-.footer-link-item:hover .footer-link-icon {
-  transform: scale(1.1);
+  color: var(--color-cyan);
 }
 
 .footer-link-text {
   font-size: 12px;
   font-weight: 400;
-  position: relative;
-}
-
-.footer-link-text::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  transition: width 0.3s ease;
-}
-
-.footer-link-item:hover .footer-link-text::after {
-  width: 100%;
 }
 
 .footer-info {
@@ -247,72 +216,54 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  background: rgba(130, 212, 242, 0.03);
-  border-radius: 6px;
-  border: 1px solid rgba(130, 212, 242, 0.06);
 }
 
 .footer-info-label {
   font-size: 12px;
   color: var(--color-blue);
   font-weight: 400;
-  opacity: 0.7;
 }
 
 .footer-info-value {
   font-size: 12px;
   color: var(--color-white);
   font-family: var(--mono);
-  opacity: 0.6;
 }
 
 .footer-info-link {
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .footer-info-link:hover {
-  background: rgba(130, 212, 242, 0.08);
-  border-color: rgba(130, 212, 242, 0.15);
+  background: var(--color-blue);
 }
 
-.footer-info-link:hover .footer-info-label {
-  opacity: 0.9;
-}
-
+.footer-info-link:hover .footer-info-label,
+.footer-info-link:hover .footer-info-value,
 .footer-info-link:hover .footer-info-icon {
-  color: var(--color-blue);
-  transform: translate(2px, -2px);
+  color: var(--color-black);
 }
 
 .footer-info-icon {
   width: 12px;
   height: 12px;
-  color: var(--color-blue);
-  opacity: 0.6;
-  transition: all 0.3s ease;
-}
-
-.kexie-duration {
-  background: rgba(130, 212, 242, 0.03);
-  border-color: rgba(130, 212, 242, 0.06);
+  color: var(--color-cyan);
 }
 
 .kexie-duration .footer-info-value {
   color: var(--color-blue);
-  opacity: 0.7;
 }
 
 .footer-bottom {
   padding-top: 12px;
-  border-top: 1px solid rgba(130, 212, 242, 0.06);
+  border-top: 1px solid var(--color-cyan);
   text-align: center;
 }
 
 .footer-copyright {
   font-size: 11px;
   color: var(--color-white);
-  opacity: 0.4;
   margin: 0;
 }
 

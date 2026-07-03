@@ -18,20 +18,20 @@ const router = useRouter()
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 8px;
-  color: var(--color-blue);
+  background: transparent;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
   margin-bottom: 32px;
-  backdrop-filter: blur(10px);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .back-button:hover {
-  background: rgba(130, 212, 242, 0.15);
-  border-color: var(--color-blue);
+  background: var(--color-cyan);
+  color: var(--color-white);
 }
 </style>

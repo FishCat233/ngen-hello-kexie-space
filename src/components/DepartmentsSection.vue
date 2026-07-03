@@ -66,320 +66,313 @@ const departments: Department[] = [
 <template>
   <section class="departments-section">
     <div class="departments-container">
-      <h2 class="departments-title">部门介绍</h2>
+      <h2 class="departments-title"><span class="title-accent">#</span> 部门介绍</h2>
 
       <div class="departments-grid">
-        <div v-for="dept in departments" :key="dept.id" class="department-card">
-          <div class="department-icon">
-            <!-- 显示器图标 - 多媒体部 -->
-            <svg
-              v-if="dept.iconType === 'monitor'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <rect
-                x="8"
-                y="8"
-                width="48"
-                height="36"
-                rx="3"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <line x1="8" y1="16" x2="56" y2="16" stroke="currentColor" stroke-width="2" />
-              <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-              <circle cx="17" cy="12" r="1.5" fill="currentColor" />
-              <circle cx="22" cy="12" r="1.5" fill="currentColor" />
-              <rect
-                x="24"
-                y="48"
-                width="16"
-                height="4"
-                rx="1"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <line x1="32" y1="44" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
-            </svg>
-
-            <!-- 服务器图标 - 软件部 -->
-            <svg
-              v-else-if="dept.iconType === 'server'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <rect
-                x="12"
-                y="6"
-                width="40"
-                height="20"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <rect
-                x="12"
-                y="30"
-                width="40"
-                height="20"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <circle cx="18" cy="16" r="2" fill="currentColor" />
-              <circle cx="18" cy="40" r="2" fill="currentColor" />
-              <line
-                x1="26"
-                y1="16"
-                x2="44"
-                y2="16"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="26"
-                y1="40"
-                x2="44"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-
-            <!-- 芯片图标 - 硬件部 -->
-            <svg
-              v-else-if="dept.iconType === 'hardware'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <!-- 芯片主体 -->
-              <rect
-                x="16"
-                y="16"
-                width="32"
-                height="32"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <!-- 芯片内部方块 -->
-              <rect
-                x="22"
-                y="22"
-                width="20"
-                height="20"
-                rx="1"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-              <!-- 顶部引脚 -->
-              <line
-                x1="24"
-                y1="16"
-                x2="24"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="32"
-                y1="16"
-                x2="32"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="40"
-                y1="16"
-                x2="40"
-                y2="10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <!-- 底部引脚 -->
-              <line
-                x1="24"
-                y1="48"
-                x2="24"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="32"
-                y1="48"
-                x2="32"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="40"
-                y1="48"
-                x2="40"
-                y2="54"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <!-- 左侧引脚 -->
-              <line
-                x1="16"
-                y1="24"
-                x2="10"
-                y2="24"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="16"
-                y1="32"
-                x2="10"
-                y2="32"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="16"
-                y1="40"
-                x2="10"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <!-- 右侧引脚 -->
-              <line
-                x1="48"
-                y1="24"
-                x2="54"
-                y2="24"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="48"
-                y1="32"
-                x2="54"
-                y2="32"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <line
-                x1="48"
-                y1="40"
-                x2="54"
-                y2="40"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-
-            <!-- 组织管理图标 - 组织部 -->
-            <svg
-              v-else-if="dept.iconType === 'organize'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <!-- 中心圆环 -->
-              <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
-              <!-- 下方连接线 -->
-              <line x1="32" y1="28" x2="32" y2="36" stroke="currentColor" stroke-width="2" />
-              <!-- 水平连接线 -->
-              <line x1="20" y1="36" x2="44" y2="36" stroke="currentColor" stroke-width="2" />
-              <!-- 左侧分支 -->
-              <line x1="20" y1="36" x2="20" y2="44" stroke="currentColor" stroke-width="2" />
-              <circle cx="20" cy="48" r="4" stroke="currentColor" stroke-width="2" />
-              <!-- 中间分支 -->
-              <line x1="32" y1="36" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
-              <circle cx="32" cy="52" r="4" stroke="currentColor" stroke-width="2" />
-              <!-- 右侧分支 -->
-              <line x1="44" y1="36" x2="44" y2="44" stroke="currentColor" stroke-width="2" />
-              <circle cx="44" cy="48" r="4" stroke="currentColor" stroke-width="2" />
-            </svg>
-
-            <!-- 盾牌与锁图标 - 安全部 -->
-            <svg
-              v-else-if="dept.iconType === 'security'"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon-svg"
-            >
-              <!-- 盾牌轮廓 -->
-              <path
-                d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linejoin="round"
-              />
-              <!-- 锁体 -->
-              <rect
-                x="24"
-                y="30"
-                width="16"
-                height="14"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <!-- 锁梁 -->
-              <path
-                d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-              <!-- 钥匙孔 -->
-              <circle cx="32" cy="36" r="2" fill="currentColor" />
-              <line
-                x1="32"
-                y1="38"
-                x2="32"
-                y2="42"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </div>
-
-          <h3 class="department-name">{{ dept.name }}</h3>
-
-          <div class="department-content">
-            <p v-for="(para, index) in dept.description" :key="index" class="department-paragraph">
-              {{ para }}
-            </p>
-          </div>
-          <a
-            v-if="dept.website"
-            :href="dept.website.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="department-link"
+        <div v-for="(dept, index) in departments" :key="dept.id" class="department-card">
+          <div
+            class="department-left"
+            :style="{ background: index % 2 === 0 ? 'var(--color-blue)' : 'var(--color-cyan)' }"
           >
-            → {{ dept.website.label }}
-          </a>
+            <div class="department-icon">
+              <!-- 显示器图标 - 多媒体部 -->
+              <svg
+                v-if="dept.iconType === 'monitor'"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-svg"
+              >
+                <rect
+                  x="8"
+                  y="8"
+                  width="48"
+                  height="36"
+                  rx="3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <line x1="8" y1="16" x2="56" y2="16" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+                <circle cx="17" cy="12" r="1.5" fill="currentColor" />
+                <circle cx="22" cy="12" r="1.5" fill="currentColor" />
+                <rect
+                  x="24"
+                  y="48"
+                  width="16"
+                  height="4"
+                  rx="1"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <line x1="32" y1="44" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
+              </svg>
+
+              <!-- 服务器图标 - 软件部 -->
+              <svg
+                v-else-if="dept.iconType === 'server'"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-svg"
+              >
+                <rect
+                  x="12"
+                  y="6"
+                  width="40"
+                  height="20"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <rect
+                  x="12"
+                  y="30"
+                  width="40"
+                  height="20"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <circle cx="18" cy="16" r="2" fill="currentColor" />
+                <circle cx="18" cy="40" r="2" fill="currentColor" />
+                <line
+                  x1="26"
+                  y1="16"
+                  x2="44"
+                  y2="16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="26"
+                  y1="40"
+                  x2="44"
+                  y2="40"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+
+              <!-- 芯片图标 - 硬件部 -->
+              <svg
+                v-else-if="dept.iconType === 'hardware'"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-svg"
+              >
+                <rect
+                  x="16"
+                  y="16"
+                  width="32"
+                  height="32"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <rect
+                  x="22"
+                  y="22"
+                  width="20"
+                  height="20"
+                  rx="1"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+                <line
+                  x1="24"
+                  y1="16"
+                  x2="24"
+                  y2="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="32"
+                  y1="16"
+                  x2="32"
+                  y2="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="40"
+                  y1="16"
+                  x2="40"
+                  y2="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="24"
+                  y1="48"
+                  x2="24"
+                  y2="54"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="32"
+                  y1="48"
+                  x2="32"
+                  y2="54"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="40"
+                  y1="48"
+                  x2="40"
+                  y2="54"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="16"
+                  y1="24"
+                  x2="10"
+                  y2="24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="16"
+                  y1="32"
+                  x2="10"
+                  y2="32"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="16"
+                  y1="40"
+                  x2="10"
+                  y2="40"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="48"
+                  y1="24"
+                  x2="54"
+                  y2="24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="48"
+                  y1="32"
+                  x2="54"
+                  y2="32"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="48"
+                  y1="40"
+                  x2="54"
+                  y2="40"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+
+              <!-- 组织管理图标 - 组织部 -->
+              <svg
+                v-else-if="dept.iconType === 'organize'"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-svg"
+              >
+                <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
+                <line x1="32" y1="28" x2="32" y2="36" stroke="currentColor" stroke-width="2" />
+                <line x1="20" y1="36" x2="44" y2="36" stroke="currentColor" stroke-width="2" />
+                <line x1="20" y1="36" x2="20" y2="44" stroke="currentColor" stroke-width="2" />
+                <circle cx="20" cy="48" r="4" stroke="currentColor" stroke-width="2" />
+                <line x1="32" y1="36" x2="32" y2="48" stroke="currentColor" stroke-width="2" />
+                <circle cx="32" cy="52" r="4" stroke="currentColor" stroke-width="2" />
+                <line x1="44" y1="36" x2="44" y2="44" stroke="currentColor" stroke-width="2" />
+                <circle cx="44" cy="48" r="4" stroke="currentColor" stroke-width="2" />
+              </svg>
+
+              <!-- 盾牌与锁图标 - 安全部 -->
+              <svg
+                v-else-if="dept.iconType === 'security'"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-svg"
+              >
+                <path
+                  d="M32 6L8 16V28C8 42 18 54 32 58C46 54 56 42 56 28V16L32 6Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+                <rect
+                  x="24"
+                  y="30"
+                  width="16"
+                  height="14"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="M28 30V26C28 23.7909 29.7909 22 32 22C34.2091 22 36 23.7909 36 26V30"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <circle cx="32" cy="36" r="2" fill="currentColor" />
+                <line
+                  x1="32"
+                  y1="38"
+                  x2="32"
+                  y2="42"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <h3 class="department-name">{{ dept.name }}</h3>
+          </div>
+          <div class="department-right">
+            <div class="department-content">
+              <p
+                v-for="(para, paraIndex) in dept.description"
+                :key="paraIndex"
+                class="department-paragraph"
+              >
+                {{ para }}
+              </p>
+            </div>
+            <a
+              v-if="dept.website"
+              :href="dept.website.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="department-link"
+            >
+              <span>→ {{ dept.website.label }}</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -388,14 +381,13 @@ const departments: Department[] = [
 
 <style scoped>
 .departments-section {
-  position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  background: transparent;
+  padding: 10vh 20px;
+  background: var(--color-gray);
 }
 
 .departments-container {
@@ -410,12 +402,13 @@ const departments: Department[] = [
 .departments-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0;
   text-align: center;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .departments-grid {
@@ -427,39 +420,40 @@ const departments: Department[] = [
 }
 
 .department-card {
-  flex: 0 1 340px;
-  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  min-height: 200px;
 }
 
-.department-card {
+/* 左区 - 实心色块 */
+.department-left {
+  width: 220px;
+  min-width: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px;
-  background: rgba(130, 212, 242, 0.05);
-  border: 1px solid rgba(130, 212, 242, 0.15);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  justify-content: center;
+  padding: 32px 24px;
+  gap: 16px;
 }
 
-.department-card:hover {
-  background: rgba(130, 212, 242, 0.1);
-  border-color: rgba(130, 212, 242, 0.4);
-  box-shadow:
-    0 8px 32px rgba(130, 212, 242, 0.15),
-    0 0 60px rgba(111, 208, 206, 0.1);
-  transform: translateY(-4px);
-}
-
-.department-icon {
+/* 蓝/青色块交替 - 通过内联 style 设置 background */
+.department-left .department-icon {
   width: 64px;
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  color: var(--color-blue);
+  color: var(--color-white);
+}
+
+.department-left .department-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-white);
+  margin: 0;
+  text-align: center;
 }
 
 .icon-svg {
@@ -467,12 +461,15 @@ const departments: Department[] = [
   height: 100%;
 }
 
-.department-name {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--color-white);
-  margin: 0 0 16px;
-  text-align: center;
+/* 右区 - 镂空边框 */
+.department-right {
+  flex: 1;
+  border: 1px solid var(--color-cyan);
+  border-left: none;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .department-content {
@@ -484,32 +481,52 @@ const departments: Department[] = [
 .department-paragraph {
   font-size: 14px;
   line-height: 1.7;
-  color: rgba(235, 251, 255, 0.8);
+  color: var(--color-text);
   margin: 0;
   text-align: justify;
 }
 
 .department-link {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-blue);
-  border: 1px solid var(--color-blue);
-  border-radius: 6px;
+  color: var(--color-text);
+  border: 1px solid var(--color-cyan);
   text-decoration: none;
-  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transition: background 0s;
+  align-self: flex-end;
+}
+
+.department-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-cyan);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.department-link:hover::before {
+  transform: translateX(0);
 }
 
 .department-link:hover {
-  color: #04080c;
-  background: var(--color-blue);
+  color: var(--color-white);
+}
+
+.department-link > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 1024px) {
   .departments-section {
-    padding: 40px 16px;
+    padding: 10vh 16px;
   }
 
   .departments-title {
@@ -521,31 +538,34 @@ const departments: Department[] = [
   }
 
   .department-card {
-    flex: 0 1 300px;
-    padding: 20px;
+    flex-direction: column;
+    min-height: auto;
   }
 
-  .department-icon {
+  .department-left {
+    width: 100%;
+    min-width: auto;
+    flex-direction: row;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .department-left .department-icon {
     width: 52px;
     height: 52px;
   }
 
-  .department-name {
+  .department-left .department-name {
     font-size: 18px;
+    text-align: left;
+  }
+
+  .department-right {
+    border-left: 1px solid var(--color-cyan);
   }
 
   .department-paragraph {
     font-size: 13px;
-  }
-}
-
-@media (max-width: 640px) {
-  .departments-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .departments-title {
-    font-size: 28px;
   }
 }
 </style>

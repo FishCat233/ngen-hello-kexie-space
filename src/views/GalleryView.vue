@@ -18,9 +18,6 @@ import {
   type GalleryItem,
 } from '../data/gallery'
 import BackButton from '../components/BackButton.vue'
-import TracerBullet from '../components/TracerBullet.vue'
-import FadeInSection from '../components/transitions/FadeInSection.vue'
-import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const currentCategory = ref<GalleryCategory>('all')
 const lightboxOpen = ref(false)
@@ -125,85 +122,71 @@ onUnmounted(() => {
 
 <template>
   <div class="gallery-page">
-    <TracerBullet :active="true" class="gallery-tracer" />
-
     <div class="gallery-container">
-      <FadeInSection :delay="0" :duration="250">
-        <BackButton />
-      </FadeInSection>
+      <BackButton />
 
-      <FadeInSection :delay="50" :duration="400">
-        <div class="gallery-header">
-          <h1 class="gallery-title">项目展廊</h1>
-          <p class="gallery-subtitle">展示科协成员的项目、博客和精彩瞬间</p>
-        </div>
-      </FadeInSection>
+      <div class="gallery-header">
+        <h1 class="gallery-title"><span class="title-accent">#</span> 项目展廊</h1>
+        <p class="gallery-subtitle">展示科协成员的项目、博客和精彩瞬间</p>
+      </div>
 
-      <FadeInSection :delay="100" :duration="400">
-        <div class="category-filter">
-          <button
-            v-for="category in categories"
-            :key="category.id"
-            class="category-btn"
-            :class="{ active: currentCategory === category.id }"
-            @click="setCategory(category.id)"
-          >
-            {{ category.label }}
-          </button>
-        </div>
-      </FadeInSection>
+      <div class="category-filter">
+        <button
+          v-for="category in categories"
+          :key="category.id"
+          class="category-btn"
+          :class="{ active: currentCategory === category.id }"
+          @click="setCategory(category.id)"
+        >
+          {{ category.label }}
+        </button>
+      </div>
 
       <div class="gallery-grid">
-        <StaggeredList :items="filteredItems" :stagger-delay="80" :duration="500">
-          <template #default="{ item }">
-            <div
-              class="gallery-card"
-              :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
-              @click="handleItemClick(item)"
-            >
-              <div class="image-wrapper">
-                <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
-                <div class="image-overlay">
-                  <ImageIcon v-if="item.type === 'image'" :size="24" />
-                  <Monitor v-else-if="item.type === 'iframe'" :size="24" />
-                  <ExternalLink v-else :size="24" />
-                </div>
-                <div v-if="item.type === 'link'" class="link-badge">
-                  <Link2 :size="12" />
-                  <span>外部链接</span>
-                </div>
-                <div v-else-if="item.type === 'iframe'" class="iframe-badge">
-                  <Monitor :size="12" />
-                  <span>可预览</span>
-                </div>
-              </div>
-              <div class="gallery-card-content">
-                <h3 class="gallery-card-title">
-                  <span class="category-tag" :class="'category-tag-' + item.category">
-                    {{
-                      item.category === 'image'
-                        ? '图片'
-                        : item.category === 'project'
-                          ? '项目'
-                          : item.category === 'blog'
-                            ? '博客'
-                            : '其他'
-                    }}
-                  </span>
-                  {{ item.title }}
-                  <ExternalLink v-if="item.type === 'link'" :size="14" class="title-link-icon" />
-                  <Monitor
-                    v-else-if="item.type === 'iframe'"
-                    :size="14"
-                    class="title-iframe-icon"
-                  />
-                </h3>
-                <p class="gallery-card-description">{{ item.description }}</p>
-                <span class="gallery-card-date">{{ item.date }}</span>
-              </div>
+        <div
+          v-for="item in filteredItems"
+          :key="item.id"
+          class="gallery-card"
+          :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
+          @click="handleItemClick(item)"
+        >
+          <div class="image-wrapper">
+            <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
+            <div class="image-overlay">
+              <ImageIcon v-if="item.type === 'image'" :size="24" />
+              <Monitor v-else-if="item.type === 'iframe'" :size="24" />
+              <ExternalLink v-else :size="24" />
             </div>
-          </template>
-        </StaggeredList>
+            <div v-if="item.type === 'link'" class="link-badge">
+              <Link2 :size="12" />
+              <span>外部链接</span>
+            </div>
+            <div v-else-if="item.type === 'iframe'" class="iframe-badge">
+              <Monitor :size="12" />
+              <span>可预览</span>
+            </div>
+          </div>
+          <div class="gallery-card-content">
+            <h3 class="gallery-card-title">
+              <span class="category-tag" :class="'category-tag-' + item.category">
+                {{
+                  item.category === 'image'
+                    ? '图片'
+                    : item.category === 'project'
+                      ? '项目'
+                      : item.category === 'blog'
+                        ? '博客'
+                        : '其他'
+                }}
+              </span>
+              {{ item.title }}
+              <ExternalLink v-if="item.type === 'link'" :size="14" class="title-link-icon" />
+              <Monitor v-else-if="item.type === 'iframe'" :size="14" class="title-iframe-icon" />
+            </h3>
+            <p class="gallery-card-description">{{ item.description }}</p>
+            <span class="gallery-card-date">{{ item.date }}</span>
+          </div>
+        </div>
       </div>
 
       <div v-if="filteredItems.length === 0" class="empty-state">
@@ -214,114 +197,95 @@ onUnmounted(() => {
 
     <!-- Lightbox -->
     <Teleport to="body">
-      <Transition name="lightbox">
-        <div v-if="lightboxOpen" class="lightbox" @click="closeLightbox">
-          <button class="lightbox-close" @click.stop="closeLightbox">
-            <X :size="24" />
-          </button>
+      <div v-if="lightboxOpen" class="lightbox" @click="closeLightbox">
+        <button class="lightbox-close" @click.stop="closeLightbox">
+          <X :size="24" />
+        </button>
 
-          <button
-            v-if="imageItems.length > 1"
-            class="lightbox-nav lightbox-prev"
-            @click.stop="prevImage"
-          >
-            <ChevronLeft :size="32" />
-          </button>
+        <button
+          v-if="imageItems.length > 1"
+          class="lightbox-nav lightbox-prev"
+          @click.stop="prevImage"
+        >
+          <ChevronLeft :size="32" />
+        </button>
 
-          <button
-            v-if="imageItems.length > 1"
-            class="lightbox-nav lightbox-next"
-            @click.stop="nextImage"
-          >
-            <ChevronRight :size="32" />
-          </button>
+        <button
+          v-if="imageItems.length > 1"
+          class="lightbox-nav lightbox-next"
+          @click.stop="nextImage"
+        >
+          <ChevronRight :size="32" />
+        </button>
 
-          <div class="lightbox-content" @click.stop>
-            <img
-              v-if="currentImage"
-              :src="currentImage.src"
-              :alt="currentImage.title"
-              class="lightbox-image"
-            />
-            <div v-if="currentImage" class="lightbox-info">
-              <h3 class="lightbox-title">{{ currentImage.title }}</h3>
-              <p class="lightbox-description">{{ currentImage.description }}</p>
-              <span class="lightbox-date">{{ currentImage.date }}</span>
-            </div>
-          </div>
-
-          <div v-if="imageItems.length > 1" class="lightbox-counter">
-            {{ currentImageIndex + 1 }} / {{ imageItems.length }}
+        <div class="lightbox-content" @click.stop>
+          <img
+            v-if="currentImage"
+            :src="currentImage.src"
+            :alt="currentImage.title"
+            class="lightbox-image"
+          />
+          <div v-if="currentImage" class="lightbox-info">
+            <h3 class="lightbox-title">{{ currentImage.title }}</h3>
+            <p class="lightbox-description">{{ currentImage.description }}</p>
+            <span class="lightbox-date">{{ currentImage.date }}</span>
           </div>
         </div>
-      </Transition>
+
+        <div v-if="imageItems.length > 1" class="lightbox-counter">
+          {{ currentImageIndex + 1 }} / {{ imageItems.length }}
+        </div>
+      </div>
     </Teleport>
 
     <!-- Iframe Modal -->
     <Teleport to="body">
-      <Transition name="lightbox">
-        <div
-          v-if="iframeModalOpen && currentIframeItem"
-          class="iframe-modal"
-          @click="closeIframeModal"
-        >
-          <button class="iframe-modal-close" @click.stop="closeIframeModal">
-            <X :size="24" />
-          </button>
+      <div
+        v-if="iframeModalOpen && currentIframeItem"
+        class="iframe-modal"
+        @click="closeIframeModal"
+      >
+        <button class="iframe-modal-close" @click.stop="closeIframeModal">
+          <X :size="24" />
+        </button>
 
-          <div class="iframe-modal-content" @click.stop>
-            <div class="iframe-modal-header">
-              <h3 class="iframe-modal-title">{{ currentIframeItem.title }}</h3>
-              <button class="iframe-visit-btn" @click="openExternalLink(currentIframeItem.url)">
-                <ExternalLink :size="16" />
-                <span>访问网站</span>
-              </button>
-            </div>
+        <div class="iframe-modal-content" @click.stop>
+          <div class="iframe-modal-header">
+            <h3 class="iframe-modal-title">{{ currentIframeItem.title }}</h3>
+            <button class="iframe-visit-btn" @click="openExternalLink(currentIframeItem.url)">
+              <ExternalLink :size="16" />
+              <span>访问网站</span>
+            </button>
+          </div>
 
-            <div class="iframe-preview-container">
-              <iframe
-                v-if="currentIframeItem.url"
-                :src="currentIframeItem.url"
-                class="iframe-frame"
-                frameborder="0"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-              ></iframe>
-            </div>
+          <div class="iframe-preview-container">
+            <iframe
+              v-if="currentIframeItem.url"
+              :src="currentIframeItem.url"
+              class="iframe-frame"
+              frameborder="0"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            ></iframe>
+          </div>
 
-            <div class="iframe-modal-info">
-              <p class="iframe-modal-description">{{ currentIframeItem.description }}</p>
-              <span class="iframe-modal-date">{{ currentIframeItem.date }}</span>
-            </div>
+          <div class="iframe-modal-info">
+            <p class="iframe-modal-description">{{ currentIframeItem.description }}</p>
+            <span class="iframe-modal-date">{{ currentIframeItem.date }}</span>
           </div>
         </div>
-      </Transition>
+      </div>
     </Teleport>
   </div>
 </template>
 
 <style scoped>
 .gallery-page {
-  position: relative;
   min-height: 100vh;
-  background: #04080c;
+  background: var(--color-gray);
   padding: 80px 20px 40px;
-  overflow-x: hidden;
-}
-
-.gallery-tracer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.6;
 }
 
 .gallery-container {
-  position: relative;
-  z-index: 10;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -333,19 +297,17 @@ onUnmounted(() => {
 .gallery-title {
   font-size: 36px;
   font-weight: 700;
-  line-height: 1.3;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0 0 12px 0;
-  padding: 4px 0;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .gallery-subtitle {
   font-size: 16px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -358,25 +320,27 @@ onUnmounted(() => {
 
 .category-btn {
   padding: 8px 16px;
-  background: rgba(130, 212, 242, 0.05);
-  border: 1px solid rgba(130, 212, 242, 0.2);
-  border-radius: 20px;
-  color: var(--color-white);
+  background: transparent;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-text);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .category-btn:hover {
-  background: rgba(130, 212, 242, 0.1);
-  border-color: rgba(130, 212, 242, 0.4);
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
+  color: var(--color-white);
 }
 
 .category-btn.active {
-  background: rgba(130, 212, 242, 0.2);
-  border-color: var(--color-blue);
-  color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-white);
 }
 
 .gallery-grid {
@@ -386,31 +350,18 @@ onUnmounted(() => {
 }
 
 .gallery-card {
-  position: relative;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 16px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .gallery-card:hover {
-  background: rgba(130, 212, 242, 0.06);
-  border-color: rgba(130, 212, 242, 0.2);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(130, 212, 242, 0.1);
-}
-
-.gallery-card.is-link:hover {
+  background: var(--color-cyan);
   border-color: var(--color-cyan);
-  box-shadow: 0 8px 32px rgba(111, 208, 206, 0.15);
-}
-
-.gallery-card.is-embed:hover {
-  border-color: #a78bfa;
-  box-shadow: 0 8px 32px rgba(167, 139, 250, 0.15);
 }
 
 .image-wrapper {
@@ -440,7 +391,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(4, 8, 12, 0.5);
+  background: var(--color-black);
   opacity: 0;
   transition: opacity 0.3s ease;
   color: var(--color-white);
@@ -458,9 +409,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: rgba(111, 208, 206, 0.9);
-  border-radius: 4px;
-  color: #04080c;
+  background: var(--color-cyan);
+  color: var(--color-white);
   font-size: 11px;
   font-weight: 600;
 }
@@ -473,9 +423,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: rgba(167, 139, 250, 0.9);
-  border-radius: 4px;
-  color: #04080c;
+  background: var(--color-blue);
+  color: var(--color-white);
   font-size: 11px;
   font-weight: 600;
 }
@@ -490,62 +439,51 @@ onUnmounted(() => {
   gap: 8px;
   font-size: 16px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0 0 8px 0;
-}
-
-.gallery-card.is-link .gallery-card-title {
-  color: var(--color-cyan);
-}
-
-.gallery-card.is-iframe .gallery-card-title {
-  color: #a78bfa;
 }
 
 .category-tag {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
   flex-shrink: 0;
 }
 
 .category-tag-image {
-  background: rgba(130, 212, 242, 0.2);
-  color: var(--color-blue);
-  border: 1px solid rgba(130, 212, 242, 0.3);
+  background: transparent;
+  color: var(--color-cyan);
+  border: 1px solid var(--color-cyan);
 }
 
 .category-tag-project {
-  background: rgba(251, 191, 36, 0.2);
+  background: transparent;
   color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  border: 1px solid #fbbf24;
 }
 
 .category-tag-blog {
-  background: rgba(244, 114, 182, 0.2);
+  background: transparent;
   color: #f472b6;
-  border: 1px solid rgba(244, 114, 182, 0.3);
+  border: 1px solid #f472b6;
 }
 
 .category-tag-other {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-white);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-text);
 }
 
 .title-link-icon,
 .title-iframe-icon {
-  opacity: 0.7;
   flex-shrink: 0;
 }
 
 .gallery-card-description {
   font-size: 14px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
   margin: 0 0 12px 0;
   line-height: 1.5;
   display: -webkit-box;
@@ -557,7 +495,6 @@ onUnmounted(() => {
 .gallery-card-date {
   font-size: 12px;
   color: var(--color-blue);
-  opacity: 0.8;
 }
 
 .empty-state {
@@ -566,13 +503,11 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   padding: 80px 20px;
-  color: var(--color-white);
-  opacity: 0.5;
+  color: var(--color-text);
 }
 
 .empty-icon {
   margin-bottom: 16px;
-  opacity: 0.5;
 }
 
 /* Lightbox */
@@ -582,8 +517,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(4, 8, 12, 0.95);
-  backdrop-filter: blur(20px);
+  background: var(--color-black);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -600,19 +534,20 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
   color: var(--color-white);
   cursor: pointer;
-  transition: all 0.3s ease;
   z-index: 10;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .lightbox-close:hover,
 .iframe-modal-close:hover {
-  background: rgba(130, 212, 242, 0.2);
-  border-color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .lightbox-nav {
@@ -624,18 +559,19 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
   color: var(--color-white);
   cursor: pointer;
-  transition: all 0.3s ease;
   z-index: 10;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .lightbox-nav:hover {
-  background: rgba(130, 212, 242, 0.2);
-  border-color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .lightbox-prev {
@@ -658,7 +594,6 @@ onUnmounted(() => {
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
-  border-radius: 8px;
 }
 
 .lightbox-info {
@@ -677,14 +612,12 @@ onUnmounted(() => {
 .lightbox-description {
   font-size: 14px;
   color: var(--color-white);
-  opacity: 0.8;
   margin: 0 0 8px 0;
 }
 
 .lightbox-date {
   font-size: 12px;
   color: var(--color-blue);
-  opacity: 0.8;
 }
 
 .lightbox-counter {
@@ -693,9 +626,8 @@ onUnmounted(() => {
   left: 50%;
   transform: translateX(-50%);
   padding: 8px 16px;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 20px;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
   color: var(--color-white);
   font-size: 14px;
 }
@@ -707,8 +639,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(4, 8, 12, 0.95);
-  backdrop-filter: blur(20px);
+  background: var(--color-black);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -721,9 +652,8 @@ onUnmounted(() => {
   max-width: 1400px;
   height: 95vh;
   max-height: 95vh;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 16px;
+  background: var(--color-black);
+  border: 1px solid var(--color-cyan);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -734,7 +664,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(130, 212, 242, 0.1);
+  border-bottom: 1px solid var(--color-cyan);
   gap: 16px;
 }
 
@@ -751,19 +681,17 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: linear-gradient(135deg, rgba(130, 212, 242, 0.2) 0%, rgba(111, 208, 206, 0.2) 100%);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 8px;
+  background: var(--color-blue);
   color: var(--color-white);
+  border: none;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .iframe-visit-btn:hover {
-  background: linear-gradient(135deg, rgba(130, 212, 242, 0.3) 0%, rgba(111, 208, 206, 0.3) 100%);
-  border-color: var(--color-blue);
+  background: var(--color-cyan);
 }
 
 .iframe-preview-container {
@@ -782,31 +710,18 @@ onUnmounted(() => {
 
 .iframe-modal-info {
   padding: 16px 24px;
-  border-top: 1px solid rgba(130, 212, 242, 0.1);
+  border-top: 1px solid var(--color-cyan);
 }
 
 .iframe-modal-description {
   font-size: 14px;
   color: var(--color-white);
-  opacity: 0.8;
   margin: 0 0 8px 0;
 }
 
 .iframe-modal-date {
   font-size: 12px;
   color: var(--color-blue);
-  opacity: 0.8;
-}
-
-/* Transitions */
-.lightbox-enter-active,
-.lightbox-leave-active {
-  transition: all 0.3s ease;
-}
-
-.lightbox-enter-from,
-.lightbox-leave-to {
-  opacity: 0;
 }
 
 /* Responsive */

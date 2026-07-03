@@ -13,7 +13,6 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['three'],
       output: {
         manualChunks(id) {
           if (

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 按钮配置
 const buttons = [
   {
     id: 'qq-group',
@@ -31,18 +30,8 @@ const buttons = [
 <template>
   <section class="hero-section">
     <div class="hero-content">
-      <!-- 上方：标题 -->
-      <h1 class="hero-title">桂电三院科协</h1>
-
-      <!-- 中间：LOGO -->
-      <div class="hero-logo-container">
-        <picture>
-          <source srcset="/logo.webp" type="image/webp" />
-          <img src="/logo.png" alt="科协LOGO" class="hero-logo" />
-        </picture>
-        <!-- 向下延伸的树干线条 -->
-        <div class="tree-trunk"></div>
-      </div>
+      <!-- 标题：# 前缀模式 -->
+      <h1 class="hero-title"><span class="title-accent">#</span> 桂电三院科协</h1>
 
       <!-- 下方：标语 -->
       <p class="hero-slogan">科技融入梦想，创新点缀人生</p>
@@ -117,3 +106,139 @@ const buttons = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .hero-content {
+    padding: 0 24px;
+    gap: 20px;
+  }
+}
+
+/* # 标题模式 */
+.hero-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.title-accent {
+  color: var(--color-blue);
+}
+
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 40px;
+  }
+}
+
+.hero-slogan {
+  font-size: 18px;
+  color: var(--color-text);
+  letter-spacing: 2px;
+}
+
+@media (max-width: 1024px) {
+  .hero-slogan {
+    font-size: 16px;
+  }
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1024px) {
+  .hero-buttons {
+    gap: 10px;
+    margin-top: 12px;
+  }
+}
+
+.hero-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 140px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-cyan);
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  transition: background 0s;
+}
+
+/* 色块滑切 hover */
+.hero-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-cyan);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.hero-button:hover::before {
+  transform: translateX(0);
+}
+
+.hero-button:hover {
+  color: var(--color-white);
+}
+
+.hero-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-button-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .hero-button {
+    width: 130px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+</style>

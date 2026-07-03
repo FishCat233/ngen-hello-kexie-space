@@ -48,7 +48,7 @@ const navigateToDirection = (id: string) => {
 <template>
   <section class="learning-section">
     <div class="learning-container">
-      <h2 class="learning-title">学习方向</h2>
+      <h2 class="learning-title"><span class="title-accent">#</span> 学习方向</h2>
 
       <div class="learning-grid">
         <div
@@ -70,14 +70,13 @@ const navigateToDirection = (id: string) => {
 
 <style scoped>
 .learning-section {
-  position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  background: transparent;
+  padding: 10vh 20px;
+  background: var(--color-gray);
 }
 
 .learning-container {
@@ -92,12 +91,13 @@ const navigateToDirection = (id: string) => {
 .learning-title {
   font-size: 42px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0;
   text-align: center;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .learning-grid {
@@ -113,23 +113,32 @@ const navigateToDirection = (id: string) => {
   flex-direction: column;
   align-items: center;
   padding: 32px 20px;
-  background: rgba(130, 212, 242, 0.05);
-  border: 1px solid rgba(130, 212, 242, 0.15);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   cursor: pointer;
   flex: 0 1 calc(25% - 18px);
   max-width: 280px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0s;
+}
+
+.learning-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-cyan);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.learning-card:hover::before {
+  transform: translateX(0);
 }
 
 .learning-card:hover {
-  background: rgba(130, 212, 242, 0.1);
-  border-color: rgba(130, 212, 242, 0.4);
-  box-shadow:
-    0 8px 32px rgba(130, 212, 242, 0.15),
-    0 0 60px rgba(111, 208, 206, 0.1);
-  transform: translateY(-4px);
+  border-color: var(--color-cyan);
 }
 
 .learning-icon {
@@ -139,20 +148,34 @@ const navigateToDirection = (id: string) => {
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  color: var(--color-blue);
+  color: var(--color-cyan);
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.learning-card:hover .learning-icon {
+  color: var(--color-white);
 }
 
 .learning-name {
   font-size: 16px;
   font-weight: 500;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0;
   text-align: center;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.learning-card:hover .learning-name {
+  color: var(--color-white);
 }
 
 @media (max-width: 1024px) {
   .learning-section {
-    padding: 40px 16px;
+    padding: 10vh 16px;
   }
 
   .learning-title {

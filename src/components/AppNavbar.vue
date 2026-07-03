@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDevice } from '@/composables/useDevice'
 import { useScrollStore } from '@/stores/scroll'
@@ -113,32 +113,21 @@ const navMenu: NavItem[] = [
   },
 ]
 
-const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const activeDropdown = ref<string | null>(null)
-
-// 监听滚动事件
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-}
 
 // 导航处理
 const handleNavigation = (href: string) => {
   if (href.startsWith('http')) {
-    // 外部链接跳转
     window.open(href, '_blank')
   } else if (href.startsWith('/')) {
-    // 内部页面路由跳转
     router.push(href)
   } else if (href.startsWith('#')) {
-    // 页面内锚点跳转
     if (route.path !== '/') {
-      // 当前不在首页，设置锚点标记后返回首页
       scrollStore.pendingAnchor = href
       router.push('/')
       return
     } else {
-      // 已在首页，执行锚点滚动
       const element = document.querySelector(href)
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
@@ -159,7 +148,7 @@ const hideDropdown = () => {
   activeDropdown.value = null
 }
 
-// 移动菜单打开时锁定 body 滚动，防止背景穿透
+// 移动菜单打开时锁定 body 滚动
 watch(isMobileMenuOpen, (open) => {
   if (open) {
     document.body.style.overflow = 'hidden'
@@ -168,18 +157,13 @@ watch(isMobileMenuOpen, (open) => {
   }
 })
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
   document.body.style.overflow = ''
 })
 </script>
 
 <template>
-  <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled, 'is-mobile': isMobile }">
+  <nav class="navbar" :class="{ 'is-mobile': isMobile }">
     <div class="navbar-container">
       <!-- Logo -->
       <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
@@ -222,49 +206,47 @@ onUnmounted(() => {
           </a>
 
           <!-- 一级下拉菜单 -->
-          <transition name="dropdown">
-            <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-              <div
-                v-for="(child, index) in item.children"
-                :key="index"
-                class="dropdown-item"
-                :class="{ 'has-children': child.children }"
+          <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
+            <div
+              v-for="(child, index) in item.children"
+              :key="index"
+              class="dropdown-item"
+              :class="{ 'has-children': child.children }"
+            >
+              <a
+                :href="child.href"
+                class="dropdown-link"
+                @click.prevent="handleNavigation(child.href)"
               >
-                <a
-                  :href="child.href"
-                  class="dropdown-link"
-                  @click.prevent="handleNavigation(child.href)"
+                {{ child.label }}
+                <svg
+                  v-if="child.children"
+                  class="dropdown-arrow-right"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 >
-                  {{ child.label }}
-                  <svg
-                    v-if="child.children"
-                    class="dropdown-arrow-right"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </a>
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
 
-                <!-- 二级下拉菜单 -->
-                <div v-if="child.children" class="subdropdown-menu">
-                  <a
-                    v-for="(subChild, subIndex) in child.children"
-                    :key="subIndex"
-                    :href="subChild.href"
-                    class="subdropdown-link"
-                    @click.prevent="handleNavigation(subChild.href)"
-                  >
-                    {{ subChild.label }}
-                  </a>
-                </div>
+              <!-- 二级下拉菜单 -->
+              <div v-if="child.children" class="subdropdown-menu">
+                <a
+                  v-for="(subChild, subIndex) in child.children"
+                  :key="subIndex"
+                  :href="subChild.href"
+                  class="subdropdown-link"
+                  @click.prevent="handleNavigation(subChild.href)"
+                >
+                  {{ subChild.label }}
+                </a>
               </div>
             </div>
-          </transition>
+          </div>
         </div>
       </div>
 
@@ -275,7 +257,7 @@ onUnmounted(() => {
           href="https://api.kexie.space/recruitment-qq-group"
           class="navbar-cta"
           @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-          >加入我们</a
+          ><span>加入我们</span></a
         >
 
         <!-- 移动端菜单按钮 -->
@@ -315,65 +297,53 @@ onUnmounted(() => {
     </div>
 
     <!-- 移动端菜单 -->
-    <transition name="slide-down">
-      <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
-        <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
-          <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
-            {{ item.label }}
-          </a>
+    <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
+      <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
+        <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
+          {{ item.label }}
+        </a>
 
-          <!-- 移动端子菜单 -->
-          <div v-if="item.children" class="mobile-submenu">
-            <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
+        <!-- 移动端子菜单 -->
+        <div v-if="item.children" class="mobile-submenu">
+          <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
+            <a
+              :href="child.href"
+              class="mobile-submenu-title mobile-submenu-title-link"
+              @click.prevent="handleNavigation(child.href)"
+            >
+              {{ child.label }}
+            </a>
+            <div v-if="child.children" class="mobile-submenu-items">
               <a
-                :href="child.href"
-                class="mobile-submenu-title mobile-submenu-title-link"
-                @click.prevent="handleNavigation(child.href)"
+                v-for="(subChild, subIndex) in child.children"
+                :key="subIndex"
+                :href="subChild.href"
+                class="mobile-submenu-link"
+                @click.prevent="handleNavigation(subChild.href)"
               >
-                {{ child.label }}
+                {{ subChild.label }}
               </a>
-              <div v-if="child.children" class="mobile-submenu-items">
-                <a
-                  v-for="(subChild, subIndex) in child.children"
-                  :key="subIndex"
-                  :href="subChild.href"
-                  class="mobile-submenu-link"
-                  @click.prevent="handleNavigation(subChild.href)"
-                >
-                  {{ subChild.label }}
-                </a>
-              </div>
             </div>
           </div>
         </div>
-        <a
-          href="https://api.kexie.space/recruitment-qq-group"
-          class="navbar-mobile-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-          >加入我们</a
-        >
       </div>
-    </transition>
+      <a
+        href="https://api.kexie.space/recruitment-qq-group"
+        class="navbar-mobile-cta"
+        @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+        ><span>加入我们</span></a
+      >
+    </div>
   </nav>
 </template>
 
 <style scoped>
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  width: 100%;
   padding: 16px 24px;
-  transition: all 0.3s ease;
-  background: transparent;
-}
-
-.navbar-scrolled {
-  background: rgba(4, 8, 12, 0.9);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(130, 212, 242, 0.1);
-  padding: 12px 24px;
+  background: var(--color-black);
+  position: relative;
+  z-index: 10;
 }
 
 .navbar-container {
@@ -390,11 +360,19 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  transition: opacity 0.3s ease;
+  padding: 4px 12px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .navbar-logo:hover {
-  opacity: 0.8;
+  background: var(--color-blue);
+  color: var(--color-black);
+}
+
+.navbar-logo:hover .navbar-logo-text {
+  color: var(--color-black);
 }
 
 .navbar-logo-img {
@@ -408,10 +386,7 @@ onUnmounted(() => {
 .navbar-logo-text {
   font-size: 18px;
   font-weight: 600;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-white);
 }
 
 /* 导航链接 */
@@ -434,20 +409,21 @@ onUnmounted(() => {
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  position: relative;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .navbar-link:hover {
-  color: var(--color-blue);
-  background: rgba(130, 212, 242, 0.1);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .dropdown-arrow {
   width: 16px;
   height: 16px;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .dropdown-arrow.is-open {
@@ -460,23 +436,10 @@ onUnmounted(() => {
   top: 100%;
   left: 0;
   min-width: 180px;
-  background: rgba(4, 8, 12, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(130, 212, 242, 0.2);
-  border-radius: 12px;
+  background: var(--color-black);
+  border: 1px solid var(--color-blue);
   padding: 8px;
-  margin-top: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* 填补导航链接和下拉菜单之间的间隙，防止鼠标移动时闪烁 */
-.dropdown-menu::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 0;
-  right: 0;
-  height: 8px;
+  margin-top: 0;
 }
 
 .dropdown-item {
@@ -495,13 +458,14 @@ onUnmounted(() => {
   color: var(--color-white);
   text-decoration: none;
   font-size: 14px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .dropdown-link:hover {
-  background: rgba(130, 212, 242, 0.15);
-  color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .dropdown-arrow-right {
@@ -517,23 +481,10 @@ onUnmounted(() => {
   top: 0;
   left: 100%;
   min-width: 140px;
-  background: rgba(4, 8, 12, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(130, 212, 242, 0.2);
-  border-radius: 12px;
+  background: var(--color-black);
+  border: 1px solid var(--color-cyan);
   padding: 8px;
-  margin-left: 8px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* 填补一级菜单和二级菜单之间的间隙，防止鼠标移动时闪烁 */
-.subdropdown-menu::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 8px;
-  bottom: 0;
+  margin-left: 0;
 }
 
 .subdropdown-link {
@@ -542,13 +493,14 @@ onUnmounted(() => {
   color: var(--color-white);
   text-decoration: none;
   font-size: 13px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .subdropdown-link:hover {
-  background: rgba(130, 212, 242, 0.15);
-  color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 /* 操作区 */
@@ -559,19 +511,37 @@ onUnmounted(() => {
 }
 
 .navbar-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 20px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  color: var(--color-black);
+  background: var(--color-blue);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: background 0s;
 }
 
-.navbar-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(130, 212, 242, 0.4);
+.navbar-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.navbar-cta:hover::before {
+  transform: translateX(0);
+}
+
+.navbar-cta > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* 移动端菜单按钮 */
@@ -579,13 +549,14 @@ onUnmounted(() => {
   width: 40px;
   height: 40px;
   padding: 8px;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
   color: var(--color-white);
   cursor: pointer;
-  transition: all 0.3s ease;
   display: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .is-mobile .navbar-menu-btn {
@@ -593,8 +564,8 @@ onUnmounted(() => {
 }
 
 .navbar-menu-btn:hover {
-  background: rgba(130, 212, 242, 0.2);
-  border-color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .navbar-menu-btn svg {
@@ -605,13 +576,8 @@ onUnmounted(() => {
 /* 移动端菜单 */
 .navbar-mobile-menu {
   display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: rgba(4, 8, 12, 0.98);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(130, 212, 242, 0.1);
+  background: var(--color-black);
+  border-top: 1px solid var(--color-cyan);
   padding: 16px 24px;
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
   flex-direction: column;
@@ -626,7 +592,7 @@ onUnmounted(() => {
 }
 
 .mobile-nav-item {
-  border-bottom: 1px solid rgba(130, 212, 242, 0.1);
+  border-bottom: 1px solid var(--color-blue);
   padding: 8px 0;
 }
 
@@ -637,13 +603,14 @@ onUnmounted(() => {
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .mobile-nav-link:hover {
-  background: rgba(130, 212, 242, 0.1);
-  color: var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .mobile-submenu {
@@ -652,7 +619,7 @@ onUnmounted(() => {
 }
 
 .mobile-submenu-group {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .mobile-submenu-title {
@@ -665,13 +632,15 @@ onUnmounted(() => {
 
 .mobile-submenu-title-link {
   text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.3s ease;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .mobile-submenu-title-link:hover {
-  background: rgba(130, 212, 242, 0.1);
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .mobile-submenu-items {
@@ -684,60 +653,54 @@ onUnmounted(() => {
   color: var(--color-white);
   text-decoration: none;
   font-size: 13px;
-  opacity: 0.8;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .mobile-submenu-link:hover {
-  background: rgba(130, 212, 242, 0.1);
-  color: var(--color-blue);
-  opacity: 1;
+  background: var(--color-blue);
+  color: var(--color-black);
 }
 
 .navbar-mobile-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 14px 20px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  color: var(--color-black);
+  background: var(--color-blue);
+  color: var(--color-white);
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  text-align: center;
   margin-top: 16px;
-  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: background 0s;
 }
 
-/* 动画 */
-.slide-down-enter-active,
-.slide-down-leave-active {
-  transition: all 0.3s ease;
+.navbar-mobile-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
 }
 
-.slide-down-enter-from,
-.slide-down-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
+.navbar-mobile-cta:hover::before {
+  transform: translateX(0);
 }
 
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: all 0.2s ease;
-}
-
-.dropdown-enter-from,
-.dropdown-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
+.navbar-mobile-cta > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* 响应式 */
 .is-mobile .navbar {
   padding: 12px 16px;
-}
-
-.is-mobile .navbar-scrolled {
-  padding: 10px 16px;
 }
 
 .is-mobile .navbar-logo-text {
@@ -755,10 +718,6 @@ onUnmounted(() => {
 @media (max-width: 1024px) {
   .navbar {
     padding: 12px 16px;
-  }
-
-  .navbar-scrolled {
-    padding: 10px 16px;
   }
 
   .navbar-logo-text {

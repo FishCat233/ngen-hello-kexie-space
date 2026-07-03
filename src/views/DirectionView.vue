@@ -4,7 +4,6 @@ import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
 import BackButton from '../components/BackButton.vue'
-import FadeInSection from '../components/transitions/FadeInSection.vue'
 
 const props = defineProps<{
   id: string
@@ -81,9 +80,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 <template>
   <div class="direction-page">
     <div class="direction-container">
-      <FadeInSection :delay="0" :duration="250">
-        <BackButton />
-      </FadeInSection>
+      <BackButton />
 
       <div v-if="loading" class="loading-state">
         <div class="loading-spinner"></div>
@@ -95,22 +92,18 @@ watch(() => props.id, loadMarkdown, { immediate: true })
         <button class="retry-button" @click="loadMarkdown">重试</button>
       </div>
 
-      <FadeInSection v-else :delay="100" :duration="500">
-        <article class="markdown-content">
-          <h1 class="direction-title">{{ directionName }}</h1>
-          <div class="markdown-body" v-html="htmlContent"></div>
-        </article>
-      </FadeInSection>
+      <article v-else class="markdown-content">
+        <h1 class="direction-title"><span class="title-accent">#</span> {{ directionName }}</h1>
+        <div class="markdown-body" v-html="htmlContent"></div>
+      </article>
     </div>
   </div>
 </template>
 
 <style scoped>
 .direction-page {
-  position: relative;
-  z-index: 10;
   min-height: 100vh;
-  background: transparent;
+  background: var(--color-gray);
   padding: 80px 20px 40px;
 }
 
@@ -126,15 +119,14 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   align-items: center;
   justify-content: center;
   padding: 80px 20px;
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(130, 212, 242, 0.2);
+  border: 3px solid var(--color-black);
   border-top-color: var(--color-blue);
-  border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
 }
@@ -148,46 +140,42 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .retry-button {
   margin-top: 16px;
   padding: 10px 24px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+  background: var(--color-blue);
+  color: var(--color-white);
   border: none;
-  border-radius: 8px;
-  color: var(--color-black);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .retry-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(130, 212, 242, 0.4);
+  background: var(--color-cyan);
 }
 
 .markdown-content {
   position: relative;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 16px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   padding: 40px;
-  backdrop-filter: blur(10px);
 }
 
 .direction-title {
   font-size: 36px;
   font-weight: 700;
-  line-height: 1.3;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0 0 32px 0;
   padding-top: 4px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(130, 212, 242, 0.2);
+  border-bottom: 1px solid var(--color-cyan);
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .markdown-body {
-  color: var(--color-white);
+  color: var(--color-text);
   line-height: 1.8;
   font-size: 16px;
 }
@@ -202,7 +190,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   color: var(--color-blue);
   margin: 32px 0 16px 0;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(130, 212, 242, 0.2);
+  border-bottom: 1px solid var(--color-cyan);
 }
 
 .markdown-body :deep(h3) {
@@ -219,7 +207,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(a) {
   color: var(--color-blue);
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .markdown-body :deep(a:hover) {
@@ -230,9 +217,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(img) {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
   margin: 16px 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .markdown-body :deep(ul),
@@ -246,18 +231,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(code) {
-  background: rgba(130, 212, 242, 0.1);
+  background: var(--color-gray);
   padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: var(--mono);
   font-size: 14px;
   color: var(--color-cyan);
 }
 
 .markdown-body :deep(pre) {
-  background: rgba(4, 8, 12, 0.8);
-  border: 1px solid rgba(130, 212, 242, 0.2);
-  border-radius: 8px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   padding: 16px;
   overflow-x: auto;
   margin: 16px 0;
@@ -266,20 +249,18 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(pre code) {
   background: none;
   padding: 0;
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .markdown-body :deep(blockquote) {
-  border-left: 4px solid var(--color-blue);
+  border-left: 4px solid var(--color-cyan);
   margin: 16px 0;
   padding: 8px 16px;
-  background: rgba(130, 212, 242, 0.05);
-  border-radius: 0 8px 8px 0;
 }
 
 .markdown-body :deep(hr) {
   border: none;
-  border-top: 1px solid rgba(130, 212, 242, 0.2);
+  border-top: 1px solid var(--color-cyan);
   margin: 32px 0;
 }
 
@@ -292,18 +273,14 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(th),
 .markdown-body :deep(td) {
   padding: 12px 16px;
-  border: 1px solid rgba(130, 212, 242, 0.2);
+  border: 1px solid var(--color-cyan);
   text-align: left;
 }
 
 .markdown-body :deep(th) {
-  background: rgba(130, 212, 242, 0.1);
+  background: var(--color-gray);
   font-weight: 600;
   color: var(--color-blue);
-}
-
-.markdown-body :deep(tr:nth-child(even)) {
-  background: rgba(130, 212, 242, 0.03);
 }
 
 @media (max-width: 768px) {

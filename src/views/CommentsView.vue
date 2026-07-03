@@ -8,9 +8,6 @@ import DOMPurify from 'dompurify'
 import { fetchComments, formatDate } from '../data/comments'
 import type { Comment } from '../types/comment'
 import BackButton from '../components/BackButton.vue'
-import TracerBullet from '../components/TracerBullet.vue'
-import FadeInSection from '../components/transitions/FadeInSection.vue'
-import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const comments = ref<Comment[]>([])
 const loading = ref(true)
@@ -68,7 +65,6 @@ const loadComments = async () => {
   comments.value = result.comments
   error.value = result.error
 
-  // 渲染所有评论的 Markdown
   const rendered: Record<number, string> = {}
   for (const comment of result.comments) {
     rendered[comment.id] = await renderMarkdown(comment.body)
@@ -85,22 +81,16 @@ onMounted(() => {
 
 <template>
   <div class="comments-page">
-    <TracerBullet :active="true" class="comments-tracer" />
-
     <div class="comments-container">
-      <FadeInSection :delay="0" :duration="250">
-        <BackButton />
-      </FadeInSection>
+      <BackButton />
 
-      <FadeInSection :delay="50" :duration="400">
-        <div class="comments-header">
-          <div class="header-icon">
-            <MessageCircle :size="32" />
-          </div>
-          <h1 class="comments-title">畅心所言</h1>
-          <p class="comments-subtitle">在此留下您的心声吧~</p>
+      <div class="comments-header">
+        <div class="header-icon">
+          <MessageCircle :size="32" />
         </div>
-      </FadeInSection>
+        <h1 class="comments-title"><span class="title-accent">#</span> 畅心所言</h1>
+        <p class="comments-subtitle">在此留下您的心声吧~</p>
+      </div>
 
       <div v-if="loading" class="loading-state">
         <div class="loading-spinner"></div>
@@ -127,40 +117,37 @@ onMounted(() => {
       </div>
 
       <div v-else class="comments-list">
-        <StaggeredList :items="comments" :stagger-delay="40" :duration="350">
-          <template #default="{ item: comment, index }">
-            <div class="comment-card" @click="openComment(comment.html_url)">
-              <div class="comment-glow"></div>
-              <div class="comment-content-wrapper">
-                <div class="comment-header">
-                  <div
-                    class="comment-author"
-                    @click.stop="openGitHubProfile(comment.user.html_url)"
-                  >
-                    <div class="author-avatar-wrapper">
-                      <img
-                        v-if="!avatarErrors[index]"
-                        :src="comment.user.avatar_url"
-                        :alt="comment.user.login"
-                        class="author-avatar"
-                        @error="handleAvatarError(index)"
-                      />
-                      <div v-else class="author-avatar-placeholder">
-                        <User :size="20" />
-                      </div>
-                    </div>
-                    <div class="author-info">
-                      <span class="author-name">{{ comment.user.login }}</span>
-                      <span class="comment-time">{{ formatDate(comment.created_at) }}</span>
-                    </div>
+        <div
+          v-for="(comment, index) in comments"
+          :key="comment.id"
+          class="comment-card"
+          @click="openComment(comment.html_url)"
+        >
+          <div class="comment-content-wrapper">
+            <div class="comment-header">
+              <div class="comment-author" @click.stop="openGitHubProfile(comment.user.html_url)">
+                <div class="author-avatar-wrapper">
+                  <img
+                    v-if="!avatarErrors[index]"
+                    :src="comment.user.avatar_url"
+                    :alt="comment.user.login"
+                    class="author-avatar"
+                    @error="handleAvatarError(index)"
+                  />
+                  <div v-else class="author-avatar-placeholder">
+                    <User :size="20" />
                   </div>
                 </div>
-
-                <div class="comment-body" v-html="renderedComments[comment.id]"></div>
+                <div class="author-info">
+                  <span class="author-name">{{ comment.user.login }}</span>
+                  <span class="comment-time">{{ formatDate(comment.created_at) }}</span>
+                </div>
               </div>
             </div>
-          </template>
-        </StaggeredList>
+
+            <div class="comment-body" v-html="renderedComments[comment.id]"></div>
+          </div>
+        </div>
       </div>
 
       <div class="comments-footer-fixed">
@@ -180,27 +167,12 @@ onMounted(() => {
 
 <style scoped>
 .comments-page {
-  position: relative;
   min-height: 100vh;
-  background: #04080c;
+  background: var(--color-gray);
   padding: 80px 20px 100px;
-  overflow-x: hidden;
-}
-
-.comments-tracer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.6;
 }
 
 .comments-container {
-  position: relative;
-  z-index: 10;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -216,28 +188,26 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(130, 212, 242, 0.2) 0%, rgba(111, 208, 206, 0.2) 100%);
-  border-radius: 16px;
-  color: var(--color-blue);
+  background: transparent;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
   margin: 0 auto 20px;
 }
 
 .comments-title {
   font-size: 36px;
   font-weight: 700;
-  line-height: 1.3;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0 0 12px 0;
-  padding: 4px 0;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .comments-subtitle {
   font-size: 16px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -250,16 +220,14 @@ onMounted(() => {
   justify-content: center;
   gap: 16px;
   padding: 60px 20px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(130, 212, 242, 0.2);
+  border: 3px solid var(--color-black);
   border-top-color: var(--color-blue);
-  border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
@@ -269,39 +237,35 @@ onMounted(() => {
   }
 }
 
-.error-state {
-  color: #ff6b6b;
-}
-
 .retry-button {
   padding: 8px 16px;
-  background: rgba(130, 212, 242, 0.1);
-  border: 1px solid rgba(130, 212, 242, 0.3);
-  border-radius: 6px;
-  color: var(--color-blue);
+  background: transparent;
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .retry-button:hover {
-  background: rgba(130, 212, 242, 0.2);
+  background: var(--color-cyan);
+  color: var(--color-white);
 }
 
 .github-link {
   padding: 10px 20px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  color: var(--color-black);
+  background: var(--color-blue);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .github-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(130, 212, 242, 0.4);
+  background: var(--color-cyan);
 }
 
 .comments-list {
@@ -312,51 +276,34 @@ onMounted(() => {
 }
 
 .comment-card {
-  position: relative;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 16px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   padding: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  overflow: hidden;
   break-inside: avoid;
-}
-
-.comment-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at center, rgba(130, 212, 242, 0.15) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .comment-card:hover {
-  background: rgba(130, 212, 242, 0.06);
-  border-color: rgba(130, 212, 242, 0.3);
-  transform: translateY(-4px);
-  box-shadow:
-    0 8px 32px rgba(130, 212, 242, 0.15),
-    0 0 20px rgba(130, 212, 242, 0.1);
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
 }
 
-.comment-card:hover .comment-glow {
-  opacity: 1;
-  animation: glowRotate 3s linear infinite;
+.comment-card:hover,
+.comment-card:hover .author-name,
+.comment-card:hover .comment-time,
+.comment-card:hover .comment-body,
+.comment-card:hover .comment-body :deep(*),
+.comment-card:hover .comment-body :deep(a) {
+  color: var(--color-white);
 }
 
-@keyframes glowRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.comment-card:hover .comment-body :deep(code),
+.comment-card:hover .comment-body :deep(pre) {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
 }
 
 .comment-content-wrapper {
@@ -373,27 +320,20 @@ onMounted(() => {
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.comment-author:hover {
-  opacity: 0.8;
 }
 
 .author-avatar-wrapper {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  border: 1px solid var(--color-cyan);
 }
 
 .author-avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 2px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
 }
 
 .author-avatar-placeholder {
@@ -402,10 +342,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(130, 212, 242, 0.1);
-  border: 2px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
-  color: var(--color-blue);
+  background: transparent;
+  color: var(--color-cyan);
 }
 
 .author-info {
@@ -422,15 +360,13 @@ onMounted(() => {
 
 .comment-time {
   font-size: 12px;
-  color: var(--color-white);
-  opacity: 0.6;
+  color: var(--color-text);
 }
 
 .comment-body {
   font-size: 14px;
-  color: var(--color-white);
+  color: var(--color-text);
   line-height: 1.8;
-  opacity: 0.9;
 }
 
 .comment-body :deep(p) {
@@ -442,17 +378,15 @@ onMounted(() => {
 }
 
 .comment-body :deep(code) {
-  background: rgba(130, 212, 242, 0.1);
+  background: var(--color-gray);
   padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--mono);
   font-size: 13px;
 }
 
 .comment-body :deep(pre) {
-  background: rgba(130, 212, 242, 0.05);
+  background: var(--color-gray);
   padding: 12px;
-  border-radius: 8px;
   overflow-x: auto;
   margin: 12px 0;
 }
@@ -482,12 +416,9 @@ onMounted(() => {
 }
 
 .comment-body :deep(blockquote) {
-  border-left: 3px solid var(--color-blue);
+  border-left: 3px solid var(--color-cyan);
   margin: 12px 0;
   padding: 8px 12px;
-  background: rgba(130, 212, 242, 0.05);
-  border-radius: 0 8px 8px 0;
-  opacity: 0.9;
 }
 
 .comment-body :deep(h1),
@@ -504,15 +435,12 @@ onMounted(() => {
 .comment-body :deep(h1) {
   font-size: 20px;
 }
-
 .comment-body :deep(h2) {
   font-size: 18px;
 }
-
 .comment-body :deep(h3) {
   font-size: 16px;
 }
-
 .comment-body :deep(h4),
 .comment-body :deep(h5),
 .comment-body :deep(h6) {
@@ -521,7 +449,6 @@ onMounted(() => {
 
 .comment-body :deep(del) {
   text-decoration: line-through;
-  opacity: 0.6;
 }
 
 .comment-body :deep(ins) {
@@ -540,12 +467,7 @@ onMounted(() => {
   right: 0;
   z-index: 100;
   padding: 16px 20px;
-  background: linear-gradient(
-    to top,
-    rgba(4, 8, 12, 1) 0%,
-    rgba(4, 8, 12, 0.95) 60%,
-    transparent 100%
-  );
+  background: var(--color-gray);
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -560,19 +482,16 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  color: var(--color-black);
+  background: var(--color-blue);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(130, 212, 242, 0.3);
+  transition: background-color 0.2s ease;
 }
 
 .github-link-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(130, 212, 242, 0.5);
+  background: var(--color-cyan);
 }
 
 @media (max-width: 1024px) {

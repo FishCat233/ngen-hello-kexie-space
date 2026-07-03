@@ -3,8 +3,6 @@ import { ref } from 'vue'
 import { ExternalLink, User } from 'lucide-vue-next'
 import { projects, demoProjects } from '../data/projects'
 import BackButton from '../components/BackButton.vue'
-import FadeInSection from '../components/transitions/FadeInSection.vue'
-import StaggeredList from '../components/transitions/StaggeredList.vue'
 
 const avatarErrors = ref<Record<number, boolean>>({})
 const demoAvatarErrors = ref<Record<number, boolean>>({})
@@ -25,124 +23,118 @@ const handleDemoAvatarError = (index: number) => {
 <template>
   <div class="projects-page">
     <div class="projects-container">
-      <FadeInSection :delay="0" :duration="250">
-        <BackButton />
-      </FadeInSection>
+      <BackButton />
 
-      <FadeInSection :delay="50" :duration="400">
-        <div class="projects-header">
-          <h1 class="projects-title">科协项目活动</h1>
-          <p class="projects-subtitle">科协成员的部分项目活动</p>
-        </div>
-      </FadeInSection>
+      <div class="projects-header">
+        <h1 class="projects-title"><span class="title-accent">#</span> 科协项目活动</h1>
+        <p class="projects-subtitle">科协成员的部分项目活动</p>
+      </div>
 
       <div class="projects-section">
-        <FadeInSection :delay="100" :duration="400">
-          <div class="section-header">
-            <h2 class="section-title">科协优秀项目</h2>
-            <p class="section-subtitle">科协成员开发的优秀项目</p>
-          </div>
-        </FadeInSection>
+        <div class="section-header">
+          <h2 class="section-title">科协优秀项目</h2>
+          <p class="section-subtitle">科协成员开发的优秀项目</p>
+        </div>
 
         <div class="projects-grid">
-          <StaggeredList :items="projects" :stagger-delay="80" :duration="500">
-            <template #default="{ item: project, index }">
-              <div class="project-card" @click="openProject(project.url)">
-                <div class="project-author">
-                  <div class="author-avatar-wrapper">
-                    <img
-                      v-if="!avatarErrors[index]"
-                      :src="project.authorAvatar"
-                      :alt="project.author"
-                      class="author-avatar"
-                      @error="handleAvatarError(index)"
-                    />
-                    <div v-else class="author-avatar-placeholder">
-                      <User :size="20" />
-                    </div>
-                  </div>
-                  <span class="author-name">{{ project.author }}</span>
-                </div>
-
-                <div class="project-content">
-                  <div class="project-main">
-                    <h3 class="project-name">
-                      {{ project.name }}
-                      <ExternalLink :size="16" class="project-link-icon" />
-                    </h3>
-                    <p class="project-description" :title="project.description">
-                      {{ project.description }}
-                    </p>
-                  </div>
-
-                  <div class="project-meta">
-                    <div class="project-language">
-                      <span
-                        class="language-dot"
-                        :style="{ backgroundColor: project.languageColor }"
-                      ></span>
-                      <span class="language-name">{{ project.language }}</span>
-                    </div>
-                  </div>
+          <div
+            v-for="(project, index) in projects"
+            :key="index"
+            class="project-card"
+            @click="openProject(project.url)"
+          >
+            <div class="project-author">
+              <div class="author-avatar-wrapper">
+                <img
+                  v-if="!avatarErrors[index]"
+                  :src="project.authorAvatar"
+                  :alt="project.author"
+                  class="author-avatar"
+                  @error="handleAvatarError(index)"
+                />
+                <div v-else class="author-avatar-placeholder">
+                  <User :size="20" />
                 </div>
               </div>
-            </template>
-          </StaggeredList>
+              <span class="author-name">{{ project.author }}</span>
+            </div>
+
+            <div class="project-content">
+              <div class="project-main">
+                <h3 class="project-name">
+                  {{ project.name }}
+                  <ExternalLink :size="16" class="project-link-icon" />
+                </h3>
+                <p class="project-description" :title="project.description">
+                  {{ project.description }}
+                </p>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-language">
+                  <span
+                    class="language-dot"
+                    :style="{ backgroundColor: project.languageColor }"
+                  ></span>
+                  <span class="language-name">{{ project.language }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="projects-section">
-        <FadeInSection :delay="100" :duration="400">
-          <div class="section-header">
-            <h2 class="section-title">学习演示项目</h2>
-            <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
-          </div>
-        </FadeInSection>
+        <div class="section-header">
+          <h2 class="section-title">学习演示项目</h2>
+          <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
+        </div>
 
         <div class="projects-grid">
-          <StaggeredList :items="demoProjects" :stagger-delay="80" :duration="500">
-            <template #default="{ item: project, index }">
-              <div class="project-card" @click="openProject(project.url)">
-                <div class="project-author">
-                  <div class="author-avatar-wrapper">
-                    <img
-                      v-if="!demoAvatarErrors[index]"
-                      :src="project.authorAvatar"
-                      :alt="project.author"
-                      class="author-avatar"
-                      @error="handleDemoAvatarError(index)"
-                    />
-                    <div v-else class="author-avatar-placeholder">
-                      <User :size="20" />
-                    </div>
-                  </div>
-                  <span class="author-name">{{ project.author }}</span>
-                </div>
-
-                <div class="project-content">
-                  <div class="project-main">
-                    <h3 class="project-name">
-                      {{ project.name }}
-                      <ExternalLink :size="16" class="project-link-icon" />
-                    </h3>
-                    <p class="project-description" :title="project.description">
-                      {{ project.description }}
-                    </p>
-                  </div>
-
-                  <div class="project-meta">
-                    <div class="project-language">
-                      <span
-                        class="language-dot"
-                        :style="{ backgroundColor: project.languageColor }"
-                      ></span>
-                      <span class="language-name">{{ project.language }}</span>
-                    </div>
-                  </div>
+          <div
+            v-for="(project, index) in demoProjects"
+            :key="'demo-' + index"
+            class="project-card"
+            @click="openProject(project.url)"
+          >
+            <div class="project-author">
+              <div class="author-avatar-wrapper">
+                <img
+                  v-if="!demoAvatarErrors[index]"
+                  :src="project.authorAvatar"
+                  :alt="project.author"
+                  class="author-avatar"
+                  @error="handleDemoAvatarError(index)"
+                />
+                <div v-else class="author-avatar-placeholder">
+                  <User :size="20" />
                 </div>
               </div>
-            </template>
-          </StaggeredList>
+              <span class="author-name">{{ project.author }}</span>
+            </div>
+
+            <div class="project-content">
+              <div class="project-main">
+                <h3 class="project-name">
+                  {{ project.name }}
+                  <ExternalLink :size="16" class="project-link-icon" />
+                </h3>
+                <p class="project-description" :title="project.description">
+                  {{ project.description }}
+                </p>
+              </div>
+
+              <div class="project-meta">
+                <div class="project-language">
+                  <span
+                    class="language-dot"
+                    :style="{ backgroundColor: project.languageColor }"
+                  ></span>
+                  <span class="language-name">{{ project.language }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -151,10 +143,8 @@ const handleDemoAvatarError = (index: number) => {
 
 <style scoped>
 .projects-page {
-  position: relative;
-  z-index: 10;
   min-height: 100vh;
-  background: transparent;
+  background: var(--color-gray);
   padding: 80px 20px 40px;
 }
 
@@ -170,19 +160,17 @@ const handleDemoAvatarError = (index: number) => {
 .projects-title {
   font-size: 36px;
   font-weight: 700;
-  line-height: 1.3;
-  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
   margin: 0 0 12px 0;
-  padding: 4px 0;
+}
+
+.title-accent {
+  color: var(--color-blue);
 }
 
 .projects-subtitle {
   font-size: 16px;
-  color: var(--color-white);
-  opacity: 0.7;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -201,14 +189,13 @@ const handleDemoAvatarError = (index: number) => {
 .section-title {
   font-size: 28px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
   margin: 0 0 8px 0;
 }
 
 .section-subtitle {
   font-size: 14px;
-  color: var(--color-white);
-  opacity: 0.6;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -219,21 +206,25 @@ const handleDemoAvatarError = (index: number) => {
 }
 
 .project-card {
-  position: relative;
-  background: rgba(130, 212, 242, 0.03);
-  border: 1px solid rgba(130, 212, 242, 0.1);
-  border-radius: 16px;
+  background: var(--color-gray);
+  border: 1px solid var(--color-cyan);
   padding: 24px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .project-card:hover {
-  background: rgba(130, 212, 242, 0.06);
-  border-color: rgba(130, 212, 242, 0.2);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(130, 212, 242, 0.1);
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
+}
+
+.project-card:hover .project-name,
+.project-card:hover .project-description,
+.project-card:hover .author-name,
+.project-card:hover .language-name {
+  color: var(--color-white);
 }
 
 .project-author {
@@ -246,17 +237,15 @@ const handleDemoAvatarError = (index: number) => {
 .author-avatar-wrapper {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  border: 1px solid var(--color-cyan);
 }
 
 .author-avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 2px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
 }
 
 .author-avatar-placeholder {
@@ -265,16 +254,14 @@ const handleDemoAvatarError = (index: number) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(130, 212, 242, 0.1);
-  border: 2px solid rgba(130, 212, 242, 0.3);
-  border-radius: 50%;
-  color: var(--color-blue);
+  background: transparent;
+  color: var(--color-cyan);
 }
 
 .author-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .project-content {
@@ -297,22 +284,15 @@ const handleDemoAvatarError = (index: number) => {
   font-weight: 600;
   color: var(--color-blue);
   margin: 0 0 8px 0;
-  transition: color 0.3s ease;
-}
-
-.project-card:hover .project-name {
-  color: var(--color-cyan);
 }
 
 .project-link-icon {
-  opacity: 0.6;
   flex-shrink: 0;
 }
 
 .project-description {
   font-size: 14px;
-  color: var(--color-white);
-  opacity: 0.8;
+  color: var(--color-text);
   line-height: 1.6;
   margin: 0;
   display: -webkit-box;
@@ -330,21 +310,19 @@ const handleDemoAvatarError = (index: number) => {
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: rgba(130, 212, 242, 0.08);
-  border-radius: 20px;
+  background: transparent;
+  border: 1px solid var(--color-cyan);
 }
 
 .language-dot {
   width: 10px;
   height: 10px;
-  border-radius: 50%;
 }
 
 .language-name {
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-white);
-  opacity: 0.9;
+  color: var(--color-text);
 }
 
 @media (max-width: 768px) {
