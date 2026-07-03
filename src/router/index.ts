@@ -30,6 +30,11 @@ const router = createRouter({
       name: 'Gallery',
       component: () => import('../views/GalleryView.vue'),
     },
+    {
+      path: '/organization',
+      name: 'Organization',
+      component: () => import('../views/OrganizeView.vue'),
+    },
   ],
   scrollBehavior(to) {
     if (to.path === '/') {

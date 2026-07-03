@@ -10,15 +10,9 @@ const route = useRoute()
 const { isMobile } = useDevice()
 
 // 导航菜单项类型定义
-interface NavSubChild {
-  label: string
-  href: string
-}
-
 interface NavChild {
   label: string
   href: string
-  children?: NavSubChild[]
 }
 
 interface NavItem {
@@ -34,78 +28,14 @@ const navMenu: NavItem[] = [
     id: 'home',
     label: '首页',
     href: '#home',
-    children: [
-      { label: '部门介绍', href: '#departments' },
-      { label: '学习方向', href: '#learning' },
-      { label: '加入我们', href: '#recruitment' },
-    ],
-  },
-  {
-    id: 'departments',
-    label: '部门',
-    href: '#departments',
-    children: [
-      {
-        label: '多媒体部门',
-        href: '#departments',
-        children: [
-          { label: '前端开发', href: '/direction/web' },
-          { label: '后端开发', href: '/direction/backend' },
-          { label: 'UI设计', href: '/direction/ui' },
-          { label: '视频剪辑', href: '/direction/video' },
-          { label: '编辑', href: '/direction/editing' },
-        ],
-      },
-      {
-        label: '软件部门',
-        href: '#departments',
-        children: [
-          { label: '深度学习', href: '/direction/machinelearning' },
-          { label: 'APP开发', href: '/direction/android' },
-          { label: '游戏开发', href: '/direction/game' },
-        ],
-      },
-      {
-        label: '硬件部门',
-        href: '#departments',
-        children: [{ label: '硬件开发', href: '/direction/embedded' }],
-      },
-      {
-        label: '安全部门',
-        href: '#departments',
-        children: [
-          { label: '逆向工程', href: '/direction/reverse' },
-          { label: 'Web 安全', href: '/direction/websecurity' },
-          { label: 'Pwn', href: '/direction/pwn' },
-          { label: '密码学', href: '/direction/crypto' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'learning',
-    label: '学习',
-    href: '#learning',
-    children: [
-      { label: '练习编程', href: 'https://oj.kexie.space' },
-      { label: '知识库', href: 'https://ccn80b5bgw86.feishu.cn/wiki/CKD8wrIVyi1E9VkdUVGclVFxnlb' },
-    ],
-  },
-  {
-    id: 'recruitment',
-    label: '招新',
-    href: '#recruitment',
-    children: [
-      { label: 'QQ 群', href: 'https://api.kexie.space/recruitment-qq-group' },
-      { label: 'QQ 频道', href: 'https://pd.qq.com/s/5pxzsijx0' },
-    ],
   },
   {
     id: 'more',
     label: '更多',
     href: '#',
     children: [
-      { label: '近年获奖情况', href: '/awards' },
+      { label: '组织架构', href: '/organization' },
+      { label: '获奖情况', href: '/awards' },
       { label: '项目活动', href: '/projects' },
       { label: '项目展廊', href: '/gallery' },
       { label: '畅心所言', href: '/comments' },
@@ -207,45 +137,15 @@ onUnmounted(() => {
 
           <!-- 一级下拉菜单 -->
           <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-            <div
+            <a
               v-for="(child, index) in item.children"
               :key="index"
-              class="dropdown-item"
-              :class="{ 'has-children': child.children }"
+              :href="child.href"
+              class="dropdown-link"
+              @click.prevent="handleNavigation(child.href)"
             >
-              <a
-                :href="child.href"
-                class="dropdown-link"
-                @click.prevent="handleNavigation(child.href)"
-              >
-                {{ child.label }}
-                <svg
-                  v-if="child.children"
-                  class="dropdown-arrow-right"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-
-              <!-- 二级下拉菜单 -->
-              <div v-if="child.children" class="subdropdown-menu">
-                <a
-                  v-for="(subChild, subIndex) in child.children"
-                  :key="subIndex"
-                  :href="subChild.href"
-                  class="subdropdown-link"
-                  @click.prevent="handleNavigation(subChild.href)"
-                >
-                  {{ subChild.label }}
-                </a>
-              </div>
-            </div>
+              {{ child.label }}
+            </a>
           </div>
         </div>
       </div>
@@ -305,26 +205,15 @@ onUnmounted(() => {
 
         <!-- 移动端子菜单 -->
         <div v-if="item.children" class="mobile-submenu">
-          <div v-for="(child, index) in item.children" :key="index" class="mobile-submenu-group">
-            <a
-              :href="child.href"
-              class="mobile-submenu-title mobile-submenu-title-link"
-              @click.prevent="handleNavigation(child.href)"
-            >
-              {{ child.label }}
-            </a>
-            <div v-if="child.children" class="mobile-submenu-items">
-              <a
-                v-for="(subChild, subIndex) in child.children"
-                :key="subIndex"
-                :href="subChild.href"
-                class="mobile-submenu-link"
-                @click.prevent="handleNavigation(subChild.href)"
-              >
-                {{ subChild.label }}
-              </a>
-            </div>
-          </div>
+          <a
+            v-for="(child, index) in item.children"
+            :key="index"
+            :href="child.href"
+            class="mobile-submenu-title mobile-submenu-title-link"
+            @click.prevent="handleNavigation(child.href)"
+          >
+            {{ child.label }}
+          </a>
         </div>
       </div>
       <a
@@ -442,18 +331,9 @@ onUnmounted(() => {
   margin-top: 0;
 }
 
-.dropdown-item {
-  position: relative;
-}
-
-.dropdown-item.has-children:hover .subdropdown-menu {
-  display: block;
-}
-
 .dropdown-link {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 10px 14px;
   color: var(--color-white);
   text-decoration: none;
