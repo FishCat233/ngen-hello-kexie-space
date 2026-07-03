@@ -403,14 +403,20 @@ onUnmounted(() => {
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transition: background 0s;
+  transition:
+    background 0s,
+    color 0.3s ease;
+}
+
+.navbar-cta:hover {
+  color: var(--color-black);
 }
 
 .navbar-cta::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-black);
+  background: var(--color-white);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -557,14 +563,20 @@ onUnmounted(() => {
   margin-top: 16px;
   position: relative;
   overflow: hidden;
-  transition: background 0s;
+  transition:
+    background 0s,
+    color 0.3s ease;
+}
+
+.navbar-mobile-cta:hover {
+  color: var(--color-black);
 }
 
 .navbar-mobile-cta::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-black);
+  background: var(--color-white);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
