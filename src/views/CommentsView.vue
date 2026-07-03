@@ -117,6 +117,18 @@ onMounted(() => {
       </div>
 
       <div v-else class="comments-list">
+        <div class="comment-card comment-cta-card">
+          <a
+            href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="github-link-button"
+          >
+            <MessageCircle :size="16" />
+            <span>在 GitHub 上发表评论</span>
+          </a>
+        </div>
+
         <div
           v-for="(comment, index) in comments"
           :key="comment.id"
@@ -149,18 +161,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
-      <div class="comments-footer-fixed">
-        <a
-          href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="github-link-button"
-        >
-          <MessageCircle :size="16" />
-          <span>在 GitHub 上发表评论</span>
-        </a>
-      </div>
     </div>
   </div>
 </template>
@@ -169,7 +169,7 @@ onMounted(() => {
 .comments-page {
   min-height: 100vh;
   background: var(--color-gray);
-  padding: 80px 20px 100px;
+  padding: 80px 20px 40px;
 }
 
 .comments-container {
@@ -460,21 +460,24 @@ onMounted(() => {
   font-size: 12px;
 }
 
-.comments-footer-fixed {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 16px 20px;
-  background: var(--color-gray);
+.comment-cta-card {
   display: flex;
+  align-items: center;
   justify-content: center;
-  pointer-events: none;
+  border: none;
+  cursor: default;
 }
 
-.comments-footer-fixed .github-link-button {
-  pointer-events: auto;
+.comment-cta-card:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.comment-cta-card .github-link-button {
+  width: 100%;
+  padding: 32px 24px;
+  justify-content: center;
+  font-size: 16px;
 }
 
 .github-link-button {
@@ -487,11 +490,31 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.github-link-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-white);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 0;
 }
 
 .github-link-button:hover {
-  background: var(--color-cyan);
+  color: var(--color-black);
+}
+
+.github-link-button:hover::before {
+  transform: translateX(0);
+}
+
+.github-link-button > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 1024px) {
@@ -509,7 +532,7 @@ onMounted(() => {
 
 @media (max-width: 640px) {
   .comments-page {
-    padding: 72px 16px 100px;
+    padding: 72px 16px 40px;
   }
 
   .comments-title {
