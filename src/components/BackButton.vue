@@ -6,7 +6,7 @@ const router = useRouter()
 </script>
 
 <template>
-  <button class="back-button" @click="router.back()">
+  <button class="back-button" @click="router.push('/')">
     <ArrowLeft :size="20" />
     <span>返回首页</span>
   </button>
