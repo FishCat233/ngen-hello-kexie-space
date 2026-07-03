@@ -35,6 +35,7 @@ const navMenu: NavItem[] = [
     href: '#',
     children: [
       { label: '组织架构', href: '/organization' },
+      { label: '人员介绍', href: '/members' },
       { label: '获奖情况', href: '/awards' },
       { label: '项目活动', href: '/projects' },
       { label: '项目展廊', href: '/gallery' },

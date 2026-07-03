@@ -35,6 +35,11 @@ const router = createRouter({
       name: 'Organization',
       component: () => import('../views/OrganizeView.vue'),
     },
+    {
+      path: '/members',
+      name: 'Members',
+      component: () => import('../views/MembersView.vue'),
+    },
   ],
   scrollBehavior(to) {
     if (to.path === '/') {
