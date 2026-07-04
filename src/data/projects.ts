@@ -135,6 +135,41 @@ export const demoProjects: Project[] = [
     languageColor: languageColors['C#'],
     url: 'https://github.com/FishCat233/FishONU',
   },
+  {
+    author: 'Concorde0',
+    authorAvatar: 'https://github.com/Concorde0.png',
+    name: 'Car',
+    description: '基于柏林噪声算法，自动生成无限地形的 u3d 跑酷游戏',
+    language: 'C#(Unity)',
+    languageColor: languageColors['C#'],
+    url: 'https://github.com/Concorde0/Car'
+  }
+]
+
+export interface CompetitionProject {
+  authors: string[]
+  authorAvatars: string[]
+  teamName?: string
+  name: string
+  description: string
+  competition: string
+  year?: number
+  language?: string
+  languageColor?: string
+  url?: string
+}
+
+export const competitionProjects: CompetitionProject[] = [
+  {
+    authors: [],
+    teamName: 'Concorde0 等六人',
+    authorAvatars: [],
+    name: '视限回廊',
+    description: '一款以低视野试探为核心的俯视角战术潜入射击游戏。',
+    competition: 'BOOOM 暴造',
+    year: 2026,
+    url: 'https://www.gcores.com/games/180051'
+  },
 ]
 
 export function getLanguageColor(language: string): string {
