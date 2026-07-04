@@ -611,6 +611,11 @@ onUnmounted(() => {
 }
 
 @media (max-width: 1024px) {
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .navbar {
     padding: 12px 16px;
   }
@@ -621,6 +626,10 @@ onUnmounted(() => {
 
   .navbar-links {
     display: none;
+  }
+
+  .navbar-actions {
+    justify-self: auto;
   }
 
   .navbar-cta {
