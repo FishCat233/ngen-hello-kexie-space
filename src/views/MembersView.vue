@@ -27,8 +27,8 @@ function cardHoverStyle(color: string | undefined) {
       <BackButton />
 
       <div class="members-header">
-        <h1 class="members-title"><span class="title-accent">#</span> 人员介绍</h1>
-        <p class="members-subtitle">自愿展示，非全员名册</p>
+        <h1 class="members-title"><span class="title-accent">#</span> 成员墙</h1>
+        <p class="members-subtitle">成员申请上墙，非全员名册</p>
       </div>
 
       <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
