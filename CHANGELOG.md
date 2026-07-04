@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.1.0...v2.1.1) (2026-07-04)
+
+
+### Bug Fixes
+
+* **members:** 人员介绍改成成员墙 ([3df9784](https://github.com/FishCat233/ngen-hello-kexie-space/commit/3df97845d5d3d01e9ebda1fc39b5ff93aaffeb4b))
+
 ## [2.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.0.1...v2.1.0) (2026-07-04)
 
 
