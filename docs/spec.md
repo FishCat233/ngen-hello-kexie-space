@@ -129,24 +129,44 @@
 
 ## 项目活动页面
 
-数据与渲染分离。数据结构:
+数据与渲染分离。页面按三个 section 从上到下排列：科协优秀项目、竞赛展示项目、学习演示项目。
+
+### 优秀项目 & 演示项目
+
+共用 `Project` 数据结构：
 
 ```json
 {
-  "projects": [
-    {
-      "name": "wilinz",
-      "url": "https://www.guethub.net/",
-      "language": "Dart(Flutter)",
-      "title": "GUET 校园圈",
-      "description": "可以查看课表等教务信息，支持安卓和IOS"
-    }
-  ],
-  "demoProjects": []
+  "author": "wilinz",
+  "authorAvatar": "https://github.com/wilinz.png",
+  "name": "GUET 校园圈",
+  "url": "https://www.guethub.net/",
+  "language": "Dart(Flutter)",
+  "languageColor": "#00B4AB",
+  "description": "可以查看课表等教务信息，支持安卓和IOS"
 }
 ```
 
-模板: 作者头像 / 项目名称(可点击) / 简介 / 语言(带 LOGO 和代表色)
+模板: 作者头像 / 项目名称(可点击) / 简介 / 语言标签(带颜色圆点)
+
+### 竞赛展示项目
+
+使用 `CompetitionProject` 数据结构：
+
+```json
+{
+  "authors": ["张三", "李四"],
+  "authorAvatars": ["https://github.com/zhangsan.png", "https://github.com/lisi.png"],
+  "teamName": "可选团队名",
+  "name": "项目名称",
+  "description": "项目描述",
+  "competition": "比赛名称",
+  "year": 2024,
+  "url": "https://github.com/..."
+}
+```
+
+模板: 头像堆叠(最多4个) / 团队名或人名列表 / 项目名称 / 简介 / 比赛标签(比赛名 · 年份)
 
 ## 畅心所言页面
 
