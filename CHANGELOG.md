@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.0.0...v2.0.1) (2026-07-04)
+
+
+### Miscellaneous Chores
+
+* 手动发版 ([1d35951](https://github.com/FishCat233/ngen-hello-kexie-space/commit/1d35951004a827f666c6046aa9df7cd31f0f26d7))
+
 ## [2.0.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.7.0...v2.0.0) (2026-07-03)
 
 
