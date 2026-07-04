@@ -239,13 +239,14 @@ onUnmounted(() => {
 .navbar-container {
   max-width: 1400px;
   margin: 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
 }
 
 /* Logo */
 .navbar-logo {
+  justify-self: start;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -389,6 +390,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+  justify-self: end;
 }
 
 .navbar-cta {
