@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.0.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.7.0...v2.0.0) (2026-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* 对页面设计语言进行了彻底的重新设计并进行了初版实现。
+
+### Features
+
+* **comment:** 重新设计了畅所欲言的 CTA 按钮。 ([df003fe](https://github.com/FishCat233/ngen-hello-kexie-space/commit/df003fe0904d8a892643cd44fdb018aa3f0252c7))
+* **members:** 人员介绍页面的实现 ([fe90265](https://github.com/FishCat233/ngen-hello-kexie-space/commit/fe9026510d17dbfea8f4156809e90ead8ffa7e71))
+* 对页面设计语言进行了彻底的重新设计并进行了初版实现。 ([f8df4d0](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f8df4d066265140f517e1d8fa593a60866d4fa8b))
+
+
+### Bug Fixes
+
+* BackButton 返回首页改用 router.push('/') 替代 router.back() ([9fe17ce](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9fe17ce97a4de892b2a0579c1aaa227a8e180028)), closes [#19](https://github.com/FishCat233/ngen-hello-kexie-space/issues/19)
+* **cta:** 修复加入我们cta按钮的样式错误 ([af2e355](https://github.com/FishCat233/ngen-hello-kexie-space/commit/af2e355653ef3fe5cd72f2d238c10a5b8428e300))
+* 修复部分色彩混乱的问题 ([f8ab857](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f8ab857fac96906faf2f5c97bfe6f3e4c7a072b8))
+
 ## [1.7.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v1.6.0...v1.7.0) (2026-06-22)
 
 
