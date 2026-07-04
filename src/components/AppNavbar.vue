@@ -35,7 +35,7 @@ const navMenu: NavItem[] = [
     href: '#',
     children: [
       { label: '组织架构', href: '/organization' },
-      { label: '人员介绍', href: '/members' },
+      { label: '成员墙', href: '/members' },
       { label: '获奖情况', href: '/awards' },
       { label: '项目活动', href: '/projects' },
       { label: '项目展廊', href: '/gallery' },
@@ -107,44 +107,22 @@ onUnmounted(() => {
 
       <!-- 桌面端导航链接 -->
       <div v-if="!isMobile" class="navbar-links">
-        <div
-          v-for="item in navMenu"
-          :key="item.id"
-          class="navbar-item"
-          @mouseenter="item.children && showDropdown(item.id)"
-          @mouseleave="hideDropdown"
-        >
-          <a
-            :href="item.href"
-            class="navbar-link"
-            :class="{ 'has-dropdown': item.children }"
-            @click.prevent="handleNavigation(item.href)"
-          >
+        <div v-for="item in navMenu" :key="item.id" class="navbar-item"
+          @mouseenter="item.children && showDropdown(item.id)" @mouseleave="hideDropdown">
+          <a :href="item.href" class="navbar-link" :class="{ 'has-dropdown': item.children }"
+            @click.prevent="handleNavigation(item.href)">
             {{ item.label }}
-            <svg
-              v-if="item.children"
-              class="dropdown-arrow"
-              :class="{ 'is-open': activeDropdown === item.id }"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg v-if="item.children" class="dropdown-arrow" :class="{ 'is-open': activeDropdown === item.id }"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </a>
 
           <!-- 一级下拉菜单 -->
           <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-            <a
-              v-for="(child, index) in item.children"
-              :key="index"
-              :href="child.href"
-              class="dropdown-link"
-              @click.prevent="handleNavigation(child.href)"
-            >
+            <a v-for="(child, index) in item.children" :key="index" :href="child.href" class="dropdown-link"
+              @click.prevent="handleNavigation(child.href)">
               {{ child.label }}
             </a>
           </div>
@@ -153,43 +131,19 @@ onUnmounted(() => {
 
       <!-- 右侧操作区 -->
       <div class="navbar-actions">
-        <a
-          v-if="!isMobile"
-          href="https://api.kexie.space/recruitment-qq-group"
-          class="navbar-cta"
-          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-          ><span>加入我们</span></a
-        >
+        <a v-if="!isMobile" href="https://api.kexie.space/recruitment-qq-group" class="navbar-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"><span>加入我们</span></a>
 
         <!-- 移动端菜单按钮 -->
-        <button
-          v-if="isMobile"
-          class="navbar-menu-btn"
-          @click="isMobileMenuOpen = !isMobileMenuOpen"
-          aria-label="切换菜单"
-        >
-          <svg
-            v-if="!isMobileMenuOpen"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+        <button v-if="isMobile" class="navbar-menu-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="切换菜单">
+          <svg v-if="!isMobileMenuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
-          <svg
-            v-else
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
+          <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -206,23 +160,14 @@ onUnmounted(() => {
 
         <!-- 移动端子菜单 -->
         <div v-if="item.children" class="mobile-submenu">
-          <a
-            v-for="(child, index) in item.children"
-            :key="index"
-            :href="child.href"
-            class="mobile-submenu-title mobile-submenu-title-link"
-            @click.prevent="handleNavigation(child.href)"
-          >
+          <a v-for="(child, index) in item.children" :key="index" :href="child.href"
+            class="mobile-submenu-title mobile-submenu-title-link" @click.prevent="handleNavigation(child.href)">
             {{ child.label }}
           </a>
         </div>
       </div>
-      <a
-        href="https://api.kexie.space/recruitment-qq-group"
-        class="navbar-mobile-cta"
-        @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-        ><span>加入我们</span></a
-      >
+      <a href="https://api.kexie.space/recruitment-qq-group" class="navbar-mobile-cta"
+        @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"><span>加入我们</span></a>
     </div>
   </nav>
 </template>
@@ -428,7 +373,7 @@ onUnmounted(() => {
   transform: translateX(0);
 }
 
-.navbar-cta > * {
+.navbar-cta>* {
   position: relative;
   z-index: 1;
 }
@@ -588,7 +533,7 @@ onUnmounted(() => {
   transform: translateX(0);
 }
 
-.navbar-mobile-cta > * {
+.navbar-mobile-cta>* {
   position: relative;
   z-index: 1;
 }
