@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.0.1...v2.1.0) (2026-07-04)
+
+
+### Features
+
+* **member:** 人员页面换成更准确的术语「成员墙」 ([c1c2882](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c1c288294c83d968857ea672f6bdaad1b13bff07))
+* 添加竞赛展示项目 ([9fd6fdb](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9fd6fdbde6cfa33c35e34c11fa2b7ba23d6068ae))
+
+
+### Bug Fixes
+
+* **nav:** 修复移动端导航栏问题 ([2e12829](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2e128299cc5fb4adf1cdb824bf5d0080855b1b34))
+
 ## [2.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.0.0...v2.0.1) (2026-07-04)
 
 
