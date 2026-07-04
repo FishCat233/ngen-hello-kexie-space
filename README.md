@@ -20,6 +20,10 @@ pnpm install
 pnpm run dev
 ```
 
+## 贡献
+
+参见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
+
 ## 部署
 
 ### Docker 离线镜像
