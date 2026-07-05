@@ -117,7 +117,8 @@ const buttons = [
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: var(--color-white);
+  background-color: var(--color-white);
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48bGluZSB4MT0iMTIwIiB5MT0iMCIgeDI9IjEyMCIgeTI9IjEyMCIgc3Ryb2tlPSIjRDBEMEQwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjxsaW5lIHgxPSIwIiB5MT0iMTIwIiB4Mj0iMTIwIiB5Mj0iMTIwIiBzdHJva2U9IiNEMEQwRDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNCA0Ii8+PC9zdmc+');
 }
 
 .hero-content {
@@ -192,7 +193,7 @@ const buttons = [
   width: 140px;
   padding: 12px 16px;
   border: 1px solid var(--color-cyan);
-  background: transparent;
+  background: var(--color-white);
   color: var(--color-text);
   font-size: 14px;
   font-weight: 500;
