@@ -64,8 +64,9 @@ export const members: Member[] = [
     direction: '逆向工程&移动安全',
     role: '24级安全部副部长',
     themeColor: '#929292',
-    links: [{ title: 'Github', url: 'https://github.com/Sayb1e' },
-    { title: 'Blog', url: 'http://sayble.xyz' }
+    links: [
+      { title: 'Github', url: 'https://github.com/Sayb1e' },
+      { title: 'Blog', url: 'http://sayble.xyz' },
     ],
   },
   {

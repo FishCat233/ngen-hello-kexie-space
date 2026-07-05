@@ -142,17 +142,18 @@ export const demoProjects: Project[] = [
     description: '基于柏林噪声算法，自动生成无限地形的 u3d 跑酷游戏',
     language: 'C#(Unity)',
     languageColor: languageColors['C#'],
-    url: 'https://github.com/Concorde0/Car'
+    url: 'https://github.com/Concorde0/Car',
   },
   {
     author: 'Concorde0',
     authorAvatar: 'https://github.com/Concorde0.png',
     name: 'OpenGLRenderer',
-    description: '基于 C++ 与 OpenGL 的学习型渲染器示例，展示现代渲染技术与实时调试工具。适合作为学习、实验与扩展的平台。',
+    description:
+      '基于 C++ 与 OpenGL 的学习型渲染器示例，展示现代渲染技术与实时调试工具。适合作为学习、实验与扩展的平台。',
     language: 'C++',
     languageColor: languageColors['C++'],
-    url: 'https://github.com/Concorde0/OpenGLRenderer'
-  }
+    url: 'https://github.com/Concorde0/OpenGLRenderer',
+  },
 ]
 
 export interface CompetitionProject {
@@ -177,7 +178,7 @@ export const competitionProjects: CompetitionProject[] = [
     description: '一款以低视野试探为核心的俯视角战术潜入射击游戏。',
     competition: 'BOOOM 暴造',
     year: 2026,
-    url: 'https://www.gcores.com/games/180051'
+    url: 'https://www.gcores.com/games/180051',
   },
   {
     authors: [],
@@ -187,8 +188,8 @@ export const competitionProjects: CompetitionProject[] = [
     description: 'Gamejam 平台跳跃作品.',
     competition: '萌芽 GameJam',
     year: 2026,
-    url: 'https://silentshadow-0.itch.io/2026-dotective'
-  }
+    url: 'https://silentshadow-0.itch.io/2026-dotective',
+  },
 ]
 
 export function getLanguageColor(language: string): string {
