@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.1.1...v2.2.0) (2026-07-05)
+
+
+### Features
+
+* **hero:** 添加虚线方格背景提升视觉层次 ([6401cf9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/6401cf9757a81186f4c8f1871a11290f8e3e6fbc))
+
 ## [2.1.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.1.0...v2.1.1) (2026-07-04)
 
 
