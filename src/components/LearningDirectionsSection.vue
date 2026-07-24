@@ -28,21 +28,21 @@ interface LearningDirection {
 
 const directions: LearningDirection[] = [
   // 多媒体部
-  { id: 'web', name: '前端开发', icon: Globe, department: '多媒体部' },
+  { id: 'frontend', name: '前端开发', icon: Globe, department: '多媒体部' },
   { id: 'backend', name: '后端开发', icon: Coffee, department: '多媒体部' },
   { id: 'ui', name: 'UI设计', icon: PencilRuler, department: '多媒体部' },
   { id: 'video', name: '视频剪辑', icon: Clapperboard, department: '多媒体部' },
   { id: 'editing', name: '编辑', icon: BookOpen, department: '多媒体部' },
   // 软件部
-  { id: 'machinelearning', name: '深度学习', icon: BrainCircuit, department: '软件部' },
-  { id: 'android', name: 'APP开发', icon: Smartphone, department: '软件部' },
+  { id: 'deep-learning', name: '深度学习', icon: BrainCircuit, department: '软件部' },
+  { id: 'app', name: 'APP开发', icon: Smartphone, department: '软件部' },
   { id: 'game', name: '游戏开发', icon: Gamepad2, department: '软件部' },
   // 硬件部
-  { id: 'embedded', name: '硬件开发', icon: Cpu, department: '硬件部' },
+  { id: 'hardware', name: '硬件开发', icon: Cpu, department: '硬件部' },
   // 安全部
   { id: 'reverse', name: '逆向工程', icon: Binary, department: '安全部' },
   { id: 'crypto', name: '密码学', icon: LockKeyhole, department: '安全部' },
-  { id: 'websecurity', name: 'Web安全', icon: ShieldAlert, department: '安全部' },
+  { id: 'web-security', name: 'Web安全', icon: ShieldAlert, department: '安全部' },
   { id: 'pwn', name: 'PWN', icon: Bug, department: '安全部' },
 ]
 
