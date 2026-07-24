@@ -378,10 +378,11 @@ onMounted(() => {
 }
 
 .comment-body :deep(code) {
-  background: var(--color-gray);
+  background: var(--color-light-cyan);
   padding: 2px 6px;
   font-family: var(--mono);
   font-size: 13px;
+  color: var(--color-cyan);
 }
 
 .comment-body :deep(pre) {

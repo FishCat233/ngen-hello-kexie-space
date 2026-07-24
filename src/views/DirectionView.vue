@@ -243,7 +243,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(code) {
-  background: var(--color-gray);
+  background: var(--color-light-cyan);
   padding: 2px 6px;
   font-family: var(--mono);
   font-size: 14px;
