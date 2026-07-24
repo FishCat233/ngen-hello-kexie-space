@@ -153,7 +153,7 @@ function cardHoverStyle(color: string | undefined) {
 
 .member-card {
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 24px;
   display: flex;
   gap: 20px;
@@ -198,7 +198,7 @@ function cardHoverStyle(color: string | undefined) {
   width: 64px;
   height: 64px;
   overflow: hidden;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
 }
 
 .member-avatar {
@@ -275,7 +275,7 @@ function cardHoverStyle(color: string | undefined) {
   font-size: 12px;
   font-weight: 500;
   color: var(--color-text);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   text-decoration: none;
   position: relative;
   overflow: hidden;

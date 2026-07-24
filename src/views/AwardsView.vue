@@ -103,7 +103,7 @@ import BackButton from '../components/BackButton.vue'
 .award-card {
   position: relative;
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 16px;
   transition:
     background-color 0.2s ease,
@@ -164,7 +164,7 @@ import BackButton from '../components/BackButton.vue'
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-cyan);
   flex-shrink: 0;
   transition:
@@ -203,7 +203,7 @@ import BackButton from '../components/BackButton.vue'
   align-items: center;
   padding: 6px 10px;
   background: transparent;
-  border: 1px solid;
+  border: 2px solid;
   min-width: 48px;
   transition: background-color 0.2s ease;
 }
@@ -242,7 +242,7 @@ import BackButton from '../components/BackButton.vue'
 .person-tag {
   padding: 3px 8px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   font-size: 12px;
   color: var(--color-text);
   transition:

@@ -5,6 +5,7 @@
   --color-black: #04080c;
   --color-blue: #5cb8d9;
   --color-cyan: #4db8b6;
+  --color-light-cyan: #d5ecea;
   --color-white: #ffffff;
   --color-gray: #eeeeee;
   --color-text: #333333;
@@ -133,9 +134,9 @@ p {
   z-index: 1;
 }
 
-/* 内容容器：1px 直角边框 + 透明底 */
+/* 内容容器：2px 直角边框 + 透明底 */
 .content-container {
   background: transparent;
-  border: 1px solid var(--color-blue);
+  border: 2px solid var(--color-blue);
   border-radius: 0;
 }

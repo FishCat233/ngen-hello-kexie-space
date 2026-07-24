@@ -161,7 +161,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-content {
   position: relative;
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 40px;
 }
 
@@ -268,6 +268,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   border-left: 4px solid var(--color-cyan);
   margin: 16px 0;
   padding: 8px 16px;
+  background: var(--color-light-cyan);
 }
 
 .markdown-body :deep(hr) {

@@ -56,7 +56,7 @@ const avatarError = ref(false)
 <style scoped>
 .project-card {
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 24px;
   cursor: pointer;
   transition:
@@ -102,7 +102,7 @@ const avatarError = ref(false)
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -178,7 +178,7 @@ const avatarError = ref(false)
   gap: 6px;
   padding: 6px 12px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;

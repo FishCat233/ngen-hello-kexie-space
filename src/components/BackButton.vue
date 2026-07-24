@@ -19,7 +19,7 @@ const router = useRouter()
   gap: 8px;
   padding: 10px 16px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-cyan);
   font-size: 14px;
   font-weight: 500;

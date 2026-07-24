@@ -192,7 +192,7 @@ const buttons = [
   gap: 8px;
   width: 140px;
   padding: 12px 16px;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   background: var(--color-white);
   color: var(--color-text);
   font-size: 14px;

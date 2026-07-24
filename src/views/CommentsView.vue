@@ -189,7 +189,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-cyan);
   margin: 0 auto 20px;
 }
@@ -240,7 +240,7 @@ onMounted(() => {
 .retry-button {
   padding: 8px 16px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-cyan);
   font-size: 14px;
   cursor: pointer;
@@ -277,7 +277,7 @@ onMounted(() => {
 
 .comment-card {
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 20px;
   cursor: pointer;
   break-inside: avoid;
@@ -327,7 +327,7 @@ onMounted(() => {
   height: 44px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
 }
 
 .author-avatar {
@@ -416,9 +416,10 @@ onMounted(() => {
 }
 
 .comment-body :deep(blockquote) {
-  border-left: 3px solid var(--color-cyan);
+  border-left: 4px solid var(--color-cyan);
   margin: 12px 0;
   padding: 8px 12px;
+  background: var(--color-light-cyan);
 }
 
 .comment-body :deep(h1),

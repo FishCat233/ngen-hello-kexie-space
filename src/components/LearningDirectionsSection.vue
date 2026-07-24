@@ -160,7 +160,7 @@ const securityWebsite = 'https://hjsec.github.io'
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -204,7 +204,7 @@ const securityWebsite = 'https://hjsec.github.io'
   align-items: center;
   padding: 32px 20px;
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   cursor: pointer;
   flex: 0 1 calc(25% - 18px);
   max-width: 280px;

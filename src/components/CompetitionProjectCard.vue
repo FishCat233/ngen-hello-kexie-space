@@ -91,7 +91,7 @@ const competitionLabel = computed(() => {
 <style scoped>
 .competition-card {
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   padding: 24px;
   transition:
     background-color 0.2s ease,
@@ -144,7 +144,7 @@ const competitionLabel = computed(() => {
   height: 36px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   position: relative;
   transition: border-color 0.2s ease;
 }
@@ -234,7 +234,7 @@ const competitionLabel = computed(() => {
 .competition-tag {
   padding: 6px 12px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   font-size: 12px;
   font-weight: 500;
   color: var(--color-text);

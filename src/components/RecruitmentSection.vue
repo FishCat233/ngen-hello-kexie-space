@@ -193,7 +193,7 @@ const introParagraphs = [
   gap: 20px;
   padding: 32px;
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;

@@ -404,7 +404,7 @@ import BackButton from '../components/BackButton.vue'
 /* 右区 - 镂空边框 */
 .department-right {
   flex: 1;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   border-left: none;
   padding: 28px;
   display: flex;
@@ -433,7 +433,7 @@ import BackButton from '../components/BackButton.vue'
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -501,7 +501,7 @@ import BackButton from '../components/BackButton.vue'
   }
 
   .department-right {
-    border-left: 1px solid var(--color-cyan);
+    border-left: 2px solid var(--color-cyan);
   }
 
   .department-paragraph {

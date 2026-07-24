@@ -321,7 +321,7 @@ onUnmounted(() => {
 .category-btn {
   padding: 8px 16px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-text);
   font-size: 14px;
   font-weight: 500;
@@ -351,7 +351,7 @@ onUnmounted(() => {
 
 .gallery-card {
   background: var(--color-gray);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   overflow: hidden;
   cursor: pointer;
   transition:
@@ -467,7 +467,7 @@ onUnmounted(() => {
 .category-tag-image {
   background: transparent;
   color: var(--color-cyan);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -477,19 +477,19 @@ onUnmounted(() => {
 .category-tag-project {
   background: transparent;
   color: #fbbf24;
-  border: 1px solid #fbbf24;
+  border: 2px solid #fbbf24;
 }
 
 .category-tag-blog {
   background: transparent;
   color: #f472b6;
-  border: 1px solid #f472b6;
+  border: 2px solid #f472b6;
 }
 
 .category-tag-other {
   background: transparent;
   color: var(--color-text);
-  border: 1px solid var(--color-text);
+  border: 2px solid var(--color-text);
 }
 
 .title-link-icon,
@@ -551,7 +551,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-white);
   cursor: pointer;
   z-index: 10;
@@ -576,7 +576,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-white);
   cursor: pointer;
   z-index: 10;
@@ -643,7 +643,7 @@ onUnmounted(() => {
   transform: translateX(-50%);
   padding: 8px 16px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   color: var(--color-white);
   font-size: 14px;
 }
@@ -669,7 +669,7 @@ onUnmounted(() => {
   height: 95vh;
   max-height: 95vh;
   background: var(--color-black);
-  border: 1px solid var(--color-cyan);
+  border: 2px solid var(--color-cyan);
   overflow: hidden;
   display: flex;
   flex-direction: column;
