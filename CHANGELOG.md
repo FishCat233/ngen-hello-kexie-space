@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.3.0...v2.4.0) (2026-07-24)
+
+
+### Features
+
+* release 构建时同步推送 Docker 镜像到 ghcr.io ([cb3883a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/cb3883a8848e2854d3146c48a207af75ae0e506c))
+
 ## [2.3.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.2.0...v2.3.0) (2026-07-24)
 
 
