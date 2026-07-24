@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.5.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.4.0...v2.5.0) (2026-07-24)
+
+
+### Features
+
+* 新增部署用 docker-compose，镜像源指向 ghcr.io ([0587062](https://github.com/FishCat233/ngen-hello-kexie-space/commit/0587062535dec1afd6583b2f26f5b02dce0ad96c))
+
+
+### Bug Fixes
+
+* rename UI.md to ui.md for case-sensitive deployment ([a3f5986](https://github.com/FishCat233/ngen-hello-kexie-space/commit/a3f5986ae8af32c72c491f74b7c3849daab08492))
+
 ## [2.4.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.3.0...v2.4.0) (2026-07-24)
 
 
