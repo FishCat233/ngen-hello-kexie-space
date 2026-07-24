@@ -42,7 +42,7 @@ export const members: Member[] = [
     avatar: 'https://github.com/XFuture0.png',
     nickname: 'XFuture0',
     grade: '2024级',
-    direction: '前端开发',
+    direction: '游戏开发',
     role: '24级组织部部长',
     themeColor: '#b3cef3',
     motto: 'Zzz...Zzz....Zzz...',
