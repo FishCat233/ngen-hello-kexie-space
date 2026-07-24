@@ -65,6 +65,12 @@ function onHomeMounted() {
 }
 
 section {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 72px;
+}
+
+@media (max-width: 1024px) {
+  section {
+    scroll-margin-top: 64px;
+  }
 }
 </style>

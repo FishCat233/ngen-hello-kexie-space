@@ -36,6 +36,13 @@
 body {
   margin: 0;
   overflow-x: hidden;
+  padding-top: 72px;
+}
+
+@media (max-width: 1024px) {
+  body {
+    padding-top: 64px;
+  }
 }
 
 ::selection {

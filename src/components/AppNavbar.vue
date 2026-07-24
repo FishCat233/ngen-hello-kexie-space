@@ -2,12 +2,14 @@
 import { ref, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDevice } from '@/composables/useDevice'
+import { useNavbarScroll } from '@/composables/useNavbarScroll'
 import { useScrollStore } from '@/stores/scroll'
 
 const router = useRouter()
 const scrollStore = useScrollStore()
 const route = useRoute()
 const { isMobile } = useDevice()
+const { isNavbarHidden } = useNavbarScroll()
 
 // 导航菜单项类型定义
 interface NavChild {
@@ -96,7 +98,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav class="navbar" :class="{ 'is-mobile': isMobile }">
+  <nav class="navbar" :class="{ 'is-mobile': isMobile, 'is-hidden': isNavbarHidden }">
     <div class="navbar-container">
       <!-- Logo -->
       <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
@@ -234,8 +236,16 @@ onUnmounted(() => {
   width: 100%;
   padding: 16px 24px;
   background: var(--color-black);
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.2s ease;
+}
+
+.navbar.is-hidden {
+  transform: translateY(-100%);
 }
 
 .navbar-container {
