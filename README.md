@@ -67,29 +67,7 @@ pnpm run dev
 
 ### 学习方向文档
 
-每个学习方向（点击第三面卡片跳转的详情页）对应一篇 Markdown 文档，位于 `public/docs/introduction/`。文件与方向的映射关系定义在 `src/views/DirectionView.vue` 的 `fileNames` 对象中：
-
-| 方向 ID | 文件名 | 方向名称 |
-|---------|--------|----------|
-| `frontend` | `frontend.md` | 前端开发 |
-| `backend` | `backend.md` | 后端开发 |
-| `game` | `game.md` | 游戏开发 |
-| `app` | `app.md` | APP开发 |
-| `ui` | `ui.md` | UI设计 |
-| `hardware` | `hardware.md` | 硬件开发 |
-| `deep-learning` | `deep-learning.md` | 深度学习 |
-| `video` | `video.md` | 视频剪辑 |
-| `reverse` | `reverse.md` | 逆向工程 |
-| `crypto` | `crypto.md` | 密码学 |
-| `web-security` | `web-security.md` | Web安全 |
-| `pwn` | `pwn.md` | PWN |
-| `editing` | `editing.md` | 编辑 |
-
-> **注意**：方向 ID 由 `src/components/LearningDirectionsSection.vue` 中 `directions` 数组的 `id` 字段定义。修改或新增方向时需同步更新三处：① `public/docs/introduction/` 下的 md 文档，② `DirectionView.vue` 中的 `fileNames` 和 `directionNames` 映射，③ `LearningDirectionsSection.vue` 中的 `directions` 数组。
-
-文档使用 Markdown 格式，支持 GFM 语法（表格、任务列表等），图片可放在 `public/docs/introduction/image/` 目录下，在 md 中使用相对路径引用。
-
-`public/docs/introduction/old-docs/` 目录存放旧版方向文档作为归档参考。
+参见 [docs/direction-docs.md](./docs/direction-docs.md)。
 
 ## 贡献
 
