@@ -67,7 +67,10 @@ const loadMarkdown = async () => {
     }
     const markdown = await response.text()
     const processed = preprocessBilibili(markdown)
-    const result = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(processed)
+    const result = await remark()
+      .use(remarkGfm)
+      .use(remarkHtml, { sanitize: false })
+      .process(processed)
     htmlContent.value = String(result)
   } catch {
     error.value = '加载内容失败，请稍后重试'
@@ -217,9 +220,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(img) {
+  display: block;
   max-width: 100%;
   height: auto;
-  margin: 16px 0;
+  margin: 16px auto;
 }
 
 .markdown-body :deep(ul) {

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
+  <style>
+    text { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; fill: #333; }
+    .label { font-size: 14px; font-weight: 600; fill: #04080C; }
+    .step { fill: #FFFFFF; stroke: #333; stroke-width: 1.5; }
+    .step-text { font-size: 12px; fill: #333; text-anchor: middle; }
+    .forward { stroke: #5CB8D9; stroke-width: 2; fill: none; marker-end: url(#arrowBlue); }
+    .backward { stroke: #4DB8B6; stroke-width: 2; fill: none; marker-end: url(#arrowCyan); }
+    .dashed { stroke-dasharray: 6 3; }
+    .small { font-size: 11px; fill: #888; }
+  </style>
+
+  <defs>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5CB8D9"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M8,0 L0,3 L8,6 Z" fill="#4DB8B6"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <!-- Row 1: Forward pass -->
+  <text x="20" y="30" class="label">前向计算（Forward Pass）</text>
+
+  <rect x="20" y="48" width="110" height="38" rx="2" class="step"/>
+  <text x="75" y="72" class="step-text">输入数据</text>
+
+  <line x1="130" y1="67" x2="172" y2="67" class="forward"/>
+
+  <rect x="178" y="48" width="130" height="38" rx="2" class="step"/>
+  <text x="243" y="67" class="step-text">逐层计算</text>
+  <text x="243" y="80" class="small">Wx + b → 激活函数</text>
+
+  <line x1="308" y1="67" x2="350" y2="67" class="forward"/>
+
+  <rect x="356" y="48" width="110" height="38" rx="2" class="step"/>
+  <text x="411" y="67" class="step-text">输出预测</text>
+
+  <line x1="466" y1="67" x2="508" y2="67" class="forward"/>
+
+  <rect x="514" y="48" width="110" height="38" rx="2" class="step"/>
+  <text x="569" y="67" class="step-text">计算误差</text>
+  <text x="569" y="80" class="small">预测 vs 真实标签</text>
+
+  <!-- Arrow from error to backward -->
+  <path d="M569,86 L569,118" stroke="#999" stroke-width="1.5" fill="none" marker-end="url(#arrowGray)"/>
+
+  <!-- Row 2: Backward pass -->
+  <text x="20" y="148" class="label">反向传播（Backward Pass）</text>
+
+  <rect x="514" y="124" width="110" height="38" rx="2" class="step"/>
+  <text x="569" y="148" class="step-text">误差信号</text>
+
+  <line x1="514" y1="143" x2="472" y2="143" class="backward"/>
+
+  <rect x="356" y="124" width="110" height="38" rx="2" class="step"/>
+  <text x="411" y="143" class="step-text">逐层回传梯度</text>
+  <text x="411" y="156" class="small">链式法则求偏导</text>
+
+  <line x1="356" y1="143" x2="314" y2="143" class="backward"/>
+
+  <rect x="178" y="124" width="130" height="38" rx="2" class="step"/>
+  <text x="243" y="143" class="step-text">更新权重</text>
+  <text x="243" y="156" class="small">W = W − η · ∇W</text>
+
+  <line x1="178" y1="143" x2="136" y2="143" class="backward"/>
+
+  <rect x="20" y="124" width="110" height="38" rx="2" class="step"/>
+  <text x="75" y="148" class="step-text">权重收敛</text>
+
+  <!-- Loop annotation -->
+  <text x="360" y="190" text-anchor="middle" font-size="12" fill="#999">重复数百万次，直到误差不再下降</text>
+</svg>
