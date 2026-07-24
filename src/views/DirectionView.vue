@@ -3,6 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
+import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
 
 const props = defineProps<{
@@ -65,7 +66,8 @@ const loadMarkdown = async () => {
       throw new Error('Failed to load content')
     }
     const markdown = await response.text()
-    const result = await remark().use(remarkGfm).use(remarkHtml).process(markdown)
+    const processed = preprocessBilibili(markdown)
+    const result = await remark().use(remarkGfm).use(remarkHtml, { sanitize: false }).process(processed)
     htmlContent.value = String(result)
   } catch {
     error.value = '加载内容失败，请稍后重试'
@@ -220,10 +222,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   margin: 16px 0;
 }
 
-.markdown-body :deep(ul),
+.markdown-body :deep(ul) {
+  margin: 16px 0;
+  padding-left: 24px;
+  list-style-type: disc;
+}
+
 .markdown-body :deep(ol) {
   margin: 16px 0;
   padding-left: 24px;
+  list-style-type: decimal;
 }
 
 .markdown-body :deep(li) {
@@ -280,6 +288,44 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(th) {
   background: var(--color-gray);
   font-weight: 600;
+  color: var(--color-blue);
+}
+
+/* ---- Bilibili 视频卡片 ---- */
+.markdown-body :deep(.bilibili-card) {
+  margin: 24px 0;
+  border: 1px solid var(--color-cyan);
+  background: var(--color-black);
+  overflow: hidden;
+}
+
+.markdown-body :deep(.bilibili-card-inner) {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.markdown-body :deep(.bilibili-iframe) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.markdown-body :deep(.bilibili-link) {
+  display: block;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--color-cyan);
+  text-decoration: none;
+  border-top: 1px solid var(--color-cyan);
+  transition: background-color 0.2s ease;
+}
+
+.markdown-body :deep(.bilibili-link:hover) {
+  background: var(--color-gray);
   color: var(--color-blue);
 }
 
