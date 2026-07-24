@@ -4,9 +4,8 @@
  * 替换发生在 remark 解析之前，remark 会将这段 HTML 识别为 raw HTML 并原样保留。
  */
 export function preprocessBilibili(markdown: string): string {
-  return markdown.replace(
-    /::bilibili\{([A-Za-z0-9]+)\}/g,
-    (_, bvid: string) => buildBilibiliCard(bvid),
+  return markdown.replace(/::bilibili\{([A-Za-z0-9]+)\}/g, (_, bvid: string) =>
+    buildBilibiliCard(bvid),
   )
 }
 
