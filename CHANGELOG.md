@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.2.0...v2.3.0) (2026-07-24)
+
+
+### Features
+
+* 导航栏置顶，向下滚动自动隐藏、向上滚动显示 ([15918c5](https://github.com/FishCat233/ngen-hello-kexie-space/commit/15918c515c0639f273894c0ff7a8962ef7728cdc))
+* 新增 Bilibili 视频卡片 Markdown 扩展 ([068a07f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/068a07f82ec5317651c5a05948a8a1027307d95a))
+* 页脚版本号增加 commit SHA 并支持点击跳转 ([9f4626d](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9f4626db2d6154d846dcdefb729fa5d4f1d8a6bd))
+
+
+### Bug Fixes
+
+* 修复内联代码块背景色与页面底色一致导致不可见的问题 ([37c9248](https://github.com/FishCat233/ngen-hello-kexie-space/commit/37c924849960dd3d4b6afb95a383f18b568092a7))
+* 修复移动端从非首页点击锚点导航后页面滚动卡死 ([4227aae](https://github.com/FishCat233/ngen-hello-kexie-space/commit/4227aaee28f0b8893e725c9a01d8f3071f988797))
+
 ## [2.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.1.1...v2.2.0) (2026-07-05)
 
 
