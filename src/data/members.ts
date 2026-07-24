@@ -103,7 +103,7 @@ export const members: Member[] = [
     nickname: 'shiroe',
     grade: '2024级',
     direction: 'APP开发',
-    role: '24级软件部成员',
+    role: '24级软件部副部长',
     themeColor: '#2e2b2a',
     links: [{ title: 'Github', url: 'https://github.com/shiroe120' }],
   },
