@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Github, Users, MessageCircle, Radio, Video, ExternalLink } from 'lucide-vue-next'
 import { version } from '../../package.json'
 import { KEXIE_FOUNDING_DATE } from '../data/kexie'
+
+const commitSha = import.meta.env.VITE_GIT_COMMIT_SHA
+const commitUrl = computed(() =>
+  commitSha ? `https://github.com/FishCat233/ngen-hello-kexie-space/commit/${commitSha}` : '',
+)
 
 interface ContactLink {
   name: string
@@ -99,9 +104,16 @@ onUnmounted(() => {
         <div class="footer-section">
           <h3 class="footer-title">站点信息</h3>
           <div class="footer-info">
-            <div class="footer-info-item">
+            <div
+              class="footer-info-item"
+              :class="{ 'footer-info-link': commitSha }"
+              @click="commitSha ? handleLinkClick(commitUrl) : undefined"
+            >
               <span class="footer-info-label">版本：</span>
-              <span class="footer-info-value">v{{ version }}</span>
+              <span class="footer-info-value">
+                v{{ version }}<template v-if="commitSha"> ({{ commitSha }})</template>
+              </span>
+              <ExternalLink v-if="commitSha" class="footer-info-icon" />
             </div>
             <div
               class="footer-info-item footer-info-link"
