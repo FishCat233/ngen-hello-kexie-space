@@ -56,6 +56,8 @@ const handleNavigation = (href: string) => {
   } else if (href.startsWith('#')) {
     if (route.path !== '/') {
       scrollStore.pendingAnchor = href
+      isMobileMenuOpen.value = false
+      activeDropdown.value = null
       router.push('/')
       return
     } else {
