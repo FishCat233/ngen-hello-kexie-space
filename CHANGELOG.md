@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.5.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.5.0...v2.5.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* typo ([03449d9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/03449d910b4825aa3e0eb6685e8d6feac5017502))
+* 修复 XFuture0 选择前端方向的时间线错误 ([48a8c54](https://github.com/FishCat233/ngen-hello-kexie-space/commit/48a8c54bb329909a5ae67d391aaa60a2e1024443))
+* 修复了 shiroe 被动返璞归真的问题 ([67dbaf2](https://github.com/FishCat233/ngen-hello-kexie-space/commit/67dbaf2697194df8a285c1343c6018941eae422a))
+
 ## [2.5.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.4.0...v2.5.0) (2026-07-24)
 
 
