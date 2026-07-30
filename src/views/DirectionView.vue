@@ -251,6 +251,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   margin: 8px 0;
 }
 
+.markdown-body :deep(em) {
+  font-style: italic;
+}
+
 .markdown-body :deep(code) {
   background: var(--color-light-cyan);
   padding: 2px 6px;
