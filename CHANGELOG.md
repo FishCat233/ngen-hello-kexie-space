@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.6.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.5.1...v2.6.0) (2026-07-30)
+
+
+### Features
+
+* **HeroSection:** 将 Hero 面背景色从纯白调整为更柔和的 #F5F5F5 ([2667e4a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2667e4a782998bff435ad910e8e824018994e336))
+* 方向文档代码块添加语法高亮 ([9e73010](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9e7301045ff40e968aca3e035aa14eb261644fe2))
+
+
+### Bug Fixes
+
+* **HeroSection:** 修复虚线网格因 base64 拼写错误渲染为实线的问题 ([2e351f1](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2e351f1e0cf1361fbc3ccd6e70bf7a5794efd4c8))
+* 方向文档 Markdown 斜体渲染不显示 ([c9ade26](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c9ade267952fd317b9b7cee5d1bff9ca0a2eda28))
+* 方向文档 Markdown 粗体渲染不显示 ([18bf73a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/18bf73a6434731874ea16d7d4e4777c15e567ea2))
+* 更新 pwn 文档 ([9cef89e](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9cef89e2c41c585f0e0abadc9e70e3d85ceb94f0))
+* 补充 pwn 文档 ([f2bac56](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f2bac56aeba24ac37731b068771465da2d9859be))
+
 ## [2.5.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.5.0...v2.5.1) (2026-07-29)
 
 
