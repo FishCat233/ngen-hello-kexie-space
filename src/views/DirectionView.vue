@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css'
 import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
 
@@ -78,6 +80,13 @@ const loadMarkdown = async () => {
     loading.value = false
   }
 }
+
+watch(htmlContent, async () => {
+  await nextTick()
+  document.querySelectorAll('.markdown-body pre code').forEach((block) => {
+    hljs.highlightElement(block as HTMLElement)
+  })
+})
 
 watch(() => props.id, loadMarkdown, { immediate: true })
 </script>
@@ -251,7 +260,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(pre) {
-  background: var(--color-gray);
+  background: #e8e8e8;
   border: 1px solid var(--color-cyan);
   padding: 16px;
   overflow-x: auto;
@@ -261,7 +270,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(pre code) {
   background: none;
   padding: 0;
-  color: var(--color-text);
 }
 
 .markdown-body :deep(blockquote) {

@@ -276,7 +276,7 @@ const introParagraphs = [
     height: 36px;
   }
 
-  .timeline-icon>* {
+  .timeline-icon > * {
     width: 18px !important;
     height: 18px !important;
   }
