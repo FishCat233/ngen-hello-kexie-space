@@ -85,6 +85,7 @@ onUnmounted(() => {
 <template>
   <footer class="footer">
     <div class="footer-container">
+      <div class="footer-wordmark"><span class="title-accent">#</span> 桂电三院科协</div>
       <div class="footer-content">
         <div class="footer-section">
           <h3 class="footer-title">联系我们</h3>
@@ -133,6 +134,10 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
+
+        <div class="footer-section footer-verse-section" aria-hidden="true">
+          <p class="footer-verse">科技融入梦想 创新点缀人生</p>
+        </div>
       </div>
 
       <div class="footer-bottom">
@@ -158,11 +163,46 @@ onUnmounted(() => {
   padding: 20px 24px 12px;
 }
 
+.footer-wordmark {
+  font-family: var(--heading);
+  font-size: clamp(40px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #263b4e;
+  line-height: 1.1;
+  text-align: center;
+  margin: 24px 0 44px;
+}
+
+.footer-wordmark .title-accent {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-blue);
+}
+
 .footer-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.2fr auto;
   gap: 40px;
   margin-bottom: 16px;
+}
+
+/* 竖排楷体 - 书脊 */
+.footer-verse-section {
+  justify-self: end;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+.footer-verse {
+  writing-mode: vertical-rl;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  color: var(--color-muted-dark);
+  margin: 0;
 }
 
 .footer-section {
@@ -288,6 +328,10 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: 20px;
     margin-bottom: 12px;
+  }
+
+  .footer-verse-section {
+    display: none;
   }
 
   .footer-title {

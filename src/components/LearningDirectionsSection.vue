@@ -71,20 +71,29 @@ const securityWebsite = 'https://hjsec.github.io'
 
 <template>
   <section class="learning-section">
+    <div class="ghost-char" v-parallax="0.05" aria-hidden="true">学</div>
     <div class="learning-container">
-      <h2 class="learning-title"><span class="title-accent">#</span> 学习方向</h2>
+      <header class="learning-header" v-reveal>
+        <p class="section-eyebrow">LEARNING DIRECTIONS</p>
+        <h2 class="learning-title"><span class="title-accent">#</span> 学习方向</h2>
+        <p class="section-note">十三个方向，四个部门 —— 找到你的起点</p>
+      </header>
 
       <div v-for="group in groupedDirections" :key="group.department" class="direction-group">
-        <h3 class="direction-group-title">{{ group.department }}</h3>
+        <h3 class="direction-group-title" v-reveal>
+          <span class="group-dash">—</span>{{ group.department }}
+        </h3>
         <div class="learning-grid">
           <div
-            v-for="dir in group.directions"
+            v-for="(dir, index) in group.directions"
             :key="dir.id"
             class="learning-card"
+            v-reveal
+            :style="{ '--reveal-delay': `${index * 45}ms` }"
             @click="navigateToDirection(dir.id)"
           >
             <div class="learning-icon">
-              <component :is="dir.icon" :size="48" stroke-width="1.5" />
+              <component :is="dir.icon" :size="28" stroke-width="1.5" />
             </div>
 
             <h4 class="learning-name">{{ dir.name }}</h4>
@@ -97,7 +106,7 @@ const securityWebsite = 'https://hjsec.github.io'
           rel="noopener noreferrer"
           class="direction-link"
         >
-          <span>→ 安全部主页</span>
+          <span>安全部主页<span class="direction-link-arrow">›</span></span>
         </a>
       </div>
     </div>
@@ -106,34 +115,82 @@ const securityWebsite = 'https://hjsec.github.io'
 
 <style scoped>
 .learning-section {
+  position: relative;
   width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10vh 20px;
+  padding: 12vh 24px;
   background: var(--color-gray);
+  overflow: hidden;
+}
+
+/* 淡墨汉字 - 背景纹理 */
+.ghost-char {
+  position: absolute;
+  right: -2vw;
+  top: 50%;
+  transform: translateY(calc(-50% + var(--parallax-y, 0px)));
+  font-family: var(--heading);
+  font-weight: 800;
+  font-size: 60vh;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #d9d5cb;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  will-change: transform;
 }
 
 .learning-container {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 48px;
+  gap: 56px;
+}
+
+.learning-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--color-muted);
+  margin: 0;
+  text-transform: uppercase;
 }
 
 .learning-title {
-  font-size: 42px;
-  font-weight: 700;
+  font-family: var(--heading);
+  font-size: 56px;
+  font-weight: 800;
   color: var(--color-text);
   margin: 0;
-  text-align: center;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .title-accent {
   color: var(--color-blue);
+}
+
+.section-note {
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-muted);
+  margin: 0;
+  letter-spacing: 0.04em;
 }
 
 .direction-group {
@@ -141,60 +198,54 @@ const securityWebsite = 'https://hjsec.github.io'
 }
 
 .direction-group + .direction-group {
-  margin-top: 40px;
+  margin-top: 44px;
 }
 
 .direction-group-title {
-  font-size: 20px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--color-text);
   margin: 0 0 20px;
   text-align: left;
 }
 
+.group-dash {
+  color: var(--color-blue);
+  font-weight: 800;
+}
+
 .direction-link {
   display: inline-flex;
   align-items: center;
-  margin-top: 16px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text);
-  border: 2px solid var(--color-cyan);
+  margin-top: 20px;
+  color: var(--color-blue);
+  font-size: 14px;
   text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  transition: background 0s;
+  transition: color 0.2s ease;
 }
 
-.direction-link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--color-cyan);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 0;
-}
-
-.direction-link:hover::before {
-  transform: translateX(0);
+.direction-link-arrow {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
 .direction-link:hover {
-  color: var(--color-white);
+  color: var(--color-cyan);
 }
 
-.direction-link > * {
-  position: relative;
-  z-index: 1;
+.direction-link:hover .direction-link-arrow {
+  transform: translateX(3px);
 }
 
 .learning-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 20px;
   width: 100%;
 }
 
@@ -202,22 +253,20 @@ const securityWebsite = 'https://hjsec.github.io'
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px 20px;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  gap: 16px;
+  padding: 40px 20px;
+  background: var(--color-white);
+  border: 1px solid var(--color-hairline);
   cursor: pointer;
-  flex: 0 1 calc(25% - 18px);
-  max-width: 280px;
   position: relative;
   overflow: hidden;
-  transition: background 0s;
 }
 
 .learning-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-blue);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -227,21 +276,14 @@ const securityWebsite = 'https://hjsec.github.io'
   transform: translateX(0);
 }
 
-.learning-card:hover {
-  border-color: var(--color-cyan);
-}
-
 .learning-icon {
-  width: 56px;
-  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  color: var(--color-cyan);
+  color: var(--color-blue);
   position: relative;
   z-index: 1;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .learning-card:hover .learning-icon {
@@ -250,13 +292,13 @@ const securityWebsite = 'https://hjsec.github.io'
 
 .learning-name {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text);
   margin: 0;
   text-align: center;
   position: relative;
   z-index: 1;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .learning-card:hover .learning-name {
@@ -268,43 +310,27 @@ const securityWebsite = 'https://hjsec.github.io'
     padding: 10vh 16px;
   }
 
+  .ghost-char {
+    font-size: 34vh;
+    right: -8vw;
+  }
+
+  .learning-container {
+    gap: 40px;
+  }
+
   .learning-title {
     font-size: 32px;
   }
 
   .learning-grid {
-    gap: 16px;
-  }
-
-  .learning-card {
-    padding: 24px 16px;
-    flex: 0 1 calc(33.333% - 11px);
-    max-width: 240px;
-  }
-
-  .learning-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .learning-icon > * {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  .learning-name {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .learning-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 12px;
   }
 
   .learning-card {
-    flex: 0 1 calc(50% - 6px);
-    padding: 20px 12px;
+    padding: 28px 12px;
+    gap: 12px;
   }
 }
 
@@ -318,18 +344,8 @@ const securityWebsite = 'https://hjsec.github.io'
   }
 
   .learning-card {
-    padding: 16px 8px;
-  }
-
-  .learning-icon {
-    width: 44px;
-    height: 44px;
-    margin-bottom: 12px;
-  }
-
-  .learning-icon > * {
-    width: 36px !important;
-    height: 36px !important;
+    padding: 20px 8px;
+    gap: 10px;
   }
 
   .learning-name {

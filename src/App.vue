@@ -5,6 +5,9 @@ import { useScrollStore } from './stores/scroll'
 import AppNavbar from './components/AppNavbar.vue'
 import AppFooter from './components/AppFooter.vue'
 import HeroSection from './components/HeroSection.vue'
+import MarqueeBand from './components/MarqueeBand.vue'
+import DepartmentsSection from './components/DepartmentsSection.vue'
+import StatsStrip from './components/StatsStrip.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
 import RecruitmentSection from './components/RecruitmentSection.vue'
 
@@ -43,12 +46,18 @@ function onHomeMounted() {
       <section id="home">
         <HeroSection />
       </section>
+      <MarqueeBand />
+      <section id="departments">
+        <DepartmentsSection />
+      </section>
+      <StatsStrip />
       <section id="learning">
         <LearningDirectionsSection />
       </section>
       <section id="recruitment">
         <RecruitmentSection />
       </section>
+      <MarqueeBand />
     </main>
     <div v-else class="router-wrapper">
       <RouterView />
@@ -61,7 +70,7 @@ function onHomeMounted() {
 .app-container {
   width: 100%;
   min-height: 100vh;
-  background: #04080c;
+  background: var(--color-black);
 }
 
 section {

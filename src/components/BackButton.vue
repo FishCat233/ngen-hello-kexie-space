@@ -32,6 +32,6 @@ const router = useRouter()
 
 .back-button:hover {
   background: var(--color-cyan);
-  color: var(--color-white);
+  color: var(--color-black);
 }
 </style>

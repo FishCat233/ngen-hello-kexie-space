@@ -2,13 +2,21 @@
 
 :root {
   /* 科协主题色 - 全实色 */
-  --color-black: #04080c;
+  --color-black: #0a0f16;
   --color-blue: #5cb8d9;
   --color-cyan: #4db8b6;
-  --color-light-cyan: #d5ecea;
+  --color-light-cyan: #e7f2f1;
   --color-white: #ffffff;
-  --color-gray: #eeeeee;
-  --color-text: #333333;
+  --color-gray: #f7f6f3;
+  --color-text: #1c2026;
+
+  /* 结构色 */
+  --color-hairline: #e4e1da;
+
+  /* 深色场景 */
+  --color-grid-dark: #16232e;
+  --color-muted-dark: #5d7a8c;
+  --color-muted: #8a93a0;
 
   --text: var(--color-text);
   --text-h: var(--color-text);
@@ -17,7 +25,7 @@
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Menlo, Consolas, 'Courier New', monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -53,7 +61,27 @@ body {
 
 ::-moz-selection {
   background: var(--color-blue);
-  color: var(--color-black);
+  color: var(--color-white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+}
+
+/* 滚动入场动效（v-reveal 指令） */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
 }
 
 h1,
