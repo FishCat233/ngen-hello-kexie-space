@@ -122,7 +122,7 @@ export const members: Member[] = [
     grade: '2022级',
     direction: 'APP开发',
     role: '22级技术副主席',
-    links: [{ title: 'Github', url: 'https://github.com/wilinz' }],
+    links: [{ title: 'Github', url: 'https://github.com/wilinz' }, { title: 'Website', url: 'https://www.wilinz.com/' }],
   },
 ]
 

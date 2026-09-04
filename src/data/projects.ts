@@ -105,6 +105,15 @@ export const projects: Project[] = [
     languageColor: languageColors.Python,
     url: 'https://github.com/FishCat233/VideoSlim',
   },
+  {
+    author: 'wilinz',
+    authorAvatar: 'https://github.com/wilinz.png',
+    name: 'Air Calculator',
+    description: '空中手写计算器：摄像头里用手指在空中写数学式，端侧识别成 LaTeX 并求值（Flutter 客户端）',
+    language: 'Dart',
+    languageColor: languageColors.Dart,
+    url: 'https://www.wilinz.com/'
+  }
 ]
 
 export const demoProjects: Project[] = [
