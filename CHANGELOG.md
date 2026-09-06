@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.7.0...v2.8.0) (2026-09-06)
+
+
+### Features
+
+* **cms:** add PocketBase content management ([a25b2b4](https://github.com/FishCat233/ngen-hello-kexie-space/commit/a25b2b4d3ea68373f0c658d2ebb692cfcfd492c7))
+
 ## [2.7.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.6.0...v2.7.0) (2026-09-04)
 
 
