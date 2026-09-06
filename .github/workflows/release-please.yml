@@ -54,10 +54,25 @@ jobs:
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/ngen-hello-kexie-space-${{ needs.release-please.outputs.tag_name }}.tar
 
+      - name: Build and push PocketBase image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./ci/Pocketbase.Dockerfile
+          push: true
+          tags: |
+            ghcr.io/fishcat233/ngen-hello-kexie-space-pocketbase:${{ needs.release-please.outputs.tag_name }}
+            ghcr.io/fishcat233/ngen-hello-kexie-space-pocketbase:latest
+          cache-from: type=gha,scope=pocketbase
+          cache-to: type=gha,mode=max,scope=pocketbase
+          outputs: type=docker,dest=/tmp/ngen-hello-kexie-space-pocketbase-${{ needs.release-please.outputs.tag_name }}.tar
+
       - name: Upload image to Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ needs.release-please.outputs.tag_name }}
-          files: /tmp/ngen-hello-kexie-space-${{ needs.release-please.outputs.tag_name }}.tar
+          files: |
+            /tmp/ngen-hello-kexie-space-${{ needs.release-please.outputs.tag_name }}.tar
+            /tmp/ngen-hello-kexie-space-pocketbase-${{ needs.release-please.outputs.tag_name }}.tar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
