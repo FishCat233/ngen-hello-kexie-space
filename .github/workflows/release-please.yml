@@ -74,5 +74,6 @@ jobs:
           files: |
             /tmp/ngen-hello-kexie-space-${{ needs.release-please.outputs.tag_name }}.tar
             /tmp/ngen-hello-kexie-space-pocketbase-${{ needs.release-please.outputs.tag_name }}.tar
+            docker-compose.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
