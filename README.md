@@ -91,14 +91,7 @@ docker compose pull
 docker compose up -d
 ```
 
-在服务器的 `docker-compose.yaml` 旁创建未提交的 `.env`：
-
-```dotenv
-PB_ADMIN_EMAIL=admin@example.com
-PB_ADMIN_PASSWORD=replace-with-a-strong-password
-```
-
-PocketBase 每次启动前都会先执行未应用的 migration；如果 migration 失败，容器不会进入健康状态。管理员由 `.env` 自动创建或更新。只有在数据库为空、需要导入仓库内置初始内容时，才执行一次：
+PocketBase 每次启动前都会先执行未应用的 migration；如果 migration 失败，容器不会进入健康状态。首次部署时访问 `/_/` 创建管理员。只有在数据库为空、需要导入仓库内置初始内容时，才执行一次：
 
 ```bash
 PB_URL=https://你的域名 \
