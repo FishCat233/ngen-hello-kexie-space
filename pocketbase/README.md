@@ -15,7 +15,7 @@ PB_ADMIN_PASSWORD=replace-with-a-strong-password
 
 2. Pull and start the services with `docker compose pull && docker compose up -d`.
    PocketBase automatically creates or updates this administrator.
-3. From a local project checkout, import the existing static content:
+3. If the database is empty, import the existing static content from a local project checkout:
 
 ```bash
 PB_URL=http://127.0.0.1:8090 \
@@ -27,6 +27,10 @@ pnpm run cms:import
 The import uses `legacyId` to update existing records, so it can be run again
 after correcting the seed data. It does not store administrator credentials in
 the repository.
+
+Skip the import when the records have already been migrated or entered
+manually. The import is only the optional initial content seed; it is not part
+of the schema migration.
 
 The public collections are `members`, `projects`, and `gallery`. Their list and
 view rules are public; create, update, and delete remain administrator-only.
