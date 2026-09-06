@@ -122,17 +122,22 @@ export const members: Member[] = [
     grade: '2022级',
     direction: 'APP开发',
     role: '22级技术副主席',
-    links: [{ title: 'Github', url: 'https://github.com/wilinz' }, { title: 'Website', url: 'https://www.wilinz.com/' }],
+    links: [
+      { title: 'Github', url: 'https://github.com/wilinz' },
+      { title: 'Website', url: 'https://www.wilinz.com/' },
+    ],
   },
 ]
 
 /**
  * 按年级分组，新在前
  */
-export function getMembersByGrade(): { grade: string; members: Member[] }[] {
+export function getMembersByGrade(
+  source: Member[] = members,
+): { grade: string; members: Member[] }[] {
   const groups = new Map<string, Member[]>()
 
-  for (const m of members) {
+  for (const m of source) {
     const list = groups.get(m.grade) || []
     list.push(m)
     groups.set(m.grade, list)

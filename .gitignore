@@ -26,3 +26,4 @@ dist-ssr
 # custom
 .vscode/
 .trae/
+pocketbase/pb_data/

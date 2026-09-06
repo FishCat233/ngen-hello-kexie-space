@@ -10,23 +10,26 @@ import {
   Monitor,
 } from 'lucide-vue-next'
 import {
-  galleryItems,
+  galleryItems as staticGalleryItems,
   categories,
   filterItemsByCategory,
   getImageItems,
   type GalleryCategory,
   type GalleryItem,
 } from '../data/gallery'
+import { loadGallery } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
 
 const currentCategory = ref<GalleryCategory>('all')
+const displayedGalleryItems = ref(staticGalleryItems)
+const loadError = ref(false)
 const lightboxOpen = ref(false)
 const currentImageIndex = ref(0)
 const iframeModalOpen = ref(false)
 const currentIframeItem = ref<GalleryItem | null>(null)
 
 const filteredItems = computed(() => {
-  return filterItemsByCategory(galleryItems, currentCategory.value)
+  return filterItemsByCategory(displayedGalleryItems.value, currentCategory.value)
 })
 
 const imageItems = computed(() => {
@@ -112,6 +115,10 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
+  void loadGallery(staticGalleryItems).then((result) => {
+    displayedGalleryItems.value = result.data
+    loadError.value = result.source === 'fallback'
+  })
 })
 
 onUnmounted(() => {
@@ -129,6 +136,8 @@ onUnmounted(() => {
         <h1 class="gallery-title"><span class="title-accent">#</span> 项目展廊</h1>
         <p class="gallery-subtitle">展示科协成员的项目、博客和精彩瞬间</p>
       </div>
+
+      <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据。</p>
 
       <div class="category-filter">
         <button
@@ -292,6 +301,13 @@ onUnmounted(() => {
 
 .gallery-header {
   margin-bottom: 32px;
+}
+
+.cms-notice {
+  border: 2px solid var(--color-cyan);
+  padding: 16px;
+  margin: 0 0 32px;
+  color: var(--color-text);
 }
 
 .gallery-title {

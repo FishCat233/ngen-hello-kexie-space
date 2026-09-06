@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_GIT_COMMIT_SHA: string
+  readonly VITE_POCKETBASE_URL?: string
 }
 
 interface ImportMeta {

@@ -1,0 +1,424 @@
+{
+  "members": [
+    {
+      "legacyId": "member-fishcat233",
+      "avatar": "https://github.com/fishcat233.png",
+      "nickname": "FishCat233",
+      "grade": "2024级",
+      "direction": "深度学习",
+      "role": "24级技术副主席",
+      "themeColor": "#6b9de2",
+      "motto": "兴趣使然的 Programmer.",
+      "links": [
+        { "title": "Github", "url": "https://github.com/FishCat233" },
+        { "title": "Blog", "url": "https://www.aaafishcat.top/" },
+        { "title": "Digital Garden", "url": "https://lib.aaafishcat.top/" }
+      ],
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "member-concorde0",
+      "avatar": "https://github.com/Concorde0.png",
+      "nickname": "Concorde0",
+      "grade": "2024级",
+      "direction": "游戏开发",
+      "role": "24级财务副主席",
+      "themeColor": "#757575",
+      "links": [{ "title": "Github", "url": "https://github.com/Concorde0" }],
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "member-xfuture0",
+      "avatar": "https://github.com/XFuture0.png",
+      "nickname": "XFuture0",
+      "grade": "2024级",
+      "direction": "游戏开发",
+      "role": "24级组织部部长",
+      "themeColor": "#b3cef3",
+      "motto": "Zzz...Zzz....Zzz...",
+      "links": [{ "title": "Github", "url": "https://github.com/XFuture0" }],
+      "sortOrder": 3
+    },
+    {
+      "legacyId": "member-crypto1long",
+      "avatar": "https://github.com/Crypto1Long.png",
+      "nickname": "Crypto1Long",
+      "grade": "2024级",
+      "direction": "密码学",
+      "role": "24级安全部部长",
+      "themeColor": "#d6bdc0",
+      "links": [{ "title": "Github", "url": "https://github.com/Crypto1Long" }],
+      "sortOrder": 4
+    },
+    {
+      "legacyId": "member-sayb1e",
+      "avatar": "https://github.com/Sayb1e.png",
+      "nickname": "Sayb1e",
+      "grade": "2025级",
+      "direction": "逆向工程&移动安全",
+      "role": "24级安全部副部长",
+      "themeColor": "#929292",
+      "links": [
+        { "title": "Github", "url": "https://github.com/Sayb1e" },
+        { "title": "Blog", "url": "http://sayble.xyz" }
+      ],
+      "sortOrder": 5
+    },
+    {
+      "legacyId": "member-yiyue345",
+      "avatar": "https://github.com/Yiyue345.png",
+      "nickname": "Yiyue345",
+      "grade": "2024级",
+      "direction": "APP开发",
+      "role": "24级赛事副主席",
+      "motto": "又活一天……",
+      "themeColor": "#6e91c1",
+      "links": [{ "title": "Github", "url": "https://github.com/Yiyue345" }],
+      "sortOrder": 6
+    },
+    {
+      "legacyId": "member-mengzhongyi11",
+      "avatar": "https://github.com/mengzhongyi11.png",
+      "nickname": "mengzhongyi11",
+      "grade": "2024级",
+      "direction": "前端开发",
+      "role": "24级多媒体部部长",
+      "themeColor": "#c9ad7e",
+      "links": [{ "title": "Github", "url": "https://github.com/mengzhongyi11" }],
+      "sortOrder": 7
+    },
+    {
+      "legacyId": "member-mygo-mujica",
+      "avatar": "https://github.com/MyGO-Mujica.png",
+      "nickname": "MyGO-Mujica",
+      "grade": "2024级",
+      "direction": "前端开发",
+      "role": "24级多媒体部成员",
+      "themeColor": "#ada08e",
+      "motto": "枚举占据大脑，暴力替代思考",
+      "links": [{ "title": "Github", "url": "https://github.com/MyGO-Mujica" }],
+      "sortOrder": 8
+    },
+    {
+      "legacyId": "member-shiroe",
+      "avatar": "https://github.com/shiroe120.png",
+      "nickname": "shiroe",
+      "grade": "2024级",
+      "direction": "APP开发",
+      "role": "24级软件部副部长",
+      "themeColor": "#2e2b2a",
+      "links": [{ "title": "Github", "url": "https://github.com/shiroe120" }],
+      "sortOrder": 9
+    },
+    {
+      "legacyId": "member-roselleluo",
+      "avatar": "https://github.com/roselle-luo.png",
+      "nickname": "RoselleLuo",
+      "grade": "2023级",
+      "direction": "APP开发",
+      "role": "23级技术副主席",
+      "themeColor": "#282a35",
+      "links": [{ "title": "Github", "url": "https://github.com/roselle-luo" }],
+      "sortOrder": 10
+    },
+    {
+      "legacyId": "member-wilinz",
+      "avatar": "https://github.com/wilinz.png",
+      "nickname": "wilinz",
+      "grade": "2022级",
+      "direction": "APP开发",
+      "role": "22级技术副主席",
+      "links": [
+        { "title": "Github", "url": "https://github.com/wilinz" },
+        { "title": "Website", "url": "https://www.wilinz.com/" }
+      ],
+      "sortOrder": 11
+    }
+  ],
+  "projects": [
+    {
+      "legacyId": "featured-1",
+      "kind": "featured",
+      "author": "wilinz",
+      "authorAvatar": "https://github.com/wilinz.png",
+      "name": "GUET 校园圈",
+      "description": "可以查看课表等教务信息，支持安卓和IOS",
+      "language": "Dart(flutter)",
+      "languageColor": "#00B4AB",
+      "url": "https://www.guethub.net/",
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "featured-2",
+      "kind": "featured",
+      "author": "LukeXeon",
+      "authorAvatar": "https://github.com/LukeXeon.png",
+      "name": "Flexml",
+      "description": "🚀基于Litho的Android高性能动态业务容器",
+      "language": "Kotlin",
+      "languageColor": "#7F52FF",
+      "url": "https://github.com/sanyuankexie/Flexml",
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "featured-3",
+      "kind": "featured",
+      "author": "visualDust",
+      "authorAvatar": "https://github.com/visualDust.png",
+      "name": "neetbox",
+      "description": "A naive dashboard for local/remote/distributed deep learning project monitoring.",
+      "language": "Python",
+      "languageColor": "#3776AB",
+      "url": "https://github.com/visualDust/neetbox",
+      "sortOrder": 3
+    },
+    {
+      "legacyId": "featured-4",
+      "kind": "featured",
+      "author": "visualDust",
+      "authorAvatar": "https://github.com/visualDust.png",
+      "name": "ml.akasaki.space",
+      "description": "帮助入门基于深度学习的计算机视觉，访问 https://ml.akasaki.space 查看。",
+      "language": "Python",
+      "languageColor": "#3776AB",
+      "url": "https://ml.akasaki.space/",
+      "sortOrder": 4
+    },
+    {
+      "legacyId": "featured-5",
+      "kind": "featured",
+      "author": "yadajin",
+      "authorAvatar": "https://github.com/yadajin.png",
+      "name": "OneNet-IoT",
+      "description": "基于OneNet平台okHttp协议的远程环境监控App开发.",
+      "language": "Java",
+      "languageColor": "#E76F00",
+      "url": "https://github.com/sanyuankexie/OneNet-IoT",
+      "sortOrder": 5
+    },
+    {
+      "legacyId": "featured-6",
+      "kind": "featured",
+      "author": "msqtt",
+      "authorAvatar": "https://github.com/msqtt.png",
+      "name": "OneNet-IoT",
+      "description": "能把图片转换成字符画的简单cli 🎉.",
+      "language": "Golang",
+      "languageColor": "#00ADD8",
+      "url": "https://github.com/orzation/bobibo",
+      "sortOrder": 6
+    },
+    {
+      "legacyId": "featured-7",
+      "kind": "featured",
+      "author": "FishCat233",
+      "authorAvatar": "https://github.com/fishcat233.png",
+      "name": "SimpleCutPy",
+      "description": "一款基于ffmpeg命令行生成的简单视频素材剪辑器，用于对游戏回放素材进行快速剪辑切片。",
+      "language": "Python",
+      "languageColor": "#3776AB",
+      "url": "https://github.com/FishCat233/SimpleCutPy",
+      "sortOrder": 7
+    },
+    {
+      "legacyId": "featured-8",
+      "kind": "featured",
+      "author": "FishCat233",
+      "authorAvatar": "https://github.com/fishcat233.png",
+      "name": "VideoSlim",
+      "description": "VideoSlim 一款无损的视频压缩工具",
+      "language": "Python",
+      "languageColor": "#3776AB",
+      "url": "https://github.com/FishCat233/VideoSlim",
+      "sortOrder": 8
+    },
+    {
+      "legacyId": "featured-9",
+      "kind": "featured",
+      "author": "wilinz",
+      "authorAvatar": "https://github.com/wilinz.png",
+      "name": "Air Calculator",
+      "description": "空中手写计算器：摄像头里用手指在空中写数学式，端侧识别成 LaTeX 并求值（Flutter 客户端）",
+      "language": "Dart",
+      "languageColor": "#00B4AB",
+      "url": "https://www.wilinz.com/",
+      "sortOrder": 9
+    },
+    {
+      "legacyId": "competition-1",
+      "kind": "competition",
+      "authors": [],
+      "authorAvatars": [],
+      "teamName": "Concorde0 等 6 人",
+      "name": "视限回廊",
+      "description": "一款以低视野试探为核心的俯视角战术潜入射击游戏。",
+      "competition": "BOOOM 暴造",
+      "year": 2026,
+      "url": "https://www.gcores.com/games/180051",
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "competition-2",
+      "kind": "competition",
+      "authors": [],
+      "authorAvatars": [],
+      "teamName": "Concorde0 等 5 人",
+      "name": "疑点侦探",
+      "description": "Gamejam 平台跳跃作品.",
+      "competition": "萌芽 GameJam",
+      "year": 2026,
+      "url": "https://silentshadow-0.itch.io/2026-dotective",
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "demo-1",
+      "kind": "demo",
+      "author": "FishCat233",
+      "authorAvatar": "https://github.com/fishcat233.png",
+      "name": "dcgan-mnist",
+      "description": "一种DCGAN的实现，以MNIST的手写数字生成为例.",
+      "language": "Python",
+      "languageColor": "#3776AB",
+      "url": "https://github.com/FishCat233/dcgan-mnist",
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "demo-2",
+      "kind": "demo",
+      "author": "FishCat233",
+      "authorAvatar": "https://github.com/fishcat233.png",
+      "name": "hyper-big-ball",
+      "description": "Trae On Campus 比赛作品，网页游戏合个🥚",
+      "language": "React",
+      "languageColor": "#61DAFB",
+      "url": "https://github.com/FishCat233/hyper-big-ball",
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "demo-3",
+      "kind": "demo",
+      "author": "FishCat233",
+      "authorAvatar": "https://github.com/fishcat233.png",
+      "name": "FishONU",
+      "description": "一个基于 Unity 的多人在线 UNO 卡牌游戏.",
+      "language": "C#(Unity)",
+      "languageColor": "#512BD4",
+      "url": "https://github.com/FishCat233/FishONU",
+      "sortOrder": 3
+    },
+    {
+      "legacyId": "demo-4",
+      "kind": "demo",
+      "author": "Concorde0",
+      "authorAvatar": "https://github.com/Concorde0.png",
+      "name": "Car",
+      "description": "基于柏林噪声算法，自动生成无限地形的 u3d 跑酷游戏",
+      "language": "C#(Unity)",
+      "languageColor": "#512BD4",
+      "url": "https://github.com/Concorde0/Car",
+      "sortOrder": 4
+    },
+    {
+      "legacyId": "demo-5",
+      "kind": "demo",
+      "author": "Concorde0",
+      "authorAvatar": "https://github.com/Concorde0.png",
+      "name": "OpenGLRenderer",
+      "description": "基于 C++ 与 OpenGL 的学习型渲染器示例，展示现代渲染技术与实时调试工具。适合作为学习、实验与扩展的平台。",
+      "language": "C++",
+      "languageColor": "#00599C",
+      "url": "https://github.com/Concorde0/OpenGLRenderer",
+      "sortOrder": 5
+    }
+  ],
+  "gallery": [
+    {
+      "legacyId": "gallery-1",
+      "type": "link",
+      "src": "/gallery/www-guethub-net.webp",
+      "title": "GUET 校园圈",
+      "description": "学长倾力打造 · 告别APP切换，一站式校园服务 | GUET校园圈（GUETHUB）.",
+      "url": "https://www.guethub.net/",
+      "category": "project",
+      "date": "2026-05-05",
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "gallery-2",
+      "type": "iframe",
+      "src": "/gallery/miku-kexie-space.webp",
+      "title": "Mikutap",
+      "url": "https://miku.kexie.space/",
+      "description": "一个有趣的音乐互动网站",
+      "category": "project",
+      "date": "2026-05-05",
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "gallery-3",
+      "type": "iframe",
+      "src": "/gallery/kill-kexie-space.webp",
+      "title": "Kill",
+      "url": "https://kill.kexie.space/",
+      "description": "科协游戏开发方向黄家超，廖卓喆，蒲一帆合作开发作品",
+      "category": "project",
+      "date": "2026-05-05",
+      "sortOrder": 3
+    },
+    {
+      "legacyId": "gallery-4",
+      "type": "iframe",
+      "src": "/gallery/sword-kexie-space.webp",
+      "title": "Sword",
+      "url": "https://sword.kexie.space/",
+      "description": "科协游戏开发方向李一奔的作品 ",
+      "category": "project",
+      "date": "2026-05-05",
+      "sortOrder": 4
+    },
+    {
+      "legacyId": "gallery-5",
+      "type": "iframe",
+      "src": "/gallery/steal-kun-kexie-space.webp",
+      "title": "Steal Kun",
+      "url": "https://steal-kun.kexie.space/",
+      "description": "科协游戏开发方向蒲一帆的作品",
+      "category": "project",
+      "date": "2026-05-05",
+      "sortOrder": 5
+    },
+    {
+      "legacyId": "gallery-6",
+      "type": "link",
+      "src": "/gallery/ml-akasaki-space.webp",
+      "title": "工具箱的深度學習記事簿",
+      "description": "工具箱在入门基于深度学习技术的计算机视觉的过程中，将阅读到的、总结的、写下的各种有助于学习的内容放入这个笔记本，希望这份笔记对你也有用。",
+      "url": "https://ml.akasaki.space/",
+      "category": "blog",
+      "date": "2026-05-05",
+      "sortOrder": 6
+    },
+    {
+      "legacyId": "gallery-7",
+      "type": "link",
+      "src": "/gallery/cp-therainisme-com.webp",
+      "title": "CottonPaper",
+      "description": "一些可以用来垫桌角的纸.",
+      "url": "https://cp.therainisme.com/",
+      "category": "blog",
+      "date": "2026-05-05",
+      "sortOrder": 7
+    },
+    {
+      "legacyId": "gallery-8",
+      "type": "link",
+      "src": "/gallery/www-aaafishcat-top.webp",
+      "title": "FishCat233's Blog",
+      "description": "FishCat233 个人博客。在这里将分享关于技术、生活、创作等各种领域的一些见解和经验。",
+      "url": "https://www.aaafishcat.top/",
+      "category": "blog",
+      "date": "2026-05-05",
+      "sortOrder": 8
+    }
+  ]
+}

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { User } from 'lucide-vue-next'
-import { getMembersByGrade } from '../data/members'
+import { getMembersByGrade, members as staticMembers } from '../data/members'
 import type { Member } from '../data/members'
+import { loadMembers } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
 
-const gradeGroups = getMembersByGrade()
+const gradeGroups = ref(getMembersByGrade())
+const loadError = ref(false)
 const avatarErrors = ref<Record<string, boolean>>({})
 
 function handleAvatarError(key: string) {
@@ -19,6 +21,12 @@ function memberKey(member: Member, index: number): string {
 function cardHoverStyle(color: string | undefined) {
   return color ? { '--member-theme': color } : {}
 }
+
+onMounted(async () => {
+  const result = await loadMembers(staticMembers)
+  gradeGroups.value = getMembersByGrade(result.data)
+  loadError.value = result.source === 'fallback'
+})
 </script>
 
 <template>
@@ -30,6 +38,10 @@ function cardHoverStyle(color: string | undefined) {
         <h1 class="members-title"><span class="title-accent">#</span> 成员墙</h1>
         <p class="members-subtitle">成员申请上墙，非全员名册</p>
       </div>
+
+      <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据。</p>
+
+      <div v-if="gradeGroups.length === 0" class="empty-state">暂无成员内容</div>
 
       <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
         <div class="section-header">
@@ -103,6 +115,14 @@ function cardHoverStyle(color: string | undefined) {
 
 .members-header {
   margin-bottom: 40px;
+}
+
+.cms-notice,
+.empty-state {
+  border: 2px solid var(--color-cyan);
+  padding: 16px;
+  margin-bottom: 32px;
+  color: var(--color-text);
 }
 
 .members-title {
