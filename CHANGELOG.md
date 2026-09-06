@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.2...v2.9.0) (2026-09-06)
+
+
+### Features
+
+* **cms:** bootstrap PocketBase administrator ([da187d3](https://github.com/FishCat233/ngen-hello-kexie-space/commit/da187d307480a8cad38b4f145c373967ad21b2d4))
+
+
+### Bug Fixes
+
+* **cms:** enforce migrations before PocketBase startup ([ac6ab54](https://github.com/FishCat233/ngen-hello-kexie-space/commit/ac6ab54fca7699553abfb94d4446c4a1a791d3ea))
+
 ## [2.8.2](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.1...v2.8.2) (2026-09-06)
 
 
