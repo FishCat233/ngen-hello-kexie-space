@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.0...v2.8.1) (2026-09-06)
+
+
+### Bug Fixes
+
+* **cms:** allow pinning PocketBase image version ([f8909b9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f8909b91fbec5c721b64f6e1d5c4390f829c7ed9))
+
 ## [2.8.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.7.0...v2.8.0) (2026-09-06)
 
 
