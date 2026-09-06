@@ -30,3 +30,6 @@ only needs the Compose file and the ignored `pocketbase/pb_data` volume. A new
 PocketBase container applies the embedded migration automatically; content is
 still imported separately because administrator credentials and live records
 must not be included in an image.
+
+Set `POCKETBASE_IMAGE_TAG` in the deployment environment to pin a release;
+otherwise Compose uses `latest`.
