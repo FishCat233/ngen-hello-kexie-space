@@ -20,25 +20,25 @@ pnpm install
 pnpm run dev
 ```
 
-## 数据修改指南
+## 内容修改指南
 
-所有页面展示的文本、成员、项目等数据均集中在 `src/data/` 目录下，直接修改对应文件即可，无需改动组件代码。
+部门介绍、获奖信息等稳定内容仍在 `src/data/` 目录下。成员、项目和展廊内容由 PocketBase CMS 提供，生产环境直接在 `/_/` 管理后台修改，无需重新构建官网。
 
 ### 数据文件一览
 
-| 文件 | 对应页面区域 | 说明 |
-|------|-------------|------|
-| `src/data/kexie.ts` | Hero 区域 | 科协成立日期，修改 `KEXIE_FOUNDING_DATE` 即可更新计时器 |
-| `src/data/departments.ts` | 部门介绍区域 | 五个部门的名称、描述、图标类型、可选的部门主页链接 |
-| `src/data/members.ts` | 成员展示区域 | 成员头像、昵称、年级、方向、职务、格言、社交链接等。按数组顺序展示，通过 `getMembersByGrade()` 按年级分组 |
-| `src/data/projects.ts` | 项目展示区域 | 三组数据：`projects`（往届项目）、`demoProjects`（Demo 作品）、`competitionProjects`（比赛作品），各自有不同的字段结构 |
-| `src/data/awards.ts` | 获奖展示区域 | 竞赛名称、各级别获奖数量、获奖人员名单。`awardLevelColors` 控制奖牌颜色 |
-| `src/data/gallery.ts` | 展廊区域 | 展廊项目的封面、标题、描述、分类、链接。`categories` 数组控制分类筛选项 |
-| `src/data/comments.ts` | 留言区域 | 从 GitHub Issues API 拉取评论数据（`fetchComments`），`formatDate` 处理时间格式化 |
+| 文件                      | 对应页面区域 | 说明                                                                              |
+| ------------------------- | ------------ | --------------------------------------------------------------------------------- |
+| `src/data/kexie.ts`       | Hero 区域    | 科协成立日期，修改 `KEXIE_FOUNDING_DATE` 即可更新计时器                           |
+| `src/data/departments.ts` | 部门介绍区域 | 五个部门的名称、描述、图标类型、可选的部门主页链接                                |
+| `src/data/members.ts`     | 成员展示区域 | CMS 不可用时的静态兜底数据，以及初始导入数据                                      |
+| `src/data/projects.ts`    | 项目展示区域 | CMS 不可用时的静态兜底数据，以及初始导入数据                                      |
+| `src/data/awards.ts`      | 获奖展示区域 | 竞赛名称、各级别获奖数量、获奖人员名单。`awardLevelColors` 控制奖牌颜色           |
+| `src/data/gallery.ts`     | 展廊区域     | CMS 不可用时的静态兜底数据；`categories` 数组控制分类筛选项                       |
+| `src/data/comments.ts`    | 留言区域     | 从 GitHub Issues API 拉取评论数据（`fetchComments`），`formatDate` 处理时间格式化 |
 
 ### 修改示例
 
-**添加新成员** — 编辑 `src/data/members.ts`，在 `members` 数组里追加一个对象：
+**添加新成员** — 生产环境在 PocketBase 管理后台的 `members` 集合中创建记录。开发环境也可以编辑 `src/data/members.ts` 更新静态兜底数据：
 
 ```ts
 {
@@ -56,9 +56,9 @@ pnpm run dev
 }
 ```
 
-**添加新项目** — 编辑 `src/data/projects.ts`，根据项目类型选择添加到 `projects` / `demoProjects` / `competitionProjects` 数组。
+**添加新项目** — 生产环境在 PocketBase 管理后台的 `projects` 集合中创建记录，并用 `kind` 区分 `featured`、`demo` 和 `competition`。
 
-**添加展廊卡片** — 编辑 `src/data/gallery.ts`，在 `galleryItems` 数组追加对象。`type` 可选 `'image'` / `'iframe'` / `'link'`，封面图片放在 `public/gallery/` 目录下，`src` 路径以 `/gallery/` 开头。
+**添加展廊卡片** — 生产环境在 PocketBase 管理后台的 `gallery` 集合中创建记录。`type` 可选 `image`、`iframe`、`link`，图片可以使用 PocketBase 文件字段或原有 `/gallery/` 路径。
 
 ### 图片资源
 
@@ -75,8 +75,40 @@ pnpm run dev
 
 ## 部署
 
+### Docker Compose
+
+Release 会自动构建官网镜像和 PocketBase 镜像。PocketBase 的 schema migration 已经打进镜像，服务器不需要 clone 仓库、安装 Node.js、构建项目或下载迁移文件。
+
+服务器首次部署只需要 Compose 文件和持久化目录：
+
+```bash
+mkdir -p pocketbase/pb_data
+curl -fsSL \
+  https://github.com/FishCat233/ngen-hello-kexie-space/releases/latest/download/docker-compose.yaml \
+  -o docker-compose.yaml
+
+docker compose pull
+docker compose up -d
+```
+
+PocketBase 首次启动会自动创建 `members`、`projects` 和 `gallery` 集合。然后访问 `/_/` 创建管理员，并在本地项目目录执行一次初始内容导入：
+
+```bash
+PB_URL=https://你的域名 \
+PB_EMAIL=管理员邮箱 \
+PB_PASSWORD='管理员密码' \
+pnpm run cms:import
+```
+
+后续发布更新只需要重新执行：
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+管理员密码、PocketBase 数据和初始内容不会写入镜像。完整的 PocketBase 配置说明参见 [pocketbase/README.md](./pocketbase/README.md)。
+
 ### Docker 离线镜像
 
-可以通过两种方式获取镜像:
-- 从 [Release](https://github.com/FishCat233/ngen-hello-kexie-space/releases) 页面下载离线镜像
-- 下载项目源码，本地构建镜像.
+可以从 [Release](https://github.com/FishCat233/ngen-hello-kexie-space/releases) 页面同时下载官网和 PocketBase 离线镜像，然后分别执行 `docker load`。服务器仍然只需要 Compose 文件和 `pocketbase/pb_data` 持久化目录。
