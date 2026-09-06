@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.1...v2.8.2) (2026-09-06)
+
+
+### Bug Fixes
+
+* **deploy:** publish compose manifest with releases ([730af42](https://github.com/FishCat233/ngen-hello-kexie-space/commit/730af427d72a3315afb0ed358f4a4189e0045019))
+
 ## [2.8.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.0...v2.8.1) (2026-09-06)
 
 
