@@ -20,6 +20,9 @@ services:
     image: ghcr.io/fishcat233/ngen-hello-kexie-space-pocketbase:${POCKETBASE_IMAGE_TAG:-latest}
     container_name: ngen-hello-kexie-space-pocketbase
     restart: unless-stopped
+    environment:
+      PB_ADMIN_EMAIL: ${PB_ADMIN_EMAIL:-}
+      PB_ADMIN_PASSWORD: ${PB_ADMIN_PASSWORD:-}
     expose:
       - "8090"
     volumes:

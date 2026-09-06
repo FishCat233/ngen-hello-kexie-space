@@ -6,9 +6,15 @@ and applied to `pb_data` when the container starts.
 
 ## First Setup
 
-1. Pull and start the services with `docker compose pull && docker compose up -d`.
-2. Create the first administrator through `/_/`, or run PocketBase's
-   `superuser create` command inside the container.
+1. Create an untracked `.env` file beside `docker-compose.yaml`:
+
+```dotenv
+PB_ADMIN_EMAIL=admin@example.com
+PB_ADMIN_PASSWORD=replace-with-a-strong-password
+```
+
+2. Pull and start the services with `docker compose pull && docker compose up -d`.
+   PocketBase automatically creates or updates this administrator.
 3. From a local project checkout, import the existing static content:
 
 ```bash
@@ -24,6 +30,7 @@ the repository.
 
 The public collections are `members`, `projects`, and `gallery`. Their list and
 view rules are public; create, update, and delete remain administrator-only.
+The `.env` file is ignored by Git and must never be committed.
 
 The deployment host does not need a repository checkout or migration files. It
 only needs the Compose file and the ignored `pocketbase/pb_data` volume. A new

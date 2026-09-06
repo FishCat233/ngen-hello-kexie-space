@@ -91,7 +91,14 @@ docker compose pull
 docker compose up -d
 ```
 
-PocketBase 首次启动会自动创建 `members`、`projects` 和 `gallery` 集合。然后访问 `/_/` 创建管理员，并在本地项目目录执行一次初始内容导入：
+在服务器的 `docker-compose.yaml` 旁创建未提交的 `.env`：
+
+```dotenv
+PB_ADMIN_EMAIL=admin@example.com
+PB_ADMIN_PASSWORD=replace-with-a-strong-password
+```
+
+PocketBase 首次启动会自动创建管理员和 `members`、`projects`、`gallery` 集合。然后在本地项目目录执行一次初始内容导入：
 
 ```bash
 PB_URL=https://你的域名 \
