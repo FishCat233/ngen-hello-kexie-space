@@ -255,6 +255,9 @@ const buttons = [
   align-items: center;
   text-align: center;
   gap: 24px;
+  /* 整体靠上：从垂直居中改为偏上 38% */
+  margin-top: 0;
+  transform: translateY(-12vh);
 }
 
 @media (max-width: 640px) {
@@ -271,7 +274,7 @@ const buttons = [
   align-items: center;
   gap: 0.5em;
   margin: 0;
-  font-size: clamp(15px, calc(5.3vw - 6px), 64px);
+  font-size: clamp(18px, calc(6vw - 6px), 80px);
   font-weight: 900;
   -webkit-text-stroke: 0.016em;
   line-height: 1;
