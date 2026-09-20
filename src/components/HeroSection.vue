@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref } from 'vue'
-import { ArrowRight, ChevronRight } from 'lucide-vue-next'
+import { ArrowRight } from 'lucide-vue-next'
 import HeroBand from './HeroBand.vue'
 import { departments } from '../data/departments'
 
@@ -13,13 +13,22 @@ const deptWords: Record<string, string[]> = {
   security: ['攻防演练', '挖掘漏洞', '守护安全'],
 }
 
-// 部门专属色：卡片纯色底 + 第二行词组
+// 部门专属色：药丸底色 + 第二行词组
 const deptColors: Record<string, string> = {
-  multimedia: '#3b82f6',
+  multimedia: '#22d3ee',
   software: '#a78bfa',
   hardware: '#fb923c',
   organize: '#34d399',
   security: '#f87171',
+}
+
+// 药丸内文字色：比各自药丸底色更深的同色系
+const deptTextColors: Record<string, string> = {
+  multimedia: '#164e63',
+  software: '#4c1d95',
+  hardware: '#7c2d12',
+  organize: '#065f46',
+  security: '#7f1d1d',
 }
 
 const SWITCH_INTERVAL = 3500
@@ -33,8 +42,8 @@ const words = computed(() => deptWords[currentDept.value.id] ?? deptWords.multim
 // 位置驱动的有机堆叠：不同角度 + 上下交替偏移
 // 退走的卡（pos 0→末位）y 偏移向上 → "先向上"
 // 上来的卡（pos 1→0）从下方偏移归位 → "从下侧切换上来"
-const posRotations = [0, -3, 4, -2, 5]
-const posYOffsets = [0, 7, -6, 9, -5]
+const posRotations = [0, -6, 8, -4, 10]
+const posYOffsets = [0, 14, -12, 18, -10]
 
 const deckCardStyle = (deptId: string, index: number) => {
   const pos = (index - deckIndex.value + departments.length) % departments.length
@@ -43,6 +52,7 @@ const deckCardStyle = (deptId: string, index: number) => {
     zIndex: departments.length - pos,
     filter: pos === 0 ? 'none' : `blur(${(pos * 1.0).toFixed(1)}px)`,
     background: deptColors[deptId],
+    color: deptTextColors[deptId],
   }
 }
 
@@ -104,7 +114,16 @@ const buttons = [
         <!-- 第一行：归属路径 -->
         <span class="hero-line hero-line-meta">
           <span class="meta-text">在</span>
-          <ChevronRight class="meta-chevron" :stroke-width="3" aria-hidden="true" />
+          <!-- 尖角直角箭头，无圆角，宽而粗 -->
+          <svg class="meta-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M7 4L17 12L7 20"
+              stroke="currentColor"
+              stroke-width="3.5"
+              stroke-linecap="butt"
+              stroke-linejoin="miter"
+            />
+          </svg>
           <span class="meta-org-group">
             <span class="meta-bracket">[</span>
             <span class="meta-org">科协</span>
@@ -117,7 +136,7 @@ const buttons = [
               class="deck-card"
               :style="deckCardStyle(dept.id, index)"
             >
-              {{ dept.name }}
+              <span class="deck-card-text">{{ dept.name }}</span>
             </span>
           </span>
         </span>
@@ -139,6 +158,9 @@ const buttons = [
           <span class="hero-sticker" aria-hidden="true"></span>
         </span>
       </h1>
+
+      <!-- 第三行：slogan -->
+      <p class="hero-slogan">科技融入梦想，创新点缀人生</p>
 
       <!-- 底部：功能按钮 -->
       <div class="hero-buttons">
@@ -280,6 +302,15 @@ const buttons = [
   line-height: 1;
 }
 
+/* 第三行 slogan：正文大小、偏灰 */
+.hero-slogan {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: #9ca3af;
+  line-height: var(--leading-normal);
+}
+
 .hero-line {
   display: flex;
   align-items: center;
@@ -295,21 +326,23 @@ const buttons = [
 }
 
 .meta-chevron {
-  width: 0.6em;
-  height: 0.6em;
+  width: 0.85em;
+  height: 0.85em;
   color: var(--color-primary);
+  /* CJK 光学中心偏低于几何中心，箭头向下微调对齐 */
+  transform: translateY(0.05em);
 }
 
 /* 括号 + 科协 分组：inline-flex 确保视觉高度一致 */
 .meta-org-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.06em;
+  gap: 0.04em;
 }
 
 .meta-bracket {
   color: var(--color-primary);
-  font-size: 1.12em;
+  font-size: 1em;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -317,6 +350,7 @@ const buttons = [
 
 .meta-org {
   color: var(--color-primary);
+  font-size: 1em;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -334,15 +368,22 @@ const buttons = [
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.1em 0.32em;
+  /* 大药丸：外框高度与周围文字行高一致（1em = 标题字号） */
+  height: 1em;
+  padding: 0 0.3em;
   border-radius: var(--radius-pill);
-  color: var(--color-white);
   text-shadow: none;
   transform-origin: 90% 90%;
   /* spring 近似：轻微过冲曲线，0.7s 让切换更从容 */
   transition:
     transform 0.7s cubic-bezier(0.34, 1.4, 0.5, 1),
     filter 0.6s ease;
+}
+
+.deck-card-text {
+  font-size: 0.78em;
+  font-weight: 700;
+  line-height: 1;
 }
 
 /* 第二行：一起 + 滚动词组 + 贴纸位 */
@@ -355,11 +396,15 @@ const buttons = [
   color: var(--color-text);
 }
 
-/* 词组滚动窗口：旧词上滚出、新词下滚入，切换后行宽即时更新并重新居中 */
+/* 词组滚动窗口：旧词上滚出、新词下滚入，切换后行宽即时更新并重新居中。
+   padding 扩出文字阴影与粗字重的出血范围，负 margin 抵消占位，
+   使裁切线落在墨迹+阴影之外 */
 .word-slot {
   position: relative;
   display: inline-block;
   overflow: hidden;
+  padding: 0.25em 0.32em;
+  margin: -0.25em -0.32em;
 }
 
 .word {
