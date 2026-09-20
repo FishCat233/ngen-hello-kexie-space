@@ -172,7 +172,7 @@ onUnmounted(() => {
 }
 
 .footer-title {
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 500;
   color: var(--color-primary);
   margin: 0;
@@ -214,7 +214,7 @@ onUnmounted(() => {
 }
 
 .footer-link-text {
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 400;
 }
 
@@ -233,15 +233,15 @@ onUnmounted(() => {
 }
 
 .footer-info-label {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-primary);
   font-weight: 400;
 }
 
 .footer-info-value {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-white);
-  font-family: var(--mono);
+  font-family: var(--font-mono);
 }
 
 .footer-info-link {
@@ -276,7 +276,7 @@ onUnmounted(() => {
 }
 
 .footer-copyright {
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--color-white);
   margin: 0;
 }
@@ -292,29 +292,12 @@ onUnmounted(() => {
     margin-bottom: 12px;
   }
 
-  .footer-title {
-    font-size: 13px;
-  }
-
   .footer-link-item {
     padding: 3px 6px;
   }
 
-  .footer-link-text {
-    font-size: 11px;
-  }
-
   .footer-info-item {
     padding: 3px 6px;
-  }
-
-  .footer-info-label,
-  .footer-info-value {
-    font-size: 11px;
-  }
-
-  .footer-copyright {
-    font-size: 10px;
   }
 }
 </style>

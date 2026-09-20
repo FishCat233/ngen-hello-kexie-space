@@ -78,7 +78,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .awards-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
@@ -89,7 +89,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .awards-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -176,11 +176,11 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .award-name {
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
-  line-height: 1.4;
+  line-height: var(--leading-snug);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -212,13 +212,13 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .level-count {
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 700;
   margin-bottom: 1px;
 }
 
 .level-name {
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--color-text);
 }
 
@@ -231,7 +231,7 @@ import BackButton from '../components/BackButton.vue'
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-text);
   margin-bottom: 8px;
 }
@@ -247,7 +247,7 @@ import BackButton from '../components/BackButton.vue'
   background: transparent;
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-text);
   transition:
     background-color 0.2s ease,
@@ -266,10 +266,6 @@ import BackButton from '../components/BackButton.vue'
     padding: 72px 16px 24px;
   }
 
-  .awards-title {
-    font-size: 28px;
-  }
-
   .awards-grid {
     grid-template-columns: 1fr;
   }
@@ -278,17 +274,9 @@ import BackButton from '../components/BackButton.vue'
     padding: 14px;
   }
 
-  .award-name {
-    font-size: 14px;
-  }
-
   .award-level {
     padding: 5px 8px;
     min-width: 44px;
-  }
-
-  .level-count {
-    font-size: 13px;
   }
 }
 </style>

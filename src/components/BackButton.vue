@@ -22,7 +22,7 @@ const router = useRouter()
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 500;
   cursor: pointer;
   margin-bottom: 32px;

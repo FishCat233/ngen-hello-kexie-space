@@ -196,7 +196,7 @@ onMounted(() => {
 }
 
 .comments-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
@@ -207,7 +207,7 @@ onMounted(() => {
 }
 
 .comments-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -245,7 +245,7 @@ onMounted(() => {
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -259,7 +259,7 @@ onMounted(() => {
   background: var(--color-primary);
   border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -356,20 +356,20 @@ onMounted(() => {
 }
 
 .author-name {
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 600;
   color: var(--color-primary);
 }
 
 .comment-time {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-text);
 }
 
 .comment-body {
-  font-size: 14px;
+  font-size: var(--text-body);
   color: var(--color-text);
-  line-height: 1.8;
+  line-height: var(--leading-relaxed);
 }
 
 .comment-body :deep(p) {
@@ -384,8 +384,8 @@ onMounted(() => {
   background: var(--color-primary-dim);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   color: var(--color-primary-bright);
 }
 
@@ -441,18 +441,18 @@ onMounted(() => {
 }
 
 .comment-body :deep(h1) {
-  font-size: 20px;
+  font-size: var(--text-h5);
 }
 .comment-body :deep(h2) {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
 }
 .comment-body :deep(h3) {
-  font-size: 16px;
+  font-size: var(--text-body);
 }
 .comment-body :deep(h4),
 .comment-body :deep(h5),
 .comment-body :deep(h6) {
-  font-size: 14px;
+  font-size: var(--text-ui);
 }
 
 .comment-body :deep(del) {
@@ -465,7 +465,7 @@ onMounted(() => {
 
 .comment-body :deep(sup),
 .comment-body :deep(sub) {
-  font-size: 12px;
+  font-size: var(--text-xs);
 }
 
 .comment-cta-card {
@@ -485,7 +485,7 @@ onMounted(() => {
   width: 100%;
   padding: 32px 24px;
   justify-content: center;
-  font-size: 16px;
+  font-size: var(--text-body);
 }
 
 .github-link-button {
@@ -496,7 +496,7 @@ onMounted(() => {
   background: var(--color-primary);
   border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   position: relative;
@@ -563,10 +563,6 @@ onMounted(() => {
     padding: 72px 16px 40px;
   }
 
-  .comments-title {
-    font-size: 28px;
-  }
-
   .comment-card {
     padding: 16px;
   }
@@ -574,10 +570,6 @@ onMounted(() => {
   .author-avatar-wrapper {
     width: 40px;
     height: 40px;
-  }
-
-  .author-name {
-    font-size: 14px;
   }
 }
 </style>

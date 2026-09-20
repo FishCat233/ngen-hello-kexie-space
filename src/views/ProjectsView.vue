@@ -130,7 +130,7 @@ onMounted(async () => {
 }
 
 .projects-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
@@ -141,7 +141,7 @@ onMounted(async () => {
 }
 
 .projects-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -159,14 +159,14 @@ onMounted(async () => {
 }
 
 .section-title {
-  font-size: 28px;
+  font-size: var(--text-h3);
   font-weight: 600;
   color: var(--color-text);
   margin: 0 0 8px 0;
 }
 
 .section-subtitle {
-  font-size: 14px;
+  font-size: var(--text-ui);
   color: var(--color-text);
   margin: 0;
 }
@@ -180,10 +180,6 @@ onMounted(async () => {
 @media (max-width: 768px) {
   .projects-page {
     padding: 72px 16px 24px;
-  }
-
-  .projects-title {
-    font-size: 28px;
   }
 
   .projects-grid {

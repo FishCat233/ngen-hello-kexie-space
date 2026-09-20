@@ -267,12 +267,10 @@ onUnmounted(() => {
   border: 1px solid transparent;
   border-bottom-color: var(--color-line);
   border-radius: 0;
-  box-shadow: 0 0 0 0 transparent;
   transition:
     border-radius 0.4s ease,
     border-color 0.4s ease,
-    background-color 0.4s ease,
-    box-shadow 0.4s ease;
+    background-color 0.4s ease;
 }
 
 .navbar.is-scrolled {
@@ -285,7 +283,6 @@ onUnmounted(() => {
   border-radius: var(--radius-pill);
   border-color: var(--color-line);
   background: rgba(10, 14, 20, 0.66);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 /* 内容层浮于玻璃之上 */
@@ -315,7 +312,7 @@ onUnmounted(() => {
 }
 
 .navbar-logo-text {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   color: var(--color-white);
 }
@@ -338,7 +335,7 @@ onUnmounted(() => {
   padding: 8px 16px;
   color: var(--color-white);
   text-decoration: none;
-  font-size: 15px;
+  font-size: var(--text-ui);
   font-weight: 500;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
@@ -425,7 +422,7 @@ onUnmounted(() => {
   border-radius: var(--radius-sm);
   color: var(--color-white);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--text-ui);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -459,7 +456,7 @@ onUnmounted(() => {
   padding: 8px 14px;
   color: var(--color-white);
   text-decoration: none;
-  font-size: 13px;
+  font-size: var(--text-sm);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -486,7 +483,7 @@ onUnmounted(() => {
   border-radius: var(--radius-pill);
   background: var(--color-primary);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   position: relative;
@@ -603,7 +600,7 @@ onUnmounted(() => {
   border-radius: var(--radius-sm);
   color: var(--color-white);
   text-decoration: none;
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   transition:
     background-color 0.2s ease,
@@ -627,7 +624,7 @@ onUnmounted(() => {
   display: block;
   padding: 8px 12px;
   color: var(--color-primary);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
 }
 
@@ -655,7 +652,7 @@ onUnmounted(() => {
   padding: 6px 12px;
   color: var(--color-white);
   text-decoration: none;
-  font-size: 13px;
+  font-size: var(--text-sm);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -674,7 +671,7 @@ onUnmounted(() => {
   border-radius: var(--radius-pill);
   background: var(--color-primary);
   color: var(--color-white);
-  font-size: 16px;
+  font-size: var(--text-body);
   font-weight: 600;
   text-decoration: none;
   margin-top: 16px;
@@ -730,10 +727,6 @@ onUnmounted(() => {
   padding: 12px 16px;
 }
 
-.is-mobile .navbar-logo-text {
-  font-size: 16px;
-}
-
 .is-mobile .navbar-links {
   display: none;
 }
@@ -750,10 +743,6 @@ onUnmounted(() => {
 
   .navbar {
     padding: 12px 16px;
-  }
-
-  .navbar-logo-text {
-    font-size: 16px;
   }
 
   .navbar-links {

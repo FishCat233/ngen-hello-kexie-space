@@ -127,7 +127,7 @@ onMounted(async () => {
 }
 
 .members-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
@@ -138,7 +138,7 @@ onMounted(async () => {
 }
 
 .members-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -156,7 +156,7 @@ onMounted(async () => {
 }
 
 .section-title {
-  font-size: 28px;
+  font-size: var(--text-h3);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
@@ -250,7 +250,7 @@ onMounted(async () => {
 }
 
 .member-nickname {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   color: var(--color-primary);
   margin: 0;
@@ -261,7 +261,7 @@ onMounted(async () => {
 }
 
 .member-meta {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-text);
   margin: 0;
@@ -277,10 +277,10 @@ onMounted(async () => {
 }
 
 .member-motto {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-text);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 /* 外部链接按钮 */
@@ -296,7 +296,7 @@ onMounted(async () => {
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--color-white);
   border: 2px solid var(--color-primary);
@@ -354,10 +354,6 @@ onMounted(async () => {
     padding: 72px 16px 24px;
   }
 
-  .members-title {
-    font-size: 28px;
-  }
-
   .members-grid {
     grid-template-columns: 1fr;
   }
@@ -370,10 +366,6 @@ onMounted(async () => {
   .member-avatar-wrapper {
     width: 52px;
     height: 52px;
-  }
-
-  .member-nickname {
-    font-size: 16px;
   }
 }
 </style>

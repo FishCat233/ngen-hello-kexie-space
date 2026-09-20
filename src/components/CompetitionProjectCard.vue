@@ -176,7 +176,7 @@ const competitionLabel = computed(() => {
 }
 
 .overflow-text {
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--color-text);
   transition: color 0.2s ease;
@@ -187,7 +187,7 @@ const competitionLabel = computed(() => {
 }
 
 .author-name {
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   color: var(--color-text);
 }
@@ -208,7 +208,7 @@ const competitionLabel = computed(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   color: var(--color-primary);
   margin: 0 0 8px 0;
@@ -219,9 +219,9 @@ const competitionLabel = computed(() => {
 }
 
 .project-description {
-  font-size: 14px;
+  font-size: var(--text-ui);
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -238,7 +238,7 @@ const competitionLabel = computed(() => {
   background: transparent;
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--color-text);
   white-space: nowrap;

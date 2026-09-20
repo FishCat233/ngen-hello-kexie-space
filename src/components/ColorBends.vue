@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import * as THREE from 'three'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
 
 const MAX_COLORS = 8
 
@@ -21,6 +25,10 @@ interface Props {
   iterations?: number
   intensity?: number
   bandWidth?: number
+  bloom?: boolean
+  bloomStrength?: number
+  bloomRadius?: number
+  bloomThreshold?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,6 +48,10 @@ const props = withDefaults(defineProps<Props>(), {
   iterations: 1,
   intensity: 1.5,
   bandWidth: 6,
+  bloom: false,
+  bloomStrength: 0.6,
+  bloomRadius: 0.4,
+  bloomThreshold: 0.0,
 })
 
 const containerRef = ref<HTMLDivElement | null>(null)
@@ -160,6 +172,8 @@ function hexToVec3(hex: string): THREE.Vector3 {
 
 let renderer: THREE.WebGLRenderer | null = null
 let material: THREE.ShaderMaterial | null = null
+let composer: EffectComposer | null = null
+let bloomPass: UnrealBloomPass | null = null
 let rafId = 0
 let resizeObserver: ResizeObserver | null = null
 const pointerTarget = new THREE.Vector2(0, 0)
@@ -217,6 +231,32 @@ onMounted(() => {
   renderer.domElement.style.display = 'block'
   container.appendChild(renderer.domElement)
 
+  // Bloom 后处理：把亮色像素向周围衍射，形成渐进光晕
+  if (props.bloom) {
+    // 关键：用带 alpha 通道的 RT，让透明区域 alpha=0 在 UnrealBloomPass 的
+    // AdditiveBlending 下保持透明（src.a=0 + dst.a=0 = 0），避免被强制变黑
+    const rt = new THREE.WebGLRenderTarget(
+      container.clientWidth || 1,
+      container.clientHeight || 1,
+      {
+        type: THREE.HalfFloatType,
+        format: THREE.RGBAFormat,
+        depthBuffer: true,
+        stencilBuffer: false,
+      },
+    )
+    composer = new EffectComposer(renderer, rt)
+    composer.addPass(new RenderPass(scene, camera))
+    bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(container.clientWidth || 1, container.clientHeight || 1),
+      props.bloomStrength,
+      props.bloomRadius,
+      props.bloomThreshold,
+    )
+    composer.addPass(bloomPass)
+    composer.addPass(new OutputPass())
+  }
+
   const clock = new THREE.Clock()
 
   const handleResize = () => {
@@ -224,6 +264,7 @@ onMounted(() => {
     const h = container.clientHeight || 1
     renderer?.setSize(w, h, false)
     material?.uniforms.uCanvas.value.set(w, h)
+    if (composer) composer.setSize(w, h)
   }
   handleResize()
 
@@ -271,7 +312,18 @@ onMounted(() => {
     pointerCurrent.lerp(pointerTarget, amt)
     material.uniforms.uPointer.value.copy(pointerCurrent)
 
-    renderer.render(scene, camera)
+    // Bloom 参数动态响应
+    if (bloomPass) {
+      bloomPass.strength = props.bloomStrength
+      bloomPass.radius = props.bloomRadius
+      bloomPass.threshold = props.bloomThreshold
+    }
+
+    if (composer) {
+      composer.render()
+    } else {
+      renderer.render(scene, camera)
+    }
     rafId = requestAnimationFrame(loop)
   }
   rafId = requestAnimationFrame(loop)
@@ -291,6 +343,8 @@ onMounted(() => {
     container.removeEventListener('pointermove', handlePointerMove)
     geometry.dispose()
     material?.dispose()
+    bloomPass?.dispose()
+    composer?.dispose()
     renderer?.dispose()
     renderer?.forceContextLoss()
     if (renderer?.domElement.parentElement === container) {
@@ -298,6 +352,8 @@ onMounted(() => {
     }
     renderer = null
     material = null
+    composer = null
+    bloomPass = null
   })
 })
 </script>

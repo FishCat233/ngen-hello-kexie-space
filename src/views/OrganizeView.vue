@@ -344,7 +344,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .organize-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
@@ -393,7 +393,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .department-left .department-name {
-  font-size: 22px;
+  font-size: var(--text-h4);
   font-weight: 600;
   color: var(--color-on-primary);
   margin: 0;
@@ -423,8 +423,8 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .department-paragraph {
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: var(--text-ui);
+  line-height: var(--leading-relaxed);
   color: var(--color-text);
   margin: 0;
   text-align: justify;
@@ -435,7 +435,7 @@ import BackButton from '../components/BackButton.vue'
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-white);
   border: 2px solid var(--color-primary);
@@ -494,10 +494,6 @@ import BackButton from '../components/BackButton.vue'
     padding: 24px 16px 10vh;
   }
 
-  .organize-title {
-    font-size: 32px;
-  }
-
   .organize-grid {
     gap: 16px;
   }
@@ -521,16 +517,11 @@ import BackButton from '../components/BackButton.vue'
   }
 
   .department-left .department-name {
-    font-size: 18px;
     text-align: left;
   }
 
   .department-right {
     border-left: 2px solid var(--color-primary);
-  }
-
-  .department-paragraph {
-    font-size: 13px;
   }
 }
 </style>

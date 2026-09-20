@@ -87,7 +87,7 @@ const introParagraphs = [
 }
 
 .recruitment-title {
-  font-size: 42px;
+  font-size: var(--text-h1);
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -115,7 +115,7 @@ const introParagraphs = [
 }
 
 .timeline-section-title {
-  font-size: 24px;
+  font-size: var(--text-h4);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
@@ -169,17 +169,17 @@ const introParagraphs = [
 }
 
 .timeline-title {
-  font-size: 20px;
+  font-size: var(--text-h5);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
 }
 
 .timeline-description {
-  font-size: 15px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 /* 科协介绍样式 */
@@ -211,8 +211,8 @@ const introParagraphs = [
 }
 
 .intro-paragraph {
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
   color: var(--color-text);
   margin: 0;
   text-align: justify;
@@ -222,10 +222,6 @@ const introParagraphs = [
 @media (max-width: 1024px) {
   .recruitment-section {
     padding: 10vh 16px;
-  }
-
-  .recruitment-title {
-    font-size: 32px;
   }
 
   .recruitment-content {
@@ -238,36 +234,12 @@ const introParagraphs = [
     height: 40px;
   }
 
-  .timeline-section-title {
-    font-size: 20px;
-  }
-
-  .timeline-title {
-    font-size: 18px;
-  }
-
-  .timeline-description {
-    font-size: 14px;
-  }
-
   .intro-card {
     padding: 24px;
-  }
-
-  .intro-paragraph {
-    font-size: 14px;
   }
 }
 
 @media (max-width: 640px) {
-  .recruitment-title {
-    font-size: 28px;
-  }
-
-  .timeline-section-title {
-    font-size: 18px;
-  }
-
   .timeline-item {
     gap: 16px;
     padding: 12px 0;
@@ -287,21 +259,8 @@ const introParagraphs = [
     padding-top: 4px;
   }
 
-  .timeline-title {
-    font-size: 16px;
-  }
-
-  .timeline-description {
-    font-size: 13px;
-  }
-
   .intro-card {
     padding: 20px;
-  }
-
-  .intro-paragraph {
-    font-size: 13px;
-    line-height: 1.7;
   }
 }
 </style>

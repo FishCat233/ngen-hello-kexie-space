@@ -159,7 +159,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   color: var(--color-white);
   border: none;
   border-radius: var(--radius-pill);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -178,7 +178,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .direction-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 32px 0;
@@ -193,8 +193,8 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 
 .markdown-body {
   color: var(--color-text);
-  line-height: 1.8;
-  font-size: 16px;
+  line-height: var(--leading-relaxed);
+  font-size: var(--text-body);
 }
 
 .markdown-body :deep(h1) {
@@ -202,7 +202,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(h2) {
-  font-size: 24px;
+  font-size: var(--text-h4);
   font-weight: 600;
   color: var(--color-primary-bright);
   margin: 32px 0 16px 0;
@@ -211,7 +211,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(h3) {
-  font-size: 20px;
+  font-size: var(--text-h5);
   font-weight: 600;
   color: var(--color-primary);
   margin: 24px 0 12px 0;
@@ -266,8 +266,8 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   background: var(--color-primary-dim);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
-  font-family: var(--mono);
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--text-ui);
   color: var(--color-primary-bright);
 }
 
@@ -345,7 +345,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(.bilibili-link) {
   display: block;
   padding: 8px 16px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-primary-bright);
   text-decoration: none;
   border-top: 1px solid var(--color-line);
@@ -364,22 +364,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 
   .markdown-content {
     padding: 24px;
-  }
-
-  .direction-title {
-    font-size: 28px;
-  }
-
-  .markdown-body :deep(h2) {
-    font-size: 20px;
-  }
-
-  .markdown-body :deep(h3) {
-    font-size: 18px;
-  }
-
-  .markdown-body {
-    font-size: 15px;
   }
 }
 </style>

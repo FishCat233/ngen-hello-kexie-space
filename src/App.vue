@@ -64,6 +64,18 @@ function onHomeMounted() {
   background: var(--color-bg);
 }
 
+/* 首页 hero 从浏览器顶部起铺满整屏（body 不再留白，导航栏浮于其上），
+   其余路由页面需为固定导航栏补出顶部空间 */
+.router-wrapper {
+  padding-top: 72px;
+}
+
+@media (max-width: 1024px) {
+  .router-wrapper {
+    padding-top: 64px;
+  }
+}
+
 section {
   scroll-margin-top: 72px;
 }
