@@ -61,7 +61,7 @@ function onHomeMounted() {
 .app-container {
   width: 100%;
   min-height: 100vh;
-  background: #04080c;
+  background: var(--color-bg);
 }
 
 section {

@@ -1,113 +1,256 @@
-# 设计系统
+# 设计系统 v2 — UI 全面重构
 
-排版驱动的极简设计，纯色块语言，系统字体。
+> 本文档是 UI 重构的**唯一权威设计规范**。
+>
+> 重构策略：风格由用户**逐维度**确定，不一次性定稿。确定一项 → 记录一项 → 落地一项。
+> 旧版设计语言已归档至 [docs/design-legacy.md](./docs/design-legacy.md)，仅迁移期对照参考，全部落地后删除。
 
-## 调色板
+## 状态标记
 
-颜色按 60-30-10 规则分配。全实色，**不使用透明度**（`rgba`、`opacity`、`backdrop-filter` 均禁用）。
+- ⬜ 待定 — 尚未讨论
+- 🟡 草案 — 已有方向，待用户确认
+- ✅ 已定稿 — 规范冻结，作为落地依据
+- 🚧 落地中 — 代码改造进行中
+- ✔ 已落地 — 代码完成并通过质量门禁
 
-| Token | 色值 | 角色 | 用途 |
-|-------|------|------|------|
-| 白 | `#FFFFFF` | 60% | Hero 面背景 |
-| 微格 | `#D0D0D0` | 点缀 | Hero 面虚线方格 |
-| 灰 | `#EEEEEE` | 基础 | 其余 section 背景、子页面背景 |
-| 蓝 | `#5CB8D9` | 30% | 大面积色块、`#` 前缀、实心按钮、部门左区(交替) |
-| 青 | `#4DB8B6` | 10% | 边框、镂空按钮、hover 滑切、部门左区(交替) |
-| 浅青 | `#D5ECEA` | — | Blockquote 背景色 |
-| 黑 | `#04080C` | 点缀 | 导航栏、页脚底、部门左区文字（旧值）、CTA hover 滑切 |
-| 正文 | `#333333` | — | 全局正文文字、标题 |
+## 重构决策看板
 
-## 字体
+| # | 维度 | 状态 | 备注 |
+|---|------|------|------|
+| 0 | 设计理念 | 🟡 | 方向已定：纯黑底 + 科技蓝单色系 + 圆角玻璃语言；一句话待凝练 |
+| 1 | 色彩系统 | 🟡 | 已落地：黑底科技蓝 token 体系（见 §1），待用户视觉验收 |
+| 2 | 字体排印 | ⬜ | 字体族、字号层级、字重、行高、中英文混排 |
+| 3 | 形状与边框 | 🟡 | 已落地：圆角 token 体系（见 §3），全站卡片/按钮/标签已迁移，待视觉验收 |
+| 4 | 阴影与深度 | 🟡 | 已部分落地：悬浮层（导航栏/下拉/移动菜单）用磨砂玻璃 + 阴影，见 §4 |
+| 5 | 动效系统 | ⬜ | 装饰动效、交互反馈、过渡曲线、reduced-motion |
+| 6 | 签名元素 | ⬜ | 取代旧版 `# 标题` 前缀的识别性元素 |
+| 7 | 组件规范 | ⬜ | 按钮、导航、卡片、标签、容器、灯箱等 |
+| 8 | 页面级规格 | ⬜ | 主页面各面 + 各子页面逐一规格 |
+| 9 | 响应式策略 | ⬜ | 断点、移动端适配原则 |
 
-系统默认字体栈：`system-ui, 'Segoe UI', Roboto, sans-serif`。不加载第三方字体。
+---
 
-字号层级：温和克制。正文基础 `16-18px`，标题约为正文 1.5-2 倍。靠字重和间距建立层级。
+## 0. 设计理念 ⬜
 
-## 签名语言
+一句话回答：这个网站应该给人什么感觉？
 
-### Markdown 语法前缀
+旧版参考：*排版驱动的极简设计，纯色块语言，系统字体。*
 
-所有标题（section 标题、页面标题）使用 `# 标题文字` 格式。`#` 用蓝色，标题文字用正文色。
+待定。
 
-```html
-<h2><span class="title-accent">#</span> 部门介绍</h2>
-```
+## 1. 色彩系统 🟡
 
-### 按钮
+用户指令（2026-09-20）：**页面整体改为黑色背景，主题色改为科技蓝**。以下 token 已在 `src/style.css` 落地，全站组件已迁移完毕。
 
-两种按钮变体，直角（`border-radius: 0`），无阴影、无发光、无渐变。
+### 1.1 色板
 
-**实心按钮**（导航栏 CTA）：
-- 蓝色实心填充（`#5CB8D9`）
-- 白色文字
-- Hover：黑色（`#04080C`）从左侧滑切填入
+| Token | 色值 | 用途 |
+|-------|------|------|
+| `--color-bg` | `#000000` | 页面背景：纯黑 |
+| `--color-surface` | `#0a0e14` | 深色面板：导航栏、页脚、代码块、内容面板、弹窗 |
+| `--color-line` | `#1e293b` | 细线：分隔线、背景网格、表格边框、加载轨道 |
+| `--color-primary` | `#3b82f6` | 科技蓝：色块、卡片边框、标题 `#` 前缀、名称、链接基色 |
+| `--color-primary-bright` | `#60a5fa` | 亮科技蓝：hover 滑切填充、小号元信息（日期）、行内代码文字 |
+| `--color-primary-dim` | `#0d1b2e` | 暗蓝面板：行内代码背景、blockquote 背景 |
+| `--color-text` | `#e5e7eb` | 正文 |
+| `--color-heading` | `#ffffff` | 标题 |
+| `--color-white` | `#ffffff` | 深底/彩底上的文字 |
+| `--color-on-primary` | `#04080c` | 蓝色填充上的文字 |
 
-**镂空按钮**（Hero 区按钮、安全部主页链接等）：
-- 页面底色填充（无背景图案时 `transparent`；有背景图案时用页面底色实心填充，如 Hero 面用 `#FFFFFF`）+ `2px` 青色边框
-- 正文色文字
-- Hover：青色从左侧滑切填入，边框与填充同色融入，文字变白
+### 1.2 语义分配
 
-**色块滑切动画**：`::before` 伪元素 `transform: translateX(-100%) → 0`，`transition: transform 0.3s ease`。
+- **背景层**：页面用 `--color-bg`；卡片为黑底 + `--color-primary` 2px 直角边框；面板型容器（导航/页脚/Markdown 容器/iframe 弹窗）用 `--color-surface`
+- **强调层**：标题 `#` 前缀、人名/项目名、链接基色用 `--color-primary`；小号元信息与 Markdown 行内代码文字用 `--color-primary-bright`
+- **交互态**：hover 统一为 `--color-primary-bright` 填充（滑切或整体变色），其上文字一律 `--color-on-primary`（近黑）；卡片内嵌小按钮 hover 时可反转为黑底白字
+- **细节线**：分隔线、表格边框、面板内 divider 用 `--color-line`
+- **明暗模式**：仅暗色，`color-scheme: dark`；代码高亮用 `github-dark.css`
+- **例外保留色**（数据驱动，不纳入 token）：奖项等级金银铜（`awardLevelColors`）、展廊分类标签（金 `#fbbf24` / 粉 `#f472b6`）、GitHub 语言色点、成员自定义 `themeColor`
 
-### 边框系统
+### 1.3 旧变量迁移对照（已全部完成，旧变量已删除）
 
-镂空元素（透明底 + 边框承载视觉重量）统一使用 `2px` 边框。实心元素和 MD 渲染内部保持 `1px`。
+| 旧 token | 新去向 |
+|----------|--------|
+| `--color-gray` | 页面 → `--color-bg`；面板/卡片底 → `--color-surface` 或黑底+边框 |
+| `--color-cyan` | 边框 → `--color-primary`；hover 填充 → `--color-primary-bright`；细分隔线 → `--color-line` |
+| `--color-blue` | 文字强调 → `--color-primary`；小号元信息 → `--color-primary-bright` |
+| `--color-black` | → `--color-bg` / `rgba(0,0,0,…)` |
+| `--color-light-cyan` | → `--color-primary-dim` |
+| `--color-white`（蓝/青底上） | → `--color-on-primary`（黑底上保留 `--color-white`） |
 
-| 类别 | 边框 |
-|------|------|
-| 镂空按钮 | 2px `#4DB8B6` |
-| 内容容器 | 2px `#4DB8B6` |
-| 部门卡片右区 | 2px `#4DB8B6` |
-| 图标框、等级标签、筛选标签 | 2px，各自颜色 |
-| 导航栏下拉菜单 | 1px（实心深底元素，不动） |
-| 页脚上边框 | 1px（实心深底元素，不动） |
-| MD 表格/code 等 | 1px |
-| Blockquote 左边线 | 4px `#4DB8B6` + 背景 `#D5ECEA` |
+## 2. 字体排印 ⬜
 
-### 内容容器
+待定。需确定：
 
-- `2px` 直角边框（青色）
-- 透明底
-- 无圆角，无阴影
+- 字体族（系统栈 / 第三方字体，中文与西文、等宽体的选择）
+- 字号层级（正文、各级标题、辅助文字）
+- 字重与行高策略
 
-### 卡片内部元素 hover
+## 3. 形状与边框 🟡
 
-内容容器 hover 变为青色实心块时，边框与填充同色融入（2px 保留）。内部带边框的子元素以自身边框色填充为实心色块（`transition: background-color 0.2s ease`，非滑切）。若填充色与卡片底色相同，边框切换为白色。
+用户指令（2026-09-20）：**整个项目的直角卡片/按钮等都改成圆角**。以下 token 已在 `src/style.css` 落地，全站已迁移。
 
-此规则适用于：图标框、等级标签、人员标签、头像框、语言标签、分类标签等。获奖等级标签（金/银/铜/省）填充后保留各自颜色，白色文字可读。
+### 3.1 圆角 token
 
-### 部门卡片
+| Token | 值 | 用途 |
+|-------|-----|------|
+| `--radius-sm` | `8px` | 标签、徽章、行内代码、图标框（timeline/award icon）、页脚条目 |
+| `--radius-md` | `12px` | 提示框（cms-notice/empty）、代码块、Bilibili 卡片、灯箱图片、64px 图标框 |
+| `--radius-lg` | `16px` | 卡片（项目/获奖/留言/成员/展廊/学习方向/部门复合卡）、内容面板、弹窗 |
+| `--radius-pill` | `999px` | 全部按钮（CTA/滑切链接/筛选/返回/重试）、导航栏药丸形态 |
 
-全宽横排布局，左右分区：
-- **左区**：实心色块（蓝/青交替：多媒体蓝、软件青、硬件蓝、组织青、安全蓝），图标 + 部门名（黑色文字），无动效
-- **右区**：`2px` 青色边框 + 透明底，正文色段落文字
+### 3.2 附加规则
 
-## 动效策略
+- **头像一律圆形**（`border-radius: 50%`）：成员墙 64px、项目作者 40/44px、竞赛作者 36px，与导航栏 logo 一致
+- **语言色点、加载 spinner 圆形化**
+- **边框**：维持 2px `--color-primary` 描边语言不变，仅叠圆角
+- **表格暂不圆角**（圆角表格需重构边框模型，留待后续决定）
+- 部门复合卡（左色块 + 右描边）：圆角加在容器 `.department-card` 上并 `overflow: hidden` 裁剪子区
 
-- **零页面装饰动效**：无 ScrollFadeIn、无路由过渡动画、无背景渐变
-- **仅保留交互反馈**：按钮/可点击卡片 hover 色块滑切
-- 尊重 `prefers-reduced-motion`
+## 4. 阴影与深度 🟡
 
-## 面与面
+已落地（2026-09-20，随导航栏玻璃化）：
 
-五个面之间不设分隔线或装饰。用大量纵向留白（padding-top/bottom ≥ 10vh）建立自然呼吸感。`# ` 标题是唯一的视觉锚点。
+- **磨砂玻璃**（backdrop-blur + 半透明底 + 描边 + 阴影）仅用于**悬浮层**：导航栏、桌面下拉菜单、移动端菜单面板。配方：`rgba(10,14,20,0.66~0.88)` + `blur(20px) saturate(150%)` + 1px `rgba(59,130,246,0.35)` 描边 + `0 12px 32px rgba(0,0,0,0.45)` 阴影
+- **常规内容卡片不加阴影**，层级仍靠边框 + hover 填充表达
+- 灯箱/iframe 弹窗遮罩：`rgba(0,0,0,0.95)`，内容面板维持 surface + 边框（无玻璃）
 
-- Hero 面（第一面）：白色背景 `#FFFFFF`，叠加 `#D0D0D0` 虚线方格（120px 间距，SVG pattern）
-- 其余面：灰色背景 `#EEEEEE`
+### 4.1 导航栏两态规格（`AppNavbar.vue`）
 
-## 导航栏 & 页脚
+| 属性 | 初始态（页面顶部） | 滚动态（scrollY > 24px） |
+|------|------------------|------------------------|
+| 定位 | 吸附顶部 `top: 0` | 脱离顶部 `top: 16px` |
+| 宽度 | 100% 通栏 | `min(calc(100% - 32px), 1080px)` 居中 |
+| 形态 | 长方形（radius 0） | 药丸（`--radius-pill`） |
+| 内边距 | 16px 24px | 10px 四边等大（右侧按钮边距 = 上下边距） |
+| 背景 | 玻璃 `rgba(10,14,20,0.72)` | 玻璃 `rgba(10,14,20,0.66)` |
+| 边框 | 仅底边 `--color-line` | 四边 `rgba(59,130,246,0.35)` + 阴影 |
+| 过渡 | width/top/padding/radius/border/background/shadow 0.4s ease | — |
 
-- 深底纯色块（`#04080C`），`position: fixed` 置顶
-- 向下滚动时导航栏自动隐藏（`translateY(-100%)`），向上滚动时重新显示，阈值 40px
-- 过渡动画 `transform 0.2s ease`
-- 白色文字，蓝色 hover
-- `z-index: 100`
-- 下拉菜单：深底 + 蓝色边框 + 白色文字，与导航项无间隙（margin 归零避免 mouseleave 误触发）
+- 状态源：`useNavbarScroll()` 仅返回 `isScrolled`（阈值 24px）。上滑自动隐藏行为已按用户要求取消（2026-09-20），导航栏常驻
+- Logo 区（图片 + 文字）：无 hover 效果、图片无描边、无内边距（内容紧贴药丸内边距）（2026-09-20 按用户要求移除）
+- **内容与边框动画同步**：`.navbar-container` 必须 `width: 100%` 跟随导航栏本体插值；禁止 `max-width` 居中——否则内容在宽度动画过半后才开始移动，与边框不同步（2026-09-20 修复）
+- 移动端菜单改为**悬浮玻璃面板**（absolute 定位于导航栏下方 12px，圆角 lg），不再贴边
+- 桌面下拉菜单规格（2026-09-20 定稿）：
+  - 定位 `top: calc(100% + 16px)`，完全落在导航栏底部边框区之下，不与导航栏重叠
+  - 用 `.dropdown-menu::before` 造一段 16px 的**不可见 hover 桥**覆盖「导航项 → 菜单」空隙，避免鼠标移经空隙时触发 `mouseleave` 导致菜单提前消失
+  - **关键坑（2026-09-20）**：`backdrop-filter` 必须长在导航栏的兄弟层 `.navbar-glass` 上，而不是 `.navbar` 本身——祖先带 backdrop-filter 会形成 backdrop root，导致后代（下拉/移动菜单）的模糊只能采样已处理内容、失去玻璃感。玻璃层独立后，下拉/移动菜单的模糊才真正作用于页面。背景透明度取 `0.72` 与导航栏同档
 
-## 子页面
+### 4.2 滑切按钮箭头交互（2026-09-20 定稿）
 
-路由子页面（方向详情、获奖情况、项目活动、畅心所言、项目展廊）统一使用灰底（`#EEEEEE`），其余设计语言不变：
-- `# ` 标题前缀
-- `2px` 直角边框内容容器
-- 按钮统一使用上述两种变体
-- 无毛玻璃
+全站滑切式按钮（`::before` 色块滑切家族）统一 hover 箭头效果——**箭头与文字作为整体居中**：
+
+- `::after` 生成 `→`，作为**流内 flex 项**（`order: -1` 置于最左），不用绝对定位
+- 静止态：`width: 0` + `margin-left: -8px`（抵消容器 gap 占位），布局与无箭头时逐像素一致
+- hover 态：`width: 0 → 1em`、`margin-left: -8px → 0` 双过渡（同为 0.3s ease，合成单一缓动曲线）；自适应宽度的按钮随之增宽 22px，箭头从左侧展开，箭头+文字始终整体居中
+- 容器必须 `gap: 8px`（单子元素按钮也补齐）+ `justify-content: center`
+- 固定宽度按钮（`hero-button` 140px）内容盒需容纳 +22px：水平内边距改为 12px
+- 应用范围：`navbar-cta`（水平内边距 32px，按用户要求加宽）、`navbar-mobile-cta`、`hero-button`、`direction-link`、`department-link`（OrganizeView + DepartmentsSection）、`member-link-btn`、`github-link-button`
+
+### 4.3 按钮文字颜色规则（2026-09-20 定稿）
+
+- **所有按钮文字一律白色**（`--color-white`），静止与 hover 均不变黑。覆盖：导航 CTA（桌面/移动）、滑切按钮、返回按钮、重试按钮、展廊筛选、灯箱控制、iframe 访问按钮、页脚链接条目、`.btn-solid`
+- hover 层次仅靠背景表达：填充 `--color-primary` → `--color-primary-bright`（或 `::before` 滑切）
+- 卡片 hover 的整体反色（内容文字变 `--color-on-primary` 深色）属**卡片语言**，不属于按钮规则，保留
+
+## 5. 动效系统 ⬜
+
+待定。需确定：装饰动效（滚动入场、路由过渡）是否引入；交互反馈形式；时长与缓动曲线。
+
+## 6. 签名元素 ⬜
+
+待定。需确定一个贯穿全站的识别性元素（旧版为标题的 `# ` Markdown 语法前缀）。
+
+## 7. 组件规范 ⬜
+
+待定。覆盖组件见下方「UI 覆盖清单」。每个组件确定：变体、状态、尺寸、内边距。
+
+## 8. 页面级规格 ⬜
+
+待定。逐页面规格，顺序建议：主页面 → 高频子页面 → 长尾子页面。
+
+## 9. 响应式策略 ⬜
+
+待定。需确定：断点集合、移动端导航形态、布局降级原则。
+
+---
+
+## UI 覆盖清单（重构范围）
+
+重构完成的标准：以下每一项都打上 ✔。
+
+### 全局框架
+
+| 项 | 文件 | 状态 |
+|----|------|------|
+| 全局样式与 CSS 变量 | `src/style.css` | ✔ |
+| 导航栏 | `src/components/AppNavbar.vue` | ✔ |
+| 页脚 | `src/components/AppFooter.vue` | ✔ |
+| 返回按钮 | `src/components/BackButton.vue` | ✔ |
+
+### 主页面（三面滚动，`src/App.vue`）
+
+| 项 | 文件 | 状态 |
+|----|------|------|
+| 第一面 · 主视觉 | `src/components/HeroSection.vue` | ✔ |
+| 背景色带组件 | `src/components/ColorBends.vue`（three.js WebGL） | ✔ |
+
+**Hero 背景规格（2026-09-20 定稿）**：
+- ColorBends（移植自 vue-bits / react-bits 公开源码）铺满首屏，色带直达浏览器顶部
+- 参数：单色 `#3b82f6`（= `--color-primary`）、speed 0.5、bandWidth 6、intensity 1.2、noise 0、rotation 90
+- 底部过渡：`.hero-bends` 加 `mask-image: linear-gradient(to bottom, black 60%, transparent 100%)`，色带在首屏下部 40% 渐隐，与下一屏纯黑背景无缝衔接
+- **版本坑（重要）**：vue-bits / react-bits **首页**用的是未公开的 v2 组件（API 为单数 `color` + `fadeTop` + `bandWidth` 取 0~1 小值），其 shader 从未发布到仓库；公开版 API 是 `colors: string[]`、无 `fadeTop`、`bandWidth` 默认 6。两版公式不同，**把 v2 参数喂给公开版公式会渲染成均匀淡雾**而非光带。如需首页同款柔和光晕效果，需自研 shader，不能靠参数复刻
+| 第二面 · 学习方向 | `src/components/LearningDirectionsSection.vue` | ✔ |
+| 第三面 · 加入我们（招新时间线） | `src/components/RecruitmentSection.vue` | ✔ |
+
+### 子页面（7 个路由）
+
+| 项 | 文件 | 状态 |
+|----|------|------|
+| 方向页面（Markdown 渲染体系） | `src/views/DirectionView.vue` | ✔ |
+| 项目活动 | `src/views/ProjectsView.vue` | ✔ |
+| 近年获奖 | `src/views/AwardsView.vue` | ✔ |
+| 畅心所言 | `src/views/CommentsView.vue` | ✔ |
+| 项目展廊 | `src/views/GalleryView.vue` | ✔ |
+| 组织架构 | `src/views/OrganizeView.vue` | ✔ |
+| 成员墙 | `src/views/MembersView.vue` | ✔ |
+
+### 业务组件
+
+| 项 | 文件 | 状态 |
+|----|------|------|
+| 项目卡片 | `src/components/ProjectCard.vue` | ✔ |
+| 竞赛项目卡片 | `src/components/CompetitionProjectCard.vue` | ✔ |
+| Markdown 正文样式（`.markdown-body`，含表格/code/blockquote） | `src/views/DirectionView.vue` 内 | ✔ |
+
+> 2026-09-20 色彩迁移完成：全站已无旧变量（`--color-cyan` 等），format + lint 通过。
+> 2026-09-20 圆角迁移完成：全站卡片/按钮/标签/头像按 §3 token 圆角化，导航栏落地 §4.1 两态玻璃药丸规格，format + lint 通过。上表 ✔ 指**暗色科技蓝换色 + 圆角化落地**；字体排印、动效等其他维度重构时逐项重开。
+
+### 待处置项（重构中一并决定去留）
+
+- `src/components/DepartmentsSection.vue` — 无任何页面引用（死代码），部门介绍实际由组织架构页承载；本轮已同步换色以保持一致，去留待定
+- `src/components/HelloWorld.vue`、`src/assets/vue.svg`、`src/assets/vite.svg` — 脚手架残留
+
+---
+
+## 工作流
+
+每一轮重构的节奏：
+
+1. 用户提出某一维度的风格方向（可附参考图 / 参考站点）
+2. 我输出该维度的规范草案（含 token 定义与示例），写入本文档，状态 🟡
+3. 用户确认或修正 → ✅
+4. 落地代码：先全局 tokens（`src/style.css`），再组件，再页面
+5. 跑质量门禁 `pnpm run format && pnpm run lint`，更新覆盖清单状态 ✔
+
+### 硬约束（重构全程有效）
+
+- 类名语义化，禁止使用 Figma 图层名（如 `Frame7`）
+- 文字垂直居中必须显式处理（flex 居中或等效 line-height），不依赖默认行为
+- 除非用户明确要求，不主动跑 build 验证
+- 禁止批量删除文件；删除死代码时逐个文件操作并先行告知
+
+## 与其他文档的关系
+
+- [CONTEXT.md](./CONTEXT.md) — 领域术语表，重构中命名（类名、组件名）须与其对齐
+- [docs/spec.md](./docs/spec.md) — 页面功能与数据规格；其**视觉部分**在重构期以本文档为准，功能与数据规格继续有效
+- [docs/design-legacy.md](./docs/design-legacy.md) — 旧版设计语言归档

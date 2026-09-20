@@ -4,7 +4,7 @@ import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+import 'highlight.js/styles/github-dark.css'
 import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
 
@@ -117,7 +117,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 <style scoped>
 .direction-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -139,8 +139,9 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--color-black);
-  border-top-color: var(--color-blue);
+  border: 3px solid var(--color-line);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
 }
@@ -154,9 +155,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .retry-button {
   margin-top: 16px;
   padding: 10px 24px;
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
   border: none;
+  border-radius: var(--radius-pill);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -164,13 +166,14 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .retry-button:hover {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
 }
 
 .markdown-content {
   position: relative;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 40px;
 }
 
@@ -181,11 +184,11 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   margin: 0 0 32px 0;
   padding-top: 4px;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--color-cyan);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .markdown-body {
@@ -201,16 +204,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(h2) {
   font-size: 24px;
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
   margin: 32px 0 16px 0;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-cyan);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .markdown-body :deep(h3) {
   font-size: 20px;
   font-weight: 600;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   margin: 24px 0 12px 0;
 }
 
@@ -219,12 +222,12 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(a) {
-  color: var(--color-blue);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
 .markdown-body :deep(a:hover) {
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
   text-decoration: underline;
 }
 
@@ -260,16 +263,18 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(code) {
-  background: var(--color-light-cyan);
+  background: var(--color-primary-dim);
   padding: 2px 6px;
+  border-radius: var(--radius-sm);
   font-family: var(--mono);
   font-size: 14px;
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
 }
 
 .markdown-body :deep(pre) {
-  background: #e8e8e8;
-  border: 1px solid var(--color-cyan);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
   padding: 16px;
   overflow-x: auto;
   margin: 16px 0;
@@ -281,15 +286,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(blockquote) {
-  border-left: 4px solid var(--color-cyan);
+  border-left: 4px solid var(--color-primary);
   margin: 16px 0;
   padding: 8px 16px;
-  background: var(--color-light-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-dim);
 }
 
 .markdown-body :deep(hr) {
   border: none;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
   margin: 32px 0;
 }
 
@@ -302,21 +308,22 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(th),
 .markdown-body :deep(td) {
   padding: 12px 16px;
-  border: 1px solid var(--color-cyan);
+  border: 1px solid var(--color-line);
   text-align: left;
 }
 
 .markdown-body :deep(th) {
-  background: var(--color-gray);
+  background: var(--color-surface);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 /* ---- Bilibili 视频卡片 ---- */
 .markdown-body :deep(.bilibili-card) {
   margin: 24px 0;
-  border: 1px solid var(--color-cyan);
-  background: var(--color-black);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   overflow: hidden;
 }
 
@@ -339,15 +346,15 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   display: block;
   padding: 8px 16px;
   font-size: 13px;
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
   text-decoration: none;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
   transition: background-color 0.2s ease;
 }
 
 .markdown-body :deep(.bilibili-link:hover) {
-  background: var(--color-gray);
-  color: var(--color-blue);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 @media (max-width: 768px) {

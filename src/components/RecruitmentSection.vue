@@ -74,7 +74,7 @@ const introParagraphs = [
   align-items: center;
   justify-content: center;
   padding: 10vh 20px;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 .recruitment-container {
@@ -95,7 +95,7 @@ const introParagraphs = [
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .recruitment-content {
@@ -145,18 +145,19 @@ const introParagraphs = [
   width: 44px;
   height: 44px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .timeline-line {
   width: 2px;
   flex: 1;
   min-height: 40px;
-  background: var(--color-cyan);
+  background: var(--color-primary);
   margin-top: 8px;
 }
 
@@ -192,20 +193,21 @@ const introParagraphs = [
   flex-direction: column;
   gap: 20px;
   padding: 32px;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
 }
 
 .intro-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .intro-card:hover .intro-paragraph {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .intro-paragraph {

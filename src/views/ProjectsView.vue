@@ -100,7 +100,7 @@ onMounted(async () => {
 <style scoped>
 .projects-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -115,7 +115,8 @@ onMounted(async () => {
 
 .cms-notice,
 .section-empty {
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
   padding: 16px;
   color: var(--color-text);
 }
@@ -136,7 +137,7 @@ onMounted(async () => {
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .projects-subtitle {

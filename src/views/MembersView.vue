@@ -104,7 +104,7 @@ onMounted(async () => {
 <style scoped>
 .members-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -119,7 +119,8 @@ onMounted(async () => {
 
 .cms-notice,
 .empty-state {
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
   padding: 16px;
   margin-bottom: 32px;
   color: var(--color-text);
@@ -133,7 +134,7 @@ onMounted(async () => {
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .members-subtitle {
@@ -162,7 +163,7 @@ onMounted(async () => {
 }
 
 .section-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .members-grid {
@@ -172,8 +173,9 @@ onMounted(async () => {
 }
 
 .member-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 24px;
   display: flex;
   gap: 20px;
@@ -183,15 +185,15 @@ onMounted(async () => {
 }
 
 .member-card:hover {
-  background-color: var(--member-theme, var(--color-cyan));
-  border-color: var(--member-theme, var(--color-cyan));
+  background-color: var(--member-theme, var(--color-primary-bright));
+  border-color: var(--member-theme, var(--color-primary-bright));
 }
 
 .member-card:hover .member-nickname,
 .member-card:hover .member-meta,
 .member-card:hover .member-motto,
 .member-card:hover .member-avatar-placeholder {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .member-card:hover .member-link-btn {
@@ -200,8 +202,8 @@ onMounted(async () => {
 }
 
 .member-card:hover .member-link-btn:hover {
-  background: var(--color-black);
-  border-color: var(--color-black);
+  background: var(--color-bg);
+  border-color: var(--color-bg);
   color: var(--color-white);
 }
 
@@ -218,7 +220,8 @@ onMounted(async () => {
   width: 64px;
   height: 64px;
   overflow: hidden;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
 }
 
 .member-avatar {
@@ -234,7 +237,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 /* 信息区 */
@@ -249,12 +252,12 @@ onMounted(async () => {
 .member-nickname {
   font-size: 18px;
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0;
 }
 
 .member-card:hover .member-nickname {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .member-meta {
@@ -266,11 +269,11 @@ onMounted(async () => {
 
 .meta-sep {
   margin: 0 6px;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .member-card:hover .meta-sep {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .member-motto {
@@ -291,11 +294,13 @@ onMounted(async () => {
 .member-link-btn {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-text);
-  border: 2px solid var(--color-cyan);
+  color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -306,7 +311,7 @@ onMounted(async () => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -316,13 +321,32 @@ onMounted(async () => {
   transform: translateX(0);
 }
 
-.member-link-btn:hover {
-  color: var(--color-white);
-}
-
 .member-link-btn > * {
   position: relative;
   z-index: 1;
+}
+
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.member-link-btn::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.member-link-btn:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
 }
 
 @media (max-width: 768px) {

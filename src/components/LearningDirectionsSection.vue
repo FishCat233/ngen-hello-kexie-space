@@ -97,7 +97,7 @@ const securityWebsite = 'https://hjsec.github.io'
           rel="noopener noreferrer"
           class="direction-link"
         >
-          <span>→ 安全部主页</span>
+          <span>安全部主页</span>
         </a>
       </div>
     </div>
@@ -112,7 +112,7 @@ const securityWebsite = 'https://hjsec.github.io'
   align-items: center;
   justify-content: center;
   padding: 10vh 20px;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 .learning-container {
@@ -133,7 +133,7 @@ const securityWebsite = 'https://hjsec.github.io'
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .direction-group {
@@ -155,12 +155,14 @@ const securityWebsite = 'https://hjsec.github.io'
 .direction-link {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   margin-top: 16px;
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-text);
-  border: 2px solid var(--color-cyan);
+  color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -171,7 +173,7 @@ const securityWebsite = 'https://hjsec.github.io'
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -181,13 +183,32 @@ const securityWebsite = 'https://hjsec.github.io'
   transform: translateX(0);
 }
 
-.direction-link:hover {
-  color: var(--color-white);
-}
-
 .direction-link > * {
   position: relative;
   z-index: 1;
+}
+
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.direction-link::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.direction-link:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
 }
 
 .learning-grid {
@@ -203,8 +224,9 @@ const securityWebsite = 'https://hjsec.github.io'
   flex-direction: column;
   align-items: center;
   padding: 32px 20px;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   cursor: pointer;
   flex: 0 1 calc(25% - 18px);
   max-width: 280px;
@@ -217,7 +239,7 @@ const securityWebsite = 'https://hjsec.github.io'
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -228,7 +250,7 @@ const securityWebsite = 'https://hjsec.github.io'
 }
 
 .learning-card:hover {
-  border-color: var(--color-cyan);
+  border-color: var(--color-primary);
 }
 
 .learning-icon {
@@ -238,14 +260,14 @@ const securityWebsite = 'https://hjsec.github.io'
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   position: relative;
   z-index: 1;
   transition: color 0.3s ease;
 }
 
 .learning-card:hover .learning-icon {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .learning-name {
@@ -260,7 +282,7 @@ const securityWebsite = 'https://hjsec.github.io'
 }
 
 .learning-card:hover .learning-name {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 @media (max-width: 1024px) {

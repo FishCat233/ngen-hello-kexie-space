@@ -55,8 +55,9 @@ const avatarError = ref(false)
 
 <style scoped>
 .project-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 24px;
   cursor: pointer;
   transition:
@@ -65,28 +66,28 @@ const avatarError = ref(false)
 }
 
 .project-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .project-card:hover .project-name,
 .project-card:hover .project-description,
 .project-card:hover .author-name,
 .project-card:hover .language-name {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .project-card:hover .author-avatar-wrapper {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
 }
 
 .project-card:hover .author-avatar-placeholder {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .project-card:hover .project-language {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
 }
 
@@ -102,7 +103,8 @@ const avatarError = ref(false)
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -121,7 +123,7 @@ const avatarError = ref(false)
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   transition: color 0.2s ease;
 }
 
@@ -149,7 +151,7 @@ const avatarError = ref(false)
   gap: 8px;
   font-size: 18px;
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0 0 8px 0;
 }
 
@@ -178,7 +180,8 @@ const avatarError = ref(false)
   gap: 6px;
   padding: 6px 12px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -187,6 +190,7 @@ const avatarError = ref(false)
 .language-dot {
   width: 10px;
   height: 10px;
+  border-radius: 50%;
 }
 
 .language-name {

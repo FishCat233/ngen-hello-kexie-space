@@ -147,8 +147,8 @@ onUnmounted(() => {
 <style scoped>
 .footer {
   width: 100%;
-  background: var(--color-black);
-  border-top: 1px solid var(--color-cyan);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-primary);
   margin-top: auto;
 }
 
@@ -174,7 +174,7 @@ onUnmounted(() => {
 .footer-title {
   font-size: 14px;
   font-weight: 500;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0;
 }
 
@@ -189,6 +189,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--color-white);
   text-decoration: none;
@@ -198,18 +199,18 @@ onUnmounted(() => {
 }
 
 .footer-link-item:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .footer-link-item:hover .footer-link-icon {
-  color: var(--color-black);
+  color: var(--color-white);
 }
 
 .footer-link-icon {
   width: 14px;
   height: 14px;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .footer-link-text {
@@ -228,11 +229,12 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
+  border-radius: var(--radius-sm);
 }
 
 .footer-info-label {
   font-size: 12px;
-  color: var(--color-blue);
+  color: var(--color-primary);
   font-weight: 400;
 }
 
@@ -248,28 +250,28 @@ onUnmounted(() => {
 }
 
 .footer-info-link:hover {
-  background: var(--color-blue);
+  background: var(--color-primary);
 }
 
 .footer-info-link:hover .footer-info-label,
 .footer-info-link:hover .footer-info-value,
 .footer-info-link:hover .footer-info-icon {
-  color: var(--color-black);
+  color: var(--color-white);
 }
 
 .footer-info-icon {
   width: 12px;
   height: 12px;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .kexie-duration .footer-info-value {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .footer-bottom {
   padding-top: 12px;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-primary);
   text-align: center;
 }
 

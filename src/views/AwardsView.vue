@@ -64,7 +64,7 @@ import BackButton from '../components/BackButton.vue'
 <style scoped>
 .awards-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -85,7 +85,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .awards-subtitle {
@@ -102,8 +102,9 @@ import BackButton from '../components/BackButton.vue'
 
 .award-card {
   position: relative;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 16px;
   transition:
     background-color 0.2s ease,
@@ -111,25 +112,25 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .award-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .award-card:hover .award-name,
 .award-card:hover .level-name,
 .award-card:hover .people-header,
 .award-card:hover .person-tag {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .award-card:hover .level-count {
-  color: var(--color-white) !important;
+  color: var(--color-on-primary) !important;
 }
 
 .award-card:hover .award-icon {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .award-card:hover .award-level {
@@ -141,7 +142,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .award-card:hover .person-tag {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
 }
 
@@ -164,8 +165,9 @@ import BackButton from '../components/BackButton.vue'
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
   flex-shrink: 0;
   transition:
     background-color 0.2s ease,
@@ -204,6 +206,7 @@ import BackButton from '../components/BackButton.vue'
   padding: 6px 10px;
   background: transparent;
   border: 2px solid;
+  border-radius: var(--radius-sm);
   min-width: 48px;
   transition: background-color 0.2s ease;
 }
@@ -220,7 +223,7 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .award-people {
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
   padding-top: 12px;
 }
 
@@ -242,7 +245,8 @@ import BackButton from '../components/BackButton.vue'
 .person-tag {
   padding: 3px 8px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   font-size: 12px;
   color: var(--color-text);
   transition:

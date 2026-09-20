@@ -168,7 +168,7 @@ onMounted(() => {
 <style scoped>
 .comments-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -189,8 +189,9 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
   margin: 0 auto 20px;
 }
 
@@ -202,7 +203,7 @@ onMounted(() => {
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .comments-subtitle {
@@ -226,8 +227,9 @@ onMounted(() => {
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--color-black);
-  border-top-color: var(--color-blue);
+  border: 3px solid var(--color-line);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
@@ -240,23 +242,22 @@ onMounted(() => {
 .retry-button {
   padding: 8px 16px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  color: var(--color-white);
   font-size: 14px;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .retry-button:hover {
-  background: var(--color-cyan);
-  color: var(--color-white);
+  background: var(--color-primary-bright);
 }
 
 .github-link {
   padding: 10px 20px;
-  background: var(--color-blue);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
@@ -265,7 +266,7 @@ onMounted(() => {
 }
 
 .github-link:hover {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
 }
 
 .comments-list {
@@ -276,8 +277,9 @@ onMounted(() => {
 }
 
 .comment-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 20px;
   cursor: pointer;
   break-inside: avoid;
@@ -287,8 +289,8 @@ onMounted(() => {
 }
 
 .comment-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .comment-card:hover,
@@ -297,13 +299,13 @@ onMounted(() => {
 .comment-card:hover .comment-body,
 .comment-card:hover .comment-body :deep(*),
 .comment-card:hover .comment-body :deep(a) {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .comment-card:hover .comment-body :deep(code),
 .comment-card:hover .comment-body :deep(pre) {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--color-on-primary);
 }
 
 .comment-content-wrapper {
@@ -327,7 +329,8 @@ onMounted(() => {
   height: 44px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
 }
 
 .author-avatar {
@@ -343,7 +346,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .author-info {
@@ -355,7 +358,7 @@ onMounted(() => {
 .author-name {
   font-size: 15px;
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .comment-time {
@@ -378,15 +381,17 @@ onMounted(() => {
 }
 
 .comment-body :deep(code) {
-  background: var(--color-light-cyan);
+  background: var(--color-primary-dim);
   padding: 2px 6px;
+  border-radius: var(--radius-sm);
   font-family: var(--mono);
   font-size: 13px;
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
 }
 
 .comment-body :deep(pre) {
-  background: var(--color-gray);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
   padding: 12px;
   overflow-x: auto;
   margin: 12px 0;
@@ -398,7 +403,7 @@ onMounted(() => {
 }
 
 .comment-body :deep(a) {
-  color: var(--color-blue);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -417,10 +422,11 @@ onMounted(() => {
 }
 
 .comment-body :deep(blockquote) {
-  border-left: 4px solid var(--color-cyan);
+  border-left: 4px solid var(--color-primary);
   margin: 12px 0;
   padding: 8px 12px;
-  background: var(--color-light-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-dim);
 }
 
 .comment-body :deep(h1),
@@ -430,7 +436,7 @@ onMounted(() => {
 .comment-body :deep(h5),
 .comment-body :deep(h6) {
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
   margin: 16px 0 8px 0;
 }
 
@@ -487,7 +493,8 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: var(--color-blue);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
@@ -500,14 +507,10 @@ onMounted(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-white);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
-}
-
-.github-link-button:hover {
-  color: var(--color-black);
 }
 
 .github-link-button:hover::before {
@@ -517,6 +520,29 @@ onMounted(() => {
 .github-link-button > * {
   position: relative;
   z-index: 1;
+}
+
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.github-link-button::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.github-link-button:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
 }
 
 @media (max-width: 1024px) {

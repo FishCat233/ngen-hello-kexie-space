@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ColorBends from './ColorBends.vue'
+
 const buttons = [
   {
     id: 'qq-group',
@@ -29,6 +31,18 @@ const buttons = [
 
 <template>
   <section class="hero-section">
+    <ColorBends
+      class="hero-bends"
+      color="#3b82f6"
+      :speed="0.5"
+      :frequency="1.0"
+      :noise="0"
+      :band-width="6"
+      :rotation="90"
+      :iterations="1"
+      :intensity="1.2"
+    />
+
     <div class="hero-content">
       <!-- 标题：# 前缀模式 -->
       <h1 class="hero-title"><span class="title-accent">#</span> 桂电三院科协</h1>
@@ -117,11 +131,21 @@ const buttons = [
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: #f5f5f5;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48bGluZSB4MT0iMTIwIiB5MT0iMCIgeDI9IjEyMCIgeTI9IjEyMCIgc3Ryb2tlPSIjRDBEMEQwIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjxsaW5lIHgxPSIwIiB5MT0iMTIwIiB4Mj0iMTIwIiB5Mj0iMTIwIiBzdHJva2U9IiNEMEQwRDAiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNCA0Ii8+PC9zdmc+');
+  background-color: var(--color-bg);
+}
+
+/* 顶部背景：ColorBends 流动色带，铺满整个首屏直达浏览器顶部；
+   底部用 mask 渐隐到透明，与下一屏纯黑背景平滑过渡 */
+:deep(.hero-bends) {
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .hero-content {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 800px;
   padding: 0 40px;
@@ -149,7 +173,7 @@ const buttons = [
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 @media (max-width: 1024px) {
@@ -191,10 +215,11 @@ const buttons = [
   justify-content: center;
   gap: 8px;
   width: 140px;
-  padding: 12px 16px;
-  border: 2px solid var(--color-cyan);
-  background: #f5f5f5;
-  color: var(--color-text);
+  padding: 12px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -210,7 +235,7 @@ const buttons = [
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -220,13 +245,32 @@ const buttons = [
   transform: translateX(0);
 }
 
-.hero-button:hover {
-  color: var(--color-white);
-}
-
 .hero-button > * {
   position: relative;
   z-index: 1;
+}
+
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.hero-button::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.hero-button:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
 }
 
 .hero-button-icon {

@@ -90,8 +90,9 @@ const competitionLabel = computed(() => {
 
 <style scoped>
 .competition-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   padding: 24px;
   transition:
     background-color 0.2s ease,
@@ -103,14 +104,14 @@ const competitionLabel = computed(() => {
 }
 
 .competition-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .competition-card:hover .project-name,
 .competition-card:hover .project-description,
 .competition-card:hover .author-name {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .competition-card:hover .avatar-wrapper {
@@ -118,13 +119,13 @@ const competitionLabel = computed(() => {
 }
 
 .competition-card:hover .avatar-fallback {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .competition-card:hover .competition-tag {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .card-author {
@@ -144,7 +145,8 @@ const competitionLabel = computed(() => {
   height: 36px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
   position: relative;
   transition: border-color 0.2s ease;
 }
@@ -162,7 +164,7 @@ const competitionLabel = computed(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   transition: color 0.2s ease;
 }
 
@@ -170,7 +172,7 @@ const competitionLabel = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 .overflow-text {
@@ -208,7 +210,7 @@ const competitionLabel = computed(() => {
   gap: 8px;
   font-size: 18px;
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0 0 8px 0;
 }
 
@@ -234,7 +236,8 @@ const competitionLabel = computed(() => {
 .competition-tag {
   padding: 6px 12px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: 500;
   color: var(--color-text);

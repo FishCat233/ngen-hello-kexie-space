@@ -1,19 +1,28 @@
 @import 'tailwindcss';
 
 :root {
-  /* 科协主题色 - 全实色 */
-  --color-black: #04080c;
-  --color-blue: #5cb8d9;
-  --color-cyan: #4db8b6;
-  --color-light-cyan: #d5ecea;
-  --color-white: #ffffff;
-  --color-gray: #eeeeee;
-  --color-text: #333333;
+  /* 科协暗色主题 - 科技蓝 */
+  --color-bg: #000000; /* 页面背景：纯黑 */
+  --color-surface: #0a0e14; /* 导航栏、页脚、代码块等深色面板 */
+  --color-line: #1e293b; /* 细线、网格、加载轨道 */
+  --color-primary: #3b82f6; /* 科技蓝：色块、边框、强调 */
+  --color-primary-bright: #60a5fa; /* 亮科技蓝：hover 滑切、填充 */
+  --color-primary-dim: #0d1b2e; /* 暗蓝面板：行内代码、blockquote 背景 */
+  --color-text: #e5e7eb; /* 正文 */
+  --color-heading: #ffffff; /* 标题 */
+  --color-white: #ffffff; /* 深底/彩底上的文字 */
+  --color-on-primary: #04080c; /* 蓝色填充上的文字 */
+
+  /* 圆角体系 */
+  --radius-sm: 8px; /* 标签、徽章、行内代码、图标框 */
+  --radius-md: 12px; /* 提示框、代码块、小型面板 */
+  --radius-lg: 16px; /* 卡片、内容面板、弹窗 */
+  --radius-pill: 999px; /* 按钮、药丸导航栏 */
 
   --text: var(--color-text);
-  --text-h: var(--color-text);
-  --bg: var(--color-gray);
-  --accent: var(--color-blue);
+  --text-h: var(--color-heading);
+  --bg: var(--color-bg);
+  --accent: var(--color-primary);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -21,7 +30,7 @@
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light;
+  color-scheme: dark;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -47,13 +56,13 @@ body {
 }
 
 ::selection {
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
 }
 
 ::-moz-selection {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 h1,
@@ -88,24 +97,24 @@ p {
 #app {
   width: 100%;
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 /* # 标题签名元素 */
 .section-title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
-/* 直角实色按钮基础 */
+/* 药丸实色按钮基础 */
 .btn-solid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
   border: none;
-  border-radius: 0;
-  background: var(--color-blue);
-  color: var(--color-black);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -119,7 +128,7 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -134,9 +143,9 @@ p {
   z-index: 1;
 }
 
-/* 内容容器：2px 直角边框 + 透明底 */
+/* 内容容器：边框 + 透明底 */
 .content-container {
   background: transparent;
-  border: 2px solid var(--color-blue);
-  border-radius: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
 }

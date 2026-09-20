@@ -72,7 +72,9 @@ const departments: Department[] = [
         <div v-for="(dept, index) in departments" :key="dept.id" class="department-card">
           <div
             class="department-left"
-            :style="{ background: index % 2 === 0 ? 'var(--color-blue)' : 'var(--color-cyan)' }"
+            :style="{
+              background: index % 2 === 0 ? 'var(--color-primary)' : 'var(--color-primary-bright)',
+            }"
           >
             <div class="department-icon">
               <!-- 显示器图标 - 多媒体部 -->
@@ -370,7 +372,7 @@ const departments: Department[] = [
               rel="noopener noreferrer"
               class="department-link"
             >
-              <span>→ {{ dept.website.label }}</span>
+              <span>{{ dept.website.label }}</span>
             </a>
           </div>
         </div>
@@ -387,7 +389,7 @@ const departments: Department[] = [
   align-items: center;
   justify-content: center;
   padding: 10vh 20px;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 .departments-container {
@@ -408,7 +410,7 @@ const departments: Department[] = [
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .departments-grid {
@@ -424,6 +426,8 @@ const departments: Department[] = [
   display: flex;
   flex-direction: row;
   min-height: 200px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 /* 左区 - 实心色块 */
@@ -438,20 +442,20 @@ const departments: Department[] = [
   gap: 16px;
 }
 
-/* 蓝/青色块交替 - 通过内联 style 设置 background */
+/* 科技蓝明暗色块交替 - 通过内联 style 设置 background */
 .department-left .department-icon {
   width: 64px;
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .department-left .department-name {
   font-size: 22px;
   font-weight: 600;
-  color: var(--color-white);
+  color: var(--color-on-primary);
   margin: 0;
   text-align: center;
 }
@@ -464,7 +468,7 @@ const departments: Department[] = [
 /* 右区 - 镂空边框 */
 .department-right {
   flex: 1;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
   border-left: none;
   padding: 28px;
   display: flex;
@@ -489,11 +493,13 @@ const departments: Department[] = [
 .department-link {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-text);
-  border: 2px solid var(--color-cyan);
+  color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -505,7 +511,7 @@ const departments: Department[] = [
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -515,13 +521,32 @@ const departments: Department[] = [
   transform: translateX(0);
 }
 
-.department-link:hover {
-  color: var(--color-white);
-}
-
 .department-link > * {
   position: relative;
   z-index: 1;
+}
+
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.department-link::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.department-link:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
 }
 
 @media (max-width: 1024px) {
@@ -561,7 +586,7 @@ const departments: Department[] = [
   }
 
   .department-right {
-    border-left: 2px solid var(--color-cyan);
+    border-left: 2px solid var(--color-primary);
   }
 
   .department-paragraph {

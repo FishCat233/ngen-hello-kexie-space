@@ -290,7 +290,7 @@ onUnmounted(() => {
 <style scoped>
 .gallery-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -304,7 +304,7 @@ onUnmounted(() => {
 }
 
 .cms-notice {
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
   padding: 16px;
   margin: 0 0 32px;
   color: var(--color-text);
@@ -318,7 +318,7 @@ onUnmounted(() => {
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .gallery-subtitle {
@@ -337,8 +337,9 @@ onUnmounted(() => {
 .category-btn {
   padding: 8px 16px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -349,13 +350,12 @@ onUnmounted(() => {
 }
 
 .category-btn:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
-  color: var(--color-white);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .category-btn.active {
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
 }
 
@@ -366,8 +366,9 @@ onUnmounted(() => {
 }
 
 .gallery-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
   transition:
@@ -376,20 +377,20 @@ onUnmounted(() => {
 }
 
 .gallery-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
+  background: var(--color-primary-bright);
+  border-color: var(--color-primary-bright);
 }
 
 .gallery-card:hover .gallery-card-title,
 .gallery-card:hover .gallery-card-description,
 .gallery-card:hover .gallery-card-date {
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .gallery-card:hover .category-tag-image {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   border-color: var(--color-white);
-  color: var(--color-white);
+  color: var(--color-on-primary);
 }
 
 .image-wrapper {
@@ -419,7 +420,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-black);
+  background: rgba(0, 0, 0, 0.85);
   opacity: 0;
   transition: opacity 0.3s ease;
   color: var(--color-white);
@@ -437,8 +438,9 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: var(--color-cyan);
-  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-on-primary);
   font-size: 11px;
   font-weight: 600;
 }
@@ -451,8 +453,9 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: var(--color-blue);
-  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-on-primary);
   font-size: 11px;
   font-weight: 600;
 }
@@ -475,6 +478,7 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
+  border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 600;
   flex-shrink: 0;
@@ -482,8 +486,8 @@ onUnmounted(() => {
 
 .category-tag-image {
   background: transparent;
-  color: var(--color-cyan);
-  border: 2px solid var(--color-cyan);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -526,7 +530,7 @@ onUnmounted(() => {
 
 .gallery-card-date {
   font-size: 12px;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
 }
 
 .empty-state {
@@ -549,7 +553,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-black);
+  background: rgba(0, 0, 0, 0.95);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -567,7 +571,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   cursor: pointer;
   z-index: 10;
@@ -578,8 +583,8 @@ onUnmounted(() => {
 
 .lightbox-close:hover,
 .iframe-modal-close:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary-bright);
+  color: var(--color-white);
 }
 
 .lightbox-nav {
@@ -592,7 +597,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   cursor: pointer;
   z-index: 10;
@@ -602,8 +608,8 @@ onUnmounted(() => {
 }
 
 .lightbox-nav:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary-bright);
+  color: var(--color-white);
 }
 
 .lightbox-prev {
@@ -626,6 +632,7 @@ onUnmounted(() => {
   max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
+  border-radius: var(--radius-md);
 }
 
 .lightbox-info {
@@ -649,7 +656,7 @@ onUnmounted(() => {
 
 .lightbox-date {
   font-size: 12px;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
 }
 
 .lightbox-counter {
@@ -659,7 +666,8 @@ onUnmounted(() => {
   transform: translateX(-50%);
   padding: 8px 16px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   font-size: 14px;
 }
@@ -671,7 +679,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-black);
+  background: rgba(0, 0, 0, 0.95);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -684,8 +692,9 @@ onUnmounted(() => {
   max-width: 1400px;
   height: 95vh;
   max-height: 95vh;
-  background: var(--color-black);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -696,7 +705,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--color-cyan);
+  border-bottom: 1px solid var(--color-line);
   gap: 16px;
 }
 
@@ -713,7 +722,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: var(--color-blue);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   border: none;
   font-size: 14px;
@@ -723,7 +733,7 @@ onUnmounted(() => {
 }
 
 .iframe-visit-btn:hover {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
 }
 
 .iframe-preview-container {
@@ -742,7 +752,7 @@ onUnmounted(() => {
 
 .iframe-modal-info {
   padding: 16px 24px;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
 }
 
 .iframe-modal-description {
@@ -753,7 +763,7 @@ onUnmounted(() => {
 
 .iframe-modal-date {
   font-size: 12px;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
 }
 
 /* Responsive */
