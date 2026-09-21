@@ -336,7 +336,7 @@ onUnmounted(() => {
   font-size: var(--text-ui);
   font-weight: 500;
   color: var(--color-white);
-  border: 1px solid var(--color-line);
+  border: 2px solid var(--color-white);
   border-radius: var(--radius-pill);
   text-decoration: none;
   transition: background 0.2s ease;
@@ -431,7 +431,7 @@ onUnmounted(() => {
 }
 
 .chair-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .member-grid {
@@ -452,7 +452,7 @@ onUnmounted(() => {
 }
 
 .member-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 /* 头像：照片缺省时姓氏色块（分组配色），圆角由全局头像 token 决定 */

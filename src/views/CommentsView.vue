@@ -325,7 +325,7 @@ onMounted(() => {
 
 /* hover：卡片变深，文字层级不变 */
 .comment-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .comment-content-wrapper {

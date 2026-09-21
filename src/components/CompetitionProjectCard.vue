@@ -93,7 +93,7 @@ const competitionLabel = computed(() => {
 
 /* hover：卡片变深，文字层级不变 */
 .competition-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .card-author {

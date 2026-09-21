@@ -4,7 +4,7 @@
   /* 科协暗色主题 - 科技蓝 */
   --color-bg: #111111; /* 页面背景：深灰黑 */
   --color-surface: #0a0e14; /* 导航栏、页脚、代码块等深色面板 */
-  --color-card: #181d26; /* 二级卡片：比背景浅一档的黑，表达层级 */
+  --color-card: #1d1d1d; /* 二级卡片：比背景浅一档的纯灰，表达层级（2026-09-21 去蓝色调） */
   --color-line: #1e293b; /* 细线、网格、加载轨道 */
   --color-primary: #3b82f6; /* 科技蓝：色块、边框、强调 */
   --color-primary-bright: #60a5fa; /* 亮科技蓝：hover 滑切、填充 */
@@ -166,7 +166,7 @@ p {
 /* 骨架屏占位块（Skeleton Screen）：灰色块 + 流光扫过，
    各视图数据加载期间用它替代空白等待 */
 .skeleton {
-  background: linear-gradient(90deg, #1a2029 25%, #242d3a 50%, #1a2029 75%);
+  background: linear-gradient(90deg, #1f1f1f 25%, #2c2c2c 50%, #1f1f1f 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.4s ease infinite;
   border-radius: var(--radius-sm);

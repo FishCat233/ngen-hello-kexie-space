@@ -195,7 +195,7 @@ onMounted(async () => {
 
 /* hover：卡片变深，文字层级不变 */
 .member-card:hover {
-  background-color: #10141b;
+  background-color: #141414;
 }
 
 /* 骨架屏成员卡：圆形头像占位 + 右侧信息行 */

@@ -304,9 +304,10 @@ a.footer-item.is-static {
 .footer-glow {
   position: absolute;
   left: 50%;
-  bottom: -300px;
-  width: min(2000px, 100vw);
-  height: 640px;
+  /* 下沉高度一半：椭圆中心正压页面最底边，仅露上半边 */
+  bottom: -240px;
+  width: 100vw;
+  height: 480px;
   z-index: -1;
   background: radial-gradient(
     50% 50% at 50% 50%,

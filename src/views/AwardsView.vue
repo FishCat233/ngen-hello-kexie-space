@@ -100,7 +100,7 @@ function chipStyle(level: string) {
 
 /* hover：卡片变深，文字层级不变 */
 .award-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .award-name {

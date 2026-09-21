@@ -311,7 +311,7 @@ onUnmounted(() => {
 
 /* hover：卡片变深，文字层级不变；图片缩放与遮罩保留 */
 .gallery-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .image-wrapper {

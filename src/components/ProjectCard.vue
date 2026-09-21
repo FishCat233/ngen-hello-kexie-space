@@ -66,7 +66,7 @@ const avatarError = ref(false)
 
 /* hover：卡片变深，文字层级不变 */
 .project-card:hover {
-  background: #10141b;
+  background: #141414;
 }
 
 .project-author {
