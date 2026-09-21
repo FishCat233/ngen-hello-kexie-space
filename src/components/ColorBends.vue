@@ -268,7 +268,7 @@ onMounted(() => {
   }
   handleResize()
 
-  if ('ResizeObserver' in window) {
+  if (typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(handleResize)
     resizeObserver.observe(container)
   } else {

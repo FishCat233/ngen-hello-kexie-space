@@ -16,8 +16,8 @@ import {
   Shield,
   Terminal,
   FileText,
-  type Component,
 } from 'lucide-vue-next'
+import type { Component } from 'vue'
 import SectionMark from './SectionMark.vue'
 
 const router = useRouter()
