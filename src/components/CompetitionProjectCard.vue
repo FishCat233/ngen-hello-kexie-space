@@ -115,6 +115,8 @@ const competitionLabel = computed(() => {
   flex-shrink: 0;
   border-radius: 50%;
   position: relative;
+  /* 三个圆内部统一填充二级卡片灰 */
+  background: var(--color-card);
 }
 
 /* 主头像：主题蓝描边 */
@@ -123,10 +125,10 @@ const competitionLabel = computed(() => {
   border: 2px solid var(--color-primary);
 }
 
-/* 右侧堆叠的两张幽灵圆：透明底 + 细描边，暗示团队其他成员 */
+/* 右侧堆叠的两张幽灵圆：与主头像同粗描边（半透明蓝），暗示团队其他成员 */
 .avatar-ghost {
-  margin-left: -8px;
-  border: 1px solid rgba(59, 130, 246, 0.45);
+  margin-left: -24px;
+  border: 2px solid rgba(59, 130, 246, 0.45);
 }
 
 .avatar-ghost:nth-of-type(2) {
@@ -135,6 +137,8 @@ const competitionLabel = computed(() => {
 
 .avatar-ghost:nth-of-type(3) {
   z-index: 1;
+  /* 末位（最深一层）描边更暗，强化纵深层次 */
+  border-color: rgba(59, 130, 246, 0.28);
 }
 
 .avatar-img {

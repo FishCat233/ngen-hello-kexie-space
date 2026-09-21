@@ -389,6 +389,8 @@ const buttons = [
   width: 0.85em;
   height: 0.85em;
   color: var(--color-primary);
+  /* SVG 图形不吃 text-shadow，用同参数 drop-shadow 补齐同款阴影 */
+  filter: drop-shadow(0 0 0.18em rgba(0, 0, 0, 0.55));
   /* CJK 光学中心偏低于几何中心，箭头向下微调对齐 */
   transform: translateY(0.05em);
 }
