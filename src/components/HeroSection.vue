@@ -3,8 +3,8 @@ import { computed, defineAsyncComponent, nextTick, onUnmounted, ref } from 'vue'
 import { ArrowRight } from 'lucide-vue-next'
 import { departments } from '../data/departments'
 
-// 背景光带异步加载：three.js 体积大，延迟到首屏文字渲染后再拉取，
-// 不阻塞首屏绘制（性能优化 2026-09-21）
+// 背景光带异步加载，延迟到首屏文字渲染后再拉取，不阻塞首屏绘制
+// （2026-09-21：HeroBand 改为裸 WebGL，已无 three.js 依赖）
 const HeroBand = defineAsyncComponent(() => import('./HeroBand.vue'))
 
 // 第二行标语词组，与 departments.ts 的 id 对应

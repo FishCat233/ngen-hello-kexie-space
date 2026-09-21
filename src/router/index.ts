@@ -85,12 +85,18 @@ router.onError(() => {
   doneProgress()
 })
 
-// 空闲时预取全部路由 chunk：首屏渲染完成后在后台拉取，
-// 之后点击导航即点即开，无需再等网络
-export function prefetchViews() {
-  Object.values(viewLoaders).forEach((load) => {
-    void load()
-  })
+// 导航意图预取：仅在链接 hover / 聚焦时按需拉取目标路由 chunk。
+// 只预取用户可能真正点击的目标，避免首屏后无条件下载全部路由（含 direction 的 300KB+ 文档依赖）
+export function prefetchRoute(href: string) {
+  let resolved
+  try {
+    resolved = router.resolve(href)
+  } catch {
+    return
+  }
+  const name = String(resolved.name ?? '').toLowerCase()
+  const load = viewLoaders[name as keyof typeof viewLoaders]
+  if (load) void load()
 }
 
 export default router

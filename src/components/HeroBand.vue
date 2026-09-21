@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as THREE from 'three'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 interface Props {
@@ -36,18 +35,20 @@ const props = withDefaults(defineProps<Props>(), {
 
 const containerRef = ref<HTMLDivElement | null>(null)
 
-const vert = `
+// 单个超大三角形覆盖整个裁剪空间（全屏三角形技巧），aPos 为裁剪空间坐标
+const VERT = `
+attribute vec2 aPos;
 varying vec2 vUv;
 void main() {
-  vUv = uv;
-  gl_Position = vec4(position, 1.0);
+  vUv = aPos * 0.5 + 0.5;
+  gl_Position = vec4(aPos, 0.0, 1.0);
 }
 `
 
 // 移植自 vue-bits.dev 官网首屏 HeroBand：单色流场弯曲色带，
 // fadeTop 控制自底部向上渐隐，鼠标位置参与场扭曲
-const frag = `
-precision mediump float;
+const FRAG = `
+precision highp float;
 uniform vec2 uCanvas;
 uniform float uTime;
 uniform float uSpeed;
@@ -101,107 +102,138 @@ void main() {
 }
 `
 
-function hexToVec3(hex: string): THREE.Vector3 {
-  const h = hex.replace('#', '').trim()
-  return new THREE.Vector3(
-    parseInt(h.slice(0, 2), 16) / 255,
-    parseInt(h.slice(2, 4), 16) / 255,
-    parseInt(h.slice(4, 6), 16) / 255,
-  )
-}
+const QUAD = new Float32Array([-1, -1, 3, -1, -1, 3])
 
-let renderer: THREE.WebGLRenderer | null = null
-let material: THREE.ShaderMaterial | null = null
+let gl: WebGLRenderingContext | null = null
+let program: WebGLProgram | null = null
+let buffer: WebGLBuffer | null = null
 let resizeObserver: ResizeObserver | null = null
 let intersectionObserver: IntersectionObserver | null = null
 let raf: number | null = null
 let isVisible = true
-const pointerTarget = new THREE.Vector2(0, 0)
-const pointerCurrent = new THREE.Vector2(0, 0)
+let u: Record<string, WebGLUniformLocation | null> = {}
+const pointerTarget = [0, 0]
+const pointerCurrent = [0, 0]
 let rect = { left: 0, top: 0, width: 1, height: 1 }
 
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace('#', '').trim()
+  return [
+    parseInt(h.slice(0, 2), 16) / 255,
+    parseInt(h.slice(2, 4), 16) / 255,
+    parseInt(h.slice(4, 6), 16) / 255,
+  ]
+}
+
+function compile(type: number, source: string): WebGLShader | null {
+  if (!gl) return null
+  const shader = gl.createShader(type)
+  if (!shader) return null
+  gl.shaderSource(shader, source)
+  gl.compileShader(shader)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    gl.deleteShader(shader)
+    return null
+  }
+  return shader
+}
+
 function updateUniforms() {
-  if (!material) return
-
-  material.uniforms.uSpeed.value = props.speed
-  material.uniforms.uScale.value = props.scale
-  material.uniforms.uFrequency.value = props.frequency
-  material.uniforms.uWarpStrength.value = props.warpStrength
-  material.uniforms.uNoise.value = props.noise
-  material.uniforms.uBandWidth.value = props.bandWidth
-  material.uniforms.uYOffset.value = props.yOffset
-  material.uniforms.uFadeTop.value = props.fadeTop
-  material.uniforms.uMouseInfluence.value = props.mouseInfluence
-  material.uniforms.uIterations.value = props.iterations
-  material.uniforms.uIntensity.value = props.intensity
-  ;(material.uniforms.uColor.value as THREE.Vector3).copy(hexToVec3(props.color))
-
+  if (!gl || !program) return
+  gl.uniform1f(u.uSpeed, props.speed)
+  gl.uniform1f(u.uScale, props.scale)
+  gl.uniform1f(u.uFrequency, props.frequency)
+  gl.uniform1f(u.uWarpStrength, props.warpStrength)
+  gl.uniform1f(u.uNoise, props.noise)
+  gl.uniform1f(u.uBandWidth, props.bandWidth)
+  gl.uniform1f(u.uYOffset, props.yOffset)
+  gl.uniform1f(u.uFadeTop, props.fadeTop)
+  gl.uniform1f(u.uMouseInfluence, props.mouseInfluence)
+  gl.uniform1i(u.uIterations, props.iterations)
+  gl.uniform1f(u.uIntensity, props.intensity)
+  const [r, g, b] = hexToRgb(props.color)
+  gl.uniform3f(u.uColor, r, g, b)
   const rad = (props.rotation * Math.PI) / 180
-  ;(material.uniforms.uRot.value as THREE.Vector2).set(Math.cos(rad), Math.sin(rad))
+  gl.uniform2f(u.uRot, Math.cos(rad), Math.sin(rad))
 }
 
 onMounted(() => {
   const currentContainer = containerRef.value
   if (!currentContainer) return
 
-  const scene = new THREE.Scene()
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-  const geometry = new THREE.PlaneGeometry(2, 2)
-
-  material = new THREE.ShaderMaterial({
-    vertexShader: vert,
-    fragmentShader: frag,
-    uniforms: {
-      uCanvas: { value: new THREE.Vector2(1, 1) },
-      uTime: { value: 0 },
-      uSpeed: { value: props.speed },
-      uRot: { value: new THREE.Vector2(1, 0) },
-      uColor: { value: new THREE.Vector3(1, 0.24, 0) },
-      uScale: { value: props.scale },
-      uFrequency: { value: props.frequency },
-      uWarpStrength: { value: props.warpStrength },
-      uNoise: { value: props.noise },
-      uBandWidth: { value: props.bandWidth },
-      uYOffset: { value: props.yOffset },
-      uFadeTop: { value: props.fadeTop },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uMouseInfluence: { value: props.mouseInfluence },
-      uIterations: { value: props.iterations },
-      uIntensity: { value: props.intensity },
-    },
+  const canvas = document.createElement('canvas')
+  gl = canvas.getContext('webgl', {
+    antialias: false,
+    alpha: true,
     premultipliedAlpha: true,
-    transparent: true,
-  })
+    powerPreference: 'high-performance',
+  }) as WebGLRenderingContext | null
+  if (!gl) return
 
-  scene.add(new THREE.Mesh(geometry, material))
-
-  try {
-    renderer = new THREE.WebGLRenderer({
-      antialias: false,
-      powerPreference: 'high-performance',
-      alpha: true,
-    })
-  } catch {
+  const vert = compile(gl.VERTEX_SHADER, VERT)
+  const frag = compile(gl.FRAGMENT_SHADER, FRAG)
+  if (!vert || !frag) return
+  program = gl.createProgram()
+  if (!program) return
+  gl.attachShader(program, vert)
+  gl.attachShader(program, frag)
+  gl.linkProgram(program)
+  gl.deleteShader(vert)
+  gl.deleteShader(frag)
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    gl.deleteProgram(program)
+    program = null
     return
   }
+  gl.useProgram(program)
 
-  renderer.outputColorSpace = THREE.SRGBColorSpace
+  const uniformNames = [
+    'uCanvas',
+    'uTime',
+    'uSpeed',
+    'uRot',
+    'uColor',
+    'uScale',
+    'uFrequency',
+    'uWarpStrength',
+    'uNoise',
+    'uBandWidth',
+    'uYOffset',
+    'uFadeTop',
+    'uPointer',
+    'uMouseInfluence',
+    'uIterations',
+    'uIntensity',
+  ]
+  u = {}
+  for (const name of uniformNames) u[name] = gl.getUniformLocation(program, name)
+
+  buffer = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+  gl.bufferData(gl.ARRAY_BUFFER, QUAD, gl.STATIC_DRAW)
+  const aPos = gl.getAttribLocation(program, 'aPos')
+  gl.enableVertexAttribArray(aPos)
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+
+  // 输出为预乘 alpha，配合 ONE / ONE_MINUS_SRC_ALPHA 正确混入页面底色
+  gl.enable(gl.BLEND)
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+  gl.clearColor(0, 0, 0, 0)
+
+  canvas.style.width = '100%'
+  canvas.style.height = '100%'
+  canvas.style.display = 'block'
+  currentContainer.appendChild(canvas)
+
   // 像素比压到 1：背景光带是低频流体，无高频细节，全分辨率渲染纯属浪费 GPU
-  renderer.setPixelRatio(1)
-  renderer.setClearColor(0x000000, 0)
-  renderer.domElement.style.width = '100%'
-  renderer.domElement.style.height = '100%'
-  renderer.domElement.style.display = 'block'
-  currentContainer.appendChild(renderer.domElement)
-
-  const clock = new THREE.Clock()
-
   const handleResize = () => {
-    if (!renderer || !material) return
+    if (!gl) return
     const w = currentContainer.clientWidth || 1
     const h = currentContainer.clientHeight || 1
-    renderer.setSize(w, h, false)
-    ;(material.uniforms.uCanvas.value as THREE.Vector2).set(w, h)
+    canvas.width = w
+    canvas.height = h
+    gl.viewport(0, 0, w, h)
+    gl.uniform2f(u.uCanvas, w, h)
     rect = currentContainer.getBoundingClientRect()
   }
   handleResize()
@@ -227,32 +259,32 @@ onMounted(() => {
   document.addEventListener('visibilitychange', handleVisibility)
 
   const handlePointer = (e: MouseEvent) => {
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
-    const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1)
-    pointerTarget.set(x, y)
+    pointerTarget[0] = ((e.clientX - rect.left) / rect.width) * 2 - 1
+    pointerTarget[1] = -(((e.clientY - rect.top) / rect.height) * 2 - 1)
   }
   window.addEventListener('mousemove', handlePointer, { passive: true })
 
-  // 帧率限流：光带流速缓慢，30fps 足够顺滑，帧率减半直接砍掉一半 GPU 负载
-  const FRAME_INTERVAL = 1 / 30
-  let lastFrameTime = 0
+  // 跟随显示器刷新率渲染。省电靠像素比 1 + 滚出视口/切后台暂停，
+  // 不做帧率限流——缓慢流动的光带被降到 30fps 会出现肉眼可见的顿挫
+  let lastFrame = performance.now()
+  const start = lastFrame
 
   const loop = () => {
     raf = requestAnimationFrame(loop)
-    if (!renderer || !material || !isVisible) {
-      clock.getDelta() // 暂停期间持续消化时间，恢复渲染时动画不跳变
-      return
-    }
-    const now = performance.now() / 1000
-    if (now - lastFrameTime < FRAME_INTERVAL) return
-    lastFrameTime = now
+    if (!gl || isVisible === false) return
+    const now = performance.now()
 
-    const dt = Math.min(clock.getDelta(), 0.1)
-    material.uniforms.uTime.value = clock.elapsedTime
+    // uTime 用挂载以来的墙钟时间，暂停渲染期间动画仍按真实时间推进（与旧 three 版一致）
+    gl.uniform1f(u.uTime, (now - start) / 1000)
+    const dt = Math.min((now - lastFrame) / 1000, 0.1)
+    lastFrame = now
     const amt = Math.min(1, dt * 4)
-    pointerCurrent.lerp(pointerTarget, amt)
-    ;(material.uniforms.uPointer.value as THREE.Vector2).copy(pointerCurrent)
-    renderer.render(scene, camera)
+    pointerCurrent[0] += (pointerTarget[0] - pointerCurrent[0]) * amt
+    pointerCurrent[1] += (pointerTarget[1] - pointerCurrent[1]) * amt
+    gl.uniform2f(u.uPointer, pointerCurrent[0], pointerCurrent[1])
+
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
   }
   raf = requestAnimationFrame(loop)
 
@@ -265,15 +297,18 @@ onMounted(() => {
     if (intersectionObserver) intersectionObserver.disconnect()
     document.removeEventListener('visibilitychange', handleVisibility)
     window.removeEventListener('mousemove', handlePointer)
-    geometry.dispose()
-    material?.dispose()
-    renderer?.dispose()
-    renderer?.forceContextLoss()
-    if (renderer?.domElement.parentElement === currentContainer) {
-      currentContainer.removeChild(renderer.domElement)
+    if (gl) {
+      if (buffer) gl.deleteBuffer(buffer)
+      if (program) gl.deleteProgram(program)
+      const lose = gl.getExtension('WEBGL_lose_context')
+      lose?.loseContext()
     }
-    renderer = null
-    material = null
+    if (canvas.parentElement === currentContainer) {
+      currentContainer.removeChild(canvas)
+    }
+    gl = null
+    program = null
+    buffer = null
   })
 })
 
