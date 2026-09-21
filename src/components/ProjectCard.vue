@@ -23,6 +23,8 @@ const avatarError = ref(false)
           :src="project.authorAvatar"
           :alt="project.author"
           class="author-avatar"
+          loading="lazy"
+          decoding="async"
           @error="avatarError = true"
         />
         <div v-else class="author-avatar-placeholder">

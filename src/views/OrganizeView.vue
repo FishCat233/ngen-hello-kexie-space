@@ -170,6 +170,8 @@ onUnmounted(() => {
             v-if="PRESIDIUM_CHAIR.avatar"
             :src="PRESIDIUM_CHAIR.avatar"
             :alt="PRESIDIUM_CHAIR.name"
+            loading="lazy"
+            decoding="async"
           />
           <template v-else>{{ avatarChar(PRESIDIUM_CHAIR) }}</template>
         </span>
@@ -181,7 +183,13 @@ onUnmounted(() => {
       <div class="member-grid">
         <div v-for="member in PRESIDIUM_MEMBERS" :key="member.name" class="member-card">
           <span class="member-avatar" :style="avatarStyle(member)">
-            <img v-if="member.avatar" :src="member.avatar" :alt="member.name" />
+            <img
+              v-if="member.avatar"
+              :src="member.avatar"
+              :alt="member.name"
+              loading="lazy"
+              decoding="async"
+            />
             <template v-else>{{ avatarChar(member) }}</template>
           </span>
           <span class="member-name">{{ member.name }}</span>
@@ -196,7 +204,7 @@ onUnmounted(() => {
         <h1 class="organize-title"><span class="title-accent">#</span> 部门风貌</h1>
       </div>
       <div class="showcase-carousel">
-        <SlidingCarousel :slides="showcaseSlides" :caption-icon="false" />
+        <SlidingCarousel :slides="showcaseSlides" />
       </div>
     </div>
   </div>

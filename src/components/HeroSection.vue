@@ -57,12 +57,16 @@ const posBrightness = [1, 0.8, 0.6, 0.45, 0.32]
 const deckPos = (index: number) =>
   (index - deckIndex.value + departments.length) % departments.length
 
-// 多媒体部药丸文字较长，处于顶部显示位时整卡向左微调，避免视觉重心偏右
-const deptTopNudge: Record<string, string> = { multimedia: '-0.12em' }
+// 多媒体部药丸 4 字最宽：顶卡自定卡堆宽度无需修正；沉底后相对较窄顶卡右溢，
+// 按层次左移收拢——pos1/3 已有内建 x 偏移补一点即可，pos2/4 无偏移补更多，末位补最多
+const deptPosNudges: Record<string, string[]> = {
+  // [pos0 顶卡, pos1 倒数第四, pos2 倒数第三, pos3 倒数第二, pos4 末位]
+  multimedia: ['0em', '-0.1em', '-0.3em', '-0.15em', '-0.5em'],
+}
 
 const deckCardStyle = (deptId: string, index: number) => {
   const pos = deckPos(index)
-  const nudge = pos === 0 ? (deptTopNudge[deptId] ?? '0em') : '0em'
+  const nudge = deptPosNudges[deptId]?.[pos] ?? '0em'
   return {
     transform: `rotate(${posRotations[pos] ?? 0}deg) translate(calc(${posXOffsets[pos] ?? 0}em + ${nudge}), ${posYOffsets[pos] ?? 0}em) scale(${1 - pos * 0.05})`,
     zIndex: departments.length - pos,
@@ -358,9 +362,9 @@ const buttons = [
   line-height: 1;
 }
 
-/* 第三行 slogan：白色、加大字号、贴近标题（按钮区另加大间距与 slogan 拉开） */
+/* 第三行 slogan：白色、加大字号，与主标题、按钮区均拉开间距 */
 .hero-slogan {
-  margin: 8px 0 0;
+  margin: 20px 0 0;
   font-size: var(--text-h4);
   font-weight: 500;
   color: var(--color-white);
@@ -508,13 +512,13 @@ const buttons = [
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-top: 48px;
+  margin-top: 72px;
 }
 
 @media (max-width: 1024px) {
   .hero-buttons {
     gap: 10px;
-    margin-top: 36px;
+    margin-top: 56px;
   }
 }
 
@@ -546,7 +550,7 @@ const buttons = [
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-primary-bright);
+  background: var(--color-primary);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;

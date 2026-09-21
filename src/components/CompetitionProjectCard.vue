@@ -45,6 +45,8 @@ const competitionLabel = computed(() => {
             :src="firstAvatar"
             :alt="project.authors[0] ?? project.teamName"
             class="avatar-img"
+            loading="lazy"
+            decoding="async"
             @error="avatarError = true"
           />
           <div v-else class="avatar-fallback">

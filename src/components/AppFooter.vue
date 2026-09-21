@@ -98,6 +98,9 @@ onUnmounted(() => {
 
 <template>
   <footer class="footer">
+    <!-- 页面最底部中心放射的椭圆蓝色光晕：挂在整个 footer 上，跨主区与版权条连续，不在区块交界处裁断 -->
+    <div class="footer-glow" aria-hidden="true"></div>
+
     <div class="footer-container">
       <div class="footer-main">
         <!-- 左：品牌区 -->
@@ -153,11 +156,8 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- 底部版权条：更深的底色区分区域 -->
+    <!-- 底部版权条：计时器 + 版权行 -->
     <div class="footer-bottom">
-      <!-- 页面最底部中心放射的椭圆蓝色光晕（呼吸感动画） -->
-      <div class="footer-glow" aria-hidden="true"></div>
-
       <!-- 砥砺前行翻卡计时 -->
       <div class="duration-block">
         <span class="duration-label">科协已砥砺前行（至少）</span>
@@ -190,6 +190,9 @@ onUnmounted(() => {
 
 <style scoped>
 .footer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   width: 100%;
   background: var(--color-surface);
   margin-top: auto;
@@ -198,7 +201,7 @@ onUnmounted(() => {
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 64px 24px;
+  padding: 64px 24px 40px;
 }
 
 /* 品牌区与右侧两栏顶部对齐 */
@@ -293,9 +296,6 @@ a.footer-item.is-static {
 
 /* 版权条：底色与页脚主区统一 */
 .footer-bottom {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   padding: 32px 24px 20px;
   text-align: center;
 }
@@ -304,9 +304,9 @@ a.footer-item.is-static {
 .footer-glow {
   position: absolute;
   left: 50%;
-  bottom: -200px;
-  width: min(1200px, 92vw);
-  height: 400px;
+  bottom: -300px;
+  width: min(2000px, 100vw);
+  height: 640px;
   z-index: -1;
   background: radial-gradient(
     50% 50% at 50% 50%,
@@ -315,7 +315,7 @@ a.footer-item.is-static {
     transparent 68%
   );
   pointer-events: none;
-  animation: footer-glow-breathe 7s ease-in-out infinite;
+  animation: footer-glow-breathe 5s ease-in-out infinite;
 }
 
 @keyframes footer-glow-breathe {
@@ -373,7 +373,7 @@ a.footer-item.is-static {
 
 @media (max-width: 1024px) {
   .footer-container {
-    padding: 48px 16px;
+    padding: 48px 16px 32px;
   }
 
   .footer-main {

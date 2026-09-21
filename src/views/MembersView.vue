@@ -73,6 +73,8 @@ onMounted(async () => {
                     :src="member.avatar"
                     :alt="member.nickname"
                     class="member-avatar"
+                    loading="lazy"
+                    decoding="async"
                     @error="handleAvatarError(memberKey(member, index))"
                   />
                   <div v-else class="member-avatar-placeholder">

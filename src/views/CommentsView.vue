@@ -154,6 +154,8 @@ onMounted(() => {
                     :src="comment.user.avatar_url"
                     :alt="comment.user.login"
                     class="author-avatar"
+                    loading="lazy"
+                    decoding="async"
                     @error="handleAvatarError(index)"
                   />
                   <div v-else class="author-avatar-placeholder">

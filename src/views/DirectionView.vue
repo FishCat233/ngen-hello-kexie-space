@@ -18,7 +18,7 @@ import {
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js/lib/common'
 import 'highlight.js/styles/github-dark.css'
 import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
@@ -106,7 +106,7 @@ const loadMarkdown = async () => {
       .use(remarkGfm)
       .use(remarkHtml, { sanitize: false })
       .process(processed)
-    htmlContent.value = String(result)
+    htmlContent.value = String(result).replace(/<img /g, '<img loading="lazy" decoding="async" ')
   } catch {
     error.value = '加载内容失败，请稍后重试'
   } finally {
@@ -129,9 +129,15 @@ watch(() => props.id, loadMarkdown, { immediate: true })
     <div class="direction-container">
       <BackButton />
 
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
-        <p>加载中...</p>
+      <!-- 内容就绪前显示文档骨架屏 -->
+      <div v-if="loading" class="markdown-content" aria-hidden="true">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line" style="width: 100%"></div>
+        <div class="skeleton skeleton-line" style="width: 92%"></div>
+        <div class="skeleton skeleton-line" style="width: 78%"></div>
+        <div class="skeleton skeleton-image"></div>
+        <div class="skeleton skeleton-line" style="width: 86%"></div>
+        <div class="skeleton skeleton-line" style="width: 64%"></div>
       </div>
 
       <div v-else-if="error" class="error-state">
@@ -162,7 +168,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   margin: 0 auto;
 }
 
-.loading-state,
 .error-state {
   display: flex;
   flex-direction: column;
@@ -172,20 +177,22 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   color: var(--color-text);
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-line);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
+/* 文档骨架屏：模拟标题 + 段落 + 插图布局 */
+.skeleton-title {
+  width: 38%;
+  height: 32px;
+  margin-bottom: 32px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.skeleton-line {
+  height: 14px;
+  margin: 12px 0;
+}
+
+.skeleton-image {
+  height: 220px;
+  margin: 24px 0;
+  border-radius: var(--radius-md);
 }
 
 .retry-button {
@@ -252,7 +259,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(h2) {
   font-size: var(--text-h4);
   font-weight: 600;
-  color: var(--color-primary-bright);
+  color: var(--color-primary);
   margin: 32px 0 16px 0;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--color-line);
@@ -261,7 +268,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(h3) {
   font-size: var(--text-h5);
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-primary-bright);
   margin: 24px 0 12px 0;
 }
 
@@ -279,11 +286,15 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   text-decoration: underline;
 }
 
+/* 文档插图：限高防止长截图撑爆版面，等比缩放不裁切 */
 .markdown-body :deep(img) {
   display: block;
   max-width: 100%;
+  max-height: 420px;
+  width: auto;
   height: auto;
   margin: 16px auto;
+  border-radius: var(--radius-sm);
 }
 
 .markdown-body :deep(ul) {
@@ -369,7 +380,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 /* ---- Bilibili 视频卡片 ---- */
 .markdown-body :deep(.bilibili-card) {
   margin: 24px 0;
-  border: 1px solid var(--color-primary);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   overflow: hidden;

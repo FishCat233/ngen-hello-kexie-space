@@ -5,21 +5,48 @@ import SectionMark from './SectionMark.vue'
 interface TimelineItem {
   id: string
   title: string
+  time: string
   description: string
   icon: typeof ClipboardList
 }
 
+// time 为占位数据，招新日程确定后替换
 const timelineItems: TimelineItem[] = [
-  { id: 'register', title: '报名阶段', description: '报名时间截止到笔试前', icon: ClipboardList },
+  {
+    id: 'register',
+    title: '报名阶段',
+    time: '9 月上旬',
+    description: '报名时间截止到笔试前',
+    icon: ClipboardList,
+  },
   {
     id: 'learning',
     title: '入门学习',
+    time: '9 月中 – 10 月上旬',
     description: '学会使用 Online Judge 实现问题求解',
     icon: BookOpen,
   },
-  { id: 'presentation', title: '招新宣讲', description: '三院科协招新宣讲会', icon: Mic2 },
-  { id: 'exam', title: '笔试和面试', description: '期待脱颖而出的你！', icon: FileCheck },
-  { id: 'competition', title: '绘蓝杯科技竞赛', description: '绽放你们的光芒！', icon: Trophy },
+  {
+    id: 'presentation',
+    title: '招新宣讲',
+    time: '10 月上旬',
+    description: '三院科协招新宣讲会',
+    icon: Mic2,
+  },
+  {
+    id: 'exam',
+    title: '笔试和面试',
+    time: '10 月中旬',
+    description: '期待脱颖而出的你！',
+    icon: FileCheck,
+  },
+  {
+    id: 'competition',
+    title: '绘蓝杯科技竞赛',
+    time: '11 月 – 12 月',
+    description: '绽放你们的光芒！',
+    icon: Trophy,
+  },
 ]
 </script>
 
@@ -37,6 +64,7 @@ const timelineItems: TimelineItem[] = [
                 <component :is="item.icon" :size="22" stroke-width="2" />
               </div>
               <h3 class="timeline-title">{{ item.title }}</h3>
+              <span class="timeline-time">{{ item.time }}</span>
               <p class="timeline-description">{{ item.description }}</p>
             </div>
             <svg
@@ -155,6 +183,18 @@ const timelineItems: TimelineItem[] = [
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
+}
+
+/* 阶段时间：扁平小徽章（同获奖页等级徽章语言），紧贴标题 */
+.timeline-time {
+  margin-top: -4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-primary) 13%, transparent);
+  color: var(--color-primary-bright);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
 .timeline-description {

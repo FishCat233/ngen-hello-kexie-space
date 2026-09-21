@@ -341,7 +341,7 @@ onUnmounted(() => {
   height: 40px;
   padding: 8px;
   background: transparent;
-  border: 1px solid var(--color-primary);
+  border: none;
   border-radius: var(--radius-pill);
   color: var(--color-white);
   cursor: pointer;

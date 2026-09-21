@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { MapPin, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
 export interface CarouselSlide {
   /** 图片地址；缺省时渲染占位态（照片待补充） */
@@ -15,12 +15,9 @@ const props = withDefaults(
     slides: CarouselSlide[]
     /** 自动轮播间隔（ms） */
     interval?: number
-    /** 底部标注是否带 MapPin 图标（地点场景用；部门等非地点场景传 false） */
-    captionIcon?: boolean
   }>(),
   {
     interval: 4500,
-    captionIcon: true,
   },
 )
 
@@ -112,7 +109,14 @@ onUnmounted(stopTimer)
       class="carousel-slide"
       :style="slideStyle(index)"
     >
-      <img v-if="slide.src" :src="slide.src" :alt="slide.label" class="slide-img" />
+      <img
+        v-if="slide.src"
+        :src="slide.src"
+        :alt="slide.label"
+        class="slide-img"
+        loading="lazy"
+        decoding="async"
+      />
       <div v-else class="slide-placeholder" :style="placeholderStyle(slide.color)">
         <span class="placeholder-label" :style="slide.color ? { color: slide.color } : undefined">
           {{ slide.label }}
@@ -122,7 +126,6 @@ onUnmounted(stopTimer)
 
       <!-- 底部黑色渐变 + 标注（仅实图幻灯片；随幻灯片一起滑动） -->
       <div v-if="slide.src" class="slide-caption">
-        <MapPin v-if="captionIcon" :size="14" class="caption-icon" />
         <span class="caption-text">{{ slide.label }}</span>
       </div>
     </div>
@@ -212,11 +215,6 @@ onUnmounted(stopTimer)
   color: var(--color-white);
   font-size: var(--text-ui);
   font-weight: 500;
-}
-
-.caption-icon {
-  color: var(--color-primary-bright);
-  flex-shrink: 0;
 }
 
 .caption-text {
