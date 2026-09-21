@@ -22,14 +22,14 @@ const timelineItems: TimelineItem[] = [
   {
     id: 'learning',
     title: '入门学习',
-    time: '9 月中 – 10 月上旬',
+    time: '9 月中 – 9 月下旬',
     description: '学会使用 Online Judge 实现问题求解',
     icon: BookOpen,
   },
   {
     id: 'presentation',
     title: '招新宣讲',
-    time: '10 月上旬',
+    time: '9 月下旬',
     description: '三院科协招新宣讲会',
     icon: Mic2,
   },
