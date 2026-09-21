@@ -1,66 +1,60 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
+  ArrowRight,
+  ExternalLink,
   Globe,
   Coffee,
   Gamepad2,
   Smartphone,
-  PencilRuler,
+  Palette,
   Cpu,
-  BrainCircuit,
+  Brain,
   Clapperboard,
   Binary,
-  LockKeyhole,
-  ShieldAlert,
-  Bug,
-  BookOpen,
+  Lock,
+  Shield,
+  Terminal,
+  FileText,
+  type Component,
 } from 'lucide-vue-next'
+import SectionMark from './SectionMark.vue'
 
 const router = useRouter()
 
 interface LearningDirection {
   id: string
   name: string
-  icon: typeof Globe
   department: string
+  icon: Component
 }
 
 const directions: LearningDirection[] = [
   // 多媒体部
-  { id: 'frontend', name: '前端开发', icon: Globe, department: '多媒体部' },
-  { id: 'backend', name: '后端开发', icon: Coffee, department: '多媒体部' },
-  { id: 'ui', name: 'UI设计', icon: PencilRuler, department: '多媒体部' },
-  { id: 'video', name: '视频剪辑', icon: Clapperboard, department: '多媒体部' },
-  { id: 'editing', name: '编辑', icon: BookOpen, department: '多媒体部' },
+  { id: 'frontend', name: '前端开发', department: '多媒体部', icon: Globe },
+  { id: 'backend', name: '后端开发', department: '多媒体部', icon: Coffee },
+  { id: 'ui', name: 'UI设计', department: '多媒体部', icon: Palette },
+  { id: 'video', name: '视频剪辑', department: '多媒体部', icon: Clapperboard },
+  { id: 'editing', name: '编辑', department: '多媒体部', icon: FileText },
   // 软件部
-  { id: 'deep-learning', name: '深度学习', icon: BrainCircuit, department: '软件部' },
-  { id: 'app', name: 'APP开发', icon: Smartphone, department: '软件部' },
-  { id: 'game', name: '游戏开发', icon: Gamepad2, department: '软件部' },
+  { id: 'deep-learning', name: '深度学习', department: '软件部', icon: Brain },
+  { id: 'app', name: 'APP开发', department: '软件部', icon: Smartphone },
+  { id: 'game', name: '游戏开发', department: '软件部', icon: Gamepad2 },
   // 硬件部
-  { id: 'hardware', name: '硬件开发', icon: Cpu, department: '硬件部' },
+  { id: 'hardware', name: '硬件开发', department: '硬件部', icon: Cpu },
   // 安全部
-  { id: 'reverse', name: '逆向工程', icon: Binary, department: '安全部' },
-  { id: 'crypto', name: '密码学', icon: LockKeyhole, department: '安全部' },
-  { id: 'web-security', name: 'Web安全', icon: ShieldAlert, department: '安全部' },
-  { id: 'pwn', name: 'PWN', icon: Bug, department: '安全部' },
+  { id: 'reverse', name: '逆向工程', department: '安全部', icon: Binary },
+  { id: 'crypto', name: '密码学', department: '安全部', icon: Lock },
+  { id: 'web-security', name: 'Web安全', department: '安全部', icon: Shield },
+  { id: 'pwn', name: 'PWN', department: '安全部', icon: Terminal },
 ]
 
 const departmentOrder = ['多媒体部', '软件部', '硬件部', '安全部']
 
-const groupedDirections = computed(() => {
-  const groups: Record<string, LearningDirection[]> = {}
-  for (const dir of directions) {
-    if (!groups[dir.department]) {
-      groups[dir.department] = []
-    }
-    groups[dir.department].push(dir)
-  }
-  return departmentOrder.map((dept) => ({
-    department: dept,
-    directions: groups[dept] || [],
-  }))
-})
+const groupedDirections = departmentOrder.map((department) => ({
+  department,
+  directions: directions.filter((dir) => dir.department === department),
+}))
 
 const navigateToDirection = (id: string) => {
   router.push(`/direction/${id}`)
@@ -72,33 +66,39 @@ const securityWebsite = 'https://hjsec.github.io'
 <template>
   <section class="learning-section">
     <div class="learning-container">
-      <h2 class="learning-title"><span class="title-accent">#</span> 学习方向</h2>
+      <h2 class="learning-title"><SectionMark class="title-mark" /> 学习方向</h2>
 
+      <!-- 编辑部风格索引列表：部门为组，方向为行 -->
       <div v-for="group in groupedDirections" :key="group.department" class="direction-group">
-        <h3 class="direction-group-title">{{ group.department }}</h3>
-        <div class="learning-grid">
+        <div class="group-header">
+          <h3 class="group-name">{{ group.department }}</h3>
+          <a
+            v-if="group.department === '安全部'"
+            :href="securityWebsite"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group-home-btn"
+          >
+            <ExternalLink :size="12" />
+            <span>主页</span>
+          </a>
+          <span class="group-count">{{ group.directions.length }} 个方向</span>
+          <span class="group-rule"></span>
+        </div>
+
+        <div class="group-list">
           <div
-            v-for="dir in group.directions"
+            v-for="(dir, index) in group.directions"
             :key="dir.id"
-            class="learning-card"
+            class="direction-row"
             @click="navigateToDirection(dir.id)"
           >
-            <div class="learning-icon">
-              <component :is="dir.icon" :size="48" stroke-width="1.5" />
-            </div>
-
-            <h4 class="learning-name">{{ dir.name }}</h4>
+            <span class="row-index">{{ String(index + 1).padStart(2, '0') }}</span>
+            <component :is="dir.icon" :size="22" class="row-icon" />
+            <span class="row-name">{{ dir.name }}</span>
+            <ArrowRight class="row-arrow" :size="22" />
           </div>
         </div>
-        <a
-          v-if="group.department === '安全部'"
-          :href="securityWebsite"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="direction-link"
-        >
-          <span>安全部主页</span>
-        </a>
       </div>
     </div>
   </section>
@@ -107,11 +107,10 @@ const securityWebsite = 'https://hjsec.github.io'
 <style scoped>
 .learning-section {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10vh 20px;
+  padding: 4vh 20px 6vh;
   background: var(--color-bg);
 }
 
@@ -120,19 +119,22 @@ const securityWebsite = 'https://hjsec.github.io'
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 48px;
+  align-items: flex-start;
+  gap: 56px;
 }
 
 .learning-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: var(--text-h1);
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
-  text-align: center;
+  line-height: 1;
 }
 
-.title-accent {
+.title-mark {
   color: var(--color-primary);
 }
 
@@ -140,206 +142,137 @@ const securityWebsite = 'https://hjsec.github.io'
   width: 100%;
 }
 
-.direction-group + .direction-group {
-  margin-top: 40px;
+/* 组头：部门名 + 数量 + 延伸细线 */
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
-.direction-group-title {
+.group-name {
   font-size: var(--text-h5);
   font-weight: 600;
-  color: var(--color-text);
-  margin: 0 0 20px;
-  text-align: left;
+  color: var(--color-white);
+  margin: 0;
 }
 
-.direction-link {
+.group-count {
+  font-size: var(--text-sm);
+  color: #6b7280;
+}
+
+.group-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* 安全部主页：组头名称右侧的小按钮 */
+.group-home-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 8px 16px;
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-white);
-  border: 2px solid var(--color-primary);
+  gap: 4px;
+  padding: 3px 10px;
+  border: 1px solid var(--color-primary);
   border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  color: var(--color-primary);
   text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  transition: background 0s;
-}
-
-.direction-link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--color-primary-bright);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 0;
-}
-
-.direction-link:hover::before {
-  transform: translateX(0);
-}
-
-.direction-link > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* hover：箭头作为流内元素参与布局，与文字共同居中 */
-.direction-link::after {
-  content: '→';
-  order: -1;
-  position: relative;
-  z-index: 1;
-  width: 0;
-  margin-left: -8px;
-  overflow: hidden;
   white-space: nowrap;
-  opacity: 0;
   transition:
-    width 0.3s ease,
-    margin-left 0.3s ease,
-    opacity 0.25s ease;
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
-.direction-link:hover::after {
-  width: 1em;
-  margin-left: 0;
-  opacity: 1;
+.group-home-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
-.learning-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 24px;
-  width: 100%;
-}
-
-.learning-card {
+.group-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 32px 20px;
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  flex: 0 1 calc(25% - 18px);
-  max-width: 280px;
-  position: relative;
-  overflow: hidden;
-  transition: background 0s;
 }
 
-.learning-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--color-primary-bright);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 0;
-}
-
-.learning-card:hover::before {
-  transform: translateX(0);
-}
-
-.learning-card:hover {
-  border-color: var(--color-primary);
-}
-
-.learning-icon {
-  width: 56px;
-  height: 56px;
+.direction-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+  gap: 24px;
+  padding: 18px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.direction-row:hover {
+  background: var(--color-card);
+}
+
+.row-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: #6b7280;
+  min-width: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 方向专属图标：与详情页同一套映射 */
+.row-icon {
   color: var(--color-primary);
-  position: relative;
-  z-index: 1;
-  transition: color 0.3s ease;
+  flex-shrink: 0;
 }
 
-.learning-card:hover .learning-icon {
-  color: var(--color-on-primary);
-}
-
-.learning-name {
-  font-size: var(--text-body);
+.row-name {
+  font-size: var(--text-h3);
   font-weight: 500;
   color: var(--color-text);
-  margin: 0;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
-.learning-card:hover .learning-name {
-  color: var(--color-on-primary);
+.direction-row:hover .row-name {
+  color: var(--color-primary-bright);
+}
+
+.row-arrow {
+  margin-left: auto;
+  color: var(--color-primary);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.direction-row:hover .row-arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @media (max-width: 1024px) {
   .learning-section {
-    padding: 10vh 16px;
+    padding: 4vh 16px 6vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .learning-container {
+    gap: 40px;
   }
 
-  .learning-grid {
+  .direction-row {
+    padding: 14px 12px;
     gap: 16px;
   }
 
-  .learning-card {
-    padding: 24px 16px;
-    flex: 0 1 calc(33.333% - 11px);
-    max-width: 240px;
+  .row-index {
+    display: none;
   }
 
-  .learning-icon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .learning-icon > * {
-    width: 40px !important;
-    height: 40px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .learning-grid {
-    gap: 12px;
-  }
-
-  .learning-card {
-    flex: 0 1 calc(50% - 6px);
-    padding: 20px 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .learning-grid {
-    gap: 8px;
-  }
-
-  .learning-card {
-    padding: 16px 8px;
-  }
-
-  .learning-icon {
-    width: 44px;
-    height: 44px;
-    margin-bottom: 12px;
-  }
-
-  .learning-icon > * {
-    width: 36px !important;
-    height: 36px !important;
+  .row-name {
+    font-size: var(--text-h5);
   }
 }
 </style>

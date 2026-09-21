@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { Github, Users, MessageCircle, Radio, Video, ExternalLink } from 'lucide-vue-next'
+import { Github, Users, Hash, Megaphone, Tv, Tag, FolderGit2, Clock } from 'lucide-vue-next'
 import { version } from '../../package.json'
 import { KEXIE_FOUNDING_DATE } from '../data/kexie'
+import BlurNumber from './BlurNumber.vue'
 
 const commitSha = import.meta.env.VITE_GIT_COMMIT_SHA
 const commitUrl = computed(() =>
@@ -12,19 +13,47 @@ const commitUrl = computed(() =>
 interface ContactLink {
   name: string
   url: string
-  icon: string
+  icon: typeof Github
 }
 
 const contactLinks: ContactLink[] = [
-  { name: 'Github', url: 'https://github.com/sanyuankexie', icon: 'github' },
-  { name: 'QQ 群', url: 'https://api.kexie.space/recruitment-qq-group', icon: 'users' },
-  { name: 'QQ 频道', url: 'https://pd.qq.com/s/5pxzsijx0', icon: 'message-circle' },
-  { name: '微信公众号', url: 'https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg', icon: 'radio' },
-  { name: 'Bilibili 账号', url: 'https://space.bilibili.com/673693349', icon: 'video' },
+  { name: 'Github', url: 'https://github.com/sanyuankexie', icon: Github },
+  { name: 'QQ 群', url: 'https://api.kexie.space/recruitment-qq-group', icon: Users },
+  { name: 'QQ 频道', url: 'https://pd.qq.com/s/5pxzsijx0', icon: Hash },
+  { name: '微信公众号', url: 'https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg', icon: Megaphone },
+  { name: 'Bilibili 账号', url: 'https://space.bilibili.com/673693349', icon: Tv },
 ]
 
+interface SiteLink {
+  name: string
+  url?: string
+  time?: boolean
+  icon: typeof Tag
+}
+
+const siteLinks: SiteLink[] = [
+  {
+    name: `版本 v${version}${commitSha ? ` (${commitSha})` : ''}`,
+    icon: Tag,
+    url: commitSha ? commitUrl.value : undefined,
+  },
+  {
+    name: 'Github 仓库',
+    url: 'https://github.com/FishCat233/ngen-hello-kexie-space',
+    icon: FolderGit2,
+  },
+  { name: '时间', icon: Clock, time: true },
+]
+
+interface DurationParts {
+  days: string
+  hours: string
+  minutes: string
+  seconds: string
+}
+
 const currentTime = ref('')
-const kexieDuration = ref('')
+const duration = ref<DurationParts>({ days: '0', hours: '00', minutes: '00', seconds: '00' })
 let timeInterval: number | null = null
 
 const formatDateTime = (date: Date): string => {
@@ -37,39 +66,24 @@ const formatDateTime = (date: Date): string => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
-const formatDuration = (ms: number): string => {
+const formatDuration = (ms: number): DurationParts => {
   const seconds = Math.floor(ms / 1000)
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
-  const remainingHours = hours % 24
-  const remainingMinutes = minutes % 60
-  const remainingSeconds = seconds % 60
-  return `${days}天${remainingHours}小时${remainingMinutes}分${remainingSeconds}秒`
+  return {
+    days: String(days),
+    hours: String(hours % 24).padStart(2, '0'),
+    minutes: String(minutes % 60).padStart(2, '0'),
+    seconds: String(seconds % 60).padStart(2, '0'),
+  }
 }
 
 const updateTime = () => {
   currentTime.value = formatDateTime(new Date())
   const kexieStartDate = new Date(KEXIE_FOUNDING_DATE)
   const now = new Date()
-  const duration = now.getTime() - kexieStartDate.getTime()
-  kexieDuration.value = formatDuration(duration)
-}
-
-const handleLinkClick = (url: string) => {
-  if (url === '#') return
-  window.open(url, '_blank')
-}
-
-const getIconComponent = (iconName: string) => {
-  const iconMap: Record<string, typeof Github> = {
-    github: Github,
-    users: Users,
-    'message-circle': MessageCircle,
-    radio: Radio,
-    video: Video,
-  }
-  return iconMap[iconName] || Github
+  duration.value = formatDuration(now.getTime() - kexieStartDate.getTime())
 }
 
 onMounted(() => {
@@ -85,61 +99,91 @@ onUnmounted(() => {
 <template>
   <footer class="footer">
     <div class="footer-container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3 class="footer-title">联系我们</h3>
-          <div class="footer-links">
-            <div
-              v-for="link in contactLinks"
-              :key="link.name"
-              class="footer-link-item"
-              @click="handleLinkClick(link.url)"
-            >
-              <component :is="getIconComponent(link.icon)" class="footer-link-icon" />
-              <span class="footer-link-text">{{ link.name }}</span>
-            </div>
+      <div class="footer-main">
+        <!-- 左：品牌区 -->
+        <div class="footer-brand">
+          <picture>
+            <source srcset="/logo.webp" type="image/webp" />
+            <img src="/logo.png" alt="科协LOGO" class="footer-logo" />
+          </picture>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">桂电三院科协</span>
+            <span class="footer-brand-slogan">科技融入梦想，创新点缀人生</span>
           </div>
         </div>
 
-        <div class="footer-section">
-          <h3 class="footer-title">站点信息</h3>
-          <div class="footer-info">
-            <div
-              class="footer-info-item"
-              :class="{ 'footer-info-link': commitSha }"
-              @click="commitSha ? handleLinkClick(commitUrl) : undefined"
-            >
-              <span class="footer-info-label">版本：</span>
-              <span class="footer-info-value">
-                v{{ version }}<template v-if="commitSha"> ({{ commitSha }})</template>
-              </span>
-              <ExternalLink v-if="commitSha" class="footer-info-icon" />
+        <!-- 右：两栏信息 -->
+        <div class="footer-columns">
+          <div class="footer-col">
+            <h3 class="footer-col-title">联系我们</h3>
+            <div class="footer-col-list">
+              <a
+                v-for="link in contactLinks"
+                :key="link.name"
+                :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-item"
+              >
+                <component :is="link.icon" :size="14" class="item-icon" />
+                <span>{{ link.name }}</span>
+              </a>
             </div>
-            <div
-              class="footer-info-item footer-info-link"
-              @click="handleLinkClick('https://github.com/FishCat233/ngen-hello-kexie-space')"
-            >
-              <span class="footer-info-label">Github 仓库：</span>
-              <span class="footer-info-value">FishCat233/ngen-hello-kexie-space</span>
-              <ExternalLink class="footer-info-icon" />
-            </div>
-            <div class="footer-info-item">
-              <span class="footer-info-label">时间：</span>
-              <span class="footer-info-value">{{ currentTime }}</span>
-            </div>
-            <div class="footer-info-item kexie-duration">
-              <span class="footer-info-label">科协已砥砺前行(至少)：</span>
-              <span class="footer-info-value">{{ kexieDuration }}</span>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-col-title">站点信息</h3>
+            <div class="footer-col-list">
+              <a
+                v-for="link in siteLinks"
+                :key="link.name"
+                :href="link.url"
+                :target="link.url ? '_blank' : undefined"
+                :rel="link.url ? 'noopener noreferrer' : undefined"
+                class="footer-item"
+                :class="{ 'is-static': !link.url }"
+              >
+                <component :is="link.icon" :size="14" class="item-icon" />
+                <span v-if="link.time">{{ currentTime }}</span>
+                <span v-else>{{ link.name }}</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="footer-bottom">
-        <p class="footer-copyright">
-          桂电三院科协 © {{ new Date().getFullYear() }} :: Site Powered by ❤️.
-        </p>
+    <!-- 底部版权条：更深的底色区分区域 -->
+    <div class="footer-bottom">
+      <!-- 页面最底部中心放射的椭圆蓝色光晕（呼吸感动画） -->
+      <div class="footer-glow" aria-hidden="true"></div>
+
+      <!-- 砥砺前行翻卡计时 -->
+      <div class="duration-block">
+        <span class="duration-label">科协已砥砺前行（至少）</span>
+        <div class="flip-counter">
+          <span class="counter-group">
+            <BlurNumber :value="duration.days" />
+            <span class="counter-unit">天</span>
+          </span>
+          <span class="counter-group">
+            <BlurNumber :value="duration.hours" />
+            <span class="counter-unit">小时</span>
+          </span>
+          <span class="counter-group">
+            <BlurNumber :value="duration.minutes" />
+            <span class="counter-unit">分</span>
+          </span>
+          <span class="counter-group">
+            <BlurNumber :value="duration.seconds" />
+            <span class="counter-unit">秒</span>
+          </span>
+        </div>
       </div>
+
+      <p class="footer-copyright">
+        桂电三院科协 © {{ new Date().getFullYear() }} :: Site Powered by ❤️.
+      </p>
     </div>
   </footer>
 </template>
@@ -148,156 +192,208 @@ onUnmounted(() => {
 .footer {
   width: 100%;
   background: var(--color-surface);
-  border-top: 1px solid var(--color-primary);
   margin-top: auto;
 }
 
 .footer-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 24px 12px;
+  padding: 64px 24px;
 }
 
-.footer-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 16px;
+/* 品牌区与右侧两栏顶部对齐 */
+.footer-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 64px;
 }
 
-.footer-section {
+/* 品牌区：上提补偿右侧标题行高的半行距，保证视觉顶边齐平 */
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: -4px;
+}
+
+.footer-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.footer-brand-text {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
-.footer-title {
-  font-size: var(--text-ui);
-  font-weight: 500;
-  color: var(--color-primary);
+.footer-brand-name {
+  font-size: var(--text-h5);
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.footer-brand-slogan {
+  font-size: var(--text-sm);
+  color: #9ca3af;
+}
+
+/* 右侧两栏 */
+.footer-columns {
+  display: flex;
+  gap: 96px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 标题与子项图标的左缘对齐 */
+.footer-col-title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-white);
   margin: 0;
 }
 
-.footer-links {
+.footer-col-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
 }
 
-.footer-link-item {
-  display: flex;
+.footer-item {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  color: var(--color-white);
+  font-size: var(--text-ui);
+  color: #9ca3af;
   text-decoration: none;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  font-family: inherit;
+  white-space: nowrap;
 }
 
-.footer-link-item:hover {
-  background: var(--color-primary);
-  color: var(--color-white);
-}
-
-.footer-link-item:hover .footer-link-icon {
-  color: var(--color-white);
-}
-
-.footer-link-icon {
-  width: 14px;
-  height: 14px;
+.item-icon {
   color: var(--color-primary);
+  flex-shrink: 0;
 }
 
-.footer-link-text {
-  font-size: var(--text-xs);
-  font-weight: 400;
-}
-
-.footer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.footer-info-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-}
-
-.footer-info-label {
-  font-size: var(--text-xs);
-  color: var(--color-primary);
-  font-weight: 400;
-}
-
-.footer-info-value {
-  font-size: var(--text-xs);
-  color: var(--color-white);
-  font-family: var(--font-mono);
-}
-
-.footer-info-link {
+a.footer-item {
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.footer-info-link:hover {
-  background: var(--color-primary);
+a.footer-item.is-static {
+  cursor: default;
 }
 
-.footer-info-link:hover .footer-info-label,
-.footer-info-link:hover .footer-info-value,
-.footer-info-link:hover .footer-info-icon {
-  color: var(--color-white);
-}
-
-.footer-info-icon {
-  width: 12px;
-  height: 12px;
-  color: var(--color-primary);
-}
-
-.kexie-duration .footer-info-value {
-  color: var(--color-primary);
-}
-
+/* 版权条：底色与页脚主区统一 */
 .footer-bottom {
-  padding-top: 12px;
-  border-top: 1px solid var(--color-primary);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 32px 24px 20px;
   text-align: center;
 }
 
+/* 底部中心放射椭圆蓝色光晕：置于内容之下，呼吸感起伏 */
+.footer-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -200px;
+  width: min(1200px, 92vw);
+  height: 400px;
+  z-index: -1;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(59, 130, 246, 0.24),
+    rgba(59, 130, 246, 0.1) 38%,
+    transparent 68%
+  );
+  pointer-events: none;
+  animation: footer-glow-breathe 7s ease-in-out infinite;
+}
+
+@keyframes footer-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+.duration-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.duration-label {
+  font-size: var(--text-sm);
+  color: #9ca3af;
+}
+
+/* 翻卡计数器 */
+.flip-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  perspective: 300px;
+}
+
+.counter-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.counter-unit {
+  font-size: var(--text-ui);
+  color: #9ca3af;
+}
+
+/* 版权行与计时器同灰阶，视觉上连为一个整体 */
 .footer-copyright {
   font-size: var(--text-xs);
-  color: var(--color-white);
+  color: #9ca3af;
   margin: 0;
 }
 
 @media (max-width: 1024px) {
   .footer-container {
-    padding: 16px 16px 10px;
+    padding: 48px 16px;
   }
 
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    margin-bottom: 12px;
+  .footer-main {
+    flex-direction: column;
+    gap: 48px;
   }
 
-  .footer-link-item {
-    padding: 3px 6px;
+  .footer-columns {
+    gap: 64px;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-columns {
+    flex-direction: column;
+    gap: 40px;
   }
 
-  .footer-info-item {
-    padding: 3px 6px;
+  .flip-counter {
+    gap: 8px;
   }
 }
 </style>

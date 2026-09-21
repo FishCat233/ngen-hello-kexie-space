@@ -115,7 +115,7 @@ onMounted(async () => {
 
 .cms-notice,
 .section-empty {
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-md);
   padding: 16px;
   color: var(--color-text);

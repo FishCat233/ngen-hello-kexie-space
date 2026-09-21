@@ -1,7 +1,25 @@
 <script setup lang="ts">
-import { Trophy, Users } from 'lucide-vue-next'
 import { awards, getAwardLevelColor } from '../data/awards'
 import BackButton from '../components/BackButton.vue'
+import SectionMark from '../components/SectionMark.vue'
+
+/* 等级高低序（用于取卡片的最高等级色） */
+const levelRank = ['省三', '省二', '省一', '国三', '国二', '国一']
+
+function bestLevelColor(levels: Record<string, number>): string {
+  let best = ''
+  for (const level of Object.keys(levels)) {
+    if (levelRank.indexOf(level) > levelRank.indexOf(best)) {
+      best = level
+    }
+  }
+  return getAwardLevelColor(best)
+}
+
+function chipStyle(level: string) {
+  const color = getAwardLevelColor(level)
+  return { color, background: `color-mix(in srgb, ${color} 13%, transparent)` }
+}
 </script>
 
 <template>
@@ -10,50 +28,36 @@ import BackButton from '../components/BackButton.vue'
       <BackButton />
 
       <div class="awards-header">
-        <h1 class="awards-title"><span class="title-accent">#</span> 近年获奖情况</h1>
+        <h1 class="awards-title"><SectionMark class="title-mark" /> 近年获奖情况</h1>
         <p class="awards-subtitle">很多还在整理当中，下面展示是近几年国家级、省部级获奖的一部分</p>
       </div>
 
       <div class="awards-grid">
-        <div v-for="award in awards" :key="award.name" class="award-card">
-          <div class="award-content-wrapper">
-            <div class="award-header">
-              <div class="award-icon">
-                <Trophy :size="20" />
-              </div>
-              <h3 class="award-name">{{ award.name }}</h3>
-            </div>
+        <div
+          v-for="award in awards"
+          :key="award.name"
+          class="award-card"
+          :style="{ '--stripe-color': bestLevelColor(award.award) }"
+        >
+          <!-- 左侧最高等级色条 -->
+          <span class="award-stripe"></span>
 
-            <div class="award-content">
-              <div class="award-levels">
-                <div
-                  v-for="(count, level) in award.award"
-                  :key="level"
-                  class="award-level"
-                  :style="{
-                    '--level-color': getAwardLevelColor(level),
-                    borderColor: getAwardLevelColor(level),
-                  }"
-                >
-                  <span class="level-count" :style="{ color: getAwardLevelColor(level) }">
-                    {{ count }}人
-                  </span>
-                  <span class="level-name">{{ level }}</span>
-                </div>
-              </div>
+          <h3 class="award-name">{{ award.name }}</h3>
 
-              <div class="award-people">
-                <div class="people-header">
-                  <Users :size="14" />
-                  <span>获奖成员</span>
-                </div>
-                <div class="people-list">
-                  <span v-for="person in award.people" :key="person" class="person-tag">
-                    {{ person }}
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div class="award-levels">
+            <span
+              v-for="(count, level) in award.award"
+              :key="level"
+              class="level-chip"
+              :style="chipStyle(level)"
+            >
+              {{ level }} ×{{ count }}
+            </span>
+          </div>
+
+          <div class="award-people">
+            <span class="people-label">获奖成员 {{ award.people.length }} 人</span>
+            <p class="people-names">{{ award.people.join('、') }}</p>
           </div>
         </div>
       </div>
@@ -74,123 +78,67 @@ import BackButton from '../components/BackButton.vue'
 }
 
 .awards-header {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .awards-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
-  margin: 0 0 12px 0;
+  margin: 0 0 14px;
+  line-height: 1;
 }
 
-.title-accent {
+.title-mark {
   color: var(--color-primary);
 }
 
 .awards-subtitle {
   font-size: var(--text-body);
-  color: var(--color-text);
+  color: #9ca3af;
   margin: 0;
 }
 
 .awards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .award-card {
   position: relative;
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
-  padding: 16px;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  padding: 28px 28px 24px 32px;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .award-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
+  background: #10141b;
 }
 
-.award-card:hover .award-name,
-.award-card:hover .level-name,
-.award-card:hover .people-header,
-.award-card:hover .person-tag {
-  color: var(--color-on-primary);
-}
-
-.award-card:hover .level-count {
-  color: var(--color-on-primary) !important;
-}
-
-.award-card:hover .award-icon {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
-  color: var(--color-on-primary);
-}
-
-.award-card:hover .award-level {
-  background: var(--level-color);
-}
-
-.award-card:hover .award-people {
-  border-top-color: var(--color-white);
-}
-
-.award-card:hover .person-tag {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
-}
-
-.award-content-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-.award-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.award-icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  color: var(--color-primary);
-  flex-shrink: 0;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+/* 左侧内缩色条：取该赛事最高等级的颜色 */
+.award-stripe {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--stripe-color, var(--color-primary));
 }
 
 .award-name {
-  font-size: var(--text-body);
+  font-size: var(--text-h4);
   font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
+  color: var(--color-white);
+  margin: 0 0 16px;
   line-height: var(--leading-snug);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.award-content {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
 }
 
 .award-levels {
@@ -199,65 +147,39 @@ import BackButton from '../components/BackButton.vue'
   gap: 8px;
 }
 
-.award-level {
-  display: flex;
-  flex-direction: column;
+.level-chip {
+  display: inline-flex;
   align-items: center;
-  padding: 6px 10px;
-  background: transparent;
-  border: 2px solid;
+  padding: 5px 12px;
   border-radius: var(--radius-sm);
-  min-width: 48px;
-  transition: background-color 0.2s ease;
-}
-
-.level-count {
-  font-size: var(--text-ui);
-  font-weight: 700;
-  margin-bottom: 1px;
-}
-
-.level-name {
-  font-size: var(--text-xs);
-  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .award-people {
+  margin-top: 20px;
+  padding-top: 16px;
   border-top: 1px solid var(--color-line);
-  padding-top: 12px;
 }
 
-.people-header {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.people-label {
+  display: block;
   font-size: var(--text-xs);
-  color: var(--color-text);
-  margin-bottom: 8px;
+  color: #6b7280;
+  margin-bottom: 6px;
 }
 
-.people-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.person-tag {
-  padding: 3px 8px;
-  background: transparent;
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
-  color: var(--color-text);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+.people-names {
+  font-size: var(--text-ui);
+  color: #9ca3af;
+  line-height: var(--leading-normal);
+  margin: 0;
 }
 
 @media (max-width: 1024px) {
   .awards-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
@@ -267,16 +189,15 @@ import BackButton from '../components/BackButton.vue'
   }
 
   .awards-grid {
-    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .award-card {
-    padding: 14px;
+    padding: 20px 20px 18px 24px;
   }
 
-  .award-level {
-    padding: 5px 8px;
-    min-width: 44px;
+  .award-name {
+    font-size: var(--text-h5);
   }
 }
 </style>

@@ -495,7 +495,7 @@ onUnmounted(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-primary-bright);
+  background: #2563eb; /* hover 色块比底色更深 */
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -684,7 +684,7 @@ onUnmounted(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-primary-bright);
+  background: #2563eb; /* hover 色块比底色更深 */
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;

@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed, nextTick, type Component } from 'vue'
+import {
+  Globe,
+  Coffee,
+  Gamepad2,
+  Smartphone,
+  Palette,
+  Cpu,
+  Brain,
+  Clapperboard,
+  Binary,
+  Lock,
+  Shield,
+  Terminal,
+  FileText,
+} from 'lucide-vue-next'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
@@ -32,6 +47,22 @@ const directionNames: Record<string, string> = {
   editing: '编辑',
 }
 
+const directionIcons: Record<string, Component> = {
+  frontend: Globe,
+  backend: Coffee,
+  game: Gamepad2,
+  app: Smartphone,
+  ui: Palette,
+  hardware: Cpu,
+  'deep-learning': Brain,
+  video: Clapperboard,
+  reverse: Binary,
+  crypto: Lock,
+  'web-security': Shield,
+  pwn: Terminal,
+  editing: FileText,
+}
+
 const fileNames: Record<string, string> = {
   frontend: 'frontend.md',
   backend: 'backend.md',
@@ -49,6 +80,8 @@ const fileNames: Record<string, string> = {
 }
 
 const directionName = computed(() => directionNames[props.id] || '未知方向')
+
+const directionIcon = computed(() => directionIcons[props.id] || FileText)
 
 const loadMarkdown = async () => {
   loading.value = true
@@ -107,7 +140,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
       </div>
 
       <article v-else class="markdown-content">
-        <h1 class="direction-title"><span class="title-accent">#</span> {{ directionName }}</h1>
+        <h1 class="direction-title">
+          <span class="title-icon"><component :is="directionIcon" :size="20" /></span>
+          {{ directionName }}
+        </h1>
         <div class="markdown-body" v-html="htmlContent"></div>
       </article>
     </div>
@@ -171,13 +207,15 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 
 .markdown-content {
   position: relative;
-  background: var(--color-surface);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
   padding: 40px;
 }
 
 .direction-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
@@ -187,7 +225,17 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   border-bottom: 1px solid var(--color-line);
 }
 
-.title-accent {
+/* 方向专属图标框 */
+.title-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   color: var(--color-primary);
 }
 

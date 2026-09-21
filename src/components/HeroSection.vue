@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onUnmounted, ref } from 'vue'
 import { ArrowRight } from 'lucide-vue-next'
 import HeroBand from './HeroBand.vue'
 import { departments } from '../data/departments'
@@ -39,25 +39,69 @@ const deckIndex = ref(0)
 const currentDept = computed(() => departments[deckIndex.value])
 const words = computed(() => deptWords[currentDept.value.id] ?? deptWords.multimedia)
 
-// 位置驱动的有机堆叠：不同角度 + 上下交替偏移
+// 位置驱动的有机堆叠：不同角度 + 上下交替偏移（em 相对标题字号缩放）
 // 退走的卡（pos 0→末位）y 偏移向上 → "先向上"
 // 上来的卡（pos 1→0）从下方偏移归位 → "从下侧切换上来"
-const posRotations = [0, -6, 8, -4, 10]
-const posYOffsets = [0, 14, -12, 18, -10]
+// 前卡（pos 0）微降补偿视觉偏高；下侧后卡（pos 1/3）左移收拢
+const posRotations = [0, -4, 5, -3, 7]
+const posYOffsets = [0.06, 0.1, -0.09, 0.12, -0.07]
+const posXOffsets = [0, -0.14, 0, -0.16, 0]
+
+// 分层景深：越靠后模糊越强、压得越暗（em 随标题字号缩放）；pos1（下侧近层）模糊收小保证边缘清晰
+const posBlurs = [0, 0.03, 0.1, 0.16, 0.22]
+const posBrightness = [1, 0.8, 0.6, 0.45, 0.32]
+
+const deckPos = (index: number) =>
+  (index - deckIndex.value + departments.length) % departments.length
 
 const deckCardStyle = (deptId: string, index: number) => {
-  const pos = (index - deckIndex.value + departments.length) % departments.length
+  const pos = deckPos(index)
   return {
-    transform: `rotate(${posRotations[pos] ?? 0}deg) translateY(${posYOffsets[pos] ?? 0}px) scale(${1 - pos * 0.05})`,
+    transform: `rotate(${posRotations[pos] ?? 0}deg) translate(${posXOffsets[pos] ?? 0}em, ${posYOffsets[pos] ?? 0}em) scale(${1 - pos * 0.05})`,
     zIndex: departments.length - pos,
-    filter: pos === 0 ? 'none' : `blur(${(pos * 1.0).toFixed(1)}px)`,
+    filter:
+      pos === 0 ? 'none' : `blur(${posBlurs[pos] ?? 0}em) brightness(${posBrightness[pos] ?? 1})`,
     background: deptColors[deptId],
     color: deptTextColors[deptId],
   }
 }
 
+// 行重排位移动画（FLIP）：切换使行宽变化 → flex 居中重新对位时文字会瞬移；
+// 先记首元素旧位置，重排后对整行施加反向位移、再过渡回 0，实现平滑滑向新居中位
+const metaLineRef = ref<HTMLElement>()
+const mainLineRef = ref<HTMLElement>()
+
+const firstChildLeft = (line?: HTMLElement) =>
+  (line?.firstElementChild as HTMLElement | null)?.getBoundingClientRect().left ?? null
+
+const flipLine = (
+  line: HTMLElement | undefined,
+  oldLeft: number | null,
+  duration: number,
+  easing: string,
+) => {
+  const left = firstChildLeft(line)
+  if (!line || oldLeft === null || left === null) return
+  const dx = oldLeft - left
+  if (Math.abs(dx) < 0.5) return
+  line.style.transition = 'none'
+  line.style.transform = `translateX(${dx}px)`
+  void line.offsetWidth
+  requestAnimationFrame(() => {
+    line.style.transition = `transform ${duration}s ${easing}`
+    line.style.transform = ''
+  })
+}
+
 const timer = setInterval(() => {
+  const metaBefore = firstChildLeft(metaLineRef.value)
+  const mainBefore = firstChildLeft(mainLineRef.value)
   deckIndex.value = (deckIndex.value + 1) % departments.length
+  void nextTick(() => {
+    // 滑动节奏分别跟随各行内部动画：卡堆 0.7s 过冲曲线 / 词组滚动 0.45s ease
+    flipLine(metaLineRef.value, metaBefore, 0.7, 'cubic-bezier(0.34, 1.4, 0.5, 1)')
+    flipLine(mainLineRef.value, mainBefore, 0.45, 'ease')
+  })
 }, SWITCH_INTERVAL)
 
 onUnmounted(() => clearInterval(timer))
@@ -112,7 +156,7 @@ const buttons = [
     <div class="hero-content">
       <h1 class="hero-heading">
         <!-- 第一行：归属路径 -->
-        <span class="hero-line hero-line-meta">
+        <span ref="metaLineRef" class="hero-line hero-line-meta">
           <span class="meta-text">在</span>
           <!-- 尖角直角箭头，无圆角，宽而粗 -->
           <svg class="meta-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -134,6 +178,7 @@ const buttons = [
               v-for="(dept, index) in departments"
               :key="dept.id"
               class="deck-card"
+              :class="{ 'is-behind': deckPos(index) !== 0 }"
               :style="deckCardStyle(dept.id, index)"
             >
               <span class="deck-card-text">{{ dept.name }}</span>
@@ -141,8 +186,9 @@ const buttons = [
           </span>
         </span>
 
-        <!-- 第二行：主标语（词组随部门滚动切换） -->
+        <!-- 第二行：词组 + 部门色 -->
         <span
+          ref="mainLineRef"
           class="hero-line hero-line-main"
           :style="{ '--dept-color': deptColors[currentDept.id] }"
         >
@@ -277,9 +323,9 @@ const buttons = [
   align-items: center;
   text-align: center;
   gap: 24px;
-  /* 整体靠上：从垂直居中改为偏上 38% */
+  /* 整体略偏上（2026-09-21 由 -12vh 下移：加大距顶部留白，首屏高度不变、不影响下方区块） */
   margin-top: 0;
-  transform: translateY(-12vh);
+  transform: translateY(-6vh);
 }
 
 @media (max-width: 640px) {
@@ -302,12 +348,12 @@ const buttons = [
   line-height: 1;
 }
 
-/* 第三行 slogan：正文大小、偏灰 */
+/* 第三行 slogan：h5 大小、更白的灰，与标题拉开距离 */
 .hero-slogan {
-  margin: 0;
-  font-size: var(--text-body);
+  margin: 56px 0 0;
+  font-size: var(--text-h5);
   font-weight: 500;
-  color: #9ca3af;
+  color: #cbd5e1;
   line-height: var(--leading-normal);
 }
 
@@ -346,6 +392,8 @@ const buttons = [
   line-height: 1;
   display: inline-flex;
   align-items: center;
+  /* 全角括号墨迹偏下，上提与文字视觉对齐 */
+  transform: translateY(-0.02em);
 }
 
 .meta-org {
@@ -358,7 +406,9 @@ const buttons = [
 
 /* 部门卡堆（参考 React Bits Stack）：全部卡片常驻同一 grid 单元，
    位置由堆内序号驱动（rotate/translateY/scale/z-index/blur），切换时整叠联动 */
+/* 卡堆容器：relative 使绝对定位的背景卡以本容器为包含块 */
 .dept-deck {
+  position: relative;
   display: inline-grid;
   margin-left: 0.18em;
 }
@@ -368,8 +418,8 @@ const buttons = [
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* 大药丸：外框高度与周围文字行高一致（1em = 标题字号） */
-  height: 1em;
+  /* 大药丸：外框略高于周围文字墨迹（900 字重 + 描边出血后视觉高度 > 1em） */
+  height: 1.08em;
   padding: 0 0.3em;
   border-radius: var(--radius-pill);
   text-shadow: none;
@@ -380,10 +430,20 @@ const buttons = [
     filter 0.6s ease;
 }
 
+/* 非顶卡绝对定位：不参与 grid 列宽计算 → 卡堆宽度始终贴合当前顶卡内容，
+   药丸与左侧文字间距恒定；绝对项锚定同一 cell 左上角，切换仍由 transform 驱动 */
+.deck-card.is-behind {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .deck-card-text {
   font-size: 0.78em;
   font-weight: 700;
   line-height: 1;
+  /* 中文字体基线偏下导致墨迹视觉偏低，上提补偿实现光学居中 */
+  transform: translateY(-0.03em);
 }
 
 /* 第二行：一起 + 滚动词组 + 贴纸位 */

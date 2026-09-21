@@ -5,6 +5,7 @@ import { useScrollStore } from './stores/scroll'
 import AppNavbar from './components/AppNavbar.vue'
 import AppFooter from './components/AppFooter.vue'
 import HeroSection from './components/HeroSection.vue'
+import AboutSection from './components/AboutSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
 import RecruitmentSection from './components/RecruitmentSection.vue'
 
@@ -42,6 +43,9 @@ function onHomeMounted() {
     <main v-if="isHomePage" class="main-content" @vue:mounted="onHomeMounted">
       <section id="home">
         <HeroSection />
+      </section>
+      <section id="about">
+        <AboutSection />
       </section>
       <section id="learning">
         <LearningDirectionsSection />

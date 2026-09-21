@@ -90,42 +90,19 @@ const competitionLabel = computed(() => {
 
 <style scoped>
 .competition-card {
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
   padding: 24px;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .competition-card.clickable {
   cursor: pointer;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .competition-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
-}
-
-.competition-card:hover .project-name,
-.competition-card:hover .project-description,
-.competition-card:hover .author-name {
-  color: var(--color-on-primary);
-}
-
-.competition-card:hover .avatar-wrapper {
-  border-color: var(--color-white);
-}
-
-.competition-card:hover .avatar-fallback {
-  color: var(--color-on-primary);
-}
-
-.competition-card:hover .competition-tag {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
-  color: var(--color-on-primary);
+  background: #10141b;
 }
 
 .card-author {
@@ -234,18 +211,17 @@ const competitionLabel = computed(() => {
 }
 
 .competition-tag {
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  height: 22px; /* 与左侧项目名行高一致 */
+  padding: 0 10px;
   background: transparent;
   border: 2px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
   font-weight: 500;
   color: var(--color-text);
   white-space: nowrap;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
 }
 
 @media (max-width: 768px) {

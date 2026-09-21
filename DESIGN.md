@@ -48,8 +48,9 @@
 |-------|------|------|
 | `--color-bg` | `#000000` | 页面背景：纯黑 |
 | `--color-surface` | `#0a0e14` | 深色面板：导航栏、页脚、代码块、内容面板、弹窗 |
+| `--color-card` | `#181d26` | 二级卡片：比背景浅一档的黑，表达层级（2026-09-20 用户指令，替代蓝色描边） |
 | `--color-line` | `#1e293b` | 细线：分隔线、背景网格、表格边框、加载轨道 |
-| `--color-primary` | `#3b82f6` | 科技蓝：色块、卡片边框、标题 `#` 前缀、名称、链接基色 |
+| `--color-primary` | `#3b82f6` | 科技蓝：色块、标题 `#` 前缀、名称、链接基色 |
 | `--color-primary-bright` | `#60a5fa` | 亮科技蓝：hover 滑切填充、小号元信息（日期）、行内代码文字 |
 | `--color-primary-dim` | `#0d1b2e` | 暗蓝面板：行内代码背景、blockquote 背景 |
 | `--color-text` | `#e5e7eb` | 正文 |
@@ -59,7 +60,7 @@
 
 ### 1.2 语义分配
 
-- **背景层**：页面用 `--color-bg`；卡片为黑底 + `--color-primary` 2px 直角边框；面板型容器（导航/页脚/Markdown 容器/iframe 弹窗）用 `--color-surface`
+- **背景层**：页面用 `--color-bg`；**二级卡片统一 `--color-card` 浅黑底表达层级，不再使用蓝色描边**（2026-09-20 用户指令）；面板型容器（导航/页脚/iframe 弹窗）用 `--color-surface`
 - **强调层**：标题 `#` 前缀、人名/项目名、链接基色用 `--color-primary`；小号元信息与 Markdown 行内代码文字用 `--color-primary-bright`
 - **交互态**：hover 统一为 `--color-primary-bright` 填充（滑切或整体变色），其上文字一律 `--color-on-primary`（近黑）；卡片内嵌小按钮 hover 时可反转为黑底白字
 - **细节线**：分隔线、表格边框、面板内 divider 用 `--color-line`
@@ -192,9 +193,9 @@
 
 ### 4.3 按钮文字颜色规则（2026-09-20 定稿）
 
-- **所有按钮文字一律白色**（`--color-white`），静止与 hover 均不变黑。覆盖：导航 CTA（桌面/移动）、滑切按钮、返回按钮、重试按钮、展廊筛选、灯箱控制、iframe 访问按钮、页脚链接条目、`.btn-solid`
-- hover 层次仅靠背景表达：填充 `--color-primary` → `--color-primary-bright`（或 `::before` 滑切）
-- 卡片 hover 的整体反色（内容文字变 `--color-on-primary` 深色）属**卡片语言**，不属于按钮规则，保留
+- **所有按钮文字一律白色**（`--color-white`），静止与 hover 均不变黑。覆盖：导航 CTA（桌面/移动）、滑切按钮、返回按钮、重试按钮、展廊筛选、灯箱控制、iframe 访问按钮、`.btn-solid`。**导航 CTA 滑切块深蓝 `#2563eb`（2026-09-20 用户指令：比底色深）**
+- hover 层次仅靠背景表达：填充 `--color-primary` → `--color-primary-bright`（或 `::before` 滑切；导航 CTA 例外用 `#2563eb` 深蓝）
+- 卡片 hover 已改为「变深」语言（见 §8 二级卡片层级规则），不再整体反色
 
 ## 5. 动效系统 ⬜
 
@@ -202,13 +203,15 @@
 
 已落地的局部动效：
 
-- **首屏部门卡堆**（`HeroSection.vue`，2026-09-20，参考 [React Bits Stack](https://reactbits.dev/components/stack)）：5 张卡片常驻 DOM，位置由堆内序号驱动（rotate/scale/z-index/blur），切换时顶卡沉底、整叠联动上移——0.6s `cubic-bezier(0.3, 1.2, 0.4, 1)`（近似 spring 260/20），景深 `blur(pos×1.2px)`
+- **首屏部门卡堆**（`HeroSection.vue`，2026-09-20，参考 [React Bits Stack](https://reactbits.dev/components/stack)）：5 张卡片常驻 DOM，位置由堆内序号驱动（rotate/scale/z-index/blur），切换时顶卡沉底、整叠联动上移——0.6s `cubic-bezier(0.3, 1.2, 0.4, 1)`（近似 spring 260/20）；**分层景深（二次修订）**：`blur` 按深度递增 `0.03/0.1/0.16/0.22em`（下侧近层卡收小保证边缘清晰）+ `brightness` 逐层压暗 `0.8/0.6/0.45/0.32`（em 随标题字号缩放）
 - **首屏词组滚动**：垂直滚动切换（旧词上滚出、新词下滚入），0.45s ease，无翻转
 - 全站已有：滑切按钮 hover（见 §4.2）、下拉菜单 grid-rows 展开
 
 ## 6. 签名元素 🟡
 
 草案（2026-09-20，随首屏改版引入）：**`>` 路径符号 + `[ ]` 方括号**——首屏第一行「在 > [ 科协 ] 部门」中的 `>`（lucide ChevronRight SVG、primary 色）与独立于「科协」两侧的方括号（primary 色），接替旧版 `# ` Markdown 语法前缀的识别性角色。待确认是否推广到子页面标题。
+
+**章节标题标记（2026-09-20 定稿）**：首页各面大标题的 `#` 前缀改为用户上传的**阶梯形 SVG**（`SectionMark.vue`，32×48 viewBox、三枚 16px 方块阶梯上升）——`currentColor` 继承 `--color-primary`，高度 `0.85em` 与标题文字视觉高度一致，flex 居中对齐。子页面标题仍用 `#` 前缀，待后续统一。
 
 ## 7. 组件规范 ⬜
 
@@ -226,15 +229,17 @@
 
 - **两行字号等大**：`clamp(15px, calc(5.3vw - 6px), 64px)`（vw 缩放保证任意屏宽单行不溢出、不换行）；字重 900 + `-webkit-text-stroke: 0.016em` 描边加粗；间距全部 em 化随字号缩放
 - **第一行（归属路径）**：`在 > [ 科协 ] 部门卡堆`
-  - `>` 为 lucide `ChevronRight` SVG（0.55em，主题色）；`[` `]` `科协` 为独立元素、全部主题色，括号 `translateY(0.03em)` 微调视觉居中
-  - 部门卡堆（参考 [React Bits Stack](https://reactbits.dev/components/stack)）：5 张部门卡常驻同一 grid 单元，位置由堆内序号驱动——`rotate(pos×4deg) scale(1-pos×0.06)`、`transform-origin: 90% 90%`、z-index 随深度递减、`blur(pos×1.2px)` 景深；切换时顶卡沉底、整叠联动（0.6s，`cubic-bezier(0.3, 1.2, 0.4, 1)` 近似 spring 260/20），周期 3.5s
+  - `>` 为 lucide `ChevronRight` SVG（0.55em，主题色）；`[` `]` `科协` 为独立元素、全部主题色，括号 `translateY(-0.02em)` 上提补偿（全角括号墨迹偏下，2026-09-21 修订）
+  - 部门卡堆（参考 [React Bits Stack](https://reactbits.dev/components/stack)）：5 张部门卡常驻同一 grid 单元，位置由堆内序号驱动——`rotate` 有机角度 + `scale(1-pos×0.05)`、`transform-origin: 90% 90%`、z-index 随深度递减、前卡 `translateY(0.06em)` 下移补偿（2026-09-21 修订）；**卡宽贴合当前顶卡**（2026-09-21 修订：非顶卡 `position: absolute` 锚定 cell 左上角、不参与列宽计算，容器 `position: relative`——药丸与左侧文字间距恒定，切换时行宽随顶卡字数变化）；**分层景深**：`blur` 按深度递增 `0.03/0.1/0.16/0.22em`（下侧近层收小）、`brightness` 逐层压暗 `0.8/0.6/0.45/0.32`；切换时顶卡沉底、整叠联动（0.7s，`cubic-bezier(0.34, 1.4, 0.5, 1)` 过冲曲线），周期 3.5s
 - **第二行（主标语）**：`一起 词组1 词组2 词组3 [贴纸位]`
   - 每部门对应 3 个词组（`deptWords` 映射，HeroSection 内维护）；「一起」白色，词组用当前部门专属色（`--dept-color` CSS 变量注入）
   - 词组滚动切换：每个词组独立滚动窗口（overflow hidden 槽），旧词上滚出、新词下滚入（0.45s），切换后行宽即时更新、整行 flex 居中自动重排
+  - **行重排 FLIP 位移动画**（2026-09-21）：切换导致两行行宽变化、flex 居中重排时文字瞬移——FLIP 承接：切换前记录行首元素位置，重排后对整行施加反向 `translateX`，再过渡回 0；药丸行 0.7s 过冲曲线（随卡堆）、词组行 0.45s ease（随词组滚动）
   - 右侧贴纸图片预留位：1.1em 虚线框（`rgba(59,130,246,0.35)`），≤640px 隐藏；待替换为 `<img>`
 - 部门专属色（`deptColors` 药丸底色 + 第二行词组文字）：多媒体 `#22d3ee` / 软件 `#a78bfa` / 硬件 `#fb923c` / 组织 `#34d399` / 安全 `#f87171`；药丸内文字用各自更深同色系（`deptTextColors`）：`#164e63/#4c1d95/#7c2d12/#065f46/#7f1d1d`
-- 药丸形态：外框高度 `1em`（与周围文字行高一致）、`border-radius: var(--radius-pill)`、内文字 `0.78em` 居中
+- 药丸形态：外框高度 `1.08em`（略高于周围 900 字重 + 描边文字的墨迹高度，2026-09-20 修订）、宽度随各自部门名字数（3 字/4 字不等宽，2026-09-21）、`border-radius: var(--radius-pill)`、内文字 `0.78em` 居中 + `translateY(-0.03em)` 光学居中补偿（中文基线偏下）
 - 两行整体居中对齐（`hero-heading` column + center），HeroBand 背景与底部四按钮（毛玻璃）不变
+- 垂直位置：`hero-content` `translateY(-6vh)` 略偏上（2026-09-21 由 -12vh 下移，加大标题/副标题/按钮距顶部留白；首屏仍 100vh 定高，不影响下方区块）
 
 ## 9. 响应式策略 ⬜
 
@@ -267,8 +272,19 @@
 - 参数：单色 `#3b82f6`（= `--color-primary`）、speed 0.5、bandWidth 6、intensity 1.2、noise 0、rotation 90
 - 底部过渡：`.hero-bends` 加 `mask-image: linear-gradient(to bottom, black 60%, transparent 100%)`，色带在首屏下部 40% 渐隐，与下一屏纯黑背景无缝衔接
 - **版本坑（重要）**：vue-bits / react-bits **首页**用的是未公开的 v2 组件（API 为单数 `color` + `fadeTop` + `bandWidth` 取 0~1 小值），其 shader 从未发布到仓库；公开版 API 是 `colors: string[]`、无 `fadeTop`、`bandWidth` 默认 6。两版公式不同，**把 v2 参数喂给公开版公式会渲染成均匀淡雾**而非光带。如需首页同款柔和光晕效果，需自研 shader，不能靠参数复刻
-| 第二面 · 学习方向 | `src/components/LearningDirectionsSection.vue` | ✔ |
-| 第三面 · 加入我们（招新时间线） | `src/components/RecruitmentSection.vue` | ✔ |
+| 第二面 · 关于科协（三段介绍文案） | `src/components/AboutSection.vue` | ✔ |
+| 第三面 · 学习方向 | `src/components/LearningDirectionsSection.vue` | ✔ |
+| 第四面 · 加入我们（横向招新时间线） | `src/components/RecruitmentSection.vue` | ✔ |
+
+**首页各面通用规格（2026-09-20 定稿）**：
+- 大标题**左对齐**：`SectionMark` 阶梯 SVG 前缀（见 §6）+ `--text-h1`，容器 `align-items: flex-start`
+- 关于科协面：左侧三段介绍文案（原「加入我们」右侧文案迁移至此，正文 `--text-body-lg`、`--leading-relaxed`、两端对齐）+ 右侧**实拍轮播**（2026-09-21 由单图升级，同日改左右滑动并抽取为共用组件 `SlidingCarousel.vue`）：3 张图——`kexie-workshop.jpg` 科协活动室 / `kexie-lab.jpg` 科协机房 / `kexie-office.jpg` 科协办公室；620px 宽、16:9 横版、高度随文字列拉伸对齐（`object-fit: cover`）；**左右滑动切换**（0.6s `cubic-bezier(0.4,0,0.2,1)`，车道持久定位——见 §8 共用组件 `SlidingCarousel`），自动轮播 4.5s（前进方向）、hover 暂停、手动切换重置节奏；**左右控件**：毛玻璃圆形按钮（36px，`rgba(10,14,20,0.5)` + `blur(16px) saturate(150%)`，hover 加深至 0.75，ChevronLeft/Right 白色）；右下角可点指示点（8px，激活主题亮蓝）；**底部黑色渐变**（`linear-gradient(to top, rgba(0,0,0,0.65), transparent)`）+ 地点文字（MapPin 14px 主题亮蓝 + 白字 `--text-ui`，随幻灯片一起滑动）；≤1024px 上下堆叠（图上文下，16:9 全宽）
+- 学习方向面**编辑部索引列表**（2026-09-20 重设计）：按部门分组——组头 = 部门名（`--text-h5` 白）+ 方向数（灰）+ 延伸细线（`--color-line`）；每方向一行 = 等宽序号（灰）+ **方向专属图标**（22px 主题蓝，与详情页同一套映射）+ 方向名（`--text-h3`）+ 右侧箭头；行 hover 浮现 `--color-card` 底、名字变 `--color-primary-bright`、箭头滑入。**安全部主页按钮**位于组头名称右侧（1px 主题蓝描边药丸 + ExternalLink，hover 蓝底白字），不混入方向行。≤640px 隐藏序号（保留图标）、名字降 `--text-h5`
+- 招新时间线**横向排版**（2026-09-21 修订）：整条时间线由 `--color-card` 圆角卡片（`--radius-lg`，padding 44px 48px）包裹；节点横排（图标 + 标题 + 描述竖直居中），阶段间衔接为**内联 SVG 箭头**（线身 + 折线箭头头部，主题蓝 `currentColor`，`vector-effect: non-scaling-stroke` 保证各尺寸下笔画恒 2px，箭头中心对齐 44px 图标中心；桌面 48px、≤1024px 36px）；≤640px 退化为纵向，箭头 `rotate(90deg)` 指向下一阶段（28px）
+
+**页脚规格（2026-09-20 重设计，四次修订）**：无描边，**底色全页脚统一 `--color-surface`**（2026-09-21 用户指令：取消版权条 `#06090f` 更深一档的分区分色）。左侧品牌区（logo 48px 圆形 + 名称 `--text-h5` 白 + 标语灰）与右侧两栏**顶部对齐**，并整体上提 4px 视觉补偿（2026-09-21 用户指令：右侧标题文字行高在字形上方留半行距，纯盒子顶对齐时品牌区视觉偏低，需相对右侧再靠上一点）；右侧两栏（联系我们 / 站点信息，间距 96px）。子项带 lucide 图标（14px 主题蓝）+ 灰字（`#9ca3af`），**栏标题与子项图标的左缘对齐**（2026-09-21 用户指令，原 `padding-left: 22px` 与子项文字对齐的方式废弃）；无 hover 效果。底部居中**计时器**（`BlurNumber.vue`，2026-09-20 三次修订，替代 FlipDigit 翻卡）：「科协已砥砺前行（至少）」+ 数字整体切换（如「16」不拆位）——无底色无圆角，`--font-mono` `--text-h5` 加粗主题蓝、`line-height: 1`；切换动画为**高斯模糊**（`filter: blur(6px)` + 淡入淡出 0.3s，`Transition out-in`）+ 单位灰字，下方版权行；**版权行与计时器同为 `#9ca3af` 灰阶、间距收紧（12px），视觉连为整体**（2026-09-21 用户指令）。版权条底部中心**椭圆放射蓝色光晕**（2026-09-21 新增）：`radial-gradient`（核心 `rgba(59,130,246,0.24)` → 38% `0.1` → 68% 透明），宽 `min(1200px, 92vw)` × 400px、中心锚定页面最底边（`bottom: -200px` 裁出上半圆顶），置于内容之下（`z-index: -1` + 父级 `isolation: isolate`），**呼吸动画** 7s（opacity 0.5↔1 + scale 1↔1.05）。≤1024px 上下堆叠、≤640px 两栏再纵排
+
+**方向详情页（2026-09-20）**：标题左侧为**方向专属图标框**（40px 2px 主题蓝描边圆角方形 + lucide 图标，13 方向各有映射：前端 Globe / 后端 Coffee / 游戏 Gamepad2 / APP Smartphone / UI Palette / 硬件 Cpu / 深度学习 Brain / 视频剪辑 Clapperboard / 逆向 Binary / 密码学 Lock / Web安全 Shield / PWN Terminal / 编辑 FileText），替代 `#` 前缀
 
 ### 子页面（7 个路由）
 
@@ -289,6 +305,26 @@
 | 项目卡片 | `src/components/ProjectCard.vue` | ✔ |
 | 竞赛项目卡片 | `src/components/CompetitionProjectCard.vue` | ✔ |
 | Markdown 正文样式（`.markdown-body`，含表格/code/blockquote） | `src/views/DirectionView.vue` 内 | ✔ |
+
+**组织架构页规格（2026-09-20 定稿）**：
+- 竖版部门卡（`min(460px, 88vw)` × min-height 480px）：上部 200px 灰色图片预留位（`#d4d4d4`，待放图），下部内容区——部门名 h2 白色、两段正文 body-lg `#b0b0b0`、可选链接 pill
+- 全宽横向卡片流：轨道撑满视口宽（不在 1200px 容器内），多卡同时可见，卡间距 48px；`padding-left: max(20px, calc((100vw - 1200px)/2 + 20px))` 让首卡与容器内标题左对齐，`scroll-padding-left` 同值保证吸附点对齐
+- 操作控件在卡片区域之外：左右箭头（毛玻璃圆钮）位于标题行右侧；圆点指示器在轨道下方；键盘 ←→ 导航
+- 无选中态：所有卡片等透明度展示，不区分激活卡
+- **主席团**（2026-09-21 新增）：`# 主席团` 标题 + 灰字「24级」注记；数据 `src/data/presidium.ts`（13 人：主席孙培正；财务/赛事/技术副主席刘宁宇、邓远翔、谭炜；各部门部长与副部长）；主席**居中强调独卡**（头像 84px、名字 h3），其余 12 人 6 列网格卡（头像 56px、名字 h5、职务灰 `--text-ui`）；头像照片缺省时为**姓氏色块**——主席团主题蓝 `#3b82f6/#172554`、各部门用首屏药丸同套色板，`avatar` 字段填 URL 后自动切照片；卡底 `--color-card`、hover 变深 `#10141b`；≤1024px 4 列 / ≤768px 3 列 / ≤480px 2 列
+- **部门风貌**（2026-09-21 新增）：`# 部门风貌` 标题 + **全宽（edge-to-edge）轮播**（`SlidingCarousel`，高度 `clamp(320px, 46vh, 560px)`，移动端 `clamp(240px, 38vh, 420px)`）；每部门一张幻灯片，合照未提供时显示**部门色占位态**（radial 渐变底 + 部门色大字 +「照片待补充」），提供合照后在 `showcaseSlides` 填入 `src` 即切实图模式（底部渐变 + 部门名标注）
+- **共用组件 `SlidingCarousel.vue`**（2026-09-21 抽取，同日修订定位算法）：左右滑动轮播——**车道持久定位**（每张幻灯片持有整数 lane，`transform = (lane - 当前张 lane) × 100%`；换向前先把进入侧幻灯片的 lane 对齐到与当前张相邻——换位前后均在屏外、瞬移不可见（该幻灯片单帧 `transition: none`，`nextTick` + 读取 `offsetWidth` 提交瞬移帧后恢复过渡），再切换 current。修复旧「最短路径归一化」在环绕切换（如 3→1、1→2）时远端幻灯片横穿整个视口的 bug）、毛玻璃左右控件、右下圆点、hover 暂停 + 手动切换重置节奏、自动 4.5s；props：`slides`（`src?/label/color?`）、`interval`、`captionIcon`（地点场景 MapPin）；无 `src` 渲染占位态。现用于：首页关于科协（620px 圆角、MapPin 地点标注）、组织架构部门风貌（全宽）
+
+**获奖页规格（2026-09-20 重设计）**：2 列卡片（≤1024px 单列），编辑排版风格——无奖杯图标、无边框徽章：
+- 标题用 `SectionMark` 前缀（同首页签名元素）
+- 卡片左侧内缩 3px 色条 = 该赛事**最高等级颜色**（`levelRank`：国一 > 国二 > 国三 > 省一 > 省二 > 省三）
+- 等级徽章扁平化：`国二 ×1` 彩字 + `color-mix 13%` 同色淡底，无描边
+- 成员去标签化：`获奖成员 N 人` 微标签（#6b7280）+ 顿号连接的灰字名单（`#9ca3af`）
+- hover 变深 `#10141b`（全局卡片规则）
+
+**展廊页徽标（2026-09-21 修订）**：图片右上角「外部链接 / 可预览」徽标由主题蓝实底（`--color-primary` + `--color-on-primary` 深字）改为**深色毛玻璃**——`rgba(10,14,20,0.55)` + `backdrop-filter: blur(16px) saturate(150%)`（同首屏按钮质感）+ 白字 600，保证任意明暗图片上的可读性；卡片 hover 图片缩放与遮罩不变
+
+**二级卡片层级规则（2026-09-20 用户指令，二次修订）**：全站二级卡片统一 `--color-card`(#181d26) 浅黑底表达层级，**不用蓝色描边**；**hover 一律「变深」**（`#10141b`），文字与内部元素层级不变，禁止浅蓝色块滑切/填充 hover。已迁移：ProjectCard、CompetitionProjectCard、member/comment/award 卡、gallery 卡（图片缩放与遮罩保留）、cms-notice/empty 提示框、DirectionView markdown 容器、iframe 弹窗（surface + 1px line 细描边）。按钮/标签/头像/图标框的蓝色描边保留（非卡片）；**小号药丸按钮保留亮蓝滑切填充**（成员链接、github-link、direction-link 等）。**导航栏 CTA 滑切块为深蓝 `#2563eb`**（比底色深，2026-09-20 用户指令）；学习方向行为列表行（非卡片），hover 浮现 `--color-card` 底
 
 > 2026-09-20 色彩迁移完成：全站已无旧变量（`--color-cyan` 等），format + lint 通过。
 > 2026-09-20 圆角迁移完成：全站卡片/按钮/标签/头像按 §3 token 圆角化，导航栏落地 §4.1 两态玻璃药丸规格，format + lint 通过。上表 ✔ 指**暗色科技蓝换色 + 圆角化落地**；字体排印、动效等其他维度重构时逐项重开。

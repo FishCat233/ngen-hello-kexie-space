@@ -304,7 +304,8 @@ onUnmounted(() => {
 }
 
 .cms-notice {
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
   padding: 16px;
   margin: 0 0 32px;
   color: var(--color-text);
@@ -366,31 +367,16 @@ onUnmounted(() => {
 }
 
 .gallery-card {
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变；图片缩放与遮罩保留 */
 .gallery-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
-}
-
-.gallery-card:hover .gallery-card-title,
-.gallery-card:hover .gallery-card-description,
-.gallery-card:hover .gallery-card-date {
-  color: var(--color-on-primary);
-}
-
-.gallery-card:hover .category-tag-image {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
-  color: var(--color-on-primary);
+  background: #10141b;
 }
 
 .image-wrapper {
@@ -430,6 +416,7 @@ onUnmounted(() => {
   opacity: 1;
 }
 
+/* 右上角徽标：深色毛玻璃质感（半透明底 + 背景模糊提亮饱和），白字保证任意图片上的可读性 */
 .link-badge {
   position: absolute;
   top: 12px;
@@ -438,9 +425,11 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: var(--color-primary);
+  background: rgba(10, 14, 20, 0.55);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   border-radius: var(--radius-sm);
-  color: var(--color-on-primary);
+  color: var(--color-white);
   font-size: var(--text-xs);
   font-weight: 600;
 }
@@ -453,9 +442,11 @@ onUnmounted(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
-  background: var(--color-primary);
+  background: rgba(10, 14, 20, 0.55);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   border-radius: var(--radius-sm);
-  color: var(--color-on-primary);
+  color: var(--color-white);
   font-size: var(--text-xs);
   font-weight: 600;
 }
@@ -693,7 +684,7 @@ onUnmounted(() => {
   height: 95vh;
   max-height: 95vh;
   background: var(--color-surface);
-  border: 2px solid var(--color-primary);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;

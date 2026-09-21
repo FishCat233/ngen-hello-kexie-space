@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ClipboardList, BookOpen, Mic2, FileCheck, Trophy } from 'lucide-vue-next'
+import SectionMark from './SectionMark.vue'
 
 interface TimelineItem {
   id: string
@@ -20,46 +21,48 @@ const timelineItems: TimelineItem[] = [
   { id: 'exam', title: '笔试和面试', description: '期待脱颖而出的你！', icon: FileCheck },
   { id: 'competition', title: '绘蓝杯科技竞赛', description: '绽放你们的光芒！', icon: Trophy },
 ]
-
-const introParagraphs = [
-  '三院科协是依托于计算机与信息安全学院，面向全校的技术社团。我们的活动包括技术学习，承办和策划各类科技赛事和颁奖仪式，组织创新创业训练等。科协设有软件部、硬件部、多媒体部、组织部、安全部共五个部门，致力于对成员技术能力及创新能力的培养。',
-  '在科协，你不仅能提高自身的技术，结交志同道合的伙伴，还能收获前辈的悉心指导，共享优质的资源服务。',
-  '科协的大门将为你们敞开，我们期待你们的到来，欢迎与我们一起畅游在技术的海洋！',
-]
 </script>
 
 <template>
   <section class="recruitment-section">
     <div class="recruitment-container">
-      <h2 class="recruitment-title"><span class="title-accent">#</span> 加入我们</h2>
+      <h2 class="recruitment-title"><SectionMark class="title-mark" /> 加入我们</h2>
 
-      <div class="recruitment-content">
-        <!-- 左侧：时间线 -->
-        <div class="timeline-wrapper">
-          <h3 class="timeline-section-title">招新时间线</h3>
-          <div class="timeline">
-            <div v-for="(item, index) in timelineItems" :key="item.id" class="timeline-item">
-              <div class="timeline-marker">
-                <div class="timeline-icon">
-                  <component :is="item.icon" :size="20" stroke-width="2" />
-                </div>
-                <div v-if="index < timelineItems.length - 1" class="timeline-line"></div>
+      <!-- 横向时间线：圆角卡片包裹，阶段之间以 SVG 箭头衔接 -->
+      <div class="timeline-card">
+        <div class="timeline">
+          <template v-for="(item, index) in timelineItems" :key="item.id">
+            <div class="timeline-node">
+              <div class="timeline-icon">
+                <component :is="item.icon" :size="22" stroke-width="2" />
               </div>
-              <div class="timeline-content">
-                <h3 class="timeline-title">{{ item.title }}</h3>
-                <p class="timeline-description">{{ item.description }}</p>
-              </div>
+              <h3 class="timeline-title">{{ item.title }}</h3>
+              <p class="timeline-description">{{ item.description }}</p>
             </div>
-          </div>
-        </div>
-
-        <!-- 右侧：科协介绍 -->
-        <div class="intro-wrapper">
-          <div class="intro-card">
-            <p v-for="(paragraph, index) in introParagraphs" :key="index" class="intro-paragraph">
-              {{ paragraph }}
-            </p>
-          </div>
+            <svg
+              v-if="index < timelineItems.length - 1"
+              class="timeline-arrow"
+              viewBox="0 0 48 48"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 24H36"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                vector-effect="non-scaling-stroke"
+              />
+              <path
+                d="M38 17.5L45.5 24L38 30.5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+          </template>
         </div>
       </div>
     </div>
@@ -69,11 +72,10 @@ const introParagraphs = [
 <style scoped>
 .recruitment-section {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10vh 20px;
+  padding: 4vh 20px 10vh;
   background: var(--color-bg);
 }
 
@@ -82,63 +84,48 @@ const introParagraphs = [
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 48px;
+  align-items: flex-start;
+  gap: 64px;
 }
 
 .recruitment-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: var(--text-h1);
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
-  text-align: center;
+  line-height: 1;
 }
 
-.title-accent {
+.title-mark {
   color: var(--color-primary);
 }
 
-.recruitment-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+/* 时间线外层：二级卡片圆角包裹 */
+.timeline-card {
   width: 100%;
-  align-items: start;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 44px 48px;
 }
 
-/* 时间线样式 */
-.timeline-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.timeline-section-title {
-  font-size: var(--text-h4);
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-  text-align: center;
-}
-
+/* 横向时间线 */
 .timeline {
   display: flex;
-  flex-direction: column;
-  gap: 0;
+  align-items: flex-start;
+  width: 100%;
 }
 
-.timeline-item {
-  display: flex;
-  gap: 20px;
-  padding: 16px 0;
-}
-
-.timeline-marker {
+.timeline-node {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
+  gap: 12px;
+  text-align: center;
+  padding: 0 8px;
 }
 
 .timeline-icon {
@@ -151,21 +138,16 @@ const introParagraphs = [
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
+  flex-shrink: 0;
 }
 
-.timeline-line {
-  width: 2px;
-  flex: 1;
-  min-height: 40px;
-  background: var(--color-primary);
-  margin-top: 8px;
-}
-
-.timeline-content {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 8px;
+/* 阶段衔接箭头：SVG 中心对齐 44px 图标中心（22px） */
+.timeline-arrow {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary);
+  margin-top: -2px;
 }
 
 .timeline-title {
@@ -182,85 +164,44 @@ const introParagraphs = [
   line-height: var(--leading-normal);
 }
 
-/* 科协介绍样式 */
-.intro-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.intro-card {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 32px;
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-lg);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.intro-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
-}
-
-.intro-card:hover .intro-paragraph {
-  color: var(--color-on-primary);
-}
-
-.intro-paragraph {
-  font-size: var(--text-body);
-  line-height: var(--leading-relaxed);
-  color: var(--color-text);
-  margin: 0;
-  text-align: justify;
-}
-
-/* 响应式处理 */
 @media (max-width: 1024px) {
   .recruitment-section {
-    padding: 10vh 16px;
+    padding: 4vh 16px 10vh;
   }
 
-  .recruitment-content {
-    grid-template-columns: 1fr;
-    gap: 40px;
+  .timeline-card {
+    padding: 40px 28px;
+  }
+
+  .timeline-arrow {
+    width: 36px;
+    height: 36px;
+    margin-top: 4px;
+  }
+}
+
+/* 窄屏：时间线转为纵向，箭头旋转指向下一阶段 */
+@media (max-width: 640px) {
+  .timeline {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .timeline-card {
+    padding: 32px 20px;
+  }
+
+  .timeline-arrow {
+    width: 28px;
+    height: 28px;
+    transform: rotate(90deg);
+    margin: 4px 0;
   }
 
   .timeline-icon {
     width: 40px;
     height: 40px;
-  }
-
-  .intro-card {
-    padding: 24px;
-  }
-}
-
-@media (max-width: 640px) {
-  .timeline-item {
-    gap: 16px;
-    padding: 12px 0;
-  }
-
-  .timeline-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .timeline-icon > * {
-    width: 18px !important;
-    height: 18px !important;
-  }
-
-  .timeline-content {
-    padding-top: 4px;
-  }
-
-  .intro-card {
-    padding: 20px;
   }
 }
 </style>

@@ -55,40 +55,16 @@ const avatarError = ref(false)
 
 <style scoped>
 .project-card {
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
   padding: 24px;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .project-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
-}
-
-.project-card:hover .project-name,
-.project-card:hover .project-description,
-.project-card:hover .author-name,
-.project-card:hover .language-name {
-  color: var(--color-on-primary);
-}
-
-.project-card:hover .author-avatar-wrapper {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
-}
-
-.project-card:hover .author-avatar-placeholder {
-  color: var(--color-on-primary);
-}
-
-.project-card:hover .project-language {
-  background: var(--color-primary-bright);
-  border-color: var(--color-white);
+  background: #10141b;
 }
 
 .project-author {
@@ -175,28 +151,28 @@ const avatarError = ref(false)
 }
 
 .project-language {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 5px;
+  height: 22px; /* 与左侧项目名行高一致 */
+  padding: 0 10px;
   background: transparent;
   border: 2px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  border-radius: var(--radius-pill);
 }
 
 .language-dot {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .language-name {
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: 500;
   color: var(--color-text);
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {

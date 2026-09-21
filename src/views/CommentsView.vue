@@ -90,6 +90,15 @@ onMounted(() => {
         </div>
         <h1 class="comments-title"><span class="title-accent">#</span> 畅心所言</h1>
         <p class="comments-subtitle">在此留下您的心声吧~</p>
+        <a
+          href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link-button header-cta"
+        >
+          <MessageCircle :size="16" />
+          <span>在 GitHub 上发表评论</span>
+        </a>
       </div>
 
       <div v-if="loading" class="loading-state">
@@ -117,18 +126,6 @@ onMounted(() => {
       </div>
 
       <div v-else class="comments-list">
-        <div class="comment-card comment-cta-card">
-          <a
-            href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="github-link-button"
-          >
-            <MessageCircle :size="16" />
-            <span>在 GitHub 上发表评论</span>
-          </a>
-        </div>
-
         <div
           v-for="(comment, index) in comments"
           :key="comment.id"
@@ -209,7 +206,14 @@ onMounted(() => {
 .comments-subtitle {
   font-size: var(--text-body);
   color: var(--color-text);
-  margin: 0;
+  margin: 0 0 24px;
+}
+
+/* 头部居中的发表按钮（小号药丸） */
+.header-cta {
+  margin: 0 auto;
+  padding: 10px 22px;
+  font-size: var(--text-ui);
 }
 
 .loading-state,
@@ -269,43 +273,25 @@ onMounted(() => {
   background: var(--color-primary-bright);
 }
 
+/* 瀑布流内容流：按页宽 5/4/3/2/1 栏，卡片高度随内容自然生长 */
 .comments-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 20px;
-  align-items: start;
+  columns: 5;
+  column-gap: 16px;
 }
 
 .comment-card {
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-card);
   border-radius: var(--radius-lg);
   padding: 20px;
   cursor: pointer;
   break-inside: avoid;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  margin-bottom: 16px;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .comment-card:hover {
-  background: var(--color-primary-bright);
-  border-color: var(--color-primary-bright);
-}
-
-.comment-card:hover,
-.comment-card:hover .author-name,
-.comment-card:hover .comment-time,
-.comment-card:hover .comment-body,
-.comment-card:hover .comment-body :deep(*),
-.comment-card:hover .comment-body :deep(a) {
-  color: var(--color-on-primary);
-}
-
-.comment-card:hover .comment-body :deep(code),
-.comment-card:hover .comment-body :deep(pre) {
-  background: rgba(0, 0, 0, 0.2);
-  color: var(--color-on-primary);
+  background: #10141b;
 }
 
 .comment-content-wrapper {
@@ -468,26 +454,6 @@ onMounted(() => {
   font-size: var(--text-xs);
 }
 
-.comment-cta-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: default;
-}
-
-.comment-cta-card:hover {
-  background: transparent;
-  border-color: transparent;
-}
-
-.comment-cta-card .github-link-button {
-  width: 100%;
-  padding: 32px 24px;
-  justify-content: center;
-  font-size: var(--text-body);
-}
-
 .github-link-button {
   display: inline-flex;
   align-items: center;
@@ -545,16 +511,33 @@ onMounted(() => {
   opacity: 1;
 }
 
+/* 断点：5 → 4 → 3 → 2 → 1 栏 */
+@media (max-width: 1280px) {
+  .comments-list {
+    columns: 4;
+  }
+}
+
 @media (max-width: 1024px) {
   .comments-list {
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 16px;
+    columns: 3;
   }
 }
 
 @media (max-width: 768px) {
   .comments-list {
-    grid-template-columns: 1fr;
+    columns: 2;
+    column-gap: 12px;
+  }
+
+  .comment-card {
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .comments-list {
+    columns: 1;
   }
 }
 

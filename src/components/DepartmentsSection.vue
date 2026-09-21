@@ -266,8 +266,7 @@ onUnmounted(() => {
   border-radius: var(--radius-lg);
   overflow: hidden;
   scroll-snap-align: center;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
+  background: var(--color-card);
   transition: opacity 0.4s ease;
 }
 
