@@ -1,5 +1,48 @@
 # Changelog
 
+## [3.0.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.9.0...v3.0.0) (2026-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **DOCUMENTATION:** 颜色变量--color-card从带蓝色调的#181d26 更改为纯灰色#1d1d1d，影响所有使用该变量的组件
+
+### Features
+
+* **cms:** manage recruitment timeline and department showcase via PocketBase ([8e014d9](https://github.com/FishCat233/ngen-hello-kexie-space/commit/8e014d929ca1959c84de9e0adae28527711b8157))
+* **components:** 更新竞赛项目卡片团队展示 ([63adcab](https://github.com/FishCat233/ngen-hello-kexie-space/commit/63adcab20b4b2d00fcb1ae7f54b96501f1627030))
+* **design:** 更新设计文档中的UI规格和用户反馈调整 ([7027929](https://github.com/FishCat233/ngen-hello-kexie-space/commit/702792939d0d0e5891b40e1cfb95a07ba72d6d82))
+* **design:** 更新设计文档包含新的色彩系统和组件规范 ([c1ac0a0](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c1ac0a069319a623e8f70cdb26d03ae26deb1597))
+* **direction:** 增强方向详情页MD渲染和加载体验 ([7027929](https://github.com/FishCat233/ngen-hello-kexie-space/commit/702792939d0d0e5891b40e1cfb95a07ba72d6d82))
+* **recruitment:** move presentation to late September and align learning window ([90636cd](https://github.com/FishCat233/ngen-hello-kexie-space/commit/90636cdbdd5665768e32c047e5121f165716be88))
+* **router:** 添加路由进度条和预加载功能 ([63adcab](https://github.com/FishCat233/ngen-hello-kexie-space/commit/63adcab20b4b2d00fcb1ae7f54b96501f1627030))
+* **ui:** 重构首屏并迁移全站排版 token ([2836bee](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2836bee718215187524f483f1261d26f4a362db4))
+* **组织架构:** 重构部门展示为横向滑动卡片 ([2a1532f](https://github.com/FishCat233/ngen-hello-kexie-space/commit/2a1532f6d94a50601ca085385d88d4b6b5654557))
+* 首屏重排、全站视觉细节打磨与加载性能优化 ([5e490e2](https://github.com/FishCat233/ngen-hello-kexie-space/commit/5e490e224870a8509541277656895dd49f54280f))
+
+
+### Bug Fixes
+
+* **app:** 添加关于科协页面组件引用 ([c1ac0a0](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c1ac0a069319a623e8f70cdb26d03ae26deb1597))
+* **ci:** resolve pnpm version conflict and build-blocking type errors ([060f08a](https://github.com/FishCat233/ngen-hello-kexie-space/commit/060f08a51cd77a0eaf31d07a4cdccfb2ad6c9e17))
+* **footer:** 调整页脚结构和样式以支持跨区块光晕效果 ([7027929](https://github.com/FishCat233/ngen-hello-kexie-space/commit/702792939d0d0e5891b40e1cfb95a07ba72d6d82))
+* **navbar:** 移除移动端菜单按钮描边 ([7027929](https://github.com/FishCat233/ngen-hello-kexie-space/commit/702792939d0d0e5891b40e1cfb95a07ba72d6d82))
+
+
+### Performance Improvements
+
+* **assets:** convert images to WebP and drop orphaned duplicates ([fa75731](https://github.com/FishCat233/ngen-hello-kexie-space/commit/fa75731a68d89cda984b9a9877657ca9e9f073e2))
+* **common:** 为图片组件添加懒加载优化 ([7027929](https://github.com/FishCat233/ngen-hello-kexie-space/commit/702792939d0d0e5891b40e1cfb95a07ba72d6d82))
+* **hero:** replace three.js with raw WebGL and scope route prefetch ([f48bfab](https://github.com/FishCat233/ngen-hello-kexie-space/commit/f48bfab587a93a06570d796f71da8bf4d4ce49cb))
+* **hero:** 优化背景光带渲染性能 ([63adcab](https://github.com/FishCat233/ngen-hello-kexie-space/commit/63adcab20b4b2d00fcb1ae7f54b96501f1627030))
+* **markdown:** lazy-load highlight.js and register only used languages ([9e57cdb](https://github.com/FishCat233/ngen-hello-kexie-space/commit/9e57cdba9b4bafbe1b41936db2d509ab090cb8ae))
+* **views:** 优化各视图组件加载体验 ([63adcab](https://github.com/FishCat233/ngen-hello-kexie-space/commit/63adcab20b4b2d00fcb1ae7f54b96501f1627030))
+
+
+### Styles
+
+* **DOCUMENTATION:** 更新设计文档中的颜色配置和样式规范 ([c8ace08](https://github.com/FishCat233/ngen-hello-kexie-space/commit/c8ace08520eecb9acd890d932c00f3b4cb39c486))
+
 ## [2.9.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.8.2...v2.9.0) (2026-09-06)
 
 
