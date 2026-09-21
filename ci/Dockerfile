@@ -1,8 +1,11 @@
 # 构建阶段 - 使用 Node 22 LTS (最新长期支持版本)
-FROM node:22-alpine AS builder
+#
+# 用 Debian(glibc) 而非 alpine(musl)：package.json 里的 packageManager 会触发
+# pnpm 版本切换，而 @pnpm/exe 没有 linux-x64-musl 的原生二进制（ERR_PNPM_PNPM_ENGINE_NO_NATIVE_BINARY）。
+FROM node:22-slim AS builder
 
-# 安装 pnpm
-RUN npm install -g pnpm
+# 安装 pnpm（固定版本，与 package.json 的 packageManager 保持一致）
+RUN npm install -g pnpm@10.2.1
 
 # 设置工作目录
 WORKDIR /app
