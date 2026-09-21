@@ -59,10 +59,10 @@ pnpm run lint
 
 ## 组件清单
 
-- `AppNavbar.vue` — 深底纯色块导航栏，随页面滚动
-- `AppFooter.vue` — 深底纯色块页脚
-- `HeroSection` — 第一面主视觉
-- `DepartmentsSection` — 第二面部门介绍
+- `AppNavbar.vue` — 顶部导航栏，随页面滚动切换两态
+- `AppFooter.vue` — 页脚
+- `HeroSection` — 第一面主视觉（背景 `HeroBand` 流光色带）
+- `AboutSection` — 第二面关于科协（文案 + `SlidingCarousel` 实拍轮播）
 - `LearningDirectionsSection` — 第三面学习方向
 - `RecruitmentSection` — 第四面招新时间线
 - `GalleryView` — 项目展廊(分类筛选、灯箱、iframe 预览)
