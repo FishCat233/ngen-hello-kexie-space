@@ -1,6 +1,8 @@
 import type { Member } from '../data/members'
 import type { CompetitionProject, Project } from '../data/projects'
 import type { GalleryItem } from '../data/gallery'
+import type { RecruitmentStage } from '../data/recruitment'
+import type { ShowcaseSlide } from '../data/showcase'
 
 type PocketBaseRecord = {
   id: string
@@ -155,6 +157,46 @@ export async function loadGallery(fallback: GalleryItem[]): Promise<CmsResult<Ga
       }),
     )
     return { data: items, source: 'cms' }
+  } catch (error) {
+    return { data: fallback, source: 'fallback', error: error as Error }
+  }
+}
+
+export async function loadRecruitment(
+  fallback: RecruitmentStage[],
+): Promise<CmsResult<RecruitmentStage[]>> {
+  try {
+    const stages = (await fetchCollection('recruitment')).map(
+      (record): RecruitmentStage => ({
+        id: stringValue(record.legacyId) || record.id,
+        title: stringValue(record.title) || '未命名阶段',
+        time: stringValue(record.time) || '',
+        description: stringValue(record.description) || '',
+      }),
+    )
+    // 时间线是首页关键内容，CMS 返回空时退回内置数据，避免出现空板块
+    if (stages.length === 0) {
+      return { data: fallback, source: 'fallback' }
+    }
+    return { data: stages, source: 'cms' }
+  } catch (error) {
+    return { data: fallback, source: 'fallback', error: error as Error }
+  }
+}
+
+export async function loadShowcase(fallback: ShowcaseSlide[]): Promise<CmsResult<ShowcaseSlide[]>> {
+  try {
+    const slides = (await fetchCollection('showcase')).map(
+      (record): ShowcaseSlide => ({
+        id: stringValue(record.legacyId) || record.id,
+        label: stringValue(record.label) || '部门合照',
+        src: fileUrl('showcase', record, 'imageFile') || stringValue(record.src),
+      }),
+    )
+    if (slides.length === 0) {
+      return { data: fallback, source: 'fallback' }
+    }
+    return { data: slides, source: 'cms' }
   } catch (error) {
     return { data: fallback, source: 'fallback', error: error as Error }
   }

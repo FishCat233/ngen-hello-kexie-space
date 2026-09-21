@@ -8,6 +8,8 @@ import {
   presidiumAvatarColors,
   type PresidiumMember,
 } from '../data/presidium'
+import { showcaseSlides as staticShowcase } from '../data/showcase'
+import { loadShowcase } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
 import SlidingCarousel from '../components/SlidingCarousel.vue'
 
@@ -19,19 +21,9 @@ const avatarStyle = (member: PresidiumMember) => {
 
 const avatarChar = (member: PresidiumMember) => member.name.charAt(0)
 
-// 部门风貌轮播：各部门合照占位（提供照片后在数据中填入 src 即可）
-const showcaseColors: Record<string, string> = {
-  multimedia: '#22d3ee',
-  software: '#a78bfa',
-  hardware: '#fb923c',
-  organize: '#34d399',
-  security: '#f87171',
-}
-
-const showcaseSlides = departments.map((dept) => ({
-  label: dept.name,
-  color: showcaseColors[dept.id],
-}))
+// 部门风貌合照：图片由 PocketBase `showcase` 集合托管（管理员后台按 sortOrder 排列）
+const showcaseSlides = ref(staticShowcase)
+const showcaseError = ref(false)
 
 const trackRef = ref<HTMLElement | null>(null)
 const activeIndex = ref(0)
@@ -88,6 +80,10 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => {
   trackRef.value?.addEventListener('scroll', onScroll, { passive: true })
   trackRef.value?.addEventListener('keydown', onKeydown)
+  void loadShowcase(staticShowcase).then((result) => {
+    showcaseSlides.value = result.data
+    showcaseError.value = result.source === 'fallback'
+  })
 })
 
 onUnmounted(() => {
@@ -202,6 +198,7 @@ onUnmounted(() => {
     <div class="showcase-section">
       <div class="organize-container">
         <h1 class="organize-title"><span class="title-accent">#</span> 部门风貌</h1>
+        <p v-if="showcaseError" class="cms-notice">内容服务暂不可用，合照暂无法显示</p>
       </div>
       <div class="showcase-carousel">
         <SlidingCarousel :slides="showcaseSlides" />
@@ -500,6 +497,14 @@ onUnmounted(() => {
 /* ---------- 部门风貌：全宽合照轮播 ---------- */
 .showcase-section {
   margin-top: 88px;
+}
+
+.cms-notice {
+  margin-top: 20px;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  color: var(--color-text);
 }
 
 .showcase-carousel {

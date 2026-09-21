@@ -420,5 +420,53 @@
       "date": "2026-05-05",
       "sortOrder": 8
     }
+  ],
+  "recruitment": [
+    {
+      "legacyId": "register",
+      "title": "报名阶段",
+      "time": "9 月上旬",
+      "description": "报名时间截止到笔试前",
+      "sortOrder": 1
+    },
+    {
+      "legacyId": "learning",
+      "title": "入门学习",
+      "time": "9 月中 – 9 月下旬",
+      "description": "学会使用 Online Judge 实现问题求解",
+      "sortOrder": 2
+    },
+    {
+      "legacyId": "presentation",
+      "title": "招新宣讲",
+      "time": "9 月下旬",
+      "description": "三院科协招新宣讲会",
+      "sortOrder": 3
+    },
+    {
+      "legacyId": "exam",
+      "title": "笔试和面试",
+      "time": "10 月中旬",
+      "description": "期待脱颖而出的你！",
+      "sortOrder": 4
+    },
+    {
+      "legacyId": "competition",
+      "title": "绘蓝杯科技竞赛",
+      "time": "11 月 – 12 月",
+      "description": "绽放你们的光芒！",
+      "sortOrder": 5
+    }
+  ],
+  "showcase": [
+    { "legacyId": "showcase-01", "label": "部门合照 1", "sortOrder": 1 },
+    { "legacyId": "showcase-02", "label": "部门合照 2", "sortOrder": 2 },
+    { "legacyId": "showcase-03", "label": "部门合照 3", "sortOrder": 3 },
+    { "legacyId": "showcase-04", "label": "部门合照 4", "sortOrder": 4 },
+    { "legacyId": "showcase-05", "label": "部门合照 5", "sortOrder": 5 },
+    { "legacyId": "showcase-06", "label": "部门合照 6", "sortOrder": 6 },
+    { "legacyId": "showcase-07", "label": "部门合照 7", "sortOrder": 7 },
+    { "legacyId": "showcase-08", "label": "部门合照 8", "sortOrder": 8 },
+    { "legacyId": "showcase-09", "label": "部门合照 9", "sortOrder": 9 }
   ]
 }

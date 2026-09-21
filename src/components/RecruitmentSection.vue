@@ -1,53 +1,29 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { ClipboardList, BookOpen, Mic2, FileCheck, Trophy } from 'lucide-vue-next'
 import SectionMark from './SectionMark.vue'
+import { recruitmentStages } from '../data/recruitment'
+import { loadRecruitment } from '../api/cms'
 
-interface TimelineItem {
-  id: string
-  title: string
-  time: string
-  description: string
-  icon: typeof ClipboardList
+// 图标按阶段 id 映射：CMS 只存标题/时间/描述等文案，图标属于代码资产
+const stageIcons: Record<string, typeof ClipboardList> = {
+  register: ClipboardList,
+  learning: BookOpen,
+  presentation: Mic2,
+  exam: FileCheck,
+  competition: Trophy,
 }
+const iconFor = (id: string) => stageIcons[id] || ClipboardList
 
-// time 为占位数据，招新日程确定后替换
-const timelineItems: TimelineItem[] = [
-  {
-    id: 'register',
-    title: '报名阶段',
-    time: '9 月上旬',
-    description: '报名时间截止到笔试前',
-    icon: ClipboardList,
-  },
-  {
-    id: 'learning',
-    title: '入门学习',
-    time: '9 月中 – 9 月下旬',
-    description: '学会使用 Online Judge 实现问题求解',
-    icon: BookOpen,
-  },
-  {
-    id: 'presentation',
-    title: '招新宣讲',
-    time: '9 月下旬',
-    description: '三院科协招新宣讲会',
-    icon: Mic2,
-  },
-  {
-    id: 'exam',
-    title: '笔试和面试',
-    time: '10 月中旬',
-    description: '期待脱颖而出的你！',
-    icon: FileCheck,
-  },
-  {
-    id: 'competition',
-    title: '绘蓝杯科技竞赛',
-    time: '11 月 – 12 月',
-    description: '绽放你们的光芒！',
-    icon: Trophy,
-  },
-]
+const timelineItems = ref(recruitmentStages)
+const loadError = ref(false)
+
+onMounted(() => {
+  void loadRecruitment(recruitmentStages).then((result) => {
+    timelineItems.value = result.data
+    loadError.value = result.source === 'fallback'
+  })
+})
 </script>
 
 <template>
@@ -55,13 +31,15 @@ const timelineItems: TimelineItem[] = [
     <div class="recruitment-container">
       <h2 class="recruitment-title"><SectionMark class="title-mark" /> 加入我们</h2>
 
+      <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据</p>
+
       <!-- 横向时间线：圆角卡片包裹，阶段之间以 SVG 箭头衔接 -->
       <div class="timeline-card">
         <div class="timeline">
           <template v-for="(item, index) in timelineItems" :key="item.id">
             <div class="timeline-node">
               <div class="timeline-icon">
-                <component :is="item.icon" :size="22" stroke-width="2" />
+                <component :is="iconFor(item.id)" :size="22" stroke-width="2" />
               </div>
               <h3 class="timeline-title">{{ item.title }}</h3>
               <span class="timeline-time">{{ item.time }}</span>
@@ -114,6 +92,15 @@ const timelineItems: TimelineItem[] = [
   flex-direction: column;
   align-items: flex-start;
   gap: 64px;
+}
+
+.cms-notice {
+  width: 100%;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin: -40px 0;
+  color: var(--color-text);
 }
 
 .recruitment-title {

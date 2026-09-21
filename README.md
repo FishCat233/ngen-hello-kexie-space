@@ -22,7 +22,7 @@ pnpm run dev
 
 ## 内容修改指南
 
-部门介绍、获奖信息等稳定内容仍在 `src/data/` 目录下。成员、项目和展廊内容由 PocketBase CMS 提供，生产环境直接在 `/_/` 管理后台修改，无需重新构建官网。
+部门介绍、获奖信息等稳定内容仍在 `src/data/` 目录下。成员、项目、展廊和招新时间线内容由 PocketBase CMS 提供，生产环境直接在 `/_/` 管理后台修改，无需重新构建官网。
 
 ### 数据文件一览
 
@@ -34,6 +34,8 @@ pnpm run dev
 | `src/data/projects.ts`    | 项目展示区域 | CMS 不可用时的静态兜底数据，以及初始导入数据                                      |
 | `src/data/awards.ts`      | 获奖展示区域 | 竞赛名称、各级别获奖数量、获奖人员名单。`awardLevelColors` 控制奖牌颜色           |
 | `src/data/gallery.ts`     | 展廊区域     | CMS 不可用时的静态兜底数据；`categories` 数组控制分类筛选项                       |
+| `src/data/recruitment.ts` | 招新时间线   | CMS 不可用时的静态兜底数据；阶段图标在组件内按 `id` 映射                          |
+| `src/data/showcase.ts`    | 部门风貌     | CMS 不可用时的占位幻灯片；合照图片托管在 PocketBase，仓库不存放图片               |
 | `src/data/comments.ts`    | 留言区域     | 从 GitHub Issues API 拉取评论数据（`fetchComments`），`formatDate` 处理时间格式化 |
 
 ### 修改示例
@@ -59,6 +61,10 @@ pnpm run dev
 **添加新项目** — 生产环境在 PocketBase 管理后台的 `projects` 集合中创建记录，并用 `kind` 区分 `featured`、`demo` 和 `competition`。
 
 **添加展廊卡片** — 生产环境在 PocketBase 管理后台的 `gallery` 集合中创建记录。`type` 可选 `image`、`iframe`、`link`，图片可以使用 PocketBase 文件字段或原有 `/gallery/` 路径。
+
+**修改招新时间线** — 生产环境在 PocketBase 管理后台的 `recruitment` 集合中编辑记录，字段为 `title`、`time`、`description`、`sortOrder`，`legacyId` 用于匹配静态兜底数据（同时决定阶段图标）。
+
+**上传部门风貌合照** — 在 PocketBase 管理后台的 `showcase` 集合中，为每条记录（`showcase-01`…`showcase-09`）的 `imageFile` 字段上传照片，`label` 为展示标签、`sortOrder` 决定顺序。图片托管在 PocketBase，仓库不放图片。
 
 ### 图片资源
 
