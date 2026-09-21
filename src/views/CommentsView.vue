@@ -101,9 +101,22 @@ onMounted(() => {
         </a>
       </div>
 
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
-        <span>加载评论中...</span>
+      <!-- 数据就绪前显示评论卡骨架屏（替代转圈等待） -->
+      <div v-if="loading" class="comments-list" aria-hidden="true">
+        <div v-for="i in 8" :key="i" class="comment-card skeleton-card">
+          <div class="skeleton-card-author">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-card-author-lines">
+              <div class="skeleton skeleton-line" style="width: 80px; height: 13px"></div>
+              <div class="skeleton skeleton-line" style="width: 56px; height: 11px"></div>
+            </div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton skeleton-line" style="width: 100%"></div>
+            <div class="skeleton skeleton-line" style="width: 90%"></div>
+            <div class="skeleton skeleton-line" style="width: 62%"></div>
+          </div>
+        </div>
       </div>
 
       <div v-else-if="error" class="error-state">
@@ -216,7 +229,6 @@ onMounted(() => {
   font-size: var(--text-ui);
 }
 
-.loading-state,
 .error-state,
 .empty-state {
   display: flex;
@@ -228,19 +240,39 @@ onMounted(() => {
   color: var(--color-text);
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-line);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* 骨架屏评论卡：头像行 + 正文行 */
+.skeleton-card {
+  cursor: default;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.skeleton-card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.skeleton-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-card-author-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-line {
+  height: 14px;
 }
 
 .retry-button {

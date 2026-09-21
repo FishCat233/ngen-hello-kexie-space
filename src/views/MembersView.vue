@@ -7,7 +7,8 @@ import { loadMembers } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
 import SectionMark from '../components/SectionMark.vue'
 
-const gradeGroups = ref(getMembersByGrade())
+const gradeGroups = ref<ReturnType<typeof getMembersByGrade>>([])
+const loading = ref(true)
 const loadError = ref(false)
 const avatarErrors = ref<Record<string, boolean>>({})
 
@@ -23,6 +24,7 @@ onMounted(async () => {
   const result = await loadMembers(staticMembers)
   gradeGroups.value = getMembersByGrade(result.data)
   loadError.value = result.source === 'fallback'
+  loading.value = false
 })
 </script>
 
@@ -38,62 +40,76 @@ onMounted(async () => {
 
       <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据。</p>
 
-      <div v-if="gradeGroups.length === 0" class="empty-state">暂无成员内容</div>
-
-      <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
-        <div class="section-header">
-          <h2 class="section-title">{{ group.grade }}</h2>
-        </div>
-
-        <div class="members-grid">
-          <div
-            v-for="(member, index) in group.members"
-            :key="memberKey(member, index)"
-            class="member-card"
-          >
-            <div class="member-avatar-area">
-              <div class="member-avatar-wrapper">
-                <img
-                  v-if="!avatarErrors[memberKey(member, index)]"
-                  :src="member.avatar"
-                  :alt="member.nickname"
-                  class="member-avatar"
-                  @error="handleAvatarError(memberKey(member, index))"
-                />
-                <div v-else class="member-avatar-placeholder">
-                  <User :size="24" />
-                </div>
-              </div>
-            </div>
-
-            <div class="member-info">
-              <h3 class="member-nickname">{{ member.nickname }}</h3>
-
-              <p v-if="member.direction || member.role" class="member-meta">
-                <span v-if="member.direction">{{ member.direction }}</span>
-                <SectionMark v-if="member.direction && member.role" class="meta-sep" />
-                <span v-if="member.role">{{ member.role }}</span>
-              </p>
-
-              <p class="member-motto">{{ member.motto || '\xa0' }}</p>
-            </div>
-
-            <!-- 链接按钮占满整行，与卡片左缘（头像）对齐 -->
-            <div v-if="member.links && member.links.length > 0" class="member-links">
-              <a
-                v-for="(link, li) in member.links"
-                :key="li"
-                :href="link.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="member-link-btn"
-              >
-                <span>{{ link.title }}</span>
-              </a>
-            </div>
+      <!-- 数据就绪前显示成员卡骨架屏 -->
+      <div v-if="loading" class="members-grid" aria-hidden="true">
+        <div v-for="i in 8" :key="i" class="member-card">
+          <div class="skeleton skeleton-avatar"></div>
+          <div class="skeleton-card-info">
+            <div class="skeleton skeleton-line" style="width: 45%"></div>
+            <div class="skeleton skeleton-line skeleton-line-sm" style="width: 65%"></div>
+            <div class="skeleton skeleton-line skeleton-line-sm" style="width: 80%"></div>
           </div>
         </div>
       </div>
+
+      <div v-else-if="gradeGroups.length === 0" class="empty-state">暂无成员内容</div>
+
+      <template v-else>
+        <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
+          <div class="section-header">
+            <h2 class="section-title">{{ group.grade }}</h2>
+          </div>
+
+          <div class="members-grid">
+            <div
+              v-for="(member, index) in group.members"
+              :key="memberKey(member, index)"
+              class="member-card"
+            >
+              <div class="member-avatar-area">
+                <div class="member-avatar-wrapper">
+                  <img
+                    v-if="!avatarErrors[memberKey(member, index)]"
+                    :src="member.avatar"
+                    :alt="member.nickname"
+                    class="member-avatar"
+                    @error="handleAvatarError(memberKey(member, index))"
+                  />
+                  <div v-else class="member-avatar-placeholder">
+                    <User :size="24" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="member-info">
+                <h3 class="member-nickname">{{ member.nickname }}</h3>
+
+                <p v-if="member.direction || member.role" class="member-meta">
+                  <span v-if="member.direction">{{ member.direction }}</span>
+                  <SectionMark v-if="member.direction && member.role" class="meta-sep" />
+                  <span v-if="member.role">{{ member.role }}</span>
+                </p>
+
+                <p class="member-motto">{{ member.motto || '\xa0' }}</p>
+              </div>
+
+              <!-- 链接按钮占满整行，与卡片左缘（头像）对齐 -->
+              <div v-if="member.links && member.links.length > 0" class="member-links">
+                <a
+                  v-for="(link, li) in member.links"
+                  :key="li"
+                  :href="link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="member-link-btn"
+                >
+                  <span>{{ link.title }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -178,6 +194,31 @@ onMounted(async () => {
 /* hover：卡片变深，文字层级不变 */
 .member-card:hover {
   background-color: #10141b;
+}
+
+/* 骨架屏成员卡：圆形头像占位 + 右侧信息行 */
+.skeleton-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.skeleton-line {
+  height: 15px;
+}
+
+.skeleton-line-sm {
+  height: 12px;
 }
 
 /* 头像区 */

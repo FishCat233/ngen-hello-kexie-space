@@ -11,11 +11,9 @@ const emit = defineEmits<{
   click: [url: string]
 }>()
 
-const avatarErrors = ref<Record<number, boolean>>({})
+const avatarError = ref(false)
 
-const maxVisible = computed(() => (window.innerWidth <= 768 ? 3 : 4))
-const visibleAvatars = computed(() => props.project.authorAvatars.slice(0, maxVisible.value))
-const overflowCount = computed(() => Math.max(0, props.project.authors.length - maxVisible.value))
+const firstAvatar = computed(() => props.project.authorAvatars[0])
 
 const displayName = computed(() => {
   if (props.project.teamName) return props.project.teamName
@@ -39,31 +37,22 @@ const competitionLabel = computed(() => {
 <template>
   <div class="competition-card" :class="{ clickable: !!project.url }" @click="handleClick">
     <div class="card-author">
+      <!-- 一张主头像 + 右侧两张仅描边的堆叠圆，表达团队多人 -->
       <div class="avatar-stack">
-        <div
-          v-for="(avatar, i) in visibleAvatars"
-          :key="i"
-          class="avatar-wrapper"
-          :style="{ zIndex: visibleAvatars.length - i, marginLeft: i > 0 ? '-8px' : '0' }"
-        >
+        <div class="avatar-wrapper avatar-main">
           <img
-            v-if="!avatarErrors[i]"
-            :src="avatar"
-            :alt="project.authors[i]"
+            v-if="firstAvatar && !avatarError"
+            :src="firstAvatar"
+            :alt="project.authors[0] ?? project.teamName"
             class="avatar-img"
-            @error="avatarErrors[i] = true"
+            @error="avatarError = true"
           />
           <div v-else class="avatar-fallback">
             <User :size="16" />
           </div>
         </div>
-        <div
-          v-if="overflowCount > 0"
-          class="avatar-wrapper avatar-overflow"
-          :style="{ zIndex: 0, marginLeft: '-8px' }"
-        >
-          <span class="overflow-text">+{{ overflowCount }}</span>
-        </div>
+        <div class="avatar-wrapper avatar-ghost"></div>
+        <div class="avatar-wrapper avatar-ghost"></div>
       </div>
       <span class="author-name">{{ displayName }}</span>
     </div>
@@ -122,10 +111,28 @@ const competitionLabel = computed(() => {
   height: 36px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-primary);
   border-radius: 50%;
   position: relative;
-  transition: border-color 0.2s ease;
+}
+
+/* 主头像：主题蓝描边 */
+.avatar-main {
+  z-index: 3;
+  border: 2px solid var(--color-primary);
+}
+
+/* 右侧堆叠的两张幽灵圆：透明底 + 细描边，暗示团队其他成员 */
+.avatar-ghost {
+  margin-left: -8px;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.avatar-ghost:nth-of-type(2) {
+  z-index: 2;
+}
+
+.avatar-ghost:nth-of-type(3) {
+  z-index: 1;
 }
 
 .avatar-img {
@@ -143,24 +150,6 @@ const competitionLabel = computed(() => {
   background: transparent;
   color: var(--color-primary);
   transition: color 0.2s ease;
-}
-
-.avatar-overflow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg);
-}
-
-.overflow-text {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--color-text);
-  transition: color 0.2s ease;
-}
-
-.competition-card:hover .overflow-text {
-  color: var(--color-white);
 }
 
 .author-name {

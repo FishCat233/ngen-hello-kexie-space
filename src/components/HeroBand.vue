@@ -113,7 +113,9 @@ function hexToVec3(hex: string): THREE.Vector3 {
 let renderer: THREE.WebGLRenderer | null = null
 let material: THREE.ShaderMaterial | null = null
 let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
 let raf: number | null = null
+let isVisible = true
 const pointerTarget = new THREE.Vector2(0, 0)
 const pointerCurrent = new THREE.Vector2(0, 0)
 let rect = { left: 0, top: 0, width: 1, height: 1 }
@@ -184,7 +186,8 @@ onMounted(() => {
   }
 
   renderer.outputColorSpace = THREE.SRGBColorSpace
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
+  // 像素比压到 1：背景光带是低频流体，无高频细节，全分辨率渲染纯属浪费 GPU
+  renderer.setPixelRatio(1)
   renderer.setClearColor(0x000000, 0)
   renderer.domElement.style.width = '100%'
   renderer.domElement.style.height = '100%'
@@ -210,6 +213,19 @@ onMounted(() => {
     window.addEventListener('resize', handleResize)
   }
 
+  // 滚出视口时停止渲染（首屏下方 150% 高的画布常驻 DOM，离开首屏后无需再画）
+  if (typeof IntersectionObserver !== 'undefined') {
+    intersectionObserver = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting
+    })
+    intersectionObserver.observe(currentContainer)
+  }
+
+  const handleVisibility = () => {
+    isVisible = !document.hidden
+  }
+  document.addEventListener('visibilitychange', handleVisibility)
+
   const handlePointer = (e: MouseEvent) => {
     const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
     const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1)
@@ -217,15 +233,26 @@ onMounted(() => {
   }
   window.addEventListener('mousemove', handlePointer, { passive: true })
 
+  // 帧率限流：光带流速缓慢，30fps 足够顺滑，帧率减半直接砍掉一半 GPU 负载
+  const FRAME_INTERVAL = 1 / 30
+  let lastFrameTime = 0
+
   const loop = () => {
-    if (!renderer || !material) return
-    const dt = clock.getDelta()
+    raf = requestAnimationFrame(loop)
+    if (!renderer || !material || !isVisible) {
+      clock.getDelta() // 暂停期间持续消化时间，恢复渲染时动画不跳变
+      return
+    }
+    const now = performance.now() / 1000
+    if (now - lastFrameTime < FRAME_INTERVAL) return
+    lastFrameTime = now
+
+    const dt = Math.min(clock.getDelta(), 0.1)
     material.uniforms.uTime.value = clock.elapsedTime
     const amt = Math.min(1, dt * 4)
     pointerCurrent.lerp(pointerTarget, amt)
     ;(material.uniforms.uPointer.value as THREE.Vector2).copy(pointerCurrent)
     renderer.render(scene, camera)
-    raf = requestAnimationFrame(loop)
   }
   raf = requestAnimationFrame(loop)
 
@@ -235,6 +262,8 @@ onMounted(() => {
     if (raf !== null) cancelAnimationFrame(raf)
     if (resizeObserver) resizeObserver.disconnect()
     else window.removeEventListener('resize', handleResize)
+    if (intersectionObserver) intersectionObserver.disconnect()
+    document.removeEventListener('visibilitychange', handleVisibility)
     window.removeEventListener('mousemove', handlePointer)
     geometry.dispose()
     material?.dispose()

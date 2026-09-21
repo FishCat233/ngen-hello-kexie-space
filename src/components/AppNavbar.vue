@@ -12,42 +12,28 @@ const { isMobile } = useDevice()
 const { isScrolled } = useNavbarScroll()
 
 // 导航菜单项类型定义
-interface NavChild {
-  label: string
-  href: string
-}
-
 interface NavItem {
   id: string
   label: string
   href: string
-  children?: NavChild[]
 }
 
-// 导航菜单配置
+// 导航菜单配置：原「更多」下拉项全部平铺为一级链接
 const navMenu: NavItem[] = [
   {
     id: 'home',
     label: '首页',
     href: '#home',
   },
-  {
-    id: 'more',
-    label: '更多',
-    href: '#',
-    children: [
-      { label: '组织架构', href: '/organization' },
-      { label: '成员墙', href: '/members' },
-      { label: '获奖情况', href: '/awards' },
-      { label: '项目活动', href: '/projects' },
-      { label: '项目展廊', href: '/gallery' },
-      { label: '畅心所言', href: '/comments' },
-    ],
-  },
+  { id: 'organization', label: '组织架构', href: '/organization' },
+  { id: 'members', label: '成员墙', href: '/members' },
+  { id: 'awards', label: '获奖情况', href: '/awards' },
+  { id: 'projects', label: '项目活动', href: '/projects' },
+  { id: 'gallery', label: '项目展廊', href: '/gallery' },
+  { id: 'comments', label: '畅心所言', href: '/comments' },
 ]
 
 const isMobileMenuOpen = ref(false)
-const activeDropdown = ref<string | null>(null)
 
 // 导航处理
 const handleNavigation = (href: string) => {
@@ -59,7 +45,6 @@ const handleNavigation = (href: string) => {
     if (route.path !== '/') {
       scrollStore.pendingAnchor = href
       isMobileMenuOpen.value = false
-      activeDropdown.value = null
       router.push('/')
       return
     } else {
@@ -70,17 +55,6 @@ const handleNavigation = (href: string) => {
     }
   }
   isMobileMenuOpen.value = false
-  activeDropdown.value = null
-}
-
-// 显示下拉菜单
-const showDropdown = (id: string) => {
-  activeDropdown.value = id
-}
-
-// 隐藏下拉菜单
-const hideDropdown = () => {
-  activeDropdown.value = null
 }
 
 // 移动菜单打开时锁定 body 滚动
@@ -112,51 +86,10 @@ onUnmounted(() => {
 
       <!-- 桌面端导航链接 -->
       <div v-if="!isMobile" class="navbar-links">
-        <div
-          v-for="item in navMenu"
-          :key="item.id"
-          class="navbar-item"
-          @mouseenter="item.children && showDropdown(item.id)"
-          @mouseleave="hideDropdown"
-        >
-          <a
-            :href="item.href"
-            class="navbar-link"
-            :class="{ 'has-dropdown': item.children }"
-            @click.prevent="handleNavigation(item.href)"
-          >
+        <div v-for="item in navMenu" :key="item.id" class="navbar-item">
+          <a :href="item.href" class="navbar-link" @click.prevent="handleNavigation(item.href)">
             {{ item.label }}
-            <svg
-              v-if="item.children"
-              class="dropdown-arrow"
-              :class="{ 'is-open': activeDropdown === item.id }"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
           </a>
-
-          <!-- 一级下拉菜单 -->
-          <Transition name="dropdown">
-            <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-              <div class="dropdown-inner">
-                <a
-                  v-for="(child, index) in item.children"
-                  :key="index"
-                  :href="child.href"
-                  class="dropdown-link"
-                  @click.prevent="handleNavigation(child.href)"
-                >
-                  {{ child.label }}
-                </a>
-              </div>
-            </div>
-          </Transition>
         </div>
       </div>
 
@@ -212,19 +145,6 @@ onUnmounted(() => {
         <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
           {{ item.label }}
         </a>
-
-        <!-- 移动端子菜单 -->
-        <div v-if="item.children" class="mobile-submenu">
-          <a
-            v-for="(child, index) in item.children"
-            :key="index"
-            :href="child.href"
-            class="mobile-submenu-title mobile-submenu-title-link"
-            @click.prevent="handleNavigation(child.href)"
-          >
-            {{ child.label }}
-          </a>
-        </div>
       </div>
       <a
         href="https://api.kexie.space/recruitment-qq-group"
@@ -317,11 +237,11 @@ onUnmounted(() => {
   color: var(--color-white);
 }
 
-/* 导航链接 */
+/* 导航链接：7 个一级链接平铺，紧凑间距保证 1080px 药丸内不溢出 */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
 }
 
 .navbar-item {
@@ -332,7 +252,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   color: var(--color-white);
   text-decoration: none;
   font-size: var(--text-ui);
@@ -345,124 +265,6 @@ onUnmounted(() => {
 }
 
 .navbar-link:hover {
-  background: var(--color-primary);
-}
-
-.dropdown-arrow {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.2s ease;
-}
-
-.dropdown-arrow.is-open {
-  transform: rotate(180deg);
-}
-
-/* 下拉菜单：
-   完全落在导航栏之下（top 偏移清出底部边框区），同时用 ::before
-   造一段不可见的 hover 桥，消除「移开触发器 → 菜单间真空区」导致的消失。
-   采用 grid-template-rows 0fr→1fr 驱动"自上而下展开"动画（内层 overflow:hidden
-   裁剪，内容不拉伸），背景/圆角/阴影生长在 .dropdown-menu 上 */
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 16px);
-  left: 0;
-  min-width: 180px;
-  display: grid;
-  grid-template-rows: 1fr;
-  background: rgba(10, 14, 20, 0.72);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-}
-
-/* 内容层裁剪，保证展开时高度从 0 平滑增长 */
-.dropdown-inner {
-  overflow: hidden;
-  min-height: 0;
-  padding: 8px;
-}
-
-/* 自上而下展开过渡 */
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition:
-    grid-template-rows 0.35s ease,
-    opacity 0.25s ease;
-}
-
-.dropdown-enter-from,
-.dropdown-leave-to {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-
-.dropdown-enter-to,
-.dropdown-leave-from {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-/* hover 桥：覆盖导航项与下拉菜单之间的空隙 */
-.dropdown-menu::before {
-  content: '';
-  position: absolute;
-  top: -16px;
-  left: -8px;
-  right: -8px;
-  height: 16px;
-}
-
-.dropdown-link {
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: var(--text-ui);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.dropdown-link:hover {
-  background: var(--color-primary);
-}
-
-.dropdown-arrow-right {
-  width: 14px;
-  height: 14px;
-  margin-left: 8px;
-}
-
-/* 二级下拉菜单 */
-.subdropdown-menu {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  min-width: 140px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-primary);
-  padding: 8px;
-  margin-left: 0;
-}
-
-.subdropdown-link {
-  display: block;
-  padding: 8px 14px;
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: var(--text-sm);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.subdropdown-link:hover {
   background: var(--color-primary);
 }
 
@@ -608,57 +410,6 @@ onUnmounted(() => {
 }
 
 .mobile-nav-link:hover {
-  background: var(--color-primary);
-}
-
-.mobile-submenu {
-  padding-left: 16px;
-  margin-top: 8px;
-}
-
-.mobile-submenu-group {
-  margin-bottom: 8px;
-}
-
-.mobile-submenu-title {
-  display: block;
-  padding: 8px 12px;
-  color: var(--color-primary);
-  font-size: var(--text-ui);
-  font-weight: 600;
-}
-
-.mobile-submenu-title-link {
-  display: block;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.mobile-submenu-title-link:hover {
-  background: var(--color-primary);
-}
-
-.mobile-submenu-items {
-  padding-left: 12px;
-}
-
-.mobile-submenu-link {
-  display: block;
-  padding: 6px 12px;
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: var(--text-sm);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.mobile-submenu-link:hover {
   background: var(--color-primary);
 }
 

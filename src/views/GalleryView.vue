@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import {
-  X,
-  ChevronLeft,
-  ChevronRight,
-  ImageIcon,
-  ExternalLink,
-  Link2,
-  Monitor,
-} from 'lucide-vue-next'
+import { X, ChevronLeft, ChevronRight, ImageIcon, ExternalLink, Link2 } from 'lucide-vue-next'
 import {
   galleryItems as staticGalleryItems,
   categories,
@@ -21,12 +13,11 @@ import { loadGallery } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
 
 const currentCategory = ref<GalleryCategory>('all')
-const displayedGalleryItems = ref(staticGalleryItems)
+const displayedGalleryItems = ref<GalleryItem[]>([])
+const loading = ref(true)
 const loadError = ref(false)
 const lightboxOpen = ref(false)
 const currentImageIndex = ref(0)
-const iframeModalOpen = ref(false)
-const currentIframeItem = ref<GalleryItem | null>(null)
 
 const filteredItems = computed(() => {
   return filterItemsByCategory(displayedGalleryItems.value, currentCategory.value)
@@ -64,52 +55,28 @@ const prevImage = () => {
     (currentImageIndex.value - 1 + imageItems.value.length) % imageItems.value.length
 }
 
-const openIframeModal = (item: GalleryItem) => {
-  currentIframeItem.value = item
-  iframeModalOpen.value = true
-  document.body.style.overflow = 'hidden'
-}
-
-const closeIframeModal = () => {
-  iframeModalOpen.value = false
-  currentIframeItem.value = null
-  document.body.style.overflow = ''
-}
-
+// 图片类打开灯箱，其余一律新标签页跳转外部站点
 const handleItemClick = (item: GalleryItem) => {
   if (item.type === 'image') {
     const imageIndex = imageItems.value.findIndex((img) => img.id === item.id)
     openLightbox(imageIndex >= 0 ? imageIndex : 0)
-  } else if (item.type === 'iframe') {
-    openIframeModal(item)
-  } else if (item.type === 'link' && item.url) {
+  } else if (item.url) {
     window.open(item.url, '_blank')
   }
 }
 
-const openExternalLink = (url?: string) => {
-  if (url) {
-    window.open(url, '_blank')
-  }
-}
-
 const handleKeydown = (e: KeyboardEvent) => {
-  if (lightboxOpen.value) {
-    switch (e.key) {
-      case 'Escape':
-        closeLightbox()
-        break
-      case 'ArrowRight':
-        nextImage()
-        break
-      case 'ArrowLeft':
-        prevImage()
-        break
-    }
-  } else if (iframeModalOpen.value) {
-    if (e.key === 'Escape') {
-      closeIframeModal()
-    }
+  if (!lightboxOpen.value) return
+  switch (e.key) {
+    case 'Escape':
+      closeLightbox()
+      break
+    case 'ArrowRight':
+      nextImage()
+      break
+    case 'ArrowLeft':
+      prevImage()
+      break
   }
 }
 
@@ -118,6 +85,7 @@ onMounted(() => {
   void loadGallery(staticGalleryItems).then((result) => {
     displayedGalleryItems.value = result.data
     loadError.value = result.source === 'fallback'
+    loading.value = false
   })
 })
 
@@ -151,28 +119,34 @@ onUnmounted(() => {
         </button>
       </div>
 
-      <div class="gallery-grid">
+      <!-- 数据就绪前显示卡片骨架屏 -->
+      <div v-if="loading" class="gallery-grid" aria-hidden="true">
+        <div v-for="i in 6" :key="i" class="gallery-card skeleton-card">
+          <div class="skeleton skeleton-image"></div>
+          <div class="skeleton-card-body">
+            <div class="skeleton skeleton-line" style="width: 60%"></div>
+            <div class="skeleton skeleton-line" style="width: 90%"></div>
+            <div class="skeleton skeleton-line skeleton-line-sm" style="width: 30%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="gallery-grid">
         <div
           v-for="item in filteredItems"
           :key="item.id"
           class="gallery-card"
-          :class="{ 'is-link': item.type === 'link', 'is-iframe': item.type === 'iframe' }"
           @click="handleItemClick(item)"
         >
           <div class="image-wrapper">
             <img :src="item.src" :alt="item.title" class="gallery-image" loading="lazy" />
             <div class="image-overlay">
               <ImageIcon v-if="item.type === 'image'" :size="24" />
-              <Monitor v-else-if="item.type === 'iframe'" :size="24" />
               <ExternalLink v-else :size="24" />
             </div>
-            <div v-if="item.type === 'link'" class="link-badge">
+            <div v-if="item.type !== 'image'" class="link-badge">
               <Link2 :size="12" />
               <span>外部链接</span>
-            </div>
-            <div v-else-if="item.type === 'iframe'" class="iframe-badge">
-              <Monitor :size="12" />
-              <span>可预览</span>
             </div>
           </div>
           <div class="gallery-card-content">
@@ -189,8 +163,7 @@ onUnmounted(() => {
                 }}
               </span>
               {{ item.title }}
-              <ExternalLink v-if="item.type === 'link'" :size="14" class="title-link-icon" />
-              <Monitor v-else-if="item.type === 'iframe'" :size="14" class="title-iframe-icon" />
+              <ExternalLink v-if="item.type !== 'image'" :size="14" class="title-link-icon" />
             </h3>
             <p class="gallery-card-description">{{ item.description }}</p>
             <span class="gallery-card-date">{{ item.date }}</span>
@@ -198,7 +171,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div v-if="filteredItems.length === 0" class="empty-state">
+      <div v-if="!loading && filteredItems.length === 0" class="empty-state">
         <ImageIcon :size="48" class="empty-icon" />
         <p>该分类下暂无内容</p>
       </div>
@@ -243,44 +216,6 @@ onUnmounted(() => {
 
         <div v-if="imageItems.length > 1" class="lightbox-counter">
           {{ currentImageIndex + 1 }} / {{ imageItems.length }}
-        </div>
-      </div>
-    </Teleport>
-
-    <!-- Iframe Modal -->
-    <Teleport to="body">
-      <div
-        v-if="iframeModalOpen && currentIframeItem"
-        class="iframe-modal"
-        @click="closeIframeModal"
-      >
-        <button class="iframe-modal-close" @click.stop="closeIframeModal">
-          <X :size="24" />
-        </button>
-
-        <div class="iframe-modal-content" @click.stop>
-          <div class="iframe-modal-header">
-            <h3 class="iframe-modal-title">{{ currentIframeItem.title }}</h3>
-            <button class="iframe-visit-btn" @click="openExternalLink(currentIframeItem.url)">
-              <ExternalLink :size="16" />
-              <span>访问网站</span>
-            </button>
-          </div>
-
-          <div class="iframe-preview-container">
-            <iframe
-              v-if="currentIframeItem.url"
-              :src="currentIframeItem.url"
-              class="iframe-frame"
-              frameborder="0"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            ></iframe>
-          </div>
-
-          <div class="iframe-modal-info">
-            <p class="iframe-modal-description">{{ currentIframeItem.description }}</p>
-            <span class="iframe-modal-date">{{ currentIframeItem.date }}</span>
-          </div>
         </div>
       </div>
     </Teleport>
@@ -434,23 +369,6 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-.iframe-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  background: rgba(10, 14, 20, 0.55);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  border-radius: var(--radius-sm);
-  color: var(--color-white);
-  font-size: var(--text-xs);
-  font-weight: 600;
-}
-
 .gallery-card-content {
   padding: 16px;
 }
@@ -503,9 +421,33 @@ onUnmounted(() => {
   border: 2px solid var(--color-text);
 }
 
-.title-link-icon,
-.title-iframe-icon {
+.title-link-icon {
   flex-shrink: 0;
+}
+
+.skeleton-card {
+  cursor: default;
+}
+
+.skeleton-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 0;
+}
+
+.skeleton-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-line {
+  height: 14px;
+}
+
+.skeleton-line-sm {
+  height: 11px;
 }
 
 .gallery-card-description {
@@ -551,8 +493,7 @@ onUnmounted(() => {
   justify-content: center;
 }
 
-.lightbox-close,
-.iframe-modal-close {
+.lightbox-close {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -572,8 +513,7 @@ onUnmounted(() => {
     color 0.2s ease;
 }
 
-.lightbox-close:hover,
-.iframe-modal-close:hover {
+.lightbox-close:hover {
   background: var(--color-primary-bright);
   color: var(--color-white);
 }
@@ -663,114 +603,10 @@ onUnmounted(() => {
   font-size: var(--text-ui);
 }
 
-/* Iframe Modal */
-.iframe-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.iframe-modal-content {
-  width: 95%;
-  max-width: 1400px;
-  height: 95vh;
-  max-height: 95vh;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.iframe-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--color-line);
-  gap: 16px;
-}
-
-.iframe-modal-title {
-  font-size: var(--text-h5);
-  font-weight: 600;
-  color: var(--color-white);
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.iframe-visit-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: var(--color-primary);
-  border-radius: var(--radius-pill);
-  color: var(--color-white);
-  border: none;
-  font-size: var(--text-ui);
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.iframe-visit-btn:hover {
-  background: var(--color-primary-bright);
-}
-
-.iframe-preview-container {
-  flex: 1;
-  min-height: 0;
-  background: var(--color-bg);
-  position: relative;
-}
-
-.iframe-frame {
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
-  border: none;
-}
-
-.iframe-modal-info {
-  padding: 16px 24px;
-  border-top: 1px solid var(--color-line);
-}
-
-.iframe-modal-description {
-  font-size: var(--text-ui);
-  color: var(--color-white);
-  margin: 0 0 8px 0;
-}
-
-.iframe-modal-date {
-  font-size: var(--text-xs);
-  color: var(--color-primary-bright);
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .iframe-modal-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .iframe-frame {
-    min-height: 500px;
   }
 }
 
@@ -804,26 +640,9 @@ onUnmounted(() => {
     right: 10px;
   }
 
-  .lightbox-close,
-  .iframe-modal-close {
+  .lightbox-close {
     top: 10px;
     right: 10px;
-  }
-
-  .iframe-modal-header {
-    padding: 16px;
-  }
-
-  .iframe-visit-btn {
-    padding: 6px 12px;
-  }
-
-  .iframe-frame {
-    min-height: 400px;
-  }
-
-  .iframe-modal-info {
-    padding: 12px 16px;
   }
 }
 </style>

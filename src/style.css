@@ -162,3 +162,21 @@ p {
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-lg);
 }
+
+/* 骨架屏占位块（Skeleton Screen）：灰色块 + 流光扫过，
+   各视图数据加载期间用它替代空白等待 */
+.skeleton {
+  background: linear-gradient(90deg, #1a2029 25%, #242d3a 50%, #1a2029 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, onUnmounted, ref } from 'vue'
+import { computed, defineAsyncComponent, nextTick, onUnmounted, ref } from 'vue'
 import { ArrowRight } from 'lucide-vue-next'
-import HeroBand from './HeroBand.vue'
 import { departments } from '../data/departments'
+
+// 背景光带异步加载：three.js 体积大，延迟到首屏文字渲染后再拉取，
+// 不阻塞首屏绘制（性能优化 2026-09-21）
+const HeroBand = defineAsyncComponent(() => import('./HeroBand.vue'))
 
 // 第二行标语词组，与 departments.ts 的 id 对应
 const deptWords: Record<string, string[]> = {
-  multimedia: ['开发页面', '设计UI', '创造美好'],
+  multimedia: ['开发网站', '设计视觉', '玩转创意'],
   software: ['训练模型', '开发游戏', '打磨软件'],
   hardware: ['设计电路', '驱动硬件', '点亮创意'],
   organize: ['策划活动', '凝聚团队', '连接彼此'],
@@ -54,10 +57,14 @@ const posBrightness = [1, 0.8, 0.6, 0.45, 0.32]
 const deckPos = (index: number) =>
   (index - deckIndex.value + departments.length) % departments.length
 
+// 多媒体部药丸文字较长，处于顶部显示位时整卡向左微调，避免视觉重心偏右
+const deptTopNudge: Record<string, string> = { multimedia: '-0.12em' }
+
 const deckCardStyle = (deptId: string, index: number) => {
   const pos = deckPos(index)
+  const nudge = pos === 0 ? (deptTopNudge[deptId] ?? '0em') : '0em'
   return {
-    transform: `rotate(${posRotations[pos] ?? 0}deg) translate(${posXOffsets[pos] ?? 0}em, ${posYOffsets[pos] ?? 0}em) scale(${1 - pos * 0.05})`,
+    transform: `rotate(${posRotations[pos] ?? 0}deg) translate(calc(${posXOffsets[pos] ?? 0}em + ${nudge}), ${posYOffsets[pos] ?? 0}em) scale(${1 - pos * 0.05})`,
     zIndex: departments.length - pos,
     filter:
       pos === 0 ? 'none' : `blur(${posBlurs[pos] ?? 0}em) brightness(${posBrightness[pos] ?? 1})`,
@@ -200,13 +207,11 @@ const buttons = [
               </Transition>
             </span>
           </template>
-          <!-- 贴纸图片预留位：替换为 <img> -->
-          <span class="hero-sticker" aria-hidden="true"></span>
         </span>
       </h1>
 
       <!-- 第三行：slogan -->
-      <p class="hero-slogan">科技融入梦想，创新点缀人生</p>
+      <p class="hero-slogan">把灵感写成代码，把热爱做成作品</p>
 
       <!-- 底部：功能按钮 -->
       <div class="hero-buttons">
@@ -310,6 +315,17 @@ const buttons = [
   z-index: 0;
   -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+  /* 异步加载完成后淡入，避免光带突兀弹出 */
+  animation: hero-band-in 1.2s ease both;
+}
+
+@keyframes hero-band-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-content {
@@ -328,12 +344,6 @@ const buttons = [
   transform: translateY(-6vh);
 }
 
-@media (max-width: 640px) {
-  .hero-sticker {
-    display: none;
-  }
-}
-
 /* 两行标题：字号等大（clamp 保证任意屏宽单行不溢出）、加粗（900 + 描边），
    切换后各行保持居中且不换行 */
 .hero-heading {
@@ -348,12 +358,12 @@ const buttons = [
   line-height: 1;
 }
 
-/* 第三行 slogan：h5 大小、更白的灰，与标题拉开距离 */
+/* 第三行 slogan：白色、加大字号、贴近标题（按钮区另加大间距与 slogan 拉开） */
 .hero-slogan {
-  margin: 56px 0 0;
-  font-size: var(--text-h5);
+  margin: 8px 0 0;
+  font-size: var(--text-h4);
   font-weight: 500;
-  color: #cbd5e1;
+  color: var(--color-white);
   line-height: var(--leading-normal);
 }
 
@@ -493,27 +503,18 @@ const buttons = [
   position: absolute;
 }
 
-/* 贴纸图片预留位（虚线框为占位标记，替换为 <img> 后删除边框） */
-.hero-sticker {
-  flex-shrink: 0;
-  width: 1.1em;
-  height: 1.1em;
-  border: 2px dashed rgba(59, 130, 246, 0.35);
-  border-radius: var(--radius-md);
-}
-
 .hero-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 48px;
 }
 
 @media (max-width: 1024px) {
   .hero-buttons {
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 36px;
   }
 }
 

@@ -3,19 +3,6 @@ import { awards, getAwardLevelColor } from '../data/awards'
 import BackButton from '../components/BackButton.vue'
 import SectionMark from '../components/SectionMark.vue'
 
-/* 等级高低序（用于取卡片的最高等级色） */
-const levelRank = ['省三', '省二', '省一', '国三', '国二', '国一']
-
-function bestLevelColor(levels: Record<string, number>): string {
-  let best = ''
-  for (const level of Object.keys(levels)) {
-    if (levelRank.indexOf(level) > levelRank.indexOf(best)) {
-      best = level
-    }
-  }
-  return getAwardLevelColor(best)
-}
-
 function chipStyle(level: string) {
   const color = getAwardLevelColor(level)
   return { color, background: `color-mix(in srgb, ${color} 13%, transparent)` }
@@ -33,15 +20,7 @@ function chipStyle(level: string) {
       </div>
 
       <div class="awards-grid">
-        <div
-          v-for="award in awards"
-          :key="award.name"
-          class="award-card"
-          :style="{ '--stripe-color': bestLevelColor(award.award) }"
-        >
-          <!-- 左侧最高等级色条 -->
-          <span class="award-stripe"></span>
-
+        <div v-for="award in awards" :key="award.name" class="award-card">
           <h3 class="award-name">{{ award.name }}</h3>
 
           <div class="award-levels">
@@ -56,7 +35,9 @@ function chipStyle(level: string) {
           </div>
 
           <div class="award-people">
-            <span class="people-label">获奖成员 {{ award.people.length }} 人</span>
+            <span class="people-label"
+              >获奖成员 <span class="people-count">{{ award.people.length }}</span> 人</span
+            >
             <p class="people-names">{{ award.people.join('、') }}</p>
           </div>
         </div>
@@ -112,7 +93,7 @@ function chipStyle(level: string) {
   position: relative;
   background: var(--color-card);
   border-radius: var(--radius-lg);
-  padding: 28px 28px 24px 32px;
+  padding: 28px;
   overflow: hidden;
   transition: background-color 0.2s ease;
 }
@@ -120,17 +101,6 @@ function chipStyle(level: string) {
 /* hover：卡片变深，文字层级不变 */
 .award-card:hover {
   background: #10141b;
-}
-
-/* 左侧内缩色条：取该赛事最高等级的颜色 */
-.award-stripe {
-  position: absolute;
-  left: 0;
-  top: 20px;
-  bottom: 20px;
-  width: 3px;
-  border-radius: 2px;
-  background: var(--stripe-color, var(--color-primary));
 }
 
 .award-name {
@@ -166,13 +136,20 @@ function chipStyle(level: string) {
 .people-label {
   display: block;
   font-size: var(--text-xs);
-  color: #6b7280;
+  color: #e5e7eb;
   margin-bottom: 6px;
+}
+
+/* 人数数字：主题蓝加粗，成为视觉锚点 */
+.people-count {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 13px;
 }
 
 .people-names {
   font-size: var(--text-ui);
-  color: #9ca3af;
+  color: var(--color-white);
   line-height: var(--leading-normal);
   margin: 0;
 }
