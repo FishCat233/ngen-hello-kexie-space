@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.0.0...v3.0.1) (2026-09-21)
+
+
+### Bug Fixes
+
+* **docker:** build on glibc base so packageManager pnpm switch works ([d60d2aa](https://github.com/FishCat233/ngen-hello-kexie-space/commit/d60d2aa8f45006ac14757d2799dfafc50d5a94da))
+
 ## [3.0.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v2.9.0...v3.0.0) (2026-09-21)
 
 
