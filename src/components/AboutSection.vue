@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SectionMark from './SectionMark.vue'
 import SlidingCarousel from './SlidingCarousel.vue'
-import workshopImg from '../assets/images/kexie-workshop.jpg'
-import labImg from '../assets/images/kexie-lab.jpg'
-import officeImg from '../assets/images/kexie-office.jpg'
+import workshopImg from '../assets/images/kexie-workshop.webp'
+import labImg from '../assets/images/kexie-lab.webp'
+import officeImg from '../assets/images/kexie-office.webp'
 
 const paragraphs = [
   '三院科协是依托于计算机与信息安全学院，面向全校的技术社团。我们的活动包括技术学习，承办和策划各类科技赛事和颁奖仪式，组织创新创业训练等。科协设有软件部、硬件部、多媒体部、组织部、安全部共五个部门，致力于对成员技术能力及创新能力的培养。',
