@@ -15,10 +15,12 @@
     "dompurify": "^3.4.2",
     "highlight.js": "^11.11.1",
     "lucide-vue-next": "^1.0.0",
+    "ogl": "^1.0.11",
     "pinia": "^3.0.4",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
+    "three": "^0.186.0",
     "vue": "^3.5.32",
     "vue-router": "^4.6.4"
   },
@@ -40,5 +42,6 @@
     "vite": "^8.0.10",
     "vite-plugin-cdn-import": "^1.0.1",
     "vue-tsc": "^3.2.7"
-  }
+  },
+  "packageManager": "pnpm@10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92"
 }

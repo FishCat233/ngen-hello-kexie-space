@@ -1,10 +1,25 @@
 <script setup lang="ts">
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed, nextTick, type Component } from 'vue'
+import {
+  Globe,
+  Coffee,
+  Gamepad2,
+  Smartphone,
+  Palette,
+  Cpu,
+  Brain,
+  Clapperboard,
+  Binary,
+  Lock,
+  Shield,
+  Terminal,
+  FileText,
+} from 'lucide-vue-next'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+import hljs from 'highlight.js/lib/common'
+import 'highlight.js/styles/github-dark.css'
 import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
 
@@ -32,6 +47,22 @@ const directionNames: Record<string, string> = {
   editing: '编辑',
 }
 
+const directionIcons: Record<string, Component> = {
+  frontend: Globe,
+  backend: Coffee,
+  game: Gamepad2,
+  app: Smartphone,
+  ui: Palette,
+  hardware: Cpu,
+  'deep-learning': Brain,
+  video: Clapperboard,
+  reverse: Binary,
+  crypto: Lock,
+  'web-security': Shield,
+  pwn: Terminal,
+  editing: FileText,
+}
+
 const fileNames: Record<string, string> = {
   frontend: 'frontend.md',
   backend: 'backend.md',
@@ -49,6 +80,8 @@ const fileNames: Record<string, string> = {
 }
 
 const directionName = computed(() => directionNames[props.id] || '未知方向')
+
+const directionIcon = computed(() => directionIcons[props.id] || FileText)
 
 const loadMarkdown = async () => {
   loading.value = true
@@ -73,7 +106,7 @@ const loadMarkdown = async () => {
       .use(remarkGfm)
       .use(remarkHtml, { sanitize: false })
       .process(processed)
-    htmlContent.value = String(result)
+    htmlContent.value = String(result).replace(/<img /g, '<img loading="lazy" decoding="async" ')
   } catch {
     error.value = '加载内容失败，请稍后重试'
   } finally {
@@ -96,9 +129,15 @@ watch(() => props.id, loadMarkdown, { immediate: true })
     <div class="direction-container">
       <BackButton />
 
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
-        <p>加载中...</p>
+      <!-- 内容就绪前显示文档骨架屏 -->
+      <div v-if="loading" class="markdown-content" aria-hidden="true">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line" style="width: 100%"></div>
+        <div class="skeleton skeleton-line" style="width: 92%"></div>
+        <div class="skeleton skeleton-line" style="width: 78%"></div>
+        <div class="skeleton skeleton-image"></div>
+        <div class="skeleton skeleton-line" style="width: 86%"></div>
+        <div class="skeleton skeleton-line" style="width: 64%"></div>
       </div>
 
       <div v-else-if="error" class="error-state">
@@ -107,7 +146,10 @@ watch(() => props.id, loadMarkdown, { immediate: true })
       </div>
 
       <article v-else class="markdown-content">
-        <h1 class="direction-title"><span class="title-accent">#</span> {{ directionName }}</h1>
+        <h1 class="direction-title">
+          <span class="title-icon"><component :is="directionIcon" :size="20" /></span>
+          {{ directionName }}
+        </h1>
         <div class="markdown-body" v-html="htmlContent"></div>
       </article>
     </div>
@@ -117,7 +159,7 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 <style scoped>
 .direction-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -126,7 +168,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   margin: 0 auto;
 }
 
-.loading-state,
 .error-state {
   display: flex;
   flex-direction: column;
@@ -136,62 +177,79 @@ watch(() => props.id, loadMarkdown, { immediate: true })
   color: var(--color-text);
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-black);
-  border-top-color: var(--color-blue);
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
+/* 文档骨架屏：模拟标题 + 段落 + 插图布局 */
+.skeleton-title {
+  width: 38%;
+  height: 32px;
+  margin-bottom: 32px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.skeleton-line {
+  height: 14px;
+  margin: 12px 0;
+}
+
+.skeleton-image {
+  height: 220px;
+  margin: 24px 0;
+  border-radius: var(--radius-md);
 }
 
 .retry-button {
   margin-top: 16px;
   padding: 10px 24px;
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
   border: none;
-  font-size: 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-ui);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .retry-button:hover {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
 }
 
 .markdown-content {
   position: relative;
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
   padding: 40px;
 }
 
 .direction-title {
-  font-size: 36px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 32px 0;
   padding-top: 4px;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--color-cyan);
+  border-bottom: 1px solid var(--color-line);
 }
 
-.title-accent {
-  color: var(--color-blue);
+/* 方向专属图标框 */
+.title-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
 }
 
 .markdown-body {
   color: var(--color-text);
-  line-height: 1.8;
-  font-size: 16px;
+  line-height: var(--leading-relaxed);
+  font-size: var(--text-body);
 }
 
 .markdown-body :deep(h1) {
@@ -199,18 +257,18 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(h2) {
-  font-size: 24px;
+  font-size: var(--text-h4);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 32px 0 16px 0;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-cyan);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .markdown-body :deep(h3) {
-  font-size: 20px;
+  font-size: var(--text-h5);
   font-weight: 600;
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
   margin: 24px 0 12px 0;
 }
 
@@ -219,20 +277,24 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(a) {
-  color: var(--color-blue);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
 .markdown-body :deep(a:hover) {
-  color: var(--color-cyan);
+  color: var(--color-primary-bright);
   text-decoration: underline;
 }
 
+/* 文档插图：限高防止长截图撑爆版面，等比缩放不裁切 */
 .markdown-body :deep(img) {
   display: block;
   max-width: 100%;
+  max-height: 420px;
+  width: auto;
   height: auto;
   margin: 16px auto;
+  border-radius: var(--radius-sm);
 }
 
 .markdown-body :deep(ul) {
@@ -260,16 +322,18 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(code) {
-  background: var(--color-light-cyan);
+  background: var(--color-primary-dim);
   padding: 2px 6px;
-  font-family: var(--mono);
-  font-size: 14px;
-  color: var(--color-cyan);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-ui);
+  color: var(--color-primary-bright);
 }
 
 .markdown-body :deep(pre) {
-  background: #e8e8e8;
-  border: 1px solid var(--color-cyan);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
   padding: 16px;
   overflow-x: auto;
   margin: 16px 0;
@@ -281,15 +345,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 }
 
 .markdown-body :deep(blockquote) {
-  border-left: 4px solid var(--color-cyan);
+  border-left: 4px solid var(--color-primary);
   margin: 16px 0;
   padding: 8px 16px;
-  background: var(--color-light-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-dim);
 }
 
 .markdown-body :deep(hr) {
   border: none;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
   margin: 32px 0;
 }
 
@@ -302,21 +367,21 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(th),
 .markdown-body :deep(td) {
   padding: 12px 16px;
-  border: 1px solid var(--color-cyan);
+  border: 1px solid var(--color-line);
   text-align: left;
 }
 
 .markdown-body :deep(th) {
-  background: var(--color-gray);
+  background: var(--color-surface);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 /* ---- Bilibili 视频卡片 ---- */
 .markdown-body :deep(.bilibili-card) {
   margin: 24px 0;
-  border: 1px solid var(--color-cyan);
-  background: var(--color-black);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   overflow: hidden;
 }
 
@@ -338,16 +403,16 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 .markdown-body :deep(.bilibili-link) {
   display: block;
   padding: 8px 16px;
-  font-size: 13px;
-  color: var(--color-cyan);
+  font-size: var(--text-sm);
+  color: var(--color-primary-bright);
   text-decoration: none;
-  border-top: 1px solid var(--color-cyan);
+  border-top: 1px solid var(--color-line);
   transition: background-color 0.2s ease;
 }
 
 .markdown-body :deep(.bilibili-link:hover) {
-  background: var(--color-gray);
-  color: var(--color-blue);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 @media (max-width: 768px) {
@@ -357,22 +422,6 @@ watch(() => props.id, loadMarkdown, { immediate: true })
 
   .markdown-content {
     padding: 24px;
-  }
-
-  .direction-title {
-    font-size: 28px;
-  }
-
-  .markdown-body :deep(h2) {
-    font-size: 20px;
-  }
-
-  .markdown-body :deep(h3) {
-    font-size: 18px;
-  }
-
-  .markdown-body {
-    font-size: 15px;
   }
 }
 </style>

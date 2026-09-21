@@ -5,8 +5,10 @@ import { getMembersByGrade, members as staticMembers } from '../data/members'
 import type { Member } from '../data/members'
 import { loadMembers } from '../api/cms'
 import BackButton from '../components/BackButton.vue'
+import SectionMark from '../components/SectionMark.vue'
 
-const gradeGroups = ref(getMembersByGrade())
+const gradeGroups = ref<ReturnType<typeof getMembersByGrade>>([])
+const loading = ref(true)
 const loadError = ref(false)
 const avatarErrors = ref<Record<string, boolean>>({})
 
@@ -18,14 +20,11 @@ function memberKey(member: Member, index: number): string {
   return `${member.grade}-${member.nickname}-${index}`
 }
 
-function cardHoverStyle(color: string | undefined) {
-  return color ? { '--member-theme': color } : {}
-}
-
 onMounted(async () => {
   const result = await loadMembers(staticMembers)
   gradeGroups.value = getMembersByGrade(result.data)
   loadError.value = result.source === 'fallback'
+  loading.value = false
 })
 </script>
 
@@ -41,46 +40,62 @@ onMounted(async () => {
 
       <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据。</p>
 
-      <div v-if="gradeGroups.length === 0" class="empty-state">暂无成员内容</div>
-
-      <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
-        <div class="section-header">
-          <h2 class="section-title"><span class="section-accent">##</span> {{ group.grade }}</h2>
+      <!-- 数据就绪前显示成员卡骨架屏 -->
+      <div v-if="loading" class="members-grid" aria-hidden="true">
+        <div v-for="i in 8" :key="i" class="member-card">
+          <div class="skeleton skeleton-avatar"></div>
+          <div class="skeleton-card-info">
+            <div class="skeleton skeleton-line" style="width: 45%"></div>
+            <div class="skeleton skeleton-line skeleton-line-sm" style="width: 65%"></div>
+            <div class="skeleton skeleton-line skeleton-line-sm" style="width: 80%"></div>
+          </div>
         </div>
+      </div>
 
-        <div class="members-grid">
-          <div
-            v-for="(member, index) in group.members"
-            :key="memberKey(member, index)"
-            class="member-card"
-            :style="cardHoverStyle(member.themeColor)"
-          >
-            <div class="member-avatar-area">
-              <div class="member-avatar-wrapper">
-                <img
-                  v-if="!avatarErrors[memberKey(member, index)]"
-                  :src="member.avatar"
-                  :alt="member.nickname"
-                  class="member-avatar"
-                  @error="handleAvatarError(memberKey(member, index))"
-                />
-                <div v-else class="member-avatar-placeholder">
-                  <User :size="24" />
+      <div v-else-if="gradeGroups.length === 0" class="empty-state">暂无成员内容</div>
+
+      <template v-else>
+        <div v-for="group in gradeGroups" :key="group.grade" class="members-section">
+          <div class="section-header">
+            <h2 class="section-title">{{ group.grade }}</h2>
+          </div>
+
+          <div class="members-grid">
+            <div
+              v-for="(member, index) in group.members"
+              :key="memberKey(member, index)"
+              class="member-card"
+            >
+              <div class="member-avatar-area">
+                <div class="member-avatar-wrapper">
+                  <img
+                    v-if="!avatarErrors[memberKey(member, index)]"
+                    :src="member.avatar"
+                    :alt="member.nickname"
+                    class="member-avatar"
+                    loading="lazy"
+                    decoding="async"
+                    @error="handleAvatarError(memberKey(member, index))"
+                  />
+                  <div v-else class="member-avatar-placeholder">
+                    <User :size="24" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="member-info">
-              <h3 class="member-nickname">{{ member.nickname }}</h3>
+              <div class="member-info">
+                <h3 class="member-nickname">{{ member.nickname }}</h3>
 
-              <p v-if="member.direction || member.role" class="member-meta">
-                <span v-if="member.direction">{{ member.direction }}</span>
-                <span v-if="member.direction && member.role" class="meta-sep">·</span>
-                <span v-if="member.role">{{ member.role }}</span>
-              </p>
+                <p v-if="member.direction || member.role" class="member-meta">
+                  <span v-if="member.direction">{{ member.direction }}</span>
+                  <SectionMark v-if="member.direction && member.role" class="meta-sep" />
+                  <span v-if="member.role">{{ member.role }}</span>
+                </p>
 
-              <p class="member-motto">{{ member.motto || '\xa0' }}</p>
+                <p class="member-motto">{{ member.motto || '\xa0' }}</p>
+              </div>
 
+              <!-- 链接按钮占满整行，与卡片左缘（头像）对齐 -->
               <div v-if="member.links && member.links.length > 0" class="member-links">
                 <a
                   v-for="(link, li) in member.links"
@@ -96,7 +111,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -104,7 +119,7 @@ onMounted(async () => {
 <style scoped>
 .members-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -119,25 +134,26 @@ onMounted(async () => {
 
 .cms-notice,
 .empty-state {
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
   padding: 16px;
   margin-bottom: 32px;
   color: var(--color-text);
 }
 
 .members-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .members-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -155,14 +171,10 @@ onMounted(async () => {
 }
 
 .section-title {
-  font-size: 28px;
+  font-size: var(--text-h3);
   font-weight: 600;
   color: var(--color-text);
   margin: 0;
-}
-
-.section-accent {
-  color: var(--color-blue);
 }
 
 .members-grid {
@@ -172,41 +184,43 @@ onMounted(async () => {
 }
 
 .member-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
   padding: 24px;
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .member-card:hover {
-  background-color: var(--member-theme, var(--color-cyan));
-  border-color: var(--member-theme, var(--color-cyan));
+  background-color: #141414;
 }
 
-.member-card:hover .member-nickname,
-.member-card:hover .member-meta,
-.member-card:hover .member-motto,
-.member-card:hover .member-avatar-placeholder {
-  color: var(--color-white);
+/* 骨架屏成员卡：圆形头像占位 + 右侧信息行 */
+.skeleton-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.member-card:hover .member-link-btn {
-  border-color: var(--color-white);
-  color: var(--color-white);
+.skeleton-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
 }
 
-.member-card:hover .member-link-btn:hover {
-  background: var(--color-black);
-  border-color: var(--color-black);
-  color: var(--color-white);
+.skeleton-line {
+  height: 15px;
 }
 
-.member-card:hover .member-link-btn:hover::before {
-  display: none;
+.skeleton-line-sm {
+  height: 12px;
 }
 
 /* 头像区 */
@@ -218,7 +232,8 @@ onMounted(async () => {
   width: 64px;
   height: 64px;
   overflow: hidden;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
 }
 
 .member-avatar {
@@ -234,7 +249,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 /* 信息区 */
@@ -247,55 +262,53 @@ onMounted(async () => {
 }
 
 .member-nickname {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0;
-}
-
-.member-card:hover .member-nickname {
-  color: var(--color-white);
 }
 
 .member-meta {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
   color: var(--color-text);
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
+/* 方向与职位之间的阶梯形分隔标记 */
 .meta-sep {
-  margin: 0 6px;
-  color: var(--color-cyan);
-}
-
-.member-card:hover .meta-sep {
-  color: var(--color-white);
+  color: var(--color-primary);
+  margin: 0 7px;
 }
 
 .member-motto {
-  font-size: 13px;
-  color: var(--color-text);
+  font-size: var(--text-sm);
+  color: #9ca3af;
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
-/* 外部链接按钮 */
+/* 外部链接按钮：整行占满，与卡片左缘对齐 */
 .member-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  width: 100%;
   margin-top: 4px;
 }
 
 .member-link-btn {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
-  color: var(--color-text);
-  border: 2px solid var(--color-cyan);
+  color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -306,7 +319,7 @@ onMounted(async () => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -316,22 +329,37 @@ onMounted(async () => {
   transform: translateX(0);
 }
 
-.member-link-btn:hover {
-  color: var(--color-white);
-}
-
 .member-link-btn > * {
   position: relative;
   z-index: 1;
 }
 
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.member-link-btn::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.member-link-btn:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .members-page {
     padding: 72px 16px 24px;
-  }
-
-  .members-title {
-    font-size: 28px;
   }
 
   .members-grid {
@@ -346,10 +374,6 @@ onMounted(async () => {
   .member-avatar-wrapper {
     width: 52px;
     height: 52px;
-  }
-
-  .member-nickname {
-    font-size: 16px;
   }
 }
 </style>

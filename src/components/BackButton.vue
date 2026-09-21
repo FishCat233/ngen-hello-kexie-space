@@ -19,19 +19,17 @@ const router = useRouter()
   gap: 8px;
   padding: 10px 16px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
-  font-size: 14px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  color: var(--color-white);
+  font-size: var(--text-ui);
   font-weight: 500;
   cursor: pointer;
   margin-bottom: 32px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .back-button:hover {
-  background: var(--color-cyan);
-  color: var(--color-white);
+  background: var(--color-primary-bright);
 }
 </style>

@@ -23,6 +23,8 @@ const avatarError = ref(false)
           :src="project.authorAvatar"
           :alt="project.author"
           class="author-avatar"
+          loading="lazy"
+          decoding="async"
           @error="avatarError = true"
         />
         <div v-else class="author-avatar-placeholder">
@@ -55,39 +57,16 @@ const avatarError = ref(false)
 
 <style scoped>
 .project-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
   padding: 24px;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .project-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
-}
-
-.project-card:hover .project-name,
-.project-card:hover .project-description,
-.project-card:hover .author-name,
-.project-card:hover .language-name {
-  color: var(--color-white);
-}
-
-.project-card:hover .author-avatar-wrapper {
-  background: var(--color-cyan);
-  border-color: var(--color-white);
-}
-
-.project-card:hover .author-avatar-placeholder {
-  color: var(--color-white);
-}
-
-.project-card:hover .project-language {
-  background: var(--color-cyan);
-  border-color: var(--color-white);
+  background: #141414;
 }
 
 .project-author {
@@ -102,7 +81,8 @@ const avatarError = ref(false)
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -121,12 +101,12 @@ const avatarError = ref(false)
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   transition: color 0.2s ease;
 }
 
 .author-name {
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   color: var(--color-text);
 }
@@ -147,9 +127,9 @@ const avatarError = ref(false)
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0 0 8px 0;
 }
 
@@ -158,9 +138,9 @@ const avatarError = ref(false)
 }
 
 .project-description {
-  font-size: 14px;
+  font-size: var(--text-ui);
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -173,26 +153,28 @@ const avatarError = ref(false)
 }
 
 .project-language {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 5px;
+  height: 22px; /* 与左侧项目名行高一致 */
+  padding: 0 10px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
 }
 
 .language-dot {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .language-name {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--color-text);
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {

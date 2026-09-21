@@ -11,9 +11,10 @@ const openProject = (url: string) => {
   window.open(url, '_blank')
 }
 
-const featuredProjects = ref<Project[]>(projects)
-const displayedCompetitionProjects = ref<CompetitionProject[]>(competitionProjects)
-const displayedDemoProjects = ref<Project[]>(demoProjects)
+const featuredProjects = ref<Project[]>([])
+const displayedCompetitionProjects = ref<CompetitionProject[]>([])
+const displayedDemoProjects = ref<Project[]>([])
+const loading = ref(true)
 const loadError = ref(false)
 
 onMounted(async () => {
@@ -26,6 +27,7 @@ onMounted(async () => {
   displayedCompetitionProjects.value = result.data.competition
   displayedDemoProjects.value = result.data.demo
   loadError.value = result.source === 'fallback'
+  loading.value = false
 })
 </script>
 
@@ -41,58 +43,79 @@ onMounted(async () => {
 
       <p v-if="loadError" class="cms-notice">内容服务暂不可用，当前显示内置数据。</p>
 
-      <div class="projects-section">
+      <!-- 数据就绪前显示项目卡骨架屏 -->
+      <div v-if="loading" class="projects-section" aria-hidden="true">
         <div class="section-header">
-          <h2 class="section-title">科协优秀项目</h2>
-          <p class="section-subtitle">科协成员开发的优秀项目</p>
+          <div class="skeleton skeleton-line" style="width: 180px; height: 22px"></div>
         </div>
-
         <div class="projects-grid">
-          <ProjectCard
-            v-for="(project, index) in featuredProjects"
-            :key="index"
-            :project="project"
-            @click="openProject"
-          />
+          <div v-for="i in 6" :key="i" class="skeleton-card">
+            <div class="skeleton-card-author">
+              <div class="skeleton skeleton-avatar"></div>
+              <div class="skeleton skeleton-line" style="width: 90px"></div>
+            </div>
+            <div class="skeleton-card-body">
+              <div class="skeleton skeleton-line" style="width: 55%"></div>
+              <div class="skeleton skeleton-line skeleton-line-sm" style="width: 85%"></div>
+            </div>
+          </div>
         </div>
-        <p v-if="featuredProjects.length === 0" class="section-empty">暂无优秀项目</p>
       </div>
 
-      <div class="projects-section">
-        <div class="section-header">
-          <h2 class="section-title">竞赛展示项目</h2>
-          <p class="section-subtitle">部分参与竞赛的可展示项目</p>
+      <template v-else>
+        <div class="projects-section">
+          <div class="section-header">
+            <h2 class="section-title">科协优秀项目</h2>
+            <p class="section-subtitle">科协成员开发的优秀项目</p>
+          </div>
+
+          <div class="projects-grid">
+            <ProjectCard
+              v-for="(project, index) in featuredProjects"
+              :key="index"
+              :project="project"
+              @click="openProject"
+            />
+          </div>
+          <p v-if="featuredProjects.length === 0" class="section-empty">暂无优秀项目</p>
         </div>
 
-        <div class="projects-grid">
-          <CompetitionProjectCard
-            v-for="(project, index) in displayedCompetitionProjects"
-            :key="'comp-' + index"
-            :project="project"
-            @click="openProject"
-          />
-        </div>
-        <p v-if="displayedCompetitionProjects.length === 0" class="section-empty">
-          暂无竞赛展示项目
-        </p>
-      </div>
+        <div class="projects-section">
+          <div class="section-header">
+            <h2 class="section-title">竞赛展示项目</h2>
+            <p class="section-subtitle">部分参与竞赛的可展示项目</p>
+          </div>
 
-      <div class="projects-section">
-        <div class="section-header">
-          <h2 class="section-title">学习演示项目</h2>
-          <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
+          <div class="projects-grid">
+            <CompetitionProjectCard
+              v-for="(project, index) in displayedCompetitionProjects"
+              :key="'comp-' + index"
+              :project="project"
+              @click="openProject"
+            />
+          </div>
+          <p v-if="displayedCompetitionProjects.length === 0" class="section-empty">
+            暂无竞赛展示项目
+          </p>
         </div>
 
-        <div class="projects-grid">
-          <ProjectCard
-            v-for="(project, index) in displayedDemoProjects"
-            :key="'demo-' + index"
-            :project="project"
-            @click="openProject"
-          />
+        <div class="projects-section">
+          <div class="section-header">
+            <h2 class="section-title">学习演示项目</h2>
+            <p class="section-subtitle">近年科协成员在学习中开发的部分演示项目</p>
+          </div>
+
+          <div class="projects-grid">
+            <ProjectCard
+              v-for="(project, index) in displayedDemoProjects"
+              :key="'demo-' + index"
+              :project="project"
+              @click="openProject"
+            />
+          </div>
+          <p v-if="displayedDemoProjects.length === 0" class="section-empty">暂无学习演示项目</p>
         </div>
-        <p v-if="displayedDemoProjects.length === 0" class="section-empty">暂无学习演示项目</p>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -100,7 +123,7 @@ onMounted(async () => {
 <style scoped>
 .projects-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -115,7 +138,8 @@ onMounted(async () => {
 
 .cms-notice,
 .section-empty {
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
   padding: 16px;
   color: var(--color-text);
 }
@@ -129,18 +153,18 @@ onMounted(async () => {
 }
 
 .projects-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .projects-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
   margin: 0;
 }
@@ -158,14 +182,14 @@ onMounted(async () => {
 }
 
 .section-title {
-  font-size: 28px;
+  font-size: var(--text-h3);
   font-weight: 600;
   color: var(--color-text);
   margin: 0 0 8px 0;
 }
 
 .section-subtitle {
-  font-size: 14px;
+  font-size: var(--text-ui);
   color: var(--color-text);
   margin: 0;
 }
@@ -176,13 +200,44 @@ onMounted(async () => {
   gap: 20px;
 }
 
+/* 骨架屏项目卡：与真实卡片同构（作者行 + 内容行） */
+.skeleton-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.skeleton-card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.skeleton-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-line {
+  height: 15px;
+}
+
+.skeleton-line-sm {
+  height: 12px;
+}
+
 @media (max-width: 768px) {
   .projects-page {
     padding: 72px 16px 24px;
-  }
-
-  .projects-title {
-    font-size: 28px;
   }
 
   .projects-grid {

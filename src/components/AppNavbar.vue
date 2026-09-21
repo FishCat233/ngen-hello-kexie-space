@@ -9,45 +9,31 @@ const router = useRouter()
 const scrollStore = useScrollStore()
 const route = useRoute()
 const { isMobile } = useDevice()
-const { isNavbarHidden } = useNavbarScroll()
+const { isScrolled } = useNavbarScroll()
 
 // 导航菜单项类型定义
-interface NavChild {
-  label: string
-  href: string
-}
-
 interface NavItem {
   id: string
   label: string
   href: string
-  children?: NavChild[]
 }
 
-// 导航菜单配置
+// 导航菜单配置：原「更多」下拉项全部平铺为一级链接
 const navMenu: NavItem[] = [
   {
     id: 'home',
     label: '首页',
     href: '#home',
   },
-  {
-    id: 'more',
-    label: '更多',
-    href: '#',
-    children: [
-      { label: '组织架构', href: '/organization' },
-      { label: '成员墙', href: '/members' },
-      { label: '获奖情况', href: '/awards' },
-      { label: '项目活动', href: '/projects' },
-      { label: '项目展廊', href: '/gallery' },
-      { label: '畅心所言', href: '/comments' },
-    ],
-  },
+  { id: 'organization', label: '组织架构', href: '/organization' },
+  { id: 'members', label: '成员墙', href: '/members' },
+  { id: 'awards', label: '获奖情况', href: '/awards' },
+  { id: 'projects', label: '项目活动', href: '/projects' },
+  { id: 'gallery', label: '项目展廊', href: '/gallery' },
+  { id: 'comments', label: '畅心所言', href: '/comments' },
 ]
 
 const isMobileMenuOpen = ref(false)
-const activeDropdown = ref<string | null>(null)
 
 // 导航处理
 const handleNavigation = (href: string) => {
@@ -59,7 +45,6 @@ const handleNavigation = (href: string) => {
     if (route.path !== '/') {
       scrollStore.pendingAnchor = href
       isMobileMenuOpen.value = false
-      activeDropdown.value = null
       router.push('/')
       return
     } else {
@@ -70,17 +55,6 @@ const handleNavigation = (href: string) => {
     }
   }
   isMobileMenuOpen.value = false
-  activeDropdown.value = null
-}
-
-// 显示下拉菜单
-const showDropdown = (id: string) => {
-  activeDropdown.value = id
-}
-
-// 隐藏下拉菜单
-const hideDropdown = () => {
-  activeDropdown.value = null
 }
 
 // 移动菜单打开时锁定 body 滚动
@@ -98,7 +72,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav class="navbar" :class="{ 'is-mobile': isMobile, 'is-hidden': isNavbarHidden }">
+  <nav class="navbar" :class="{ 'is-mobile': isMobile, 'is-scrolled': isScrolled }">
+    <div class="navbar-glass"></div>
     <div class="navbar-container">
       <!-- Logo -->
       <a href="#home" class="navbar-logo" @click.prevent="handleNavigation('#home')">
@@ -111,47 +86,10 @@ onUnmounted(() => {
 
       <!-- 桌面端导航链接 -->
       <div v-if="!isMobile" class="navbar-links">
-        <div
-          v-for="item in navMenu"
-          :key="item.id"
-          class="navbar-item"
-          @mouseenter="item.children && showDropdown(item.id)"
-          @mouseleave="hideDropdown"
-        >
-          <a
-            :href="item.href"
-            class="navbar-link"
-            :class="{ 'has-dropdown': item.children }"
-            @click.prevent="handleNavigation(item.href)"
-          >
+        <div v-for="item in navMenu" :key="item.id" class="navbar-item">
+          <a :href="item.href" class="navbar-link" @click.prevent="handleNavigation(item.href)">
             {{ item.label }}
-            <svg
-              v-if="item.children"
-              class="dropdown-arrow"
-              :class="{ 'is-open': activeDropdown === item.id }"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
           </a>
-
-          <!-- 一级下拉菜单 -->
-          <div v-if="item.children && activeDropdown === item.id" class="dropdown-menu">
-            <a
-              v-for="(child, index) in item.children"
-              :key="index"
-              :href="child.href"
-              class="dropdown-link"
-              @click.prevent="handleNavigation(child.href)"
-            >
-              {{ child.label }}
-            </a>
-          </div>
         </div>
       </div>
 
@@ -207,19 +145,6 @@ onUnmounted(() => {
         <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
           {{ item.label }}
         </a>
-
-        <!-- 移动端子菜单 -->
-        <div v-if="item.children" class="mobile-submenu">
-          <a
-            v-for="(child, index) in item.children"
-            :key="index"
-            :href="child.href"
-            class="mobile-submenu-title mobile-submenu-title-link"
-            @click.prevent="handleNavigation(child.href)"
-          >
-            {{ child.label }}
-          </a>
-        </div>
       </div>
       <a
         href="https://api.kexie.space/recruitment-qq-group"
@@ -232,25 +157,59 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* 导航栏两态：
+   初始 —— 吸附顶部、通栏长方形
+   下滑 —— 脱离顶部、收窄居中、药丸形态
+   玻璃（背景 + 高斯模糊 + 边框）由兄弟层 .navbar-glass 单独承载，
+   使下拉菜单（.navbar-container 的后代）不受祖先 backdrop-filter 的
+   backdrop root 限制，模糊能正常作用于页面内容 */
 .navbar {
-  width: 100%;
-  padding: 16px 24px;
-  background: var(--color-black);
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 24px;
   z-index: 100;
-  transform: translateY(0);
-  transition: transform 0.2s ease;
+  transition:
+    width 0.4s ease,
+    top 0.4s ease,
+    padding 0.4s ease;
 }
 
-.navbar.is-hidden {
-  transform: translateY(-100%);
+.navbar-glass {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 20, 0.72);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid transparent;
+  border-bottom-color: var(--color-line);
+  border-radius: 0;
+  transition:
+    border-radius 0.4s ease,
+    border-color 0.4s ease,
+    background-color 0.4s ease;
 }
 
+.navbar.is-scrolled {
+  top: 16px;
+  width: min(calc(100% - 32px), 1080px);
+  padding: 10px;
+}
+
+.navbar.is-scrolled .navbar-glass {
+  border-radius: var(--radius-pill);
+  border-color: var(--color-line);
+  background: rgba(10, 14, 20, 0.66);
+}
+
+/* 内容层浮于玻璃之上 */
 .navbar-container {
-  max-width: 1400px;
-  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -263,19 +222,6 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  padding: 4px 12px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.navbar-logo:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
-}
-
-.navbar-logo:hover .navbar-logo-text {
-  color: var(--color-black);
 }
 
 .navbar-logo-img {
@@ -283,20 +229,19 @@ onUnmounted(() => {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--color-blue);
 }
 
 .navbar-logo-text {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   color: var(--color-white);
 }
 
-/* 导航链接 */
+/* 导航链接：7 个一级链接平铺，紧凑间距保证 1080px 药丸内不溢出 */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .navbar-item {
@@ -307,94 +252,20 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   color: var(--color-white);
   text-decoration: none;
-  font-size: 15px;
+  font-size: var(--text-ui);
   font-weight: 500;
   border: 1px solid transparent;
+  border-radius: var(--radius-pill);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
 }
 
 .navbar-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
-}
-
-.dropdown-arrow {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.2s ease;
-}
-
-.dropdown-arrow.is-open {
-  transform: rotate(180deg);
-}
-
-/* 下拉菜单 */
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 180px;
-  background: var(--color-black);
-  border: 1px solid var(--color-blue);
-  padding: 8px;
-  margin-top: 0;
-}
-
-.dropdown-link {
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: 14px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.dropdown-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
-}
-
-.dropdown-arrow-right {
-  width: 14px;
-  height: 14px;
-  margin-left: 8px;
-}
-
-/* 二级下拉菜单 */
-.subdropdown-menu {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  min-width: 140px;
-  background: var(--color-black);
-  border: 1px solid var(--color-cyan);
-  padding: 8px;
-  margin-left: 0;
-}
-
-.subdropdown-link {
-  display: block;
-  padding: 8px 14px;
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: 13px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.subdropdown-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
 }
 
 /* 操作区 */
@@ -409,28 +280,24 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
-  background: var(--color-blue);
+  gap: 8px;
+  padding: 10px 32px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transition:
-    background 0s,
-    color 0.3s ease;
-}
-
-.navbar-cta:hover {
-  color: var(--color-black);
+  transition: background 0s;
 }
 
 .navbar-cta::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-white);
+  background: #2563eb; /* hover 色块比底色更深 */
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -445,13 +312,37 @@ onUnmounted(() => {
   z-index: 1;
 }
 
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.navbar-cta::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.navbar-cta:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
+}
+
 /* 移动端菜单按钮 */
 .navbar-menu-btn {
   width: 40px;
   height: 40px;
   padding: 8px;
   background: transparent;
-  border: 1px solid var(--color-cyan);
+  border: none;
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   cursor: pointer;
   display: none;
@@ -465,8 +356,7 @@ onUnmounted(() => {
 }
 
 .navbar-menu-btn:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
 }
 
 .navbar-menu-btn svg {
@@ -474,17 +364,26 @@ onUnmounted(() => {
   height: 100%;
 }
 
-/* 移动端菜单 */
+/* 移动端菜单：悬浮玻璃面板 */
 .navbar-mobile-menu {
   display: none;
-  background: var(--color-black);
-  border-top: 1px solid var(--color-cyan);
-  padding: 16px 24px;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 8px;
+  right: 8px;
+  z-index: 2;
+  background: rgba(10, 14, 20, 0.72);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  padding: 16px 20px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
   flex-direction: column;
   gap: 4px;
-  max-height: calc(100vh - 80px);
-  max-height: calc(100dvh - 80px);
+  max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px);
   overflow-y: auto;
 }
 
@@ -493,16 +392,17 @@ onUnmounted(() => {
 }
 
 .mobile-nav-item {
-  border-bottom: 1px solid var(--color-blue);
+  border-bottom: 1px solid var(--color-primary);
   padding: 8px 0;
 }
 
 .mobile-nav-link {
   display: block;
   padding: 12px 16px;
+  border-radius: var(--radius-sm);
   color: var(--color-white);
   text-decoration: none;
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
   transition:
     background-color 0.2s ease,
@@ -510,87 +410,32 @@ onUnmounted(() => {
 }
 
 .mobile-nav-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
-}
-
-.mobile-submenu {
-  padding-left: 16px;
-  margin-top: 8px;
-}
-
-.mobile-submenu-group {
-  margin-bottom: 8px;
-}
-
-.mobile-submenu-title {
-  display: block;
-  padding: 8px 12px;
-  color: var(--color-blue);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.mobile-submenu-title-link {
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.mobile-submenu-title-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
-}
-
-.mobile-submenu-items {
-  padding-left: 12px;
-}
-
-.mobile-submenu-link {
-  display: block;
-  padding: 6px 12px;
-  color: var(--color-white);
-  text-decoration: none;
-  font-size: 13px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.mobile-submenu-link:hover {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
 }
 
 .navbar-mobile-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 14px 20px;
-  background: var(--color-blue);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
   color: var(--color-white);
-  font-size: 16px;
+  font-size: var(--text-body);
   font-weight: 600;
   text-decoration: none;
   margin-top: 16px;
   position: relative;
   overflow: hidden;
-  transition:
-    background 0s,
-    color 0.3s ease;
-}
-
-.navbar-mobile-cta:hover {
-  color: var(--color-black);
+  transition: background 0s;
 }
 
 .navbar-mobile-cta::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-white);
+  background: #2563eb; /* hover 色块比底色更深 */
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -605,13 +450,32 @@ onUnmounted(() => {
   z-index: 1;
 }
 
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.navbar-mobile-cta::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.navbar-mobile-cta:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
+}
+
 /* 响应式 */
 .is-mobile .navbar {
   padding: 12px 16px;
-}
-
-.is-mobile .navbar-logo-text {
-  font-size: 16px;
 }
 
 .is-mobile .navbar-links {
@@ -630,10 +494,6 @@ onUnmounted(() => {
 
   .navbar {
     padding: 12px 16px;
-  }
-
-  .navbar-logo-text {
-    font-size: 16px;
   }
 
   .navbar-links {

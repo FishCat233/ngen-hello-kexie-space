@@ -1,4 +1,4 @@
-export interface GalleryItem {
+﻿export interface GalleryItem {
   id: string
   type: 'image' | 'link' | 'iframe'
   src: string
@@ -37,7 +37,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '2',
-    type: 'iframe',
+    type: 'link',
     src: '/gallery/miku-kexie-space.webp',
     title: 'Mikutap',
     url: 'https://miku.kexie.space/',
@@ -47,7 +47,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '3',
-    type: 'iframe',
+    type: 'link',
     src: '/gallery/kill-kexie-space.webp',
     url: 'https://kill.kexie.space/',
     title: 'Kill',
@@ -57,7 +57,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '4',
-    type: 'iframe',
+    type: 'link',
     src: '/gallery/sword-kexie-space.webp',
     url: 'https://sword.kexie.space/',
     title: 'Sword',
@@ -67,7 +67,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '5',
-    type: 'iframe',
+    type: 'link',
     src: '/gallery/steal-kun-kexie-space.webp',
     url: 'https://steal-kun.kexie.space/',
     title: 'Steal Kun',

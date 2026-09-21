@@ -11,11 +11,9 @@ const emit = defineEmits<{
   click: [url: string]
 }>()
 
-const avatarErrors = ref<Record<number, boolean>>({})
+const avatarError = ref(false)
 
-const maxVisible = computed(() => (window.innerWidth <= 768 ? 3 : 4))
-const visibleAvatars = computed(() => props.project.authorAvatars.slice(0, maxVisible.value))
-const overflowCount = computed(() => Math.max(0, props.project.authors.length - maxVisible.value))
+const firstAvatar = computed(() => props.project.authorAvatars[0])
 
 const displayName = computed(() => {
   if (props.project.teamName) return props.project.teamName
@@ -39,31 +37,24 @@ const competitionLabel = computed(() => {
 <template>
   <div class="competition-card" :class="{ clickable: !!project.url }" @click="handleClick">
     <div class="card-author">
+      <!-- 一张主头像 + 右侧两张仅描边的堆叠圆，表达团队多人 -->
       <div class="avatar-stack">
-        <div
-          v-for="(avatar, i) in visibleAvatars"
-          :key="i"
-          class="avatar-wrapper"
-          :style="{ zIndex: visibleAvatars.length - i, marginLeft: i > 0 ? '-8px' : '0' }"
-        >
+        <div class="avatar-wrapper avatar-main">
           <img
-            v-if="!avatarErrors[i]"
-            :src="avatar"
-            :alt="project.authors[i]"
+            v-if="firstAvatar && !avatarError"
+            :src="firstAvatar"
+            :alt="project.authors[0] ?? project.teamName"
             class="avatar-img"
-            @error="avatarErrors[i] = true"
+            loading="lazy"
+            decoding="async"
+            @error="avatarError = true"
           />
           <div v-else class="avatar-fallback">
             <User :size="16" />
           </div>
         </div>
-        <div
-          v-if="overflowCount > 0"
-          class="avatar-wrapper avatar-overflow"
-          :style="{ zIndex: 0, marginLeft: '-8px' }"
-        >
-          <span class="overflow-text">+{{ overflowCount }}</span>
-        </div>
+        <div class="avatar-wrapper avatar-ghost"></div>
+        <div class="avatar-wrapper avatar-ghost"></div>
       </div>
       <span class="author-name">{{ displayName }}</span>
     </div>
@@ -90,41 +81,19 @@ const competitionLabel = computed(() => {
 
 <style scoped>
 .competition-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
   padding: 24px;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .competition-card.clickable {
   cursor: pointer;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .competition-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
-}
-
-.competition-card:hover .project-name,
-.competition-card:hover .project-description,
-.competition-card:hover .author-name {
-  color: var(--color-white);
-}
-
-.competition-card:hover .avatar-wrapper {
-  border-color: var(--color-white);
-}
-
-.competition-card:hover .avatar-fallback {
-  color: var(--color-white);
-}
-
-.competition-card:hover .competition-tag {
-  background: var(--color-cyan);
-  border-color: var(--color-white);
-  color: var(--color-white);
+  background: #141414;
 }
 
 .card-author {
@@ -144,9 +113,28 @@ const competitionLabel = computed(() => {
   height: 36px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border-radius: 50%;
   position: relative;
-  transition: border-color 0.2s ease;
+}
+
+/* 主头像：主题蓝描边 */
+.avatar-main {
+  z-index: 3;
+  border: 2px solid var(--color-primary);
+}
+
+/* 右侧堆叠的两张幽灵圆：透明底 + 细描边，暗示团队其他成员 */
+.avatar-ghost {
+  margin-left: -8px;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+
+.avatar-ghost:nth-of-type(2) {
+  z-index: 2;
+}
+
+.avatar-ghost:nth-of-type(3) {
+  z-index: 1;
 }
 
 .avatar-img {
@@ -162,30 +150,12 @@ const competitionLabel = computed(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
   transition: color 0.2s ease;
-}
-
-.avatar-overflow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-gray);
-}
-
-.overflow-text {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-text);
-  transition: color 0.2s ease;
-}
-
-.competition-card:hover .overflow-text {
-  color: var(--color-white);
 }
 
 .author-name {
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   color: var(--color-text);
 }
@@ -206,9 +176,9 @@ const competitionLabel = computed(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
+  font-size: var(--text-body-lg);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
   margin: 0 0 8px 0;
 }
 
@@ -217,9 +187,9 @@ const competitionLabel = computed(() => {
 }
 
 .project-description {
-  font-size: 14px;
+  font-size: var(--text-ui);
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -232,17 +202,17 @@ const competitionLabel = computed(() => {
 }
 
 .competition-tag {
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  height: 22px; /* 与左侧项目名行高一致 */
+  padding: 0 10px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  font-size: 12px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
   font-weight: 500;
   color: var(--color-text);
   white-space: nowrap;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
 }
 
 @media (max-width: 768px) {

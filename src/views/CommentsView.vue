@@ -90,11 +90,33 @@ onMounted(() => {
         </div>
         <h1 class="comments-title"><span class="title-accent">#</span> 畅心所言</h1>
         <p class="comments-subtitle">在此留下您的心声吧~</p>
+        <a
+          href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link-button header-cta"
+        >
+          <MessageCircle :size="16" />
+          <span>在 GitHub 上发表评论</span>
+        </a>
       </div>
 
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
-        <span>加载评论中...</span>
+      <!-- 数据就绪前显示评论卡骨架屏（替代转圈等待） -->
+      <div v-if="loading" class="comments-list" aria-hidden="true">
+        <div v-for="i in 8" :key="i" class="comment-card skeleton-card">
+          <div class="skeleton-card-author">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton-card-author-lines">
+              <div class="skeleton skeleton-line" style="width: 80px; height: 13px"></div>
+              <div class="skeleton skeleton-line" style="width: 56px; height: 11px"></div>
+            </div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton skeleton-line" style="width: 100%"></div>
+            <div class="skeleton skeleton-line" style="width: 90%"></div>
+            <div class="skeleton skeleton-line" style="width: 62%"></div>
+          </div>
+        </div>
       </div>
 
       <div v-else-if="error" class="error-state">
@@ -117,18 +139,6 @@ onMounted(() => {
       </div>
 
       <div v-else class="comments-list">
-        <div class="comment-card comment-cta-card">
-          <a
-            href="https://github.com/sanyuankexie/hello.kexie.space/issues/6"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="github-link-button"
-          >
-            <MessageCircle :size="16" />
-            <span>在 GitHub 上发表评论</span>
-          </a>
-        </div>
-
         <div
           v-for="(comment, index) in comments"
           :key="comment.id"
@@ -144,6 +154,8 @@ onMounted(() => {
                     :src="comment.user.avatar_url"
                     :alt="comment.user.login"
                     class="author-avatar"
+                    loading="lazy"
+                    decoding="async"
                     @error="handleAvatarError(index)"
                   />
                   <div v-else class="author-avatar-placeholder">
@@ -168,7 +180,7 @@ onMounted(() => {
 <style scoped>
 .comments-page {
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
   padding: 80px 20px 40px;
 }
 
@@ -189,29 +201,36 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
   margin: 0 auto 20px;
 }
 
 .comments-title {
-  font-size: 36px;
+  font-size: var(--text-h2);
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 12px 0;
 }
 
 .title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .comments-subtitle {
-  font-size: 16px;
+  font-size: var(--text-body);
   color: var(--color-text);
-  margin: 0;
+  margin: 0 0 24px;
 }
 
-.loading-state,
+/* 头部居中的发表按钮（小号药丸） */
+.header-cta {
+  margin: 0 auto;
+  padding: 10px 22px;
+  font-size: var(--text-ui);
+}
+
 .error-state,
 .empty-state {
   display: flex;
@@ -223,87 +242,90 @@ onMounted(() => {
   color: var(--color-text);
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--color-black);
-  border-top-color: var(--color-blue);
-  animation: spin 1s linear infinite;
+/* 骨架屏评论卡：头像行 + 正文行 */
+.skeleton-card {
+  cursor: default;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.skeleton-card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.skeleton-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-card-author-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-line {
+  height: 14px;
 }
 
 .retry-button {
   padding: 8px 16px;
   background: transparent;
-  border: 2px solid var(--color-cyan);
-  color: var(--color-cyan);
-  font-size: 14px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  color: var(--color-white);
+  font-size: var(--text-ui);
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .retry-button:hover {
-  background: var(--color-cyan);
-  color: var(--color-white);
+  background: var(--color-primary-bright);
 }
 
 .github-link {
   padding: 10px 20px;
-  background: var(--color-blue);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s ease;
 }
 
 .github-link:hover {
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
 }
 
+/* 瀑布流内容流：按页宽 5/4/3/2/1 栏，卡片高度随内容自然生长 */
 .comments-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 20px;
-  align-items: start;
+  columns: 5;
+  column-gap: 16px;
 }
 
 .comment-card {
-  background: var(--color-gray);
-  border: 2px solid var(--color-cyan);
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
   padding: 20px;
   cursor: pointer;
   break-inside: avoid;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  margin-bottom: 16px;
+  transition: background-color 0.2s ease;
 }
 
+/* hover：卡片变深，文字层级不变 */
 .comment-card:hover {
-  background: var(--color-cyan);
-  border-color: var(--color-cyan);
-}
-
-.comment-card:hover,
-.comment-card:hover .author-name,
-.comment-card:hover .comment-time,
-.comment-card:hover .comment-body,
-.comment-card:hover .comment-body :deep(*),
-.comment-card:hover .comment-body :deep(a) {
-  color: var(--color-white);
-}
-
-.comment-card:hover .comment-body :deep(code),
-.comment-card:hover .comment-body :deep(pre) {
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--color-white);
+  background: #141414;
 }
 
 .comment-content-wrapper {
@@ -327,7 +349,8 @@ onMounted(() => {
   height: 44px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--color-cyan);
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
 }
 
 .author-avatar {
@@ -343,7 +366,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  color: var(--color-cyan);
+  color: var(--color-primary);
 }
 
 .author-info {
@@ -353,20 +376,20 @@ onMounted(() => {
 }
 
 .author-name {
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
 .comment-time {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-text);
 }
 
 .comment-body {
-  font-size: 14px;
+  font-size: var(--text-body);
   color: var(--color-text);
-  line-height: 1.8;
+  line-height: var(--leading-relaxed);
 }
 
 .comment-body :deep(p) {
@@ -378,15 +401,17 @@ onMounted(() => {
 }
 
 .comment-body :deep(code) {
-  background: var(--color-light-cyan);
+  background: var(--color-primary-dim);
   padding: 2px 6px;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--color-cyan);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-primary-bright);
 }
 
 .comment-body :deep(pre) {
-  background: var(--color-gray);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
   padding: 12px;
   overflow-x: auto;
   margin: 12px 0;
@@ -398,7 +423,7 @@ onMounted(() => {
 }
 
 .comment-body :deep(a) {
-  color: var(--color-blue);
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -417,10 +442,11 @@ onMounted(() => {
 }
 
 .comment-body :deep(blockquote) {
-  border-left: 4px solid var(--color-cyan);
+  border-left: 4px solid var(--color-primary);
   margin: 12px 0;
   padding: 8px 12px;
-  background: var(--color-light-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-dim);
 }
 
 .comment-body :deep(h1),
@@ -430,23 +456,23 @@ onMounted(() => {
 .comment-body :deep(h5),
 .comment-body :deep(h6) {
   font-weight: 600;
-  color: var(--color-blue);
+  color: var(--color-primary-bright);
   margin: 16px 0 8px 0;
 }
 
 .comment-body :deep(h1) {
-  font-size: 20px;
+  font-size: var(--text-h5);
 }
 .comment-body :deep(h2) {
-  font-size: 18px;
+  font-size: var(--text-body-lg);
 }
 .comment-body :deep(h3) {
-  font-size: 16px;
+  font-size: var(--text-body);
 }
 .comment-body :deep(h4),
 .comment-body :deep(h5),
 .comment-body :deep(h6) {
-  font-size: 14px;
+  font-size: var(--text-ui);
 }
 
 .comment-body :deep(del) {
@@ -459,27 +485,7 @@ onMounted(() => {
 
 .comment-body :deep(sup),
 .comment-body :deep(sub) {
-  font-size: 12px;
-}
-
-.comment-cta-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: default;
-}
-
-.comment-cta-card:hover {
-  background: transparent;
-  border-color: transparent;
-}
-
-.comment-cta-card .github-link-button {
-  width: 100%;
-  padding: 32px 24px;
-  justify-content: center;
-  font-size: 16px;
+  font-size: var(--text-xs);
 }
 
 .github-link-button {
@@ -487,9 +493,10 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: var(--color-blue);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
   color: var(--color-white);
-  font-size: 14px;
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   position: relative;
@@ -500,14 +507,10 @@ onMounted(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-white);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
-}
-
-.github-link-button:hover {
-  color: var(--color-black);
 }
 
 .github-link-button:hover::before {
@@ -519,26 +522,62 @@ onMounted(() => {
   z-index: 1;
 }
 
+/* hover：箭头作为流内元素参与布局，与文字共同居中 */
+.github-link-button::after {
+  content: '→';
+  order: -1;
+  position: relative;
+  z-index: 1;
+  width: 0;
+  margin-left: -8px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    width 0.3s ease,
+    margin-left 0.3s ease,
+    opacity 0.25s ease;
+}
+
+.github-link-button:hover::after {
+  width: 1em;
+  margin-left: 0;
+  opacity: 1;
+}
+
+/* 断点：5 → 4 → 3 → 2 → 1 栏 */
+@media (max-width: 1280px) {
+  .comments-list {
+    columns: 4;
+  }
+}
+
 @media (max-width: 1024px) {
   .comments-list {
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 16px;
+    columns: 3;
   }
 }
 
 @media (max-width: 768px) {
   .comments-list {
-    grid-template-columns: 1fr;
+    columns: 2;
+    column-gap: 12px;
+  }
+
+  .comment-card {
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .comments-list {
+    columns: 1;
   }
 }
 
 @media (max-width: 640px) {
   .comments-page {
     padding: 72px 16px 40px;
-  }
-
-  .comments-title {
-    font-size: 28px;
   }
 
   .comment-card {
@@ -548,10 +587,6 @@ onMounted(() => {
   .author-avatar-wrapper {
     width: 40px;
     height: 40px;
-  }
-
-  .author-name {
-    font-size: 14px;
   }
 }
 </style>

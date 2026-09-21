@@ -1,29 +1,52 @@
 @import 'tailwindcss';
 
 :root {
-  /* 科协主题色 - 全实色 */
-  --color-black: #04080c;
-  --color-blue: #5cb8d9;
-  --color-cyan: #4db8b6;
-  --color-light-cyan: #d5ecea;
-  --color-white: #ffffff;
-  --color-gray: #eeeeee;
-  --color-text: #333333;
+  /* 科协暗色主题 - 科技蓝 */
+  --color-bg: #111111; /* 页面背景：深灰黑 */
+  --color-surface: #0a0e14; /* 导航栏、页脚、代码块等深色面板 */
+  --color-card: #1d1d1d; /* 二级卡片：比背景浅一档的纯灰，表达层级（2026-09-21 去蓝色调） */
+  --color-line: #1e293b; /* 细线、网格、加载轨道 */
+  --color-primary: #3b82f6; /* 科技蓝：色块、边框、强调 */
+  --color-primary-bright: #60a5fa; /* 亮科技蓝：hover 滑切、填充 */
+  --color-primary-dim: #0d1b2e; /* 暗蓝面板：行内代码、blockquote 背景 */
+  --color-text: #e5e7eb; /* 正文 */
+  --color-heading: #ffffff; /* 标题 */
+  --color-white: #ffffff; /* 深底/彩底上的文字 */
+  --color-on-primary: #04080c; /* 蓝色填充上的文字 */
 
-  --text: var(--color-text);
-  --text-h: var(--color-text);
-  --bg: var(--color-gray);
-  --accent: var(--color-blue);
+  /* 圆角体系 */
+  --radius-sm: 8px; /* 标签、徽章、行内代码、图标框 */
+  --radius-md: 12px; /* 提示框、代码块、小型面板 */
+  --radius-lg: 16px; /* 卡片、内容面板、弹窗 */
+  --radius-pill: 999px; /* 按钮、药丸导航栏 */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* 字体排印体系 */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, 'Courier New', monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light;
-  color: var(--text);
-  background: var(--bg);
+  --text-display: 56px; /* Hero 主标题 */
+  --text-h1: 42px; /* 首页章节大标题 */
+  --text-h2: 36px; /* 子页面主标题 */
+  --text-h3: 28px; /* 区块/卡片标题 */
+  --text-h4: 24px; /* 小节标题 */
+  --text-h5: 20px; /* 条目/组标题 */
+  --text-body-lg: 18px; /* 引导正文 */
+  --text-body: 16px; /* 正文 */
+  --text-ui: 14px; /* 导航、按钮、控件 */
+  --text-sm: 13px; /* 辅助描述、元信息 */
+  --text-xs: 12px; /* 标签、页脚、时间戳 */
+
+  --leading-tight: 1.2; /* 大标题 */
+  --leading-snug: 1.4; /* 小标题 */
+  --leading-normal: 1.6; /* 正文 */
+  --leading-relaxed: 1.8; /* 长文阅读 */
+
+  font: 18px/1.6 var(--font-sans);
+  color-scheme: dark;
+  color: var(--color-text);
+  background: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,55 +54,54 @@
 
   @media (max-width: 1024px) {
     font-size: 16px;
+
+    --text-display: 40px;
+    --text-h1: 32px;
+    --text-h2: 28px;
+    --text-h3: 24px;
+    --text-h4: 20px;
+    --text-h5: 18px;
+    --text-body-lg: 16px;
+    --text-ui: 13px;
+    --text-xs: 11px;
   }
 }
 
 body {
   margin: 0;
   overflow-x: hidden;
-  padding-top: 72px;
-}
-
-@media (max-width: 1024px) {
-  body {
-    padding-top: 64px;
-  }
 }
 
 ::selection {
-  background: var(--color-blue);
+  background: var(--color-primary);
   color: var(--color-white);
 }
 
 ::-moz-selection {
-  background: var(--color-blue);
-  color: var(--color-black);
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 h1,
 h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+  font-family: var(--font-sans);
+  color: var(--color-heading);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
   margin: 32px 0;
   @media (max-width: 1024px) {
-    font-size: 36px;
     margin: 20px 0;
   }
 }
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: var(--leading-snug);
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
 }
 p {
   margin: 0;
@@ -88,25 +110,25 @@ p {
 #app {
   width: 100%;
   min-height: 100vh;
-  background: var(--color-gray);
+  background: var(--color-bg);
 }
 
 /* # 标题签名元素 */
 .section-title-accent {
-  color: var(--color-blue);
+  color: var(--color-primary);
 }
 
-/* 直角实色按钮基础 */
+/* 药丸实色按钮基础 */
 .btn-solid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 24px;
   border: none;
-  border-radius: 0;
-  background: var(--color-blue);
-  color: var(--color-black);
-  font-size: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--text-ui);
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -119,7 +141,7 @@ p {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-cyan);
+  background: var(--color-primary-bright);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   z-index: 0;
@@ -134,9 +156,27 @@ p {
   z-index: 1;
 }
 
-/* 内容容器：2px 直角边框 + 透明底 */
+/* 内容容器：边框 + 透明底 */
 .content-container {
   background: transparent;
-  border: 2px solid var(--color-blue);
-  border-radius: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+}
+
+/* 骨架屏占位块（Skeleton Screen）：灰色块 + 流光扫过，
+   各视图数据加载期间用它替代空白等待 */
+.skeleton {
+  background: linear-gradient(90deg, #1f1f1f 25%, #2c2c2c 50%, #1f1f1f 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
