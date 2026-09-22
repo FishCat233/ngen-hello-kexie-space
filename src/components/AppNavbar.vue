@@ -140,20 +140,33 @@ onUnmounted(() => {
     </div>
 
     <!-- 移动端菜单 -->
-    <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
-      <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
-        <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
-          {{ item.label }}
-        </a>
+    <Transition name="mobile-menu">
+      <div v-if="isMobile && isMobileMenuOpen" class="navbar-mobile-menu">
+        <div v-for="item in navMenu" :key="item.id" class="mobile-nav-item">
+          <a :href="item.href" class="mobile-nav-link" @click.prevent="handleNavigation(item.href)">
+            {{ item.label }}
+          </a>
+        </div>
+        <a
+          href="https://api.kexie.space/recruitment-qq-group"
+          class="navbar-mobile-cta"
+          @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
+          ><span>加入我们</span></a
+        >
       </div>
-      <a
-        href="https://api.kexie.space/recruitment-qq-group"
-        class="navbar-mobile-cta"
-        @click.prevent="handleNavigation('https://api.kexie.space/recruitment-qq-group')"
-        ><span>加入我们</span></a
-      >
-    </div>
+    </Transition>
   </nav>
+
+  <!-- 移动端菜单全屏遮罩：压暗背景，点击空白处关闭。
+       必须作为 <nav> 的兄弟节点渲染——nav 带 transform，fixed 后代会以它为包含块；
+       z-index 99 压住页面内容、低于 nav(100)，X 按钮与菜单仍可点击 -->
+  <Transition name="menu-overlay">
+    <div
+      v-if="isMobile && isMobileMenuOpen"
+      class="navbar-overlay"
+      @click="isMobileMenuOpen = false"
+    ></div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -364,42 +377,100 @@ onUnmounted(() => {
   height: 100%;
 }
 
-/* 移动端菜单：悬浮玻璃面板 */
+/* 移动端菜单：悬浮玻璃面板（2026-09-22 调优）
+   - 宽度恒等于药丸态导航栏 min(100vw - 32px, 1080px)：通栏状态（页面顶部）打开时
+     菜单不再全宽，两侧各留 16px；药丸状态打开时与导航栏严格同宽
+   - 圆角 32px：取导航栏药丸态的「有效圆角」（999px 被半高钳制后的视觉值），
+     与加入我们 CTA 视觉协调；不用字面 --radius-pill——多行面板会变体育场形，
+     首尾条目会被圆角曲线裁切
+   - 磨砂玻璃：半透明底 + 高斯模糊 + 提亮，与导航栏玻璃同族
+   - 展开动画（2026-09-22 三修）：纯「底边推进」生长——仅 clip-path 揭示，
+     无位移、无渐隐渐现；easeOutQuint 曲线（起步快、收尾绵长丝滑、无过冲），
+     出场反向收起 */
 .navbar-mobile-menu {
   display: none;
   position: absolute;
   top: calc(100% + 12px);
-  left: 8px;
-  right: 8px;
+  left: 0;
+  right: 0;
+  /* 宽度恒等于药丸态导航栏（与通栏/当前形态无关）：100vw 锚定视口而非包含块——
+     100% 会随 navbar 当前宽度漂移（通栏=视口、药丸=收窄后），导致两态宽度不一致；
+     居中用 left/right: 0 + width + margin auto（over-constrained 吸收余量），
+     不占 transform——比 left: 50% + translateX(-50%) 更稳，也给后续变换留空间 */
+  width: min(calc(100vw - 32px), 1080px);
+  margin: 0 auto;
   z-index: 2;
-  background: rgba(10, 14, 20, 0.72);
+  background: rgba(10, 14, 20, 0.6);
   backdrop-filter: blur(20px) saturate(150%);
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid rgba(59, 130, 246, 0.35);
-  border-radius: var(--radius-lg);
+  border-radius: 32px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-  padding: 16px 20px;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  padding: 12px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   max-height: calc(100vh - 120px);
   max-height: calc(100dvh - 120px);
   overflow-y: auto;
+  /* 终态必须显式 inset(0)：clip-path 的默认值 none 与形状之间不做连续插值
+     （离散跳变，动画中段会瞬间切换），两个 inset() 之间才能平滑推进底边 */
+  clip-path: inset(0);
+}
+
+/* 纯生长动画：只动 clip-path（底边自导航栏下缘向下推进），无位移、无透明度变化。
+   absolute 面板高度无法插值（等价 grid 0fr→1fr 的揭示效果只有 clip 能实现）。
+   曲线 easeOutQuint（0.22, 1, 0.36, 1）：起步快、收尾绵长丝滑、无过冲弹跳 */
+.mobile-menu-enter-active {
+  transition: clip-path 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 出场反向收起：easeIn 加速汇入导航栏下缘，比入场略快 */
+.mobile-menu-leave-active {
+  transition: clip-path 0.24s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* 起终态只有裁剪区域不同：底边从紧贴顶边（零高度）→ 推进至全高 */
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* 全屏遮罩：压暗页面背景（2026-09-22）。
+   作为 nav 兄弟节点 fixed 渲染（nav 的 transform 会劫持内部 fixed 的包含块）；
+   z-index 99 盖住全部页面内容、低于 nav(100)——菜单、X 按钮、Logo 保持可点 */
+.navbar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.menu-overlay-enter-active,
+.menu-overlay-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.menu-overlay-enter-from,
+.menu-overlay-leave-to {
+  opacity: 0;
 }
 
 .is-mobile .navbar-mobile-menu {
   display: flex;
 }
 
+/* 分割线已移除（2026-09-22 用户指令），条目间距同步收紧 */
 .mobile-nav-item {
-  border-bottom: 1px solid var(--color-primary);
-  padding: 8px 0;
+  padding: 0;
 }
 
 .mobile-nav-link {
   display: block;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  /* 药丸行：hover 填充为整行药丸，与 CTA/导航栏同语言 */
+  border-radius: var(--radius-pill);
   color: var(--color-white);
   text-decoration: none;
   font-size: var(--text-body-lg);
@@ -418,14 +489,14 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 20px;
+  padding: 12px 20px;
   border-radius: var(--radius-pill);
   background: var(--color-primary);
   color: var(--color-white);
   font-size: var(--text-body);
   font-weight: 600;
   text-decoration: none;
-  margin-top: 16px;
+  margin-top: 10px;
   position: relative;
   overflow: hidden;
   transition: background 0s;

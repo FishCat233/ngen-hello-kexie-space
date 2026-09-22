@@ -35,6 +35,7 @@ export const members: Member[] = [
     grade: '2024级',
     direction: '游戏开发',
     role: '24级财务副主席',
+    motto: '🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈‍⬛🐈🐈‍⬛🐈🐈‍⬛🐈',
     themeColor: '#757575',
     links: [{ title: 'Github', url: 'https://github.com/Concorde0' }],
   },
