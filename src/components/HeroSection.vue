@@ -517,9 +517,14 @@ const buttons = [
   margin-top: 72px;
 }
 
+/* 四按钮移动端 2×2 网格：flex 换行在中宽平板会挤成一行四个、手机才 2+2，
+   统一为两列网格；容器限宽 360px 防止宽屏下按钮被拉成超宽药丸 */
 @media (max-width: 1024px) {
   .hero-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+    width: min(100%, 360px);
     margin-top: 56px;
   }
 }
@@ -595,8 +600,55 @@ const buttons = [
 
 @media (max-width: 1024px) {
   .hero-button {
-    width: 130px;
+    /* 网格单元格内拉伸填满，去掉固定宽度 */
+    width: auto;
     padding: 10px 12px;
+  }
+}
+
+/* ≤1024px（导航栏中间链接收起、只剩两端内容时）：标题改纵向堆叠布局。
+   字号不再跟随桌面 vw 公式（其在窄屏跌到 18px 下限导致整体过小），
+   改用独立 px 基准放大；卡堆/词组等 em 偏移随新字号等比缩放，观感与桌面一致 */
+@media (max-width: 1024px) {
+  /* 堆叠后标题整体变高，桌面 -6vh 上移会把首行顶进固定导航栏（2026-09-22 修复）：
+     改为首屏顶部留出导航栏净空（64px 栏高 + 20px 呼吸），内容在净空以下居中；
+     safe center 保证矮视口放不下时退化为顶部对齐——起点仍在导航栏之下，
+     首行任何情况下不被遮挡（不支持 safe 的旧浏览器回退 center，真实手机同样安全） */
+  .hero-section {
+    align-items: safe center;
+    padding-top: 84px;
+  }
+
+  .hero-content {
+    padding: 0 20px;
+    transform: none;
+  }
+
+  .hero-heading {
+    font-size: clamp(30px, 10vw, 56px);
+  }
+
+  /* 第一行拆两行：在 > [科协] 独占一行，药丸卡堆换行后整行居中 */
+  .hero-line-meta {
+    flex-wrap: wrap;
+    row-gap: 0.45em;
+  }
+
+  .dept-deck {
+    flex-basis: 100%;
+    margin-left: 0;
+    /* 容器被拉满整行宽后，网格 track 需居中，否则顶卡药丸贴左 */
+    justify-content: center;
+  }
+
+  /* 第二行拆两行：一起独占一行，词组按剩余宽度换行（窄屏两词 + 一词） */
+  .hero-line-main {
+    flex-wrap: wrap;
+    row-gap: 0.35em;
+  }
+
+  .main-lead {
+    flex-basis: 100%;
   }
 }
 </style>

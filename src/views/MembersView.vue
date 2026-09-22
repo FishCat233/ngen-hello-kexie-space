@@ -190,6 +190,9 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  /* 网格里同行高卡会被撑高，默认 align-content: stretch 会把多余高度
+     分给各行（含链接行）——收紧到顶行，防止下方链接行被拉高 */
+  align-content: flex-start;
   transition: background-color 0.2s ease;
 }
 
@@ -290,13 +293,14 @@ onMounted(async () => {
   line-height: var(--leading-normal);
 }
 
-/* 外部链接按钮：整行占满，与卡片左缘对齐 */
+/* 外部链接按钮：整行占满，与卡片左缘对齐；按钮高度跟随内容，不填满容器 */
 .member-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   width: 100%;
   margin-top: 4px;
+  align-items: flex-start;
 }
 
 .member-link-btn {
