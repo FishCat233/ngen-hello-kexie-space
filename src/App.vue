@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, watch, nextTick } from 'vue'
+import { computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useScrollStore } from './stores/scroll'
 import AppNavbar from './components/AppNavbar.vue'
@@ -9,7 +9,6 @@ import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
 import LearningDirectionsSection from './components/LearningDirectionsSection.vue'
 import RecruitmentSection from './components/RecruitmentSection.vue'
-import { prefetchViews } from './router'
 
 const route = useRoute()
 const isHomePage = computed(() => route.path === '/')
@@ -37,18 +36,6 @@ function onHomeMounted() {
     }
   })
 }
-
-// 首屏渲染完成后空闲时预取全部路由 chunk，后续导航零等待
-onMounted(() => {
-  const w = window as Window & {
-    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
-  }
-  if (typeof w.requestIdleCallback === 'function') {
-    w.requestIdleCallback(() => prefetchViews(), { timeout: 3000 })
-  } else {
-    window.setTimeout(() => prefetchViews(), 2000)
-  }
-})
 </script>
 
 <template>

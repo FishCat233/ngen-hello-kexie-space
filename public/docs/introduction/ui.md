@@ -8,7 +8,7 @@
 
 通常所说的 UI 设计，多指 **UI 视觉设计**，主要负责 App、Web、H5 等页面的色彩、布局、图标、字体等方面的设计工作。但随着互联网的发展，纯视觉的岗位需求正在减少，行业对 UI 设计师提出了更高要求：需要懂交互设计、理解产品逻辑，也就是具备用户体验设计（User Experience，国内称 UE，国外称 UX）的思维。如今许多团队更强调“全链路设计”——从用户研究、交互原型到视觉落地，设计师需要参与更多环节。
 
-![典型的图形用户界面（GUI）截图](/docs/introduction/image/ui/GIMP-GUI.png)
+![典型的图形用户界面（GUI）截图](/docs/introduction/image/ui/GIMP-GUI.webp)
 
 ## 二、基础素养
 
@@ -22,19 +22,19 @@
 
 文字往往占据整个设计内容 80% 以上的面积，因此掌握正确的字体选择与排版方式至关重要。无论设计风格如何变化，都应把“清晰易读”作为字体与排版的首要目标。
 
-![古典字体样张（Type Specimen），字体设计的经典呈现](/docs/introduction/image/ui/960px-A_Specimen_by_William_Caslon.jpg)
+![古典字体样张（Type Specimen），字体设计的经典呈现](/docs/introduction/image/ui/960px-A_Specimen_by_William_Caslon.webp)
 
 ### 3. 动效
 
 合理的动效能显著增强产品的用户体验，让界面更有生命力、更吸引人。前提是动效必须**快速、流畅，并且符合用户的操作预期**——炫技式的动效反而会拖累体验。
 
-![基于手势的用户界面动效示意](/docs/introduction/image/ui/Gesture-based_User-Interface.gif)
+![基于手势的用户界面动效示意](/docs/introduction/image/ui/Gesture-based_User-Interface.webp)
 
 ### 4. 图标
 
 优秀的图标往往与现实中的事物紧密关联，例如相机、垃圾桶、云朵等，能让用户一眼识别出它所代表的功能。因此应尽量使用辨识度高、含义明确的图标，避免让用户产生歧义。
 
-![常见的 App 图标示例](/docs/introduction/image/ui/960px-Google_Photos_icon_%282015-2020%29.svg.png)
+![常见的 App 图标示例](/docs/introduction/image/ui/960px-Google_Photos_icon_%282015-2020%29.svg.webp)
 
 ## 三、就业与发展方向
 
@@ -65,9 +65,9 @@ UI 设计并非遥不可及的技能，掌握合适的工具能大幅提升效�
 - **Photoshop / Illustrator**：处理位图与矢量图形的经典软件，常用于素材制作与精修。
 - **蓝湖 / Pixso**：设计稿交付与标注工具，便于设计与开发协作。
 
-![Figma 界面（动态配色示例）](/docs/introduction/image/ui/960px-Figma-dynamic-color.png)
+![Figma 界面（动态配色示例）](/docs/introduction/image/ui/960px-Figma-dynamic-color.webp)
 
-![Adobe Photoshop 工作界面](/docs/introduction/image/ui/960px-Photoshop-screenshot.JPG)
+![Adobe Photoshop 工作界面](/docs/introduction/image/ui/960px-Photoshop-screenshot.webp)
 
 ## 五、相关赛事
 

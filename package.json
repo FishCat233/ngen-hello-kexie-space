@@ -1,7 +1,7 @@
 {
   "name": "ngen-hello-kexie-space",
   "private": true,
-  "version": "2.9.0",
+  "version": "3.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,12 +15,10 @@
     "dompurify": "^3.4.2",
     "highlight.js": "^11.11.1",
     "lucide-vue-next": "^1.0.0",
-    "ogl": "^1.0.11",
     "pinia": "^3.0.4",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
-    "three": "^0.186.0",
     "vue": "^3.5.32",
     "vue-router": "^4.6.4"
   },

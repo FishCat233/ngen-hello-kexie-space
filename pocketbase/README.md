@@ -26,8 +26,10 @@ Skip the import when the records have already been migrated or entered
 manually. The import is only the optional initial content seed; it is not part
 of the schema migration.
 
-The public collections are `members`, `projects`, and `gallery`. Their list and
-view rules are public; create, update, and delete remain administrator-only.
+The public collections are `members`, `projects`, `gallery`, `recruitment`, and
+`showcase`. Their list and view rules are public; create, update, and delete
+remain administrator-only. Showcase photos are stored in PocketBase file fields,
+so the repository does not contain the images.
 
 The deployment host does not need a repository checkout or migration files. It
 only needs the Compose file and the ignored `pocketbase/pb_data` volume. A new

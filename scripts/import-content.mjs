@@ -35,6 +35,8 @@ const collections = [
   ['members', seed.members],
   ['projects', seed.projects],
   ['gallery', seed.gallery],
+  ['recruitment', seed.recruitment],
+  ['showcase', seed.showcase],
 ]
 
 for (const [collection, records] of collections) {

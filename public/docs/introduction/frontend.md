@@ -10,7 +10,7 @@
 
 薪资方面，职友集数据显示，本科毕业的前端薪资均较可观。
 
-![image-20260721203929457](/docs/introduction/image/web/1d705c39785eaf72e355f21c70e96e5b.png)
+![image-20260721203929457](/docs/introduction/image/web/1d705c39785eaf72e355f21c70e96e5b.webp)
 
 ## 开始入门
 

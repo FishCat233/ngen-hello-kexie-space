@@ -189,7 +189,7 @@
 - hover 态：`width: 0 → 1em`、`margin-left: -8px → 0` 双过渡（同为 0.3s ease，合成单一缓动曲线）；自适应宽度的按钮随之增宽 22px，箭头从左侧展开，箭头+文字始终整体居中
 - 容器必须 `gap: 8px`（单子元素按钮也补齐）+ `justify-content: center`
 - 固定宽度按钮（`hero-button` 140px）内容盒需容纳 +22px：水平内边距改为 12px
-- 应用范围：`navbar-cta`（水平内边距 32px，按用户要求加宽）、`navbar-mobile-cta`、`hero-button`、`direction-link`、`department-link`（OrganizeView + DepartmentsSection）、`member-link-btn`、`github-link-button`
+- 应用范围：`navbar-cta`（水平内边距 32px，按用户要求加宽）、`navbar-mobile-cta`、`hero-button`、`direction-link`、`department-link`（OrganizeView）、`member-link-btn`、`github-link-button`
 
 ### 4.3 按钮文字颜色规则（2026-09-20 定稿）
 
@@ -261,18 +261,18 @@
 | 页脚 | `src/components/AppFooter.vue` | ✔ |
 | 返回按钮 | `src/components/BackButton.vue` | ✔ |
 
-### 主页面（三面滚动，`src/App.vue`）
+### 主页面（四面滚动，`src/App.vue`）
 
 | 项 | 文件 | 状态 |
 |----|------|------|
 | 第一面 · 主视觉 | `src/components/HeroSection.vue` | ✔ |
-| 背景色带组件 | `src/components/ColorBends.vue`（three.js WebGL） | ✔ |
+| 背景色带组件 | `src/components/HeroBand.vue`（three.js WebGL，自研 shader） | ✔ |
 
-**Hero 背景规格（2026-09-20 定稿）**：
-- ColorBends（移植自 vue-bits / react-bits 公开源码）铺满首屏，色带直达浏览器顶部
-- 参数：单色 `#3b82f6`（= `--color-primary`）、speed 0.5、bandWidth 6、intensity 1.2、noise 0、rotation 90
-- 底部过渡：`.hero-bends` 加 `mask-image: linear-gradient(to bottom, black 60%, transparent 100%)`，色带在首屏下部 40% 渐隐，与下一屏纯黑背景无缝衔接
-- **版本坑（重要）**：vue-bits / react-bits **首页**用的是未公开的 v2 组件（API 为单数 `color` + `fadeTop` + `bandWidth` 取 0~1 小值），其 shader 从未发布到仓库；公开版 API 是 `colors: string[]`、无 `fadeTop`、`bandWidth` 默认 6。两版公式不同，**把 v2 参数喂给公开版公式会渲染成均匀淡雾**而非光带。如需首页同款柔和光晕效果，需自研 shader，不能靠参数复刻
+**Hero 背景规格（2026-09-21 定稿）**：
+- HeroBand 铺满首屏；容器高 150%、锚定首屏底部，顶部溢出部分被裁掉（与 vue-bits.dev 官网一致），`mix-blend-mode: screen` 对暗底提亮
+- 参数（`HeroSection.vue` 传入）：单色 `#3b82f6`（= `--color-primary`）、speed 0.2、rotation 89、frequency 1.0、noise 0、bandWidth 0.22、fadeTop 1.0、intensity 1.5、scale 1、warpStrength 1、yOffset 0.3、mouseInfluence 0.3；鼠标位置参与场扭曲
+- 底部过渡：`.hero-band` 加 `mask-image: linear-gradient(to bottom, black 75%, transparent 100%)`，色带在首屏下部 25% 渐隐，与下一屏纯黑背景无缝衔接；异步加载完成后 1.2s 淡入
+- **版本坑（重要）**：vue-bits / react-bits **首页**用的是未公开的 v2 组件（API 为单数 `color` + `fadeTop` + `bandWidth` 取 0~1 小值），其 shader 从未发布到仓库；公开版 API 是 `colors: string[]`、无 `fadeTop`、`bandWidth` 默认 6。两版公式不同，**把 v2 参数喂给公开版公式会渲染成均匀淡雾**而非光带。早期按公开版公式实现的 `src/components/ColorBends.vue` 因此达不到官网效果，已被上表复刻 v2 公式的 `HeroBand.vue` 取代并删除
 | 第二面 · 关于科协（三段介绍文案） | `src/components/AboutSection.vue` | ✔ |
 | 第三面 · 学习方向 | `src/components/LearningDirectionsSection.vue` | ✔ |
 | 第四面 · 加入我们（横向招新时间线） | `src/components/RecruitmentSection.vue` | ✔ |
@@ -313,7 +313,7 @@
 - 操作控件在卡片区域之外：左右箭头（毛玻璃圆钮）位于标题行右侧；圆点指示器在轨道下方；键盘 ←→ 导航
 - 无选中态：所有卡片等透明度展示，不区分激活卡
 - **主席团**（2026-09-21 新增）：`# 主席团` 标题 + 灰字「24级」注记；数据 `src/data/presidium.ts`（13 人：主席孙培正；财务/赛事/技术副主席刘宁宇、邓远翔、谭炜；各部门部长与副部长）；主席**居中强调独卡**（头像 84px、名字 h3），其余 12 人 6 列网格卡（头像 56px、名字 h5、职务灰 `--text-ui`）；头像照片缺省时为**姓氏色块**——主席团主题蓝 `#3b82f6/#172554`、各部门用首屏药丸同套色板，`avatar` 字段填 URL 后自动切照片；卡底 `--color-card`、hover 变深 `#141414`；≤1024px 4 列 / ≤768px 3 列 / ≤480px 2 列
-- **部门风貌**（2026-09-21 新增）：`# 部门风貌` 标题 + **全宽（edge-to-edge）轮播**（`SlidingCarousel`，高度 `clamp(320px, 46vh, 560px)`，移动端 `clamp(240px, 38vh, 420px)`）；每部门一张幻灯片，合照未提供时显示**部门色占位态**（radial 渐变底 + 部门色大字 +「照片待补充」），提供合照后在 `showcaseSlides` 填入 `src` 即切实图模式（底部渐变 + 部门名标注）
+- **部门风貌**（2026-09-21 修订）：`# 部门风貌` 标题 + **全宽（edge-to-edge）轮播**（`SlidingCarousel`，高度 `clamp(320px, 46vh, 560px)`，移动端 `clamp(240px, 38vh, 420px)`）；共 9 张部门合照，顺序按文件名，标签统一为「部门合照 N」。**图片由 PocketBase `showcase` 集合托管**（管理员在 `/_/` 后台按 `sortOrder` 上传/排序），仓库不放图片；CMS 不可用时退化为无图占位幻灯片（`src/data/showcase.ts`）
 - **共用组件 `SlidingCarousel.vue`**（2026-09-21 抽取，同日修订定位算法）：左右滑动轮播——**车道持久定位**（每张幻灯片持有整数 lane，`transform = (lane - 当前张 lane) × 100%`；换向前先把进入侧幻灯片的 lane 对齐到与当前张相邻——换位前后均在屏外、瞬移不可见（该幻灯片单帧 `transition: none`，`nextTick` + 读取 `offsetWidth` 提交瞬移帧后恢复过渡），再切换 current。修复旧「最短路径归一化」在环绕切换（如 3→1、1→2）时远端幻灯片横穿整个视口的 bug）、毛玻璃左右控件、右下圆点、hover 暂停 + 手动切换重置节奏、自动 4.5s；props：`slides`（`src?/label/color?`）、`interval`；无 `src` 渲染占位态。现用于：首页关于科协（620px 圆角、地点文字标注）、组织架构部门风貌（全宽）
 
 **项目活动页（2026-09-21 补记）**：竞赛项目卡**团队头像堆叠**——主头像 36px 圆形（2px 主题蓝描边，照片缺省时 User 图标占位）+ 右侧两张幽灵圆（`margin-left: -24px` 堆叠，z-index 递减）；**三个圆内部统一填充 `--color-card` 卡片灰，描边粗细统一 2px**（幽灵圆半透明蓝 `rgba(59,130,246,0.45)`，末位最深一层更暗 `0.28` 强化纵深，2026-09-21 用户指令：原 1px 加粗对齐主头像、内部由透明改卡片灰填充）
@@ -332,10 +332,11 @@
 > 2026-09-20 色彩迁移完成：全站已无旧变量（`--color-cyan` 等），format + lint 通过。
 > 2026-09-20 圆角迁移完成：全站卡片/按钮/标签/头像按 §3 token 圆角化，导航栏落地 §4.1 两态玻璃药丸规格，format + lint 通过。上表 ✔ 指**暗色科技蓝换色 + 圆角化落地**；字体排印、动效等其他维度重构时逐项重开。
 
-### 待处置项（重构中一并决定去留）
+### 已清理的死代码（2026-09-21）
 
-- `src/components/DepartmentsSection.vue` — 无任何页面引用（死代码），部门介绍实际由组织架构页承载；本轮已同步换色以保持一致，去留待定
-- `src/components/HelloWorld.vue`、`src/assets/vue.svg`、`src/assets/vite.svg` — 脚手架残留
+- `src/components/DepartmentsSection.vue` — 无任何页面引用，部门介绍实际由组织架构页（`OrganizeView.vue`）承载，删除
+- `src/components/HelloWorld.vue`、`src/assets/vue.svg`、`src/assets/vite.svg`、`src/assets/hero.png` — 脚手架残留，删除
+- `src/components/AuroraBackground.vue`、`src/components/ColorBends.vue` — WebGL 实验件，均无引用（详见上文 Hero 背景规格），随 `ogl` 依赖一并删除
 
 ---
 

@@ -18,10 +18,32 @@ import {
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
-import hljs from 'highlight.js/lib/common'
-import 'highlight.js/styles/github-dark.css'
+import type { HLJSApi } from 'highlight.js'
 import { preprocessBilibili } from '../utils/remark-bilibili'
 import BackButton from '../components/BackButton.vue'
+
+// highlight.js 体积大且仅个别方向文档含代码块：只在页面真的出现 <pre><code>
+// 时才动态拉取 core + 实际用到的语言与样式，避免拖累 markdown chunk
+let hljsPromise: Promise<HLJSApi> | null = null
+function loadHljs(): Promise<HLJSApi> {
+  if (!hljsPromise) {
+    hljsPromise = (async () => {
+      const [core, c, bash] = await Promise.all([
+        import('highlight.js/lib/core'),
+        import('highlight.js/lib/languages/c'),
+        import('highlight.js/lib/languages/bash'),
+        import('highlight.js/styles/github-dark.css'),
+      ])
+      const hljs = core.default
+      hljs.registerLanguage('c', c.default)
+      hljs.registerLanguage('cpp', c.default)
+      hljs.registerLanguage('bash', bash.default)
+      hljs.registerLanguage('shell', bash.default)
+      return hljs
+    })()
+  }
+  return hljsPromise
+}
 
 const props = defineProps<{
   id: string
@@ -116,7 +138,10 @@ const loadMarkdown = async () => {
 
 watch(htmlContent, async () => {
   await nextTick()
-  document.querySelectorAll('.markdown-body pre code').forEach((block) => {
+  const blocks = document.querySelectorAll('.markdown-body pre code')
+  if (blocks.length === 0) return
+  const hljs = await loadHljs()
+  blocks.forEach((block) => {
     hljs.highlightElement(block as HTMLElement)
   })
 })
