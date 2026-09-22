@@ -1,5 +1,34 @@
 # Changelog
 
+## [3.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.0.1...v3.1.0) (2026-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* 
+
+### Features
+
+* **navbar:** 更新移动端菜单展开动画为纯底边推进效果 ([0f8af3e](https://github.com/FishCat233/ngen-hello-kexie-space/commit/0f8af3e3551527514e081dd4852807f5a9e42673))
+* **ui:** 优化移动端导航菜单与首屏布局 ([26978df](https://github.com/FishCat233/ngen-hello-kexie-space/commit/26978dfa7ad3968d3f688225f0f629c704311382))
+* **ui:** 首页重构与移动端体验优化（v3.0.1） ([d4d267d](https://github.com/FishCat233/ngen-hello-kexie-space/commit/d4d267db2c3c42cb17870324e5a81171b0459a9c))
+* 升级到v3.0.1版本，重构首页组件并优化性能 ([b10cf3d](https://github.com/FishCat233/ngen-hello-kexie-space/commit/b10cf3dea6cc8acbeb448d97720a875a053b8955))
+
+
+### Bug Fixes
+
+* **navbar:** 修复移动端菜单展开动画的clip-path插值问题 ([e000a43](https://github.com/FishCat233/ngen-hello-kexie-space/commit/e000a436b46122cec578e07e04646fa4addf7b8f))
+
+
+### Performance Improvements
+
+* **members:** 优化成员卡片布局算法 ([e000a43](https://github.com/FishCat233/ngen-hello-kexie-space/commit/e000a436b46122cec578e07e04646fa4addf7b8f))
+
+
+### Miscellaneous Chores
+
+* release 3.1.0 ([a9dfe40](https://github.com/FishCat233/ngen-hello-kexie-space/commit/a9dfe4004c156d8001bc0da77f13b237d7cfc5df))
+
 ## [3.0.1](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.0.0...v3.0.1) (2026-09-21)
 
 
