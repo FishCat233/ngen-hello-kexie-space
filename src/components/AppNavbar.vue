@@ -384,9 +384,9 @@ onUnmounted(() => {
      与加入我们 CTA 视觉协调；不用字面 --radius-pill——多行面板会变体育场形，
      首尾条目会被圆角曲线裁切
    - 磨砂玻璃：半透明底 + 高斯模糊 + 提亮，与导航栏玻璃同族
-   - 展开动画（2026-09-22 二次修订）：「底边推进」——面板底边自导航栏下缘向下
-     生长至最终位置（clip-path inset 自顶部收拢逐渐揭示），0.32s 过冲曲线，
-     内容同步轻微下移淡入；出场反向收起 */
+   - 展开动画（2026-09-22 三修）：纯「底边推进」生长——仅 clip-path 揭示，
+     无位移、无渐隐渐现；easeOutQuint 曲线（起步快、收尾绵长丝滑、无过冲），
+     出场反向收起 */
 .navbar-mobile-menu {
   display: none;
   position: absolute;
@@ -414,6 +414,9 @@ onUnmounted(() => {
   max-height: calc(100dvh - 120px);
   overflow-y: auto;
   transform-origin: top center;
+  /* 终态必须显式 inset(0)：clip-path 的默认值 none 与形状之间不做连续插值
+     （离散跳变，动画中段会瞬间切换），两个 inset() 之间才能平滑推进底边 */
+  clip-path: inset(0);
 }
 
 .mobile-menu-enter-active {
@@ -429,7 +432,8 @@ onUnmounted(() => {
 .mobile-menu-leave-active {
   transition:
     clip-path 0.2s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .mobile-menu-enter-from {

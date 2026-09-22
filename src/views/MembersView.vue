@@ -190,9 +190,10 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  /* 网格里同行高卡会被撑高，默认 align-content: stretch 会把多余高度
-     分给各行（含链接行）——收紧到顶行，防止下方链接行被拉高 */
-  align-content: flex-start;
+  /* 两行 flex 线：信息行 + 链接行（width: 100% 独占一行）。
+     space-between 把链接行推到卡片底部——网格同行等高时短卡的按钮
+     与大卡底部平齐；行高保持内容尺寸（非 stretch），按钮高度仍跟随内容 */
+  align-content: space-between;
   transition: background-color 0.2s ease;
 }
 
