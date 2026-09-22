@@ -396,7 +396,7 @@ onUnmounted(() => {
   /* 宽度恒等于药丸态导航栏（与通栏/当前形态无关）：100vw 锚定视口而非包含块——
      100% 会随 navbar 当前宽度漂移（通栏=视口、药丸=收窄后），导致两态宽度不一致；
      居中用 left/right: 0 + width + margin auto（over-constrained 吸收余量），
-     不用 left: 50% + translateX(-50%)——会与展开动画的 transform 关键帧冲突 */
+     不占 transform——比 left: 50% + translateX(-50%) 更稳，也给后续变换留空间 */
   width: min(calc(100vw - 32px), 1080px);
   margin: 0 auto;
   z-index: 2;
@@ -413,39 +413,26 @@ onUnmounted(() => {
   max-height: calc(100vh - 120px);
   max-height: calc(100dvh - 120px);
   overflow-y: auto;
-  transform-origin: top center;
   /* 终态必须显式 inset(0)：clip-path 的默认值 none 与形状之间不做连续插值
      （离散跳变，动画中段会瞬间切换），两个 inset() 之间才能平滑推进底边 */
   clip-path: inset(0);
 }
 
+/* 纯生长动画：只动 clip-path（底边自导航栏下缘向下推进），无位移、无透明度变化。
+   absolute 面板高度无法插值（等价 grid 0fr→1fr 的揭示效果只有 clip 能实现）。
+   曲线 easeOutQuint（0.22, 1, 0.36, 1）：起步快、收尾绵长丝滑、无过冲弹跳 */
 .mobile-menu-enter-active {
-  /* 展开动画 = 面板从导航栏下缘向下生长（底边推进）：clip-path 自顶部收拢，
-     逐渐揭示至最终高度——面板尺寸每帧真实（等价 grid 0fr→1fr 的揭示效果，
-     但 absolute 面板高度无法插值，clip 是唯一可行等价物）；
-     内容随底边推进同步下移淡入，与揭示节奏呼应 */
-  transition:
-    clip-path 0.32s cubic-bezier(0.34, 1.2, 0.5, 1),
-    opacity 0.25s ease;
+  transition: clip-path 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* 出场反向收起：easeIn 加速汇入导航栏下缘，比入场略快 */
 .mobile-menu-leave-active {
-  transition:
-    clip-path 0.2s ease,
-    opacity 0.2s ease,
-    transform 0.2s ease;
+  transition: clip-path 0.24s cubic-bezier(0.4, 0, 1, 1);
 }
 
-.mobile-menu-enter-from {
-  opacity: 0;
-  transform: translateY(-6px);
-  /* 从顶边几乎全裁 → 仅露出细缝贴在导航栏下缘 */
-  clip-path: inset(0 0 100% 0);
-}
-
+/* 起终态只有裁剪区域不同：底边从紧贴顶边（零高度）→ 推进至全高 */
+.mobile-menu-enter-from,
 .mobile-menu-leave-to {
-  opacity: 0;
-  transform: translateY(-6px);
   clip-path: inset(0 0 100% 0);
 }
 
