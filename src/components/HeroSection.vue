@@ -539,8 +539,6 @@ const buttons = [
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-pill);
   background: rgba(10, 14, 20, 0.45);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
   color: var(--color-white);
   font-size: var(--text-ui);
   font-weight: 500;

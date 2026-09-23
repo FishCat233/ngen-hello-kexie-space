@@ -361,8 +361,6 @@ onUnmounted(() => {
   gap: 4px;
   padding: 4px 8px;
   background: rgba(10, 14, 20, 0.55);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
   border-radius: var(--radius-sm);
   color: var(--color-white);
   font-size: var(--text-xs);

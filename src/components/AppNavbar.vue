@@ -195,8 +195,6 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   background: rgba(10, 14, 20, 0.72);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid transparent;
   border-bottom-color: var(--color-line);
   border-radius: 0;
@@ -401,8 +399,6 @@ onUnmounted(() => {
   margin: 0 auto;
   z-index: 2;
   background: rgba(10, 14, 20, 0.6);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid rgba(59, 130, 246, 0.35);
   border-radius: 32px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);

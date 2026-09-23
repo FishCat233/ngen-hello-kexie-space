@@ -235,8 +235,6 @@ onUnmounted(stopTimer)
   border: none;
   border-radius: 50%;
   background: rgba(10, 14, 20, 0.5);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
   color: var(--color-white);
   cursor: pointer;
   transition: background-color 0.2s ease;
