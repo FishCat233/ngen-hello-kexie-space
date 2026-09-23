@@ -355,8 +355,6 @@ onUnmounted(() => {
   border-radius: 50%;
   border: 1px solid var(--color-line);
   background: rgba(10, 14, 20, 0.72);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
   color: var(--color-white);
   cursor: pointer;
   flex-shrink: 0;

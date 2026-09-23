@@ -1,0 +1,39 @@
+/**
+ * 磨砂玻璃效果 —— 独立 CSS 文件，不经过 Vite / Lightning CSS 处理。
+ *
+ * 原因：Tailwind v4 通过 @property --tw-backdrop-blur "接管"了 backdrop-filter，
+ * Lightning CSS 构建时会剥离组件 scoped style 中的标准 backdrop-filter 属性，
+ * 只保留 -webkit-backdrop-filter（现代浏览器不认）。
+ * 将此规则放在 public/ 下由 index.html 直接引用，绕过构建管线。
+ */
+
+/* 导航栏 + 移动端菜单 */
+.navbar-glass,
+.navbar-mobile-menu {
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+}
+
+/* 首屏 CTA 按钮 */
+.hero-button {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* 轮播控件 */
+.carousel-control {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* 展廊页徽标 */
+.link-badge {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
+
+/* 组织架构页导航按钮 */
+.nav-btn {
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
