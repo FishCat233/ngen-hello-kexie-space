@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.1.0...v3.2.0) (2026-09-23)
+
+
+### Features
+
+* **index:** 添加玻璃态样式表 ([3886fb4](https://github.com/FishCat233/ngen-hello-kexie-space/commit/3886fb4c1bf11c4e2751bd694b83efc4388ebc56))
+* **index:** 添加玻璃态样式表 ([d15ece4](https://github.com/FishCat233/ngen-hello-kexie-space/commit/d15ece4f74317f489c7e66e396ef4cc20e6b8f62))
+
 ## [3.1.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.0.1...v3.1.0) (2026-09-22)
 
 
