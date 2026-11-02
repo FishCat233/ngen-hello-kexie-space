@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.2.0...v3.3.0) (2026-11-02)
+
+
+### Features
+
+* **footer:** 页脚新增友情链接栏，接入八院科协与七院创新基地 ([20cb704](https://github.com/FishCat233/ngen-hello-kexie-space/commit/20cb7042d803ea82d32968b932abcd8dae2842d9))
+
 ## [3.2.0](https://github.com/FishCat233/ngen-hello-kexie-space/compare/v3.1.0...v3.2.0) (2026-09-23)
 
 
