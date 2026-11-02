@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { Github, Users, Hash, Megaphone, Tv, Tag, FolderGit2, Clock } from 'lucide-vue-next'
+import { Github, Users, Hash, Megaphone, Tv, Tag, FolderGit2, Clock, Link2 } from 'lucide-vue-next'
 import { version } from '../../package.json'
 import { KEXIE_FOUNDING_DATE } from '../data/kexie'
 import BlurNumber from './BlurNumber.vue'
@@ -22,6 +22,11 @@ const contactLinks: ContactLink[] = [
   { name: 'QQ 频道', url: 'https://pd.qq.com/s/5pxzsijx0', icon: Hash },
   { name: '微信公众号', url: 'https://mp.weixin.qq.com/s/Gszdlpxdv-puAVj9KalcHg', icon: Megaphone },
   { name: 'Bilibili 账号', url: 'https://space.bilibili.com/673693349', icon: Tv },
+]
+
+const friendLinks: ContactLink[] = [
+  { name: '七院创新基地', url: 'https://xn--7gqr3hs9ecxao51c822e.cn/', icon: Link2 },
+  { name: '八院科协', url: 'https://guet-bykx.github.io/', icon: Link2 },
 ]
 
 interface SiteLink {
@@ -122,6 +127,23 @@ onUnmounted(() => {
             <div class="footer-col-list">
               <a
                 v-for="link in contactLinks"
+                :key="link.name"
+                :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-item"
+              >
+                <component :is="link.icon" :size="14" class="item-icon" />
+                <span>{{ link.name }}</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3 class="footer-col-title">友情链接</h3>
+            <div class="footer-col-list">
+              <a
+                v-for="link in friendLinks"
                 :key="link.name"
                 :href="link.url"
                 target="_blank"
@@ -244,10 +266,11 @@ onUnmounted(() => {
   color: #9ca3af;
 }
 
-/* 右侧两栏 */
+/* 右侧多栏 */
 .footer-columns {
   display: flex;
-  gap: 96px;
+  flex-wrap: wrap;
+  gap: 72px;
 }
 
 .footer-col {
@@ -325,6 +348,7 @@ a.footer-item.is-static {
     opacity: 0.5;
     transform: translateX(-50%) scale(1);
   }
+
   50% {
     opacity: 1;
     transform: translateX(-50%) scale(1.05);
